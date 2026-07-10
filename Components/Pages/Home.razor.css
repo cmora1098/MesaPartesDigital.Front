@@ -1,0 +1,293 @@
+﻿/* ==========================================================================
+   1. RESET, BASE Y TIPOGRAFÍA
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f8fafc; /* Gris blanquecino limpio y corporativo */
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES (Alineación Estricta a la Izquierda)
+   ========================================================================== */
+.ux-bg {
+/*    min-height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+}
+
+.ux-container {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    text-align: left;
+}
+
+/* ==========================================================================
+   3. HERO / CABECERA
+   ========================================================================== */
+.ux-hero {
+    text-align: left;
+}
+
+.ux-badge-top {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-hero h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-top: 6px;
+}
+
+/* ==========================================================================
+   4. REJILLA DE TARJETAS (Grid de 2 Columnas)
+   ========================================================================== */
+.ux-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+/* ==========================================================================
+   5. TARJETAS PREMIUM DE ALTA DEFINICIÓN
+   ========================================================================== */
+.ux-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .ux-card:hover {
+        border-color: #cbd5e1;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.06);
+    }
+
+    /* --------------------------------------------------------------------------
+   ESTADOS ACTIVOS CON BORDES TECNOLÓGICOS Y GLOW SUTIL
+   -------------------------------------------------------------------------- */
+
+    /* Perfil 1: InicioNatural (Verde Esmeralda Institucional) */
+    .ux-card:nth-child(1).active {
+        border-color: #0c7c3b;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(12, 124, 59, 0.15);
+    }
+
+        .ux-card:nth-child(1).active .ux-icon-circle {
+            background: #e6f4ea;
+            color: #0c7c3b;
+        }
+
+        .ux-card:nth-child(1).active .ux-selected {
+            color: #0c7c3b;
+            font-weight: 700;
+        }
+
+    /* Perfil 2: InicioJuridica (Azul Corporativo Ejecutivo) */
+    .ux-card:nth-child(2).active {
+        border-color: #1e3a8a;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.15);
+    }
+
+        .ux-card:nth-child(2).active .ux-icon-circle {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .ux-card:nth-child(2).active .ux-selected {
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+/* ==========================================================================
+   6. ELEMENTOS INTERNOS DE LA TARJETA
+   ========================================================================== */
+.ux-icon-circle {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.ux-card h3 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.ux-card p {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 24px;
+}
+
+/* Marcador inferior de selección */
+.ux-selected {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   7. EL BOTÓN "SIGUIENTE" PREMIUM (Gradiente Cruzado Institucional)
+   ========================================================================== */
+.ux-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.ux-button {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0c7c3b 100%); /* Fusión perfecta Azul/Verde */
+    color: #ffffff;
+    border: none;
+    padding: 15px 48px;
+    font-size: 14.5px;
+    font-weight: 700;
+    border-radius: 10px; /* Bordes ligeramente más modernos */
+    cursor: pointer;
+    min-width: 220px;
+    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.2);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .ux-button:hover:not(.disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(12, 124, 59, 0.3);
+        filter: brightness(1.08); /* Aumenta sutilmente el brillo al pasar el mouse */
+    }
+
+    .ux-button:active:not(.disabled) {
+        transform: translateY(-1px);
+        filter: brightness(1.02);
+    }
+
+    .ux-button.disabled {
+        background: #e2e8f0;
+        color: #94a3b8;
+        cursor: not-allowed;
+        box-shadow: none;
+        filter: none;
+    }
+
+/* ==========================================================================
+   8. TEXTO LEGAL INSTITUCIONAL
+   ========================================================================== */
+.ux-info-text {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 24px;
+}
+
+.ux-manual-link {
+    display: inline-block;
+    font-size: 13px;
+    color: #0c7c3b;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+    .ux-manual-link:hover {
+        text-decoration: underline;
+        color: #1e3a8a;
+    }
+
+/* ==========================================================================
+   9. MEDIA QUERIES (Responsivo Adaptable)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .ux-bg {
+        padding: 30px 16px;
+    }
+
+    .ux-grid {
+        grid-template-columns: 1fr; /* Colapsa a formato lista en tablets y celulares */
+        gap: 16px;
+    }
+
+    .ux-card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ux-bg {
+        padding: 20px 12px;
+        align-items: flex-start;
+    }
+
+    .ux-header h1 {
+        font-size: 26px;
+    }
+
+    /* Botón Siguiente full-width en smartphones para comodidad del pulgar */
+    .ux-button,
+    .ux-actions .ux-button {
+        width: 100%;
+        text-align: center;
+    }
+}

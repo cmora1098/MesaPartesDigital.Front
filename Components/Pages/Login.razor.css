@@ -1,0 +1,325 @@
+﻿/* ==========================================================================
+   RESET & BASE CORRECTIONS
+   ========================================================================== */
+.login-wrapper * {
+    box-sizing: border-box;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+
+.login-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0fdf4; /* Fondo menta claro institucional */
+}
+
+/* ==========================================================================
+   PANEL IZQUIERDO (ESCRITORIO)
+   ========================================================================== */
+.login-left {
+    width: 55%;
+    background: linear-gradient(135deg, #77fa7d 0%, #153417 100%); /* Verdes corporativos más profundos */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+}
+
+    /* Efectos de luces mejorados mediante gradientes limpios */
+    .login-left::before {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+        top: -200px;
+        left: -200px;
+    }
+
+    .login-left::after {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, transparent 70%);
+        bottom: -250px;
+        right: -250px;
+    }
+
+.login-left-content {
+    position: relative;
+    z-index: 2;
+    max-width: 560px;
+    color: #ffffff;
+}
+
+.login-logo {
+    height: 65px;
+    width: auto;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+.login-left h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 24px;
+    color: #f0fdf4;
+}
+
+    .login-left h2 strong {
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+.login-left p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    color: #e2e8f0;
+    text-align: justify;
+}
+
+/* Alerta interna UX */
+.alerta-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid #4ade80;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.alerta-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.alerta-text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #f1f5f9;
+}
+
+.dev-footer {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #a7f3d0;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   PANEL DERECHO (FORMULARIO)
+   ========================================================================== */
+.login-right {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f8fafc;
+}
+
+.login-container-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Oculto por defecto en desktop */
+.login-logo-mobile {
+    display: none;
+    height: 55px;
+    margin: 0 auto 10px auto;
+}
+
+.login-box {
+    background: #ffffff;
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+    .login-box h3 {
+        margin: 0 0 6px 0;
+        color: #14532d;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+.login-subtitle {
+    color: #64748b;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* INPUTS ACCESIBLES */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+    .input-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #334155;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        color: #1e293b;
+        background-color: #fff;
+    }
+
+        .input-group input:focus {
+            border-color: #16a34a;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+            background-color: #f0fdf4;
+        }
+
+/* BOTÓN PRINCIPAL */
+.btn-login {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
+    margin-top: 10px;
+}
+
+    .btn-login:hover {
+        background: #15803d;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px -2px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-login:active {
+        transform: translateY(0);
+    }
+
+/* ENLACES SECUNDARIOS DE ACCIÓN */
+.login-actions-secondary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    font-size: 0.85rem;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #16a34a;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 4px;
+}
+
+    .btn-link:hover {
+        color: #15803d;
+        text-decoration: underline;
+    }
+
+.divider {
+    color: #cbd5e1;
+    user-select: none;
+}
+
+/* CAJA DE SOPORTE */
+.soporte-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+    .soporte-box h4 {
+        margin: 0 0 10px 0;
+        color: #334155;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .soporte-box p {
+        margin: 6px 0;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+
+    .soporte-box .anexo {
+        background-color: #f1f5f9;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+
+/* Tablets grandes y Laptops chicas */
+@media (max-width: 1024px) {
+    .login-left {
+        width: 45%;
+        padding: 40px;
+    }
+
+    .login-right {
+        width: 55%;
+    }
+}
+
+/* Tablets medianas y Móviles (Todo pasa a una columna) */
+@media (max-width: 850px) {
+    .login-wrapper {
+        background-color: #f8fafc;
+    }
+
+    .login-left {
+        display: none; /* Oculta panel lateral */
+    }
+
+    .login-right {
+        width: 100%;
+        padding: 30px 16px;
+    }
+
+    .login-container-form {
+        max-width: 100%;
+    }
+
+    .login-logo-mobile {
+        display: block; /* El logo reaparece arriba del login box */
+    }
+
+    .login-box {
+        padding: 32px 20px;
+    }
+}

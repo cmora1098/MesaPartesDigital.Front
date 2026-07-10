@@ -1,0 +1,324 @@
+﻿@page "/dashboard"
+@layout EmptyLayout
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using MesaPartesDigital.Models
+@using MesaPartesDigital.Services
+@inject ProtectedSessionStorage SessionStorage
+@inject UserSession Session
+@inject NavigationManager Nav
+@inject DocumentoService DocumentoService
+
+
+@using System.Timers
+@implements IDisposable // Importante para limpiar el temporizador
+
+@if (mostrarModalExtension)
+{
+    <div class="modal-backdrop">
+        <div class="modal-content" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-desc">
+            <h2 id="modal-title">¿Desea continuar con su sesión?</h2>
+            <p id="modal-desc">Su sesión está a punto de expirar por inactividad. Haga clic en "Continuar" para extenderla.</p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" @onclick="ExtenderSesion">Continuar sesión</button>
+                <button class="btn btn-secondary" @onclick="CerrarSesion">Cerrar ahora</button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (esAutorizado)
+{
+    <div class="dash-container">
+        <header class="topbar">
+            <div class="gov-left">
+                <img src="img/logo_agrorural.png" class="gov-logo" alt="Logo AgroRural" />
+                <div class="gov-divider" aria-hidden="true"></div>
+                <div class="gov-title">
+                    <span class="gov-ministry">Programa de Desarrollo Productivo Agrario Rural</span>
+                    <span class="gov-system">Mesa de Partes Digital</span>
+                </div>
+            </div>
+            <div class="user-menu">
+                <div class="session-timer">
+                    Sesión expira en: <strong>@TimeSpan.FromSeconds(segundosRestantes).ToString(@"mm\:ss")</strong>
+                </div>
+
+                <div class="user-info">
+                    <span class="user-avatar" aria-hidden="true">👤</span>
+                    <span class="user-name">@Session.VNombreCompleto</span>
+                </div>
+                <button class="btn btn-danger" @onclick="CerrarSesion">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <main class="dash-content">
+            @if (pasoActual == "historial")
+            {
+                <section class="welcome-section" aria-labelledby="welcome-title">
+                    <h2 id="welcome-title">Bienvenido, @Session.VNombreCompleto</h2>
+                    <p>Gestione sus trámites de manera rápida, segura y disponible las 24 horas.</p>
+                </section>
+
+                <section class="cards-grid" aria-label="Acciones principales">
+                    <div class="action-card card-primary">
+                        <div class="card-body">
+                            <span class="card-icon">📄</span>
+                            <h3>Nuevo Trámite</h3>
+                            <p>Registre e ingrese una nueva solicitud o expediente en línea.</p>
+                        </div>
+                        <button class="btn-card" @onclick='() => CambiarPaso("selector")'>Iniciar Registro</button>
+                    </div>
+                    <div class="action-card card-secondary">
+                        <div class="card-body">
+                            <span class="card-icon">📊</span>
+                            <h3>Seguimiento</h3>
+                            <p>Consulte el estado en tiempo real de sus trámites enviados.</p>
+                        </div>
+                        <button class="btn-card">Ver Mis Trámites</button>
+                    </div>
+                </section>
+
+                <section class="tramites-panel">
+                    <div class="tramites-header">
+                        <h3>Historial de Trámites</h3>
+                        <span class="badge-count">@tramitesFiltrados.Count registrados</span>
+                    </div>
+
+                    <div class="filtros-container">
+                        <div class="filtro-item">
+                            <input type="text" @bind="filtroCodigo" placeholder="Buscar por código..." />
+                        </div>
+                        <div class="filtro-item">
+                            <select @bind="filtroEstado">
+                                <option value="todos">Todos los estados</option>
+                                <option value="enviado">Enviado</option>
+                                <option value="proceso">En proceso</option>
+                                <option value="finalizado">Finalizado</option>
+                                <option value="observado">Observado</option>
+                            </select>
+                        </div>
+                        <button class="btn-buscar" @onclick="AplicarFiltros">Filtrar Historial</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Estado</th>
+                                    <th>Código</th>
+                                    <th>Asunto / Expediente</th>
+                                    <th style="text-align: right;">Fecha Envío</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in GetTramitesPaginados())
+                                {
+                                    <tr>
+                                        <td><span class="estado @item.Estado.ToLower()">@item.Estado</span></td>
+                                        <td class="txt-bold">@item.Codigo</td>
+                                        <td>@item.Asunto</td>
+                                        <td class="txt-date" style="text-align: right;">@item.Fecha</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-container" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px;">
+                        <button class="btn btn-sm btn-secondary" disabled="@(paginaActual == 1)" @onclick="() => CambiarPagina(paginaActual - 1)">Anterior</button>
+                        <span>Página <strong>@paginaActual</strong> de <strong>@(totalPaginas == 0 ? 1 : totalPaginas)</strong></span>
+                        <button class="btn btn-sm btn-secondary" disabled="@(paginaActual >= totalPaginas)" @onclick="() => CambiarPagina(paginaActual + 1)">Siguiente</button>
+                    </div>
+                </section>
+            }
+            else if (pasoActual == "selector")
+            {
+                <div class="ux-bg">
+                    <div class="ux-container">
+                        <div class="ux-hero">
+                            <div class="ux-badge-top">Mesa de Partes Digital</div>
+                            <p class="ux-description">Selecciona cómo deseas realizar tus trámites.</p>
+                        </div>
+                        <div class="ux-grid">
+
+                            <div class="ux-card @(tipoPersona == "natural" ? "active" : "")"
+                                 @onclick="SeleccionarNatural">
+
+                                <div class="ux-icon-circle">👤</div>
+
+                                <h3>Persona Natural</h3>
+
+                                <p>Ciudadanos que realizan trámites personales o individuales.</p>
+
+                                @if (tipoPersona == "natural")
+                                {
+                                    <div class="ux-selected">✔ Seleccionado</div>
+                                }
+
+                            </div>
+
+                            <div class="ux-card @(tipoPersona == "juridica" ? "active" : "")"
+                                 @onclick="SeleccionarJuridica">
+
+                                <div class="ux-icon-circle">🏢</div>
+
+                                <h3>Persona Jurídica</h3>
+
+                                <p>Empresas, instituciones o entidades públicas/privadas.</p>
+
+                                @if (tipoPersona == "juridica")
+                                {
+                                    <div class="ux-selected">✔ Seleccionado</div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <div class="ux-actions">
+                            <button class="ux-button-secondary" @onclick='() => CambiarPaso("historial")'>← Volver</button>
+                            <button class="ux-button" @onclick="Continuar" disabled="@string.IsNullOrEmpty(tipoPersona)">Continuar →</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (pasoActual.Contains("formulario"))
+            {
+                <div class="form-wrapper">
+                    <button class="ux-button-secondary" @onclick='() => CambiarPaso("selector")'>← Cambiar tipo</button>
+                    @if (pasoActual == "formulario_natural")
+                    {
+                        <TramiteNaturalInterno UsuarioId="@Session.ICodPer" UsuarioEmail="@Session.VEmail" />
+                    }
+                    else
+                    {
+                        <TramiteJuridicaInterno UsuarioId="@Session.ICodPer" UsuarioEmail="@Session.VEmail" />
+                    }
+                </div>
+            }
+        </main>
+    </div>
+}
+else
+{
+    <div class="loading-overlay"><p>Validando sesión, por favor espere...</p></div>
+}
+
+
+@code {
+
+    private Timer? timerInactividad;
+    private int segundosRestantes = 600;
+    private bool mostrarAdvertencia = false;
+
+    protected override void OnInitialized()
+    {
+        // Iniciar temporizador que se ejecuta cada segundo
+        timerInactividad = new Timer(1000);
+        timerInactividad.Elapsed += VerificarInactividad;
+        timerInactividad.AutoReset = true;
+        timerInactividad.Enabled = true;
+    }
+
+    private bool mostrarModalExtension = false;
+ 
+    private void VerificarInactividad(object? sender, ElapsedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            if (segundosRestantes > 0)
+            {
+                segundosRestantes--;
+            }
+            else
+            {
+                // En lugar de cerrar directamente, podrías activar una bandera para mostrar el Modal
+                mostrarModalExtension = true;
+                timerInactividad.Stop();
+            }
+            StateHasChanged();
+        });
+    }
+
+    private void ExtenderSesion()
+    {
+        segundosRestantes = 600; // Reiniciamos el tiempo
+        mostrarModalExtension = false;
+        timerInactividad?.Start(); // Reactivamos el reloj
+    }
+
+    private void ReiniciarTemporizador()
+    {
+        // Solo reiniciamos si el modal NO está abierto
+        if (!mostrarModalExtension)
+        {
+            segundosRestantes = 600;
+        }
+    }
+
+    public void Dispose()
+    {
+        timerInactividad?.Dispose();
+    }
+
+    private bool esAutorizado = false;
+    private string pasoActual = "historial";    
+    private string tipoPersona = string.Empty;
+    private string filtroCodigo = "";
+    private string filtroEstado = "todos";
+
+    // Paginación
+    private int paginaActual = 1;
+    private int elementosPorPagina = 5;
+    private int totalPaginas => (int)Math.Ceiling((double)tramitesFiltrados.Count / elementosPorPagina);
+
+    private List<TramiteDto> todosLosTramites = new();
+    private List<TramiteDto> tramitesFiltrados = new();
+
+    private IEnumerable<TramiteDto> GetTramitesPaginados() =>
+        tramitesFiltrados.Skip((paginaActual - 1) * elementosPorPagina).Take(elementosPorPagina);
+
+    private void CambiarPagina(int nuevaPagina) => paginaActual = nuevaPagina;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var result = await SessionStorage.GetAsync<UserSession>("user_session");
+            if (result.Success && result.Value != null)
+            {
+                Session.ICodPer = result.Value.ICodPer;
+                Session.VNombreCompleto = result.Value.VNombreCompleto;
+                Session.VEmail = result.Value.VEmail;
+
+                todosLosTramites = await DocumentoService.ObtenerHistorialTramitesAsync(Session.ICodPer);
+                tramitesFiltrados = todosLosTramites;
+                esAutorizado = true;
+                StateHasChanged();
+            }
+            else Nav.NavigateTo("/login", true);
+        }
+    }
+
+    private void AplicarFiltros()
+    {
+        tramitesFiltrados = todosLosTramites.Where(t =>
+            (string.IsNullOrEmpty(filtroCodigo) || t.Codigo.Contains(filtroCodigo, StringComparison.OrdinalIgnoreCase)) &&
+            (filtroEstado == "todos" || t.Estado.Equals(filtroEstado, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+        paginaActual = 1;
+    }
+
+    private void CambiarPaso(string nuevoPaso) => pasoActual = nuevoPaso;
+    private void SeleccionarNatural() => tipoPersona = "natural";
+    private void SeleccionarJuridica() => tipoPersona = "juridica";
+    private void Continuar() => pasoActual = (tipoPersona == "natural") ? "formulario_natural" : "formulario_juridica";
+
+    private async Task CerrarSesion()
+    {
+        Session.LimpiarSesion();
+        await SessionStorage.DeleteAsync("user_session");
+        Nav.NavigateTo("/login", true);
+    }
+}

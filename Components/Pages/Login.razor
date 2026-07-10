@@ -1,0 +1,165 @@
+﻿@page "/login"
+@layout EmptyLayout
+@rendermode InteractiveServer
+@inject Models.UserSession Session
+@inject NavigationManager Nav
+@inject MesaPartesDigital.Services.ILoginService LoginService
+@* 🌟 Nueva inyección para la persistencia *@
+@inject Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage.ProtectedSessionStorage SessionStorage
+
+<div class="login-wrapper">
+
+    <aside class="login-left">
+        <div class="login-left-content">
+            <img src="img/logomax_agrorural.png" alt="Logo Agro Rural" class="login-logo" />
+
+            <h2>Bienvenido a la Plataforma de<br /><strong>Mesa de Partes Digital</strong></h2>
+
+            <p>
+                Esta entidad pone a su disposición la Mesa de Partes Digital, un canal diseñado para brindar mayor agilidad, eficiencia y accesibilidad a sus trámites administrativos.
+            </p>
+
+            <p>
+                En cumplimiento con la Ley N° 31465 (que modifica la Ley N° 27444 del Procedimiento Administrativo General), nuestra plataforma se encuentra habilitada para la presentación de documentos las veinticuatro (24) horas del día, los siete (7) días de la semana.
+            </p>
+
+            <div class="alerta-box">
+                <span class="alerta-icon">⚠️</span>
+                <div class="alerta-text">
+                    <strong>Nota importante sobre su recepción:</strong><br />
+                    El envío del documento no genera su aceptación automática. La recepción formal será validada únicamente mediante la constancia de ingreso enviada a su correo registrado.
+                </div>
+            </div>
+
+            <footer class="dev-footer">
+                Desarrollado por la Sub Unidad de Tecnologías de la Información.
+            </footer>
+        </div>
+    </aside>
+
+    <main class="login-right">
+        <div class="login-container-form">
+            <div class="login-box">
+                <h3>Acceso al Sistema</h3>
+                <p class="login-subtitle">Ingrese sus credenciales para continuar</p>
+
+                @if (!string.IsNullOrEmpty(mensajeAlert))
+                {
+                    <div class="alert @(esExito ? "alert-success" : "alert-danger")" style="...">
+                        @mensajeAlert
+                    </div>
+                }
+
+                <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+                    <div class="input-group">
+                        <label for="documento">Correo Electrónico</label>
+                        <input id="documento" type="text" @bind-value="loginModel.Documento" placeholder="Ej. ejemplo@xxxx.com" required />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <input id="password" type="password" @bind-value="loginModel.Password" placeholder="••••••••" required />
+                    </div>
+
+                    <button type="submit" class="btn-login" disabled="@isProcessing">
+                        @if (isProcessing)
+                        {
+                            <span>Validando...</span>
+                        }
+                        else
+                        {
+
+                            <span>Ingresar de forma segura</span>
+                        }
+                    </button>
+                </EditForm>
+
+                <div class="login-actions-secondary" style="...">
+                    <button type="button" class="btn-link" @onclick="ProcesarRecuperacionClave" disabled="@isProcessing">
+                        ¿No recuerdas tu clave? Genere una nueva aquí
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+
+@code {
+    private LoginModel loginModel = new();
+    private string mensajeAlert = string.Empty;
+    private bool esExito = false;
+    private bool isProcessing = false;
+
+
+    protected override void OnInitialized()
+    {
+        // Limpiamos cualquier rastro previo al entrar al login
+        Session.ICodPer = 0;
+        Session.VNombreCompleto = string.Empty;
+    }
+
+    private async Task HandleLogin()
+    {
+        isProcessing = true;
+        mensajeAlert = string.Empty;
+        esExito = false;
+
+        var resultado = await LoginService.ValidarCredencialesAsync(loginModel.Documento, loginModel.Password);
+
+        if (resultado.Exitoso)
+        {
+            // 1. Asignamos los datos a la sesión en memoria
+            Session.ICodPer = resultado.ICodPer;
+            Session.VNombreCompleto = resultado.VNombreCompleto;
+            Session.VEmail = resultado.VEmail;
+
+            // 2. 🌟 Persistimos un objeto limpio (DTO) para evitar errores de serialización
+            var userSessionDto = new Models.UserSession
+            {
+                ICodPer = resultado.ICodPer,
+                VNombreCompleto = resultado.VNombreCompleto,
+                VEmail = resultado.VEmail
+            };
+
+            await SessionStorage.SetAsync("user_session", userSessionDto);
+
+            Nav.NavigateTo("/dashboard", true); // 🌟 El 'true' fuerza la recarga completa
+        }
+        else
+        {
+            mensajeAlert = resultado.Mensaje;
+            esExito = false;
+        }
+
+        isProcessing = false;
+    }
+
+    private async Task ProcesarRecuperacionClave()
+    {
+        mensajeAlert = string.Empty;
+        esExito = false;
+
+        if (string.IsNullOrWhiteSpace(loginModel.Documento))
+        {
+            mensajeAlert = "Por favor, ingrese su correo electrónico primero para poder restablecer su clave.";
+            return;
+        }
+
+        isProcessing = true;
+
+        var resultado = await LoginService.GestionarCredencialesAsync(loginModel.Documento, null, 2);
+
+        esExito = resultado.Exitoso;
+        mensajeAlert = resultado.Mensaje;
+
+        isProcessing = false;
+    }
+
+    public class LoginModel
+    {
+        public string Documento { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+}

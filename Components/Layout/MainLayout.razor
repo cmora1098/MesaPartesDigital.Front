@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage 
+@inject ProtectedSessionStorage SessionStorage
+@inject MesaPartesDigital.Models.UserSession Session
+@inject NavigationManager Nav
+
+<Header />
+<main>@Body</main>
+<Footer />
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var result = await SessionStorage.GetAsync<MesaPartesDigital.Models.UserSession>("user_session");
+            var currentUri = Nav.ToBaseRelativePath(Nav.Uri);
+
+            if (result.Success && result.Value != null)
+            {
+                Session.ICodPer = result.Value.ICodPer;
+                Session.VNombreCompleto = result.Value.VNombreCompleto;
+                Session.VEmail = result.Value.VEmail;
+            }
+            else if (currentUri != "login" && !string.IsNullOrEmpty(currentUri))
+            {
+                Nav.NavigateTo("/login", true);
+            }
+        }
+    }
+}

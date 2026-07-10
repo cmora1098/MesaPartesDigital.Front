@@ -1,0 +1,72 @@
+﻿@rendermode InteractiveServer
+@inject NavigationManager Nav
+@inject NavigationManager Navigation
+
+<header class="gov-header">
+
+    <div class="gov-container">
+
+        <!-- IZQUIERDA -->
+        <div class="gov-left">
+            <img src="img/logo_agrorural.png" class="gov-logo" />
+
+            <div class="gov-title">
+                <span class="gov-ministry">
+                    Desarrollo Productivo Agrario Rural
+                </span>
+                <span class="gov-system">
+                    Mesa de Partes Digital
+                </span>
+            </div>
+        </div>
+
+        <!-- BOTÓN MOBILE -->
+        <button class="gov-menu-btn" @onclick="ToggleMenu">
+            ☰
+        </button>
+
+        <!-- DERECHA -->
+        <div class="gov-right @(menuAbierto ? "show" : "")">
+
+            <button class="gov-btn-outline"
+                    @onclick="@(() => IrA("/consulta-expediente"))" >
+                Consulta tu expediente
+            </button>
+
+            <a class="gov-btn-outline"
+               href="https://intranet.agrorural.gob.pe/mesadepartes/Content/pdf/Manual_Usuario_MP_v2.pdf"
+               target="_blank">
+                Manual
+            </a>
+
+            <button class="gov-btn-primary"
+                    @onclick="@(() => IrA("/login"))">
+                Iniciar sesión
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+@code {
+    private bool menuAbierto = false;
+
+    private void ToggleMenu()
+    {
+        menuAbierto = !menuAbierto;
+    }
+
+    private void IrA(string url)
+    {
+        menuAbierto = false;
+        Nav.NavigateTo(url);
+    }
+
+    private void ConsultarExpediente()
+    {
+        Navigation.NavigateTo("/consulta-expediente");
+    }
+     
+}

@@ -1,0 +1,171 @@
+﻿@page "/consulta-expediente"
+@rendermode InteractiveServer
+
+<div class="ux-bg">
+
+    <div class="ux-container-centered">
+
+        <div class="ux-card-form">
+
+            <div class="ux-header-consulta">
+                <p class="ux-title-institucional">CONSULTA DE TRÁMITE WEB</p>
+            </div>
+
+            <div class="ux-instruction-box">
+                <p class="ux-instruction-title">ESTIMADO USUARIO, PARA REALIZAR SU CONSULTA DEBERÁ SEGUIR LOS SIGUIENTES PASOS:</p>
+                <ul class="ux-instruction-list">
+                    <li>
+                        <strong>PASO 01:</strong> Ingresar el CUT (Código Único de Trámite) y seleccionar el año o periodo, conforme se muestra en su cargo de recepción.
+                    </li>
+                    <li>
+                        <strong>PASO 02:</strong> Hacer click en el botón Buscar (Confirmar) y el sistema le mostrará la información solicitada.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ux-grid-form-single">
+
+                <div class="ux-field">
+                    <label>Nro. de trámite (CUT) *</label>
+                    <input type="text" placeholder="Ej: 4343" @bind="cutBusqueda" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Periodo / Año *</label>
+                    <select @bind="periodoBusqueda">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+
+                <div class="ux-actions-block">
+                    <button type="button" class="ux-button-submit" @onclick="SimularBusqueda">
+                        Buscar Trámite
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        @if (mostrarResultado)
+        {
+            <div class="ux-card-form ux-result-card animate-fade-in">
+
+                <div class="ux-result-header">
+                    <h2>Datos del Trámite</h2>
+                    <span class="ux-badge-status @statusClass">@tramiteMock.Estado</span>
+                </div>
+
+                <div class="ux-result-grid">
+
+                    <div class="ux-result-item">
+                        <span class="ux-result-label">Nro de Trámite</span>
+                        <span class="ux-result-value @uxHighlight">@tramiteMock.NroTramite</span>
+                    </div>
+
+                    <div class="ux-result-item">
+                        <span class="ux-result-label">Sede</span>
+                        <span class="ux-result-value">@tramiteMock.Sede</span>
+                    </div>
+
+                    <div class="ux-result-item">
+                        <span class="ux-result-label">Ventanilla</span>
+                        <span class="ux-result-value">@tramiteMock.Ventanilla</span>
+                    </div>
+
+                    <div class="ux-result-item">
+                        <span class="ux-result-label">Fecha Ingreso</span>
+                        <span class="ux-result-value">@tramiteMock.FechaIngreso</span>
+                    </div>
+
+                    <div class="ux-result-item full-width">
+                        <span class="ux-result-label">Nro. Doc.</span>
+                        <span class="ux-result-value ux-code-text">@tramiteMock.NroDoc</span>
+                    </div>
+
+                    <div class="ux-result-item full-width">
+                        <span class="ux-result-label">Remitente</span>
+                        <span class="ux-result-value">@tramiteMock.Remitente</span>
+                    </div>
+
+                    <div class="ux-result-item full-width">
+                        <span class="ux-result-label">Asunto</span>
+                        <span class="ux-result-value ux-text-justify">@tramiteMock.Asunto</span>
+                    </div>
+
+                </div>
+
+                <div class="ux-current-location-box">
+                    <span class="ux-location-label">Actualmente lo tiene:</span>
+                    <span class="ux-location-value">@tramiteMock.UbicacionActual</span>
+                </div>
+
+                <div class="ux-result-footer">
+                    <button type="button" class="ux-button-back" @onclick="LimpiarBusqueda">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        </svg>
+                        Nueva Consulta
+                    </button>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+@code {
+    private string cutBusqueda = "";
+    private string periodoBusqueda = "2026";
+    private bool mostrarResultado = false;
+    private string statusClass = "status-process";
+    private string uxHighlight = "ux-highlight";
+
+    // Modelo de datos ficticio basado en tu captura de pantalla
+    private TramiteResult tramiteMock = new();
+
+    private void SimularBusqueda()
+    {
+        // Forzamos datos en duro idénticos a tu captura para la demostración
+        tramiteMock = new TramiteResult
+        {
+            NroTramite = "4343-2025-MINAGRI",
+            Estado = "EN PROCESO",
+            Sede = "MINAGRI",
+            Ventanilla = "MESA DE PARTES DIGITAL",
+            FechaIngreso = "17/01/2025 17:53:15:450",
+            NroDoc = "OFICIO MULTIPLE D000001-2025-MIDAGRI-SENASA-JN",
+            Remitente = "SERVICIO NACIONAL DE SANIDAD AGRARIA - VILMA AURORA GUTARRA",
+            Asunto = "PLAN DE ACCESO A MERCADOS 2025 - INVITACIÓN A REUNIÓN - 31 ENERO 2025",
+            UbicacionActual = "DESPACHO VICEMINISTERIAL DE POLITICAS Y SUPERVISION DE DESARROLLO AGRARIO"
+        };
+
+        // Cambiar estilos de la etiqueta según el estado
+        statusClass = tramiteMock.Estado == "EN PROCESO" ? "status-process" : "status-success";
+
+        mostrarResultado = true;
+    }
+
+    private void LimpiarBusqueda()
+    {
+        mostrarResultado = false;
+        cutBusqueda = "";
+    }
+
+    public class TramiteResult
+    {
+        public string NroTramite { get; set; } = "";
+        public string Estado { get; set; } = "";
+        public string Sede { get; set; } = "";
+        public string Ventanilla { get; set; } = "";
+        public string FechaIngreso { get; set; } = "";
+        public string NroDoc { get; set; } = "";
+        public string Remitente { get; set; } = "";
+        public string Asunto { get; set; } = "";
+        public string UbicacionActual { get; set; } = "";
+    }
+}

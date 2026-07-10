@@ -1,0 +1,4340 @@
+/* /Components/Layout/Footer.razor.rz.scp.css */
+/* =========================
+   FOOTER INSTITUCIONAL
+========================= */
+.gov-footer[b-y8qyaeffx2] {
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    padding: 20px 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.gov-footer-container[b-y8qyaeffx2] {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gov-footer-block[b-y8qyaeffx2] {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    line-height: 1.4;
+}
+
+    .gov-footer-block strong[b-y8qyaeffx2] {
+        color: #111827;
+        font-size: 12px;
+    }
+
+    .gov-footer-block span[b-y8qyaeffx2] {
+        color: #6b7280;
+        font-size: 11.5px;
+    }
+
+@media (max-width: 900px) {
+    .gov-footer-container[b-y8qyaeffx2] {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+/* /Components/Layout/Header.razor.rz.scp.css */
+/* =========================
+   FUENTE GLOBAL
+========================= */
+/*body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    margin: 0;*/ /* 🔥 elimina espacio global */
+/*}*/
+
+/* =========================
+   HEADER LIMPIO
+========================= */
+/*.gov-header {
+    background: white;
+    border-bottom: none;*/ /* ❌ quitamos línea azul */
+    /*box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}*/
+
+/* =========================
+   CONTENEDOR
+========================= */
+/*.gov-container {
+    max-width: 1400px;
+    margin: 0 auto;*/ /* 🔥 sin separación arriba */
+    /*padding: 0 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}*/
+
+/* =========================
+   IZQUIERDA
+========================= */
+/*.gov-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.gov-logo {
+    width: 50px;
+}
+
+.gov-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.gov-ministry {
+    font-size: 12px;
+    color: #0c7c3b;
+}
+
+.gov-system {
+    font-size: 15px;
+    font-weight: 600;
+}*/
+
+/* =========================
+   ESPACIO CENTRAL
+========================= */
+/*.gov-center-space {
+    flex: 1;
+}*/
+
+/* =========================
+   DERECHA
+========================= */
+/*.gov-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex: 1;
+}*/
+
+/* =========================
+   BOTONES
+========================= */
+/*.gov-btn-outline,
+.gov-btn-primary {
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}*/
+
+/* OUTLINE */
+/*.gov-btn-outline {
+    border: 1px solid #cbd5e1;
+    background: white;
+}
+
+    .gov-btn-outline:hover {
+        background: #f1f5f9;
+    }*/
+
+/* PRIMARY */
+/*.gov-btn-primary {
+    background: #2563eb;
+    color: white;
+}*/
+
+/* =========================
+   BOTÓN MOBILE
+========================= */
+/*.gov-menu-btn {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+}*/
+
+/* =========================
+   MOBILE (AQUÍ ESTABA TU PROBLEMA)
+========================= */
+/*@media (max-width: 768px) {
+
+    .gov-container {
+        padding: 10px 16px;
+    }
+
+    .gov-center-space {
+        display: none;
+    }
+
+    .gov-menu-btn {
+        display: block;
+    }
+
+    .gov-right {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;*/ /* 🔥 MENOS ESPACIO */
+
+        /*border-top: none;*/ /* ❌ quitamos línea azul de aquí también */
+
+        /*box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+        transition: all 0.25s ease;
+    }
+
+        .gov-right.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+    .gov-btn-outline,
+    .gov-btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+}*/
+
+
+/* =========================
+   FUENTE GLOBAL
+========================= */
+body[b-39rokx7gwf] {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* =========================
+   HEADER LIMPIO
+========================= */
+.gov-header[b-39rokx7gwf] {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+/* =========================
+   CONTENEDOR
+========================= */
+.gov-container[b-39rokx7gwf] {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* =========================
+   IZQUIERDA
+========================= */
+.gov-left[b-39rokx7gwf] {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.gov-logo[b-39rokx7gwf] {
+    width: 50px;
+    height: auto;
+}
+
+.gov-title[b-39rokx7gwf] {
+    display: flex;
+    flex-direction: column;
+}
+
+.gov-ministry[b-39rokx7gwf] {
+    font-size: 12px;
+    color: #0c7c3b;
+    font-weight: 500;
+}
+
+.gov-system[b-39rokx7gwf] {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* =========================
+   ESPACIO CENTRAL
+========================= */
+.gov-center-space[b-39rokx7gwf] {
+    flex: 1;
+}
+
+/* =========================
+   DERECHA (MENÚ)
+========================= */
+.gov-right[b-39rokx7gwf] {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex: 1;
+}
+
+/* =========================
+   ESTILOS DE BOTONES BASE (OPCIÓN 1)
+========================= */
+.gov-btn-outline[b-39rokx7gwf],
+.gov-btn-primary[b-39rokx7gwf] {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+/* OUTLINE TRANSFORMAR EN ENLACES SUTILES */
+.gov-btn-outline[b-39rokx7gwf] {
+    background: transparent;
+    color: #475569;
+}
+
+    .gov-btn-outline:hover[b-39rokx7gwf] {
+        color: #0c7c3b;
+        background: #f0fdf4; /* Fondo verde muy suave */
+    }
+
+/* BOTÓN DE ACCIÓN PRINCIPAL INSTITUCIONAL */
+.gov-btn-primary[b-39rokx7gwf] {
+    background: #0c7c3b; /* Verde Agro Rural */
+    color: white;
+    box-shadow: 0 2px 4px rgba(12, 124, 59, 0.15);
+}
+
+    .gov-btn-primary:hover[b-39rokx7gwf] {
+        background: #09632f;
+        box-shadow: 0 4px 12px rgba(12, 124, 59, 0.3);
+    }
+
+/* =========================
+   BOTÓN MOBILE
+========================= */
+.gov-menu-btn[b-39rokx7gwf] {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #1e293b;
+}
+
+/* =========================
+   DISEÑO RESPONSIVO (MOBILE)
+========================= */
+@media (max-width: 768px) {
+    .gov-container[b-39rokx7gwf] {
+        padding: 0 20px;
+    }
+
+    .gov-center-space[b-39rokx7gwf] {
+        display: none;
+    }
+
+    .gov-menu-btn[b-39rokx7gwf] {
+        display: block;
+    }
+
+    .gov-right[b-39rokx7gwf] {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+        transition: all 0.25s ease;
+        box-sizing: border-box;
+    }
+
+        .gov-right.show[b-39rokx7gwf] {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+    .gov-btn-outline[b-39rokx7gwf],
+    .gov-btn-primary[b-39rokx7gwf] {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .gov-btn-outline[b-39rokx7gwf] {
+        background: #f8fafc;
+    }
+}
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
+ 
+
+/* CONTENEDOR */
+/*.gov-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}*/
+
+/* IZQUIERDA */
+/*.gov-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}*/
+
+/* LOGO */
+/*.gov-logo {
+    width: 45px;
+}*/
+
+/* TITULOS */
+/*.gov-title {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+}*/
+
+/* DERECHA (DESKTOP) */
+/*.gov-right {
+    display: flex;
+    gap: 10px;
+}*/
+
+/* BOTONES */
+/*.gov-btn-outline {
+    padding: 8px 14px;
+    border: 1px solid #0f172a;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #0f172a;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+    .gov-btn-outline:hover {
+        background: #0f172a;
+        color: white;
+    }*/
+
+/* BOTÓN MENÚ */
+/*.gov-menu-btn {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}*/
+
+/* =========================
+   📱 MOBILE HEADER
+========================= */
+/*@media (max-width: 768px) {
+
+    .gov-container {
+        flex-wrap: wrap;
+    }
+
+    .gov-menu-btn {
+        display: block;
+    }
+
+    .gov-right {
+        width: 100%;
+        flex-direction: column;
+        display: none;
+        margin-top: 10px;
+    }
+
+        .gov-right.show {
+            display: flex;
+        }
+
+    .gov-btn-outline {
+        width: 100%;
+        text-align: center;
+    }
+
+    .gov-title {
+        font-size: 11px;
+    }
+}*/
+
+
+
+/* /Components/Layout/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-fmtyfexsgo] {
+    appearance: none;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 2.5rem;
+    color: white;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler:checked[b-fmtyfexsgo] {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.top-row[b-fmtyfexsgo] {
+    min-height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-fmtyfexsgo] {
+    font-size: 1.1rem;
+}
+
+.bi[b-fmtyfexsgo] {
+    display: inline-block;
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+    top: -1px;
+    background-size: cover;
+}
+
+.bi-house-door-fill-nav-menu[b-fmtyfexsgo] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-house-door-fill' viewBox='0 0 16 16'%3E%3Cpath d='M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z'/%3E%3C/svg%3E");
+}
+
+.bi-plus-square-fill-nav-menu[b-fmtyfexsgo] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus-square-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z'/%3E%3C/svg%3E");
+}
+
+.bi-list-nested-nav-menu[b-fmtyfexsgo] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-list-nested' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
+}
+
+.nav-item[b-fmtyfexsgo] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-fmtyfexsgo] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-fmtyfexsgo] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-fmtyfexsgo]  .nav-link {
+        color: #d7d7d7;
+        background: none;
+        border: none;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+        width: 100%;
+    }
+
+.nav-item[b-fmtyfexsgo]  a.active {
+    background-color: rgba(255,255,255,0.37);
+    color: white;
+}
+
+.nav-item[b-fmtyfexsgo]  .nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.nav-scrollable[b-fmtyfexsgo] {
+    display: none;
+}
+
+.navbar-toggler:checked ~ .nav-scrollable[b-fmtyfexsgo] {
+    display: block;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-fmtyfexsgo] {
+        display: none;
+    }
+
+    .nav-scrollable[b-fmtyfexsgo] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}
+/* /Components/Pages/ConsultaExpediente.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET / BASE 
+   ========================================================================== */
+*[b-923svrkr4m] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y FONDO (Línea Institucional)
+   ========================================================================== */
+.ux-bg[b-923svrkr4m] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Permite scroll natural si aparecen los resultados */
+    padding: 40px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+}
+
+.ux-container-centered[b-923svrkr4m] {
+    width: 100%;
+    max-width: 600px; /* Un poco más ancho para albergar los datos del trámite cómodamente */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ==========================================================================
+   3. TARJETA (CARD)
+   ========================================================================== */
+.ux-card-form[b-923svrkr4m] {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 35px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.03);
+}
+
+/* ==========================================================================
+   4. ENCABEZADO Y TEXTOS DE CONSULTA
+   ========================================================================== */
+.ux-header-consulta[b-923svrkr4m] {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ux-title-institucional[b-923svrkr4m] {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0c7c3b;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.ux-instruction-box[b-923svrkr4m] {
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 16px;
+    border-radius: 4px 12px 12px 4px;
+    margin-bottom: 24px;
+}
+
+.ux-instruction-title[b-923svrkr4m] {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.ux-instruction-list[b-923svrkr4m] {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .ux-instruction-list li[b-923svrkr4m] {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.4;
+    }
+
+    .ux-instruction-list strong[b-923svrkr4m] {
+        color: #2563eb;
+        font-weight: 600;
+    }
+
+/* ==========================================================================
+   5. CAMPOS DEL FORMULARIO
+   ========================================================================== */
+.ux-grid-form-single[b-923svrkr4m] {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.ux-field[b-923svrkr4m] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .ux-field label[b-923svrkr4m] {
+        font-size: 13px;
+        font-weight: 500;
+        color: #334155;
+    }
+
+input[b-923svrkr4m], select[b-923svrkr4m] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s ease;
+}
+
+    input:hover[b-923svrkr4m], select:hover[b-923svrkr4m] {
+        border-color: #94a3b8;
+    }
+
+    input:focus[b-923svrkr4m], select:focus[b-923svrkr4m] {
+        background: white;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        outline: none;
+    }
+
+.ux-button-submit[b-923svrkr4m] {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-button-submit:hover[b-923svrkr4m] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+/* ==========================================================================
+   6. NUEVA SECCIÓN: DISEÑO DE RESULTADOS (MODERNO)
+   ========================================================================== */
+.ux-result-card[b-923svrkr4m] {
+    border-top: 4px solid #0c7c3b; /* Remate superior verde institucional */
+}
+
+.ux-result-header[b-923svrkr4m] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+    .ux-result-header h2[b-923svrkr4m] {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+/* Etiquetas de Estado Modernas */
+.ux-badge-status[b-923svrkr4m] {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.status-process[b-923svrkr4m] {
+    background: #fef3c7;
+    color: #d97706; /* Ámbar / En Proceso */
+}
+
+.status-success[b-923svrkr4m] {
+    background: #dcfce7;
+    color: #15803d; /* Verde / Finalizado */
+}
+
+/* Distribución de la metadata del Trámite */
+.ux-result-grid[b-923svrkr4m] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.ux-result-item[b-923svrkr4m] {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .ux-result-item.full-width[b-923svrkr4m] {
+        grid-column: span 2;
+    }
+
+.ux-result-label[b-923svrkr4m] {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ux-result-value[b-923svrkr4m] {
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.ux-highlight[b-923svrkr4m] {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.ux-code-text[b-923svrkr4m] {
+    font-family: monospace;
+    background: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.ux-text-justify[b-923svrkr4m] {
+    text-align: justify;
+}
+
+/* Ubicación Actual Destacada */
+.ux-current-location-box[b-923svrkr4m] {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border: 1px dashed #cbd5e1;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ux-location-label[b-923svrkr4m] {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0c7c3b;
+    text-transform: uppercase;
+}
+
+.ux-location-value[b-923svrkr4m] {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* Botón Volver */
+.ux-result-footer[b-923svrkr4m] {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.ux-button-back[b-923svrkr4m] {
+    background: transparent;
+    border: 1px solid #94a3b8;
+    color: #475569;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+    .ux-button-back:hover[b-923svrkr4m] {
+        background: #f1f5f9;
+        color: #0f172a;
+        border-color: #64748b;
+    }
+
+/* Animación sutil de entrada */
+.animate-fade-in[b-923svrkr4m] {
+    animation: fadeIn-b-923svrkr4m 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn-b-923svrkr4m {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   7. MEDIA QUERIES (RESPONSIVO MÓVIL)
+   ========================================================================== */
+@media (max-width: 580px) {
+    .ux-result-grid[b-923svrkr4m] {
+        grid-template-columns: 1fr; /* Una columna en celulares */
+    }
+
+    .ux-result-item.full-width[b-923svrkr4m] {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .ux-bg[b-923svrkr4m] {
+        padding: 15px 10px;
+    }
+
+    .ux-card-form[b-923svrkr4m] {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
+    .ux-title-institucional[b-923svrkr4m] {
+        font-size: 18px;
+    }
+
+    input[b-923svrkr4m], select[b-923svrkr4m] {
+        font-size: 16px;
+    }
+
+    .ux-button-submit[b-923svrkr4m], .ux-button-back[b-923svrkr4m] {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* /Components/Pages/Dashboard.razor.rz.scp.css */
+/* ==========================================================================
+   ESTILOS GENERALES Y RESETS
+   ========================================================================== */
+.dash-container *[b-05kz0oof75] {
+    box-sizing: border-box;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+
+.dash-container[b-05kz0oof75] {
+    min-height: 100vh;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR INSTITUCIONAL */
+.topbar[b-05kz0oof75] {
+    background: linear-gradient(135deg, #15803d 0%, #09800f 100%);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.gov-left[b-05kz0oof75] {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.gov-logo[b-05kz0oof75] {
+    height: 48px;
+    width: auto;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.gov-divider[b-05kz0oof75] {
+    width: 1px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.gov-title[b-05kz0oof75] {
+    display: flex;
+    flex-direction: column;
+}
+
+.gov-ministry[b-05kz0oof75] {
+    font-size: 0.75rem;
+    color: #a7f3d0;
+    letter-spacing: 0.02em;
+}
+
+.gov-system[b-05kz0oof75] {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Menú de Usuario */
+.user-menu[b-05kz0oof75] {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info[b-05kz0oof75] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px 14px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.user-avatar[b-05kz0oof75] {
+    font-size: 1.1rem;
+}
+
+.user-name[b-05kz0oof75] {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-logout[b-05kz0oof75] {
+    background: #dc2626;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+    .btn-logout:hover[b-05kz0oof75] {
+        background: #b91c1c;
+        box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+    }
+
+/* CONTENIDO */
+.dash-content[b-05kz0oof75] {
+    flex: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.welcome-section h2[b-05kz0oof75] {
+    margin: 0 0 6px 0;
+    color: #143d16;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.welcome-section p[b-05kz0oof75] {
+    margin: 0;
+    color: #64748b;
+    font-size: 1rem;
+}
+
+/* ACCIONES (TARJETAS) */
+.cards-grid[b-05kz0oof75] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.action-card[b-05kz0oof75] {
+    border-radius: 16px;
+    padding: 32px;
+    color: white;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+}
+
+    .action-card[b-05kz0oof75]::after {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+        top: -40px;
+        right: -40px;
+        border-radius: 50%;
+    }
+
+    .action-card:hover[b-05kz0oof75] {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15);
+    }
+
+.card-primary[b-05kz0oof75] {
+    background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+}
+
+.card-secondary[b-05kz0oof75] {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.card-icon[b-05kz0oof75] {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 14px;
+}
+
+.action-card h3[b-05kz0oof75] {
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.action-card p[b-05kz0oof75] {
+    margin: 0 0 24px 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+}
+
+.btn-card[b-05kz0oof75] {
+    background-color: #ffffff;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    align-self: flex-start;
+    z-index: 2;
+}
+
+.card-primary .btn-card[b-05kz0oof75] {
+    color: #166534;
+}
+
+.card-secondary .btn-card[b-05kz0oof75] {
+    color: #1e40af;
+}
+
+.btn-card:hover[b-05kz0oof75] {
+    background-color: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* HISTORIAL PANEL */
+.tramites-panel[b-05kz0oof75] {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    border: 1px solid #e2e8f0;
+}
+
+.tramites-header[b-05kz0oof75] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 14px;
+}
+
+    .tramites-header h3[b-05kz0oof75] {
+        margin: 0;
+        color: #1e293b;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+.badge-count[b-05kz0oof75] {
+    background-color: #f1f5f9;
+    color: #475569;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.filtros-container[b-05kz0oof75] {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.filtro-item[b-05kz0oof75] {
+    flex: 1;
+    min-width: 220px;
+}
+
+.filtros-container input[b-05kz0oof75], .filtros-container select[b-05kz0oof75] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.9rem;
+    color: #334155;
+    background-color: #fff;
+}
+
+    .filtros-container input:focus[b-05kz0oof75], .filtros-container select:focus[b-05kz0oof75] {
+        border-color: #16a34a;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+    }
+
+.btn-buscar[b-05kz0oof75] {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+    .btn-buscar:hover[b-05kz0oof75] {
+        background: #15803d;
+    }
+
+.table-responsive[b-05kz0oof75] {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.custom-table[b-05kz0oof75] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+    min-width: 700px;
+}
+
+    .custom-table thead[b-05kz0oof75] {
+        background-color: #f8fafc;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .custom-table th[b-05kz0oof75] {
+        padding: 14px 16px;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .custom-table td[b-05kz0oof75] {
+        padding: 16px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #334155;
+    }
+
+    .custom-table tbody tr:hover[b-05kz0oof75] {
+        background-color: #f8fafc;
+    }
+
+.txt-bold[b-05kz0oof75] {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.txt-date[b-05kz0oof75] {
+    text-align: right;
+    color: #64748b;
+}
+
+.estado[b-05kz0oof75] {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: inline-block;
+    text-align: center;
+}
+
+    .estado.enviado[b-05kz0oof75] {
+        background-color: #fef3c7;
+        color: #d97706;
+    }
+
+    .estado.proceso[b-05kz0oof75] {
+        background-color: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .estado.finalizado[b-05kz0oof75] {
+        background-color: #dcfce7;
+        color: #16a34a;
+    }
+
+    .estado.observado[b-05kz0oof75] {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+
+/* SELECTOR TIPO PERSONA (PASO 2) */
+.ux-bg[b-05kz0oof75] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    animation: fadeIn-b-05kz0oof75 0.3s ease-in-out;
+}
+
+.ux-container[b-05kz0oof75] {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.ux-hero[b-05kz0oof75] {
+    text-align: left;
+}
+
+.ux-badge-top[b-05kz0oof75] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+}
+
+.ux-description[b-05kz0oof75] {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.ux-grid[b-05kz0oof75] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.ux-card[b-05kz0oof75] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
+}
+
+    .ux-card:hover[b-05kz0oof75] {
+        border-color: #cbd5e1;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.06);
+    }
+
+    .ux-card:nth-child(1).active[b-05kz0oof75] {
+        border-color: #166534;
+        border-width: 2px;
+        box-shadow: 0 10px 30px -10px rgba(22, 101, 52, 0.2);
+    }
+
+        .ux-card:nth-child(1).active .ux-icon-circle[b-05kz0oof75] {
+            background: #e6f4ea;
+            color: #166534;
+        }
+
+        .ux-card:nth-child(1).active .ux-selected[b-05kz0oof75] {
+            color: #166534;
+            font-weight: 700;
+        }
+
+    .ux-card:nth-child(2).active[b-05kz0oof75] {
+        border-color: #1e40af;
+        border-width: 2px;
+        box-shadow: 0 10px 30px -10px rgba(30, 64, 175, 0.2);
+    }
+
+        .ux-card:nth-child(2).active .ux-icon-circle[b-05kz0oof75] {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .ux-card:nth-child(2).active .ux-selected[b-05kz0oof75] {
+            color: #1e40af;
+            font-weight: 700;
+        }
+
+.ux-icon-circle[b-05kz0oof75] {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.ux-card h3[b-05kz0oof75] {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.ux-card p[b-05kz0oof75] {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 24px;
+}
+
+.ux-selected[b-05kz0oof75] {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+.ux-actions[b-05kz0oof75] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button[b-05kz0oof75] {
+    background: linear-gradient(135deg, #1e40af 0%, #166534 100%);
+    color: #ffffff;
+    border: none;
+    padding: 15px 48px;
+    font-size: 14.5px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    min-width: 180px;
+    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.2);
+}
+
+    .ux-button:hover:not(.disabled)[b-05kz0oof75] {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(22, 101, 52, 0.3);
+        filter: brightness(1.08);
+    }
+
+    .ux-button.disabled[b-05kz0oof75] {
+        background: #e2e8f0;
+        color: #94a3b8;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+.ux-button-secondary[b-05kz0oof75] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-05kz0oof75] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+/* CONTENEDOR DE FORMULARIOS (PASO 3) */
+.form-wrapper[b-05kz0oof75] {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+    animation: fadeIn-b-05kz0oof75 0.4s ease-in-out;
+}
+
+.btn-back-form[b-05kz0oof75] {
+    margin-bottom: 24px;
+    padding: 10px 18px;
+    font-size: 13px;
+    display: inline-block;
+}
+
+@keyframes fadeIn-b-05kz0oof75 {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .topbar[b-05kz0oof75] {
+        padding: 14px 24px;
+    }
+
+    .dash-content[b-05kz0oof75] {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .topbar[b-05kz0oof75] {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px 16px;
+    }
+
+    .gov-left[b-05kz0oof75] {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .gov-divider[b-05kz0oof75] {
+        display: none;
+    }
+
+    .user-menu[b-05kz0oof75] {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .dash-content[b-05kz0oof75] {
+        padding: 16px;
+        gap: 20px;
+    }
+
+    .tramites-panel[b-05kz0oof75], .form-wrapper[b-05kz0oof75] {
+        padding: 20px 16px;
+    }
+
+    .filtro-item[b-05kz0oof75] {
+        min-width: 100%;
+    }
+
+    .btn-buscar[b-05kz0oof75] {
+        width: 100%;
+    }
+
+    .ux-grid[b-05kz0oof75] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .ux-actions[b-05kz0oof75] {
+        flex-direction: column-reverse;
+    }
+
+    .ux-button[b-05kz0oof75], .ux-button-secondary[b-05kz0oof75] {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* MODAL BACKDROP (FONDO OSCURO CON DESENFOQUE) */
+.modal-backdrop[b-05kz0oof75] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 61, 22, 0.4); /* Tono verdoso institucional */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(6px);
+    animation: fadeIn-b-05kz0oof75 0.3s ease-out;
+}
+
+/* CONTENEDOR DEL MODAL */
+.modal-content[b-05kz0oof75] {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    animation: slideUp-b-05kz0oof75 0.3s ease-out;
+}
+
+    .modal-content h2[b-05kz0oof75] {
+        color: #143d16;
+        margin: 0 0 16px 0;
+        font-size: 1.5rem;
+    }
+
+    .modal-content p[b-05kz0oof75] {
+        color: #64748b;
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+/* ACCIONES (BOTONES) */
+.modal-actions[b-05kz0oof75] {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+    /* Sobrescribimos o añadimos estilos de botones dentro del modal */
+    .modal-actions .btn[b-05kz0oof75] {
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .modal-actions .btn-primary[b-05kz0oof75] {
+        background: #166534;
+        border: none;
+        color: white;
+    }
+
+        .modal-actions .btn-primary:hover[b-05kz0oof75] {
+            background: #14532d;
+            transform: translateY(-2px);
+        }
+
+    .modal-actions .btn-secondary[b-05kz0oof75] {
+        background: #f1f5f9;
+        border: none;
+        color: #475569;
+    }
+
+        .modal-actions .btn-secondary:hover[b-05kz0oof75] {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+/* ANIMACIONES */
+@keyframes fadeIn-b-05kz0oof75 {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp-b-05kz0oof75 {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+/* /Components/Pages/Home.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET, BASE Y TIPOGRAFÍA
+   ========================================================================== */
+*[b-5icodrumzi] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body[b-5icodrumzi] {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f8fafc; /* Gris blanquecino limpio y corporativo */
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES (Alineación Estricta a la Izquierda)
+   ========================================================================== */
+.ux-bg[b-5icodrumzi] {
+/*    min-height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+}
+
+.ux-container[b-5icodrumzi] {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    text-align: left;
+}
+
+/* ==========================================================================
+   3. HERO / CABECERA
+   ========================================================================== */
+.ux-hero[b-5icodrumzi] {
+    text-align: left;
+}
+
+.ux-badge-top[b-5icodrumzi] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-hero h1[b-5icodrumzi] {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description[b-5icodrumzi] {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-top: 6px;
+}
+
+/* ==========================================================================
+   4. REJILLA DE TARJETAS (Grid de 2 Columnas)
+   ========================================================================== */
+.ux-grid[b-5icodrumzi] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+/* ==========================================================================
+   5. TARJETAS PREMIUM DE ALTA DEFINICIÓN
+   ========================================================================== */
+.ux-card[b-5icodrumzi] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .ux-card:hover[b-5icodrumzi] {
+        border-color: #cbd5e1;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.06);
+    }
+
+    /* --------------------------------------------------------------------------
+   ESTADOS ACTIVOS CON BORDES TECNOLÓGICOS Y GLOW SUTIL
+   -------------------------------------------------------------------------- */
+
+    /* Perfil 1: InicioNatural (Verde Esmeralda Institucional) */
+    .ux-card:nth-child(1).active[b-5icodrumzi] {
+        border-color: #0c7c3b;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(12, 124, 59, 0.15);
+    }
+
+        .ux-card:nth-child(1).active .ux-icon-circle[b-5icodrumzi] {
+            background: #e6f4ea;
+            color: #0c7c3b;
+        }
+
+        .ux-card:nth-child(1).active .ux-selected[b-5icodrumzi] {
+            color: #0c7c3b;
+            font-weight: 700;
+        }
+
+    /* Perfil 2: InicioJuridica (Azul Corporativo Ejecutivo) */
+    .ux-card:nth-child(2).active[b-5icodrumzi] {
+        border-color: #1e3a8a;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.15);
+    }
+
+        .ux-card:nth-child(2).active .ux-icon-circle[b-5icodrumzi] {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .ux-card:nth-child(2).active .ux-selected[b-5icodrumzi] {
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+/* ==========================================================================
+   6. ELEMENTOS INTERNOS DE LA TARJETA
+   ========================================================================== */
+.ux-icon-circle[b-5icodrumzi] {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.ux-card h3[b-5icodrumzi] {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.ux-card p[b-5icodrumzi] {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 24px;
+}
+
+/* Marcador inferior de selección */
+.ux-selected[b-5icodrumzi] {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   7. EL BOTÓN "SIGUIENTE" PREMIUM (Gradiente Cruzado Institucional)
+   ========================================================================== */
+.ux-actions[b-5icodrumzi] {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.ux-button[b-5icodrumzi] {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0c7c3b 100%); /* Fusión perfecta Azul/Verde */
+    color: #ffffff;
+    border: none;
+    padding: 15px 48px;
+    font-size: 14.5px;
+    font-weight: 700;
+    border-radius: 10px; /* Bordes ligeramente más modernos */
+    cursor: pointer;
+    min-width: 220px;
+    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.2);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .ux-button:hover:not(.disabled)[b-5icodrumzi] {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(12, 124, 59, 0.3);
+        filter: brightness(1.08); /* Aumenta sutilmente el brillo al pasar el mouse */
+    }
+
+    .ux-button:active:not(.disabled)[b-5icodrumzi] {
+        transform: translateY(-1px);
+        filter: brightness(1.02);
+    }
+
+    .ux-button.disabled[b-5icodrumzi] {
+        background: #e2e8f0;
+        color: #94a3b8;
+        cursor: not-allowed;
+        box-shadow: none;
+        filter: none;
+    }
+
+/* ==========================================================================
+   8. TEXTO LEGAL INSTITUCIONAL
+   ========================================================================== */
+.ux-info-text[b-5icodrumzi] {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 24px;
+}
+
+.ux-manual-link[b-5icodrumzi] {
+    display: inline-block;
+    font-size: 13px;
+    color: #0c7c3b;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+    .ux-manual-link:hover[b-5icodrumzi] {
+        text-decoration: underline;
+        color: #1e3a8a;
+    }
+
+/* ==========================================================================
+   9. MEDIA QUERIES (Responsivo Adaptable)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .ux-bg[b-5icodrumzi] {
+        padding: 30px 16px;
+    }
+
+    .ux-grid[b-5icodrumzi] {
+        grid-template-columns: 1fr; /* Colapsa a formato lista en tablets y celulares */
+        gap: 16px;
+    }
+
+    .ux-card[b-5icodrumzi] {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ux-bg[b-5icodrumzi] {
+        padding: 20px 12px;
+        align-items: flex-start;
+    }
+
+    .ux-header h1[b-5icodrumzi] {
+        font-size: 26px;
+    }
+
+    /* Botón Siguiente full-width en smartphones para comodidad del pulgar */
+    .ux-button[b-5icodrumzi],
+    .ux-actions .ux-button[b-5icodrumzi] {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* /Components/Pages/InicioJuridica.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET / BASE / TIPOGRAFÍA
+   ========================================================================== */
+*[b-z7qvur1np6] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body[b-z7qvur1np6] {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f1f5f9;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES
+   ========================================================================== */
+.ux-bg[b-z7qvur1np6] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+
+}
+
+.ux-container[b-z7qvur1np6] {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   3. HEADER
+   ========================================================================== */
+.ux-header[b-z7qvur1np6] {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ux-badge-top[b-z7qvur1np6] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-header h1[b-z7qvur1np6] {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description[b-z7qvur1np6] {
+    font-size: 14px;
+    color: #64748b;
+    max-width: 600px;
+    margin: 8px auto 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. TARJETAS DEL FORMULARIO (CARDS)
+   ========================================================================== */
+.ux-card-form[b-z7qvur1np6] {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .ux-card-form h2[b-z7qvur1np6] {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0c7c3b; /* Identidad Institucional Verde */
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 8px;
+    }
+
+/* ==========================================================================
+   5. GRID RESPONSIVO DEL FORMULARIO
+   ========================================================================== */
+.ux-grid-form[b-z7qvur1np6] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Columnas simétricas en escritorio */
+    gap: 18px;
+}
+
+.ux-field[b-z7qvur1np6] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .ux-field.full[b-z7qvur1np6] {
+        grid-column: span 2;
+    }
+
+    .ux-field label[b-z7qvur1np6] {
+        font-size: 13px;
+        font-weight: 500;
+        color: #334155;
+    }
+
+/* ==========================================================================
+   6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
+   ========================================================================== */
+input[b-z7qvur1np6],
+select[b-z7qvur1np6],
+textarea[b-z7qvur1np6] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+    input:hover[b-z7qvur1np6],
+    select:hover[b-z7qvur1np6],
+    textarea:hover[b-z7qvur1np6] {
+        border-color: #94a3b8;
+    }
+
+    input:focus[b-z7qvur1np6],
+    select:focus[b-z7qvur1np6],
+    textarea:focus[b-z7qvur1np6] {
+        background: white;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        outline: none;
+    }
+
+textarea[b-z7qvur1np6] {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.ux-input-url[b-z7qvur1np6] {
+    margin-top: 12px;
+}
+
+/* --- Grupo de Entrada Especial (Para RUC + Botón Validar) --- */
+.ux-input-group[b-z7qvur1np6] {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+    .ux-input-group input[b-z7qvur1np6] {
+        flex: 1;
+    }
+
+    .ux-input-group .ux-button[b-z7qvur1np6] {
+        padding: 0 20px;
+        white-space: nowrap;
+    }
+
+/* --- Estado de Solo Lectura (Razón Social Autocompletada) --- */
+input.ux-readonly[b-z7qvur1np6] {
+    background-color: #e2e8f0;
+    color: #475569;
+    border-color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+    input.ux-readonly:hover[b-z7qvur1np6],
+    input.ux-readonly:focus[b-z7qvur1np6] {
+        background-color: #e2e8f0;
+        border-color: #cbd5e1;
+        box-shadow: none;
+    }
+
+/* ==========================================================================
+   7. BOTONES
+   ========================================================================== */
+.ux-button[b-z7qvur1np6] {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .ux-button:hover[b-z7qvur1np6] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .ux-button:active[b-z7qvur1np6] {
+        transform: scale(0.98);
+    }
+
+.ux-button-outline[b-z7qvur1np6] {
+    background: transparent;
+    border: 1px solid #0c7c3b;
+    color: #0c7c3b;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-button-outline:hover[b-z7qvur1np6] {
+        background: #0c7c3b;
+        color: white;
+    }
+
+.ux-btn-primary[b-z7qvur1np6] {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .ux-btn-primary:hover[b-z7qvur1np6] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .ux-btn-primary:active[b-z7qvur1np6] {
+        transform: scale(0.98);
+    }
+
+
+.ux-btn-secondary[b-z7qvur1np6] {
+    background: transparent;
+    border: 1px solid #0c7c3b;
+    color: #0c7c3b;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-btn-secondary:hover[b-z7qvur1np6] {
+        background: #0c7c3b;
+        color: white;
+    }
+
+
+
+/* ==========================================================================
+   8. TABLAS RESPONSIVAS (ANEXOS)
+   ========================================================================== */
+.ux-table-wrapper[b-z7qvur1np6] {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.ux-table[b-z7qvur1np6] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+    min-width: 500px;
+}
+
+    .ux-table th[b-z7qvur1np6],
+    .ux-table td[b-z7qvur1np6] {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ux-table th[b-z7qvur1np6] {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .ux-table tbody tr:last-child td[b-z7qvur1np6] {
+        border-bottom: none;
+    }
+
+.btn-delete[b-z7qvur1np6] {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+    .btn-delete:hover[b-z7qvur1np6] {
+        background: #fee2e2;
+    }
+
+.ux-empty[b-z7qvur1np6] {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px !important;
+}
+
+/* ==========================================================================
+   9. PREVISUALIZADOR PDF
+   ========================================================================== */
+.ux-pdf-preview[b-z7qvur1np6] {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+}
+
+    .ux-pdf-preview iframe[b-z7qvur1np6] {
+        width: 100%;
+        height: 450px;
+        border: none;
+        display: block;
+    }
+
+/* ==========================================================================
+   10. ESTADOS, NOTAS Y ACCIONES
+   ========================================================================== */
+.ux-success[b-z7qvur1np6] {
+    color: #16a34a;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.ux-error[b-z7qvur1np6] {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.ux-help[b-z7qvur1np6] {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.ux-divider[b-z7qvur1np6] {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 24px 0;
+}
+
+.ux-nota[b-z7qvur1np6] {
+    font-size: 13.5px;
+    color: #475569;
+    line-height: 1.5;
+    background: #f8fafc;
+    padding: 14px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 0 8px 8px 0;
+}
+
+.ux-actions-right[b-z7qvur1np6] {
+    display: flex;
+    justify-content: flex-end;
+}
+
+    .ux-actions-right .ux-button[b-z7qvur1np6] {
+        min-width: 200px;
+    }
+
+.mt-3[b-z7qvur1np6] {
+    margin-top: 1rem;
+}
+
+/* ==========================================================================
+   11. MEDIA QUERIES (RESPONSIVO COMPLETO)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .ux-bg[b-z7qvur1np6] {
+        padding: 20px 15px;
+    }
+
+    .ux-card-form[b-z7qvur1np6] {
+        padding: 22px;
+    }
+
+    /* Convertimos la rejilla a un bloque vertical */
+    .ux-grid-form[b-z7qvur1np6] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .ux-field.full[b-z7qvur1np6] {
+        grid-column: span 1;
+    }
+
+    .ux-pdf-preview iframe[b-z7qvur1np6] {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ux-bg[b-z7qvur1np6] {
+        padding: 15px 10px;
+    }
+
+    .ux-card-form[b-z7qvur1np6] {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .ux-header h1[b-z7qvur1np6] {
+        font-size: 20px;
+    }
+
+    .ux-description[b-z7qvur1np6] {
+        font-size: 13px;
+    }
+
+    input[b-z7qvur1np6], select[b-z7qvur1np6], textarea[b-z7qvur1np6] {
+        font-size: 16px; /* Evita zoom forzado automático en iOS/Android */
+        padding: 10px 12px;
+    }
+
+    /* El grupo del RUC se apila verticalmente para dar comodidad en pantallas ultra chicas */
+    .ux-input-group[b-z7qvur1np6] {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .ux-input-group .ux-button[b-z7qvur1np6] {
+            width: 100%;
+            padding: 12px;
+        }
+
+    /* Los botones generales pasan a ocupar todo el espacio para comodidad del pulgar */
+    .ux-button[b-z7qvur1np6],
+    .ux-button-outline[b-z7qvur1np6],
+    .ux-actions-right .ux-button[b-z7qvur1np6] {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .ux-bg[b-z7qvur1np6] {
+        padding: 20px 15px;
+    }
+
+    .ux-card-form[b-z7qvur1np6] {
+        padding: 22px;
+    }
+
+    /* La rejilla pasa a 1 sola columna vertical en móviles */
+    .ux-grid-form[b-z7qvur1np6] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* ⚡ Obligamos a que deje de medir 2 columnas cuando la pantalla es pequeña */
+    .ux-field.full[b-z7qvur1np6] {
+        grid-column: span 1 !important;
+    }
+
+    .ux-pdf-preview iframe[b-z7qvur1np6] {
+        height: 350px;
+    }
+}
+/* /Components/Pages/InicioNatural.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET / BASE / TIPOGRAFÍA
+   ========================================================================== */
+*[b-py7tcbq0ce] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body[b-py7tcbq0ce] {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f1f5f9;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES
+   ========================================================================== */
+.ux-bg[b-py7tcbq0ce] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+}
+
+.ux-container[b-py7tcbq0ce] {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   3. HEADER
+   ========================================================================== */
+.ux-header[b-py7tcbq0ce] {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ux-badge-top[b-py7tcbq0ce] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-header h1[b-py7tcbq0ce] {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description[b-py7tcbq0ce] {
+    font-size: 14px;
+    color: #64748b;
+    max-width: 600px;
+    margin: 8px auto 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. TARJETAS DEL FORMULARIO (CARDS)
+   ========================================================================== */
+.ux-card-form[b-py7tcbq0ce] {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .ux-card-form h2[b-py7tcbq0ce] {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0c7c3b; /* Identidad Institucional Verde */
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 8px;
+    }
+
+/* ==========================================================================
+   5. GRID RESPONSIVO DEL FORMULARIO
+   ========================================================================== */
+.ux-grid-form[b-py7tcbq0ce] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Por defecto 2 columnas en PC */
+    gap: 18px;
+}
+
+.ux-field[b-py7tcbq0ce] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    /* Clases utilitarias de expansión en el Grid */
+    .ux-field.full[b-py7tcbq0ce],
+    .full-width[b-py7tcbq0ce] {
+        grid-column: span 2;
+    }
+
+.ux-field-button[b-py7tcbq0ce] {
+    display: flex;
+    align-items: flex-end; /* Alinea el botón perfectamente abajo con los inputs */
+}
+
+/* Labels e indicaciones */
+.ux-field label[b-py7tcbq0ce] {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.ux-file-hint[b-py7tcbq0ce] {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
+   ========================================================================== */
+input[b-py7tcbq0ce],
+select[b-py7tcbq0ce],
+textarea[b-py7tcbq0ce] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+    input:hover[b-py7tcbq0ce],
+    select:hover[b-py7tcbq0ce],
+    textarea:hover[b-py7tcbq0ce] {
+        border-color: #94a3b8;
+    }
+
+    input:focus[b-py7tcbq0ce],
+    select:focus[b-py7tcbq0ce],
+    textarea:focus[b-py7tcbq0ce] {
+        background: white;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        outline: none;
+    }
+
+    /* Inputs deshabilitados (RENIEC) */
+    input:disabled[b-py7tcbq0ce] {
+        background: #e2e8f0;
+        color: #64748b;
+        cursor: not-allowed;
+        border-color: #cbd5e1;
+    }
+
+textarea[b-py7tcbq0ce] {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* ==========================================================================
+   7. BOTONES
+   ========================================================================== */
+.ux-btn-primary[b-py7tcbq0ce] {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .ux-btn-primary:hover[b-py7tcbq0ce] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .ux-btn-primary:active[b-py7tcbq0ce] {
+        transform: scale(0.98);
+    }
+
+.ux-btn-secondary[b-py7tcbq0ce] {
+    background: transparent;
+    border: 1px solid #0c7c3b;
+    color: #0c7c3b;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-btn-secondary:hover[b-py7tcbq0ce] {
+        background: #0c7c3b;
+        color: white;
+    }
+
+/* ==========================================================================
+   8. TABLAS RESPONSIVAS (ANEXOS)
+   ========================================================================== */
+.ux-table-wrapper[b-py7tcbq0ce] {
+    width: 100%;
+    overflow-x: auto; /* Permite scroll horizontal en móviles si la tabla es grande */
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.ux-table[b-py7tcbq0ce] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+    min-width: 500px; /* Evita que las columnas se aplasten en mobile */
+}
+
+    .ux-table th[b-py7tcbq0ce],
+    .ux-table td[b-py7tcbq0ce] {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ux-table th[b-py7tcbq0ce] {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .ux-table tbody tr:last-child td[b-py7tcbq0ce] {
+        border-bottom: none;
+    }
+
+.btn-delete[b-py7tcbq0ce] {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+    .btn-delete:hover[b-py7tcbq0ce] {
+        background: #fee2e2;
+    }
+
+.ux-empty[b-py7tcbq0ce] {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px !important;
+}
+
+/* ==========================================================================
+   9. PREVISUALIZADOR PDF E INPUTS DE ARCHIVOS
+   ========================================================================== */
+.ux-file-info[b-py7tcbq0ce] {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #166534;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ux-pdf-preview[b-py7tcbq0ce] {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+}
+
+    .ux-pdf-preview iframe[b-py7tcbq0ce] {
+        width: 100%;
+        height: 450px;
+        border: none;
+        display: block;
+    }
+
+.hidden-input[b-py7tcbq0ce] {
+    display: none;
+}
+
+.ux-input-url[b-py7tcbq0ce] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   10. MODAL / VENTANA EMERGENTE DE PREVIEW
+   ========================================================================== */
+.ux-modal-overlay[b-py7tcbq0ce] {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.ux-modal-content[b-py7tcbq0ce] {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 85vh;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.ux-close[b-py7tcbq0ce] {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+    .ux-close:hover[b-py7tcbq0ce] {
+        background: #dc2626;
+    }
+
+.ux-iframe-wrapper[b-py7tcbq0ce] {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+}
+
+    .ux-iframe-wrapper iframe[b-py7tcbq0ce] {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+/* ==========================================================================
+   11. ESTADOS, NOTAS Y ACCIONES FINALES
+   ========================================================================== */
+.ux-error[b-py7tcbq0ce] {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.ux-help[b-py7tcbq0ce] {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.ux-divider[b-py7tcbq0ce] {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 24px 0;
+}
+
+.ux-nota[b-py7tcbq0ce] {
+    font-size: 13.5px;
+    color: #475569;
+    line-height: 1.5;
+    background: #f8fafc;
+    padding: 14px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 0 8px 8px 0;
+}
+
+.ux-actions[b-py7tcbq0ce] {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+    .ux-actions .ux-btn-primary[b-py7tcbq0ce] {
+        width: auto; /* El botón de envío no ocupa todo el ancho en PC */
+        min-width: 200px;
+    }
+
+/* ==========================================================================
+   12. MEDIA QUERIES (DISEÑO RESPONSIVO DE VERDAD)
+   ========================================================================== */
+
+/* TABLETS (Pantallas menores a 768px) */
+@media (max-width: 768px) {
+    .ux-bg[b-py7tcbq0ce] {
+        padding: 20px 15px;
+    }
+
+    .ux-card-form[b-py7tcbq0ce] {
+        padding: 22px;
+    }
+
+    /* Rompemos el grid a 1 sola columna para que los inputs no se aplasten */
+    .ux-grid-form[b-py7tcbq0ce] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Forzamos a que todos los campos ocupen el ancho completo */
+    .ux-field.full[b-py7tcbq0ce],
+    .full-width[b-py7tcbq0ce],
+    .ux-field-button[b-py7tcbq0ce] {
+        grid-column: span 1;
+    }
+
+    .ux-pdf-preview iframe[b-py7tcbq0ce] {
+        height: 350px; /* Reducimos la altura del preview en tablets */
+    }
+}
+
+/* CELULARES (Pantallas menores a 480px) */
+@media (max-width: 480px) {
+    .ux-bg[b-py7tcbq0ce] {
+        padding: 15px 10px;
+    }
+
+    .ux-card-form[b-py7tcbq0ce] {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .ux-header h1[b-py7tcbq0ce] {
+        font-size: 20px;
+    }
+
+    .ux-description[b-py7tcbq0ce] {
+        font-size: 13px;
+    }
+
+    input[b-py7tcbq0ce], select[b-py7tcbq0ce], textarea[b-py7tcbq0ce] {
+        font-size: 16px; /* Evita que iOS (Safari/iPhone) haga zoom forzado al enfocar */
+        padding: 10px 12px;
+    }
+
+    /* En celulares, todos los botones se vuelven de ancho completo */
+    .ux-btn-primary[b-py7tcbq0ce],
+    .ux-btn-secondary[b-py7tcbq0ce],
+    .ux-actions .ux-btn-primary[b-py7tcbq0ce] {
+        width: 100%;
+        text-align: center;
+    }
+
+    .ux-modal-content[b-py7tcbq0ce] {
+        height: 90vh; /* El modal aprovecha más la pantalla vertical */
+    }
+}
+
+/* /Components/Pages/Login.razor.rz.scp.css */
+/* ==========================================================================
+   RESET & BASE CORRECTIONS
+   ========================================================================== */
+.login-wrapper *[b-m5l9vkyir2] {
+    box-sizing: border-box;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+
+.login-wrapper[b-m5l9vkyir2] {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0fdf4; /* Fondo menta claro institucional */
+}
+
+/* ==========================================================================
+   PANEL IZQUIERDO (ESCRITORIO)
+   ========================================================================== */
+.login-left[b-m5l9vkyir2] {
+    width: 55%;
+    background: linear-gradient(135deg, #77fa7d 0%, #153417 100%); /* Verdes corporativos más profundos */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+}
+
+    /* Efectos de luces mejorados mediante gradientes limpios */
+    .login-left[b-m5l9vkyir2]::before {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+        top: -200px;
+        left: -200px;
+    }
+
+    .login-left[b-m5l9vkyir2]::after {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, transparent 70%);
+        bottom: -250px;
+        right: -250px;
+    }
+
+.login-left-content[b-m5l9vkyir2] {
+    position: relative;
+    z-index: 2;
+    max-width: 560px;
+    color: #ffffff;
+}
+
+.login-logo[b-m5l9vkyir2] {
+    height: 65px;
+    width: auto;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+.login-left h2[b-m5l9vkyir2] {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 24px;
+    color: #f0fdf4;
+}
+
+    .login-left h2 strong[b-m5l9vkyir2] {
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+.login-left p[b-m5l9vkyir2] {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    color: #e2e8f0;
+    text-align: justify;
+}
+
+/* Alerta interna UX */
+.alerta-box[b-m5l9vkyir2] {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid #4ade80;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.alerta-icon[b-m5l9vkyir2] {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.alerta-text[b-m5l9vkyir2] {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #f1f5f9;
+}
+
+.dev-footer[b-m5l9vkyir2] {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #a7f3d0;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   PANEL DERECHO (FORMULARIO)
+   ========================================================================== */
+.login-right[b-m5l9vkyir2] {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f8fafc;
+}
+
+.login-container-form[b-m5l9vkyir2] {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Oculto por defecto en desktop */
+.login-logo-mobile[b-m5l9vkyir2] {
+    display: none;
+    height: 55px;
+    margin: 0 auto 10px auto;
+}
+
+.login-box[b-m5l9vkyir2] {
+    background: #ffffff;
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+    .login-box h3[b-m5l9vkyir2] {
+        margin: 0 0 6px 0;
+        color: #14532d;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+.login-subtitle[b-m5l9vkyir2] {
+    color: #64748b;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* INPUTS ACCESIBLES */
+.input-group[b-m5l9vkyir2] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+    .input-group label[b-m5l9vkyir2] {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #334155;
+    }
+
+    .input-group input[b-m5l9vkyir2] {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        color: #1e293b;
+        background-color: #fff;
+    }
+
+        .input-group input:focus[b-m5l9vkyir2] {
+            border-color: #16a34a;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+            background-color: #f0fdf4;
+        }
+
+/* BOTÓN PRINCIPAL */
+.btn-login[b-m5l9vkyir2] {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
+    margin-top: 10px;
+}
+
+    .btn-login:hover[b-m5l9vkyir2] {
+        background: #15803d;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px -2px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-login:active[b-m5l9vkyir2] {
+        transform: translateY(0);
+    }
+
+/* ENLACES SECUNDARIOS DE ACCIÓN */
+.login-actions-secondary[b-m5l9vkyir2] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    font-size: 0.85rem;
+}
+
+.btn-link[b-m5l9vkyir2] {
+    background: none;
+    border: none;
+    color: #16a34a;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 4px;
+}
+
+    .btn-link:hover[b-m5l9vkyir2] {
+        color: #15803d;
+        text-decoration: underline;
+    }
+
+.divider[b-m5l9vkyir2] {
+    color: #cbd5e1;
+    user-select: none;
+}
+
+/* CAJA DE SOPORTE */
+.soporte-box[b-m5l9vkyir2] {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+    .soporte-box h4[b-m5l9vkyir2] {
+        margin: 0 0 10px 0;
+        color: #334155;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .soporte-box p[b-m5l9vkyir2] {
+        margin: 6px 0;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+
+    .soporte-box .anexo[b-m5l9vkyir2] {
+        background-color: #f1f5f9;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+
+/* Tablets grandes y Laptops chicas */
+@media (max-width: 1024px) {
+    .login-left[b-m5l9vkyir2] {
+        width: 45%;
+        padding: 40px;
+    }
+
+    .login-right[b-m5l9vkyir2] {
+        width: 55%;
+    }
+}
+
+/* Tablets medianas y Móviles (Todo pasa a una columna) */
+@media (max-width: 850px) {
+    .login-wrapper[b-m5l9vkyir2] {
+        background-color: #f8fafc;
+    }
+
+    .login-left[b-m5l9vkyir2] {
+        display: none; /* Oculta panel lateral */
+    }
+
+    .login-right[b-m5l9vkyir2] {
+        width: 100%;
+        padding: 30px 16px;
+    }
+
+    .login-container-form[b-m5l9vkyir2] {
+        max-width: 100%;
+    }
+
+    .login-logo-mobile[b-m5l9vkyir2] {
+        display: block; /* El logo reaparece arriba del login box */
+    }
+
+    .login-box[b-m5l9vkyir2] {
+        padding: 32px 20px;
+    }
+}
+/* /Components/Pages/TramiteJuridicaInterno.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET / BASE / TIPOGRAFÍA
+   ========================================================================== */
+*[b-ahqj5oy2w8] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body[b-ahqj5oy2w8] {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f1f5f9;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES
+   ========================================================================== */
+.ux-bg[b-ahqj5oy2w8] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+}
+
+.ux-container[b-ahqj5oy2w8] {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   3. HEADER
+   ========================================================================== */
+.ux-header[b-ahqj5oy2w8] {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ux-badge-top[b-ahqj5oy2w8] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-header h1[b-ahqj5oy2w8] {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description[b-ahqj5oy2w8] {
+    font-size: 14px;
+    color: #64748b;
+    max-width: 600px;
+    margin: 8px auto 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. TARJETAS DEL FORMULARIO (CARDS)
+   ========================================================================== */
+.ux-card-form[b-ahqj5oy2w8] {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .ux-card-form h2[b-ahqj5oy2w8] {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0c7c3b; /* Identidad Institucional Verde */
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 8px;
+    }
+
+/* ==========================================================================
+   5. GRID RESPONSIVO DEL FORMULARIO
+   ========================================================================== */
+.ux-grid-form[b-ahqj5oy2w8] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Columnas simétricas en escritorio */
+    gap: 18px;
+}
+
+.ux-field[b-ahqj5oy2w8] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .ux-field.full[b-ahqj5oy2w8] {
+        grid-column: span 2;
+    }
+
+    .ux-field label[b-ahqj5oy2w8] {
+        font-size: 13px;
+        font-weight: 500;
+        color: #334155;
+    }
+
+/* ==========================================================================
+   6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
+   ========================================================================== */
+input[b-ahqj5oy2w8],
+select[b-ahqj5oy2w8],
+textarea[b-ahqj5oy2w8] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+    input:hover[b-ahqj5oy2w8],
+    select:hover[b-ahqj5oy2w8],
+    textarea:hover[b-ahqj5oy2w8] {
+        border-color: #94a3b8;
+    }
+
+    input:focus[b-ahqj5oy2w8],
+    select:focus[b-ahqj5oy2w8],
+    textarea:focus[b-ahqj5oy2w8] {
+        background: white;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        outline: none;
+    }
+
+textarea[b-ahqj5oy2w8] {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.ux-input-url[b-ahqj5oy2w8] {
+    margin-top: 12px;
+}
+
+/* --- Grupo de Entrada Especial (Para RUC + Botón Validar) --- */
+.ux-input-group[b-ahqj5oy2w8] {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+    .ux-input-group input[b-ahqj5oy2w8] {
+        flex: 1;
+    }
+
+    .ux-input-group .ux-button[b-ahqj5oy2w8] {
+        padding: 0 20px;
+        white-space: nowrap;
+    }
+
+/* --- Estado de Solo Lectura (Razón Social Autocompletada) --- */
+input.ux-readonly[b-ahqj5oy2w8] {
+    background-color: #e2e8f0;
+    color: #475569;
+    border-color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+    input.ux-readonly:hover[b-ahqj5oy2w8],
+    input.ux-readonly:focus[b-ahqj5oy2w8] {
+        background-color: #e2e8f0;
+        border-color: #cbd5e1;
+        box-shadow: none;
+    }
+
+/* ==========================================================================
+   7. BOTONES
+   ========================================================================== */
+.ux-button[b-ahqj5oy2w8] {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .ux-button:hover[b-ahqj5oy2w8] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .ux-button:active[b-ahqj5oy2w8] {
+        transform: scale(0.98);
+    }
+
+.ux-button-outline[b-ahqj5oy2w8] {
+    background: transparent;
+    border: 1px solid #0c7c3b;
+    color: #0c7c3b;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-button-outline:hover[b-ahqj5oy2w8] {
+        background: #0c7c3b;
+        color: white;
+    }
+
+.ux-btn-primary[b-ahqj5oy2w8] {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .ux-btn-primary:hover[b-ahqj5oy2w8] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .ux-btn-primary:active[b-ahqj5oy2w8] {
+        transform: scale(0.98);
+    }
+
+
+.ux-btn-secondary[b-ahqj5oy2w8] {
+    background: transparent;
+    border: 1px solid #0c7c3b;
+    color: #0c7c3b;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-btn-secondary:hover[b-ahqj5oy2w8] {
+        background: #0c7c3b;
+        color: white;
+    }
+
+
+
+/* ==========================================================================
+   8. TABLAS RESPONSIVAS (ANEXOS)
+   ========================================================================== */
+.ux-table-wrapper[b-ahqj5oy2w8] {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.ux-table[b-ahqj5oy2w8] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+    min-width: 500px;
+}
+
+    .ux-table th[b-ahqj5oy2w8],
+    .ux-table td[b-ahqj5oy2w8] {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ux-table th[b-ahqj5oy2w8] {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .ux-table tbody tr:last-child td[b-ahqj5oy2w8] {
+        border-bottom: none;
+    }
+
+.btn-delete[b-ahqj5oy2w8] {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+    .btn-delete:hover[b-ahqj5oy2w8] {
+        background: #fee2e2;
+    }
+
+.ux-empty[b-ahqj5oy2w8] {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px !important;
+}
+
+/* ==========================================================================
+   9. PREVISUALIZADOR PDF
+   ========================================================================== */
+.ux-pdf-preview[b-ahqj5oy2w8] {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+}
+
+    .ux-pdf-preview iframe[b-ahqj5oy2w8] {
+        width: 100%;
+        height: 450px;
+        border: none;
+        display: block;
+    }
+
+/* ==========================================================================
+   10. ESTADOS, NOTAS Y ACCIONES
+   ========================================================================== */
+.ux-success[b-ahqj5oy2w8] {
+    color: #16a34a;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.ux-error[b-ahqj5oy2w8] {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.ux-help[b-ahqj5oy2w8] {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.ux-divider[b-ahqj5oy2w8] {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 24px 0;
+}
+
+.ux-nota[b-ahqj5oy2w8] {
+    font-size: 13.5px;
+    color: #475569;
+    line-height: 1.5;
+    background: #f8fafc;
+    padding: 14px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 0 8px 8px 0;
+}
+
+.ux-actions-right[b-ahqj5oy2w8] {
+    display: flex;
+    justify-content: flex-end;
+}
+
+    .ux-actions-right .ux-button[b-ahqj5oy2w8] {
+        min-width: 200px;
+    }
+
+.mt-3[b-ahqj5oy2w8] {
+    margin-top: 1rem;
+}
+
+/* ==========================================================================
+   11. MEDIA QUERIES (RESPONSIVO COMPLETO)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .ux-bg[b-ahqj5oy2w8] {
+        padding: 20px 15px;
+    }
+
+    .ux-card-form[b-ahqj5oy2w8] {
+        padding: 22px;
+    }
+
+    /* Convertimos la rejilla a un bloque vertical */
+    .ux-grid-form[b-ahqj5oy2w8] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .ux-field.full[b-ahqj5oy2w8] {
+        grid-column: span 1;
+    }
+
+    .ux-pdf-preview iframe[b-ahqj5oy2w8] {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ux-bg[b-ahqj5oy2w8] {
+        padding: 15px 10px;
+    }
+
+    .ux-card-form[b-ahqj5oy2w8] {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .ux-header h1[b-ahqj5oy2w8] {
+        font-size: 20px;
+    }
+
+    .ux-description[b-ahqj5oy2w8] {
+        font-size: 13px;
+    }
+
+    input[b-ahqj5oy2w8], select[b-ahqj5oy2w8], textarea[b-ahqj5oy2w8] {
+        font-size: 16px; /* Evita zoom forzado automático en iOS/Android */
+        padding: 10px 12px;
+    }
+
+    /* El grupo del RUC se apila verticalmente para dar comodidad en pantallas ultra chicas */
+    .ux-input-group[b-ahqj5oy2w8] {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .ux-input-group .ux-button[b-ahqj5oy2w8] {
+            width: 100%;
+            padding: 12px;
+        }
+
+    /* Los botones generales pasan a ocupar todo el espacio para comodidad del pulgar */
+    .ux-button[b-ahqj5oy2w8],
+    .ux-button-outline[b-ahqj5oy2w8],
+    .ux-actions-right .ux-button[b-ahqj5oy2w8] {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .ux-bg[b-ahqj5oy2w8] {
+        padding: 20px 15px;
+    }
+
+    .ux-card-form[b-ahqj5oy2w8] {
+        padding: 22px;
+    }
+
+    /* La rejilla pasa a 1 sola columna vertical en móviles */
+    .ux-grid-form[b-ahqj5oy2w8] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* ⚡ Obligamos a que deje de medir 2 columnas cuando la pantalla es pequeña */
+    .ux-field.full[b-ahqj5oy2w8] {
+        grid-column: span 1 !important;
+    }
+
+    .ux-pdf-preview iframe[b-ahqj5oy2w8] {
+        height: 350px;
+    }
+}
+/* /Components/Pages/TramiteNaturalInterno.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET / BASE / TIPOGRAFÍA
+   ========================================================================== */
+*[b-48a65t5j44] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body[b-48a65t5j44] {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f1f5f9;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES
+   ========================================================================== */
+.ux-bg[b-48a65t5j44] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+}
+
+.ux-container[b-48a65t5j44] {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   3. HEADER
+   ========================================================================== */
+.ux-header[b-48a65t5j44] {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ux-badge-top[b-48a65t5j44] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-header h1[b-48a65t5j44] {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description[b-48a65t5j44] {
+    font-size: 14px;
+    color: #64748b;
+    max-width: 600px;
+    margin: 8px auto 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. TARJETAS DEL FORMULARIO (CARDS)
+   ========================================================================== */
+.ux-card-form[b-48a65t5j44] {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .ux-card-form h2[b-48a65t5j44] {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0c7c3b; /* Identidad Institucional Verde */
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 8px;
+    }
+
+/* ==========================================================================
+   5. GRID RESPONSIVO DEL FORMULARIO
+   ========================================================================== */
+.ux-grid-form[b-48a65t5j44] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Por defecto 2 columnas en PC */
+    gap: 18px;
+}
+
+.ux-field[b-48a65t5j44] {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    /* Clases utilitarias de expansión en el Grid */
+    .ux-field.full[b-48a65t5j44],
+    .full-width[b-48a65t5j44] {
+        grid-column: span 2;
+    }
+
+.ux-field-button[b-48a65t5j44] {
+    display: flex;
+    align-items: flex-end; /* Alinea el botón perfectamente abajo con los inputs */
+}
+
+/* Labels e indicaciones */
+.ux-field label[b-48a65t5j44] {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.ux-file-hint[b-48a65t5j44] {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
+   ========================================================================== */
+input[b-48a65t5j44],
+select[b-48a65t5j44],
+textarea[b-48a65t5j44] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+    input:hover[b-48a65t5j44],
+    select:hover[b-48a65t5j44],
+    textarea:hover[b-48a65t5j44] {
+        border-color: #94a3b8;
+    }
+
+    input:focus[b-48a65t5j44],
+    select:focus[b-48a65t5j44],
+    textarea:focus[b-48a65t5j44] {
+        background: white;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        outline: none;
+    }
+
+    /* Inputs deshabilitados (RENIEC) */
+    input:disabled[b-48a65t5j44] {
+        background: #e2e8f0;
+        color: #64748b;
+        cursor: not-allowed;
+        border-color: #cbd5e1;
+    }
+
+textarea[b-48a65t5j44] {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* ==========================================================================
+   7. BOTONES
+   ========================================================================== */
+.ux-btn-primary[b-48a65t5j44] {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .ux-btn-primary:hover[b-48a65t5j44] {
+        background: #1d4ed8;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .ux-btn-primary:active[b-48a65t5j44] {
+        transform: scale(0.98);
+    }
+
+.ux-btn-secondary[b-48a65t5j44] {
+    background: transparent;
+    border: 1px solid #0c7c3b;
+    color: #0c7c3b;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .ux-btn-secondary:hover[b-48a65t5j44] {
+        background: #0c7c3b;
+        color: white;
+    }
+
+/* ==========================================================================
+   8. TABLAS RESPONSIVAS (ANEXOS)
+   ========================================================================== */
+.ux-table-wrapper[b-48a65t5j44] {
+    width: 100%;
+    overflow-x: auto; /* Permite scroll horizontal en móviles si la tabla es grande */
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.ux-table[b-48a65t5j44] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+    min-width: 500px; /* Evita que las columnas se aplasten en mobile */
+}
+
+    .ux-table th[b-48a65t5j44],
+    .ux-table td[b-48a65t5j44] {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ux-table th[b-48a65t5j44] {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .ux-table tbody tr:last-child td[b-48a65t5j44] {
+        border-bottom: none;
+    }
+
+.btn-delete[b-48a65t5j44] {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+    .btn-delete:hover[b-48a65t5j44] {
+        background: #fee2e2;
+    }
+
+.ux-empty[b-48a65t5j44] {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px !important;
+}
+
+/* ==========================================================================
+   9. PREVISUALIZADOR PDF E INPUTS DE ARCHIVOS
+   ========================================================================== */
+.ux-file-info[b-48a65t5j44] {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #166534;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ux-pdf-preview[b-48a65t5j44] {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+}
+
+    .ux-pdf-preview iframe[b-48a65t5j44] {
+        width: 100%;
+        height: 450px;
+        border: none;
+        display: block;
+    }
+
+.hidden-input[b-48a65t5j44] {
+    display: none;
+}
+
+.ux-input-url[b-48a65t5j44] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   10. MODAL / VENTANA EMERGENTE DE PREVIEW
+   ========================================================================== */
+.ux-modal-overlay[b-48a65t5j44] {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.ux-modal-content[b-48a65t5j44] {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 85vh;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.ux-close[b-48a65t5j44] {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+    .ux-close:hover[b-48a65t5j44] {
+        background: #dc2626;
+    }
+
+.ux-iframe-wrapper[b-48a65t5j44] {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+}
+
+    .ux-iframe-wrapper iframe[b-48a65t5j44] {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+/* ==========================================================================
+   11. ESTADOS, NOTAS Y ACCIONES FINALES
+   ========================================================================== */
+.ux-error[b-48a65t5j44] {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.ux-help[b-48a65t5j44] {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.ux-divider[b-48a65t5j44] {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 24px 0;
+}
+
+.ux-nota[b-48a65t5j44] {
+    font-size: 13.5px;
+    color: #475569;
+    line-height: 1.5;
+    background: #f8fafc;
+    padding: 14px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 0 8px 8px 0;
+}
+
+.ux-actions[b-48a65t5j44] {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+    .ux-actions .ux-btn-primary[b-48a65t5j44] {
+        width: auto; /* El botón de envío no ocupa todo el ancho en PC */
+        min-width: 200px;
+    }
+
+/* ==========================================================================
+   12. MEDIA QUERIES (DISEÑO RESPONSIVO DE VERDAD)
+   ========================================================================== */
+
+/* TABLETS (Pantallas menores a 768px) */
+@media (max-width: 768px) {
+    .ux-bg[b-48a65t5j44] {
+        padding: 20px 15px;
+    }
+
+    .ux-card-form[b-48a65t5j44] {
+        padding: 22px;
+    }
+
+    /* Rompemos el grid a 1 sola columna para que los inputs no se aplasten */
+    .ux-grid-form[b-48a65t5j44] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Forzamos a que todos los campos ocupen el ancho completo */
+    .ux-field.full[b-48a65t5j44],
+    .full-width[b-48a65t5j44],
+    .ux-field-button[b-48a65t5j44] {
+        grid-column: span 1;
+    }
+
+    .ux-pdf-preview iframe[b-48a65t5j44] {
+        height: 350px; /* Reducimos la altura del preview en tablets */
+    }
+}
+
+/* CELULARES (Pantallas menores a 480px) */
+@media (max-width: 480px) {
+    .ux-bg[b-48a65t5j44] {
+        padding: 15px 10px;
+    }
+
+    .ux-card-form[b-48a65t5j44] {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .ux-header h1[b-48a65t5j44] {
+        font-size: 20px;
+    }
+
+    .ux-description[b-48a65t5j44] {
+        font-size: 13px;
+    }
+
+    input[b-48a65t5j44], select[b-48a65t5j44], textarea[b-48a65t5j44] {
+        font-size: 16px; /* Evita que iOS (Safari/iPhone) haga zoom forzado al enfocar */
+        padding: 10px 12px;
+    }
+
+    /* En celulares, todos los botones se vuelven de ancho completo */
+    .ux-btn-primary[b-48a65t5j44],
+    .ux-btn-secondary[b-48a65t5j44],
+    .ux-actions .ux-btn-primary[b-48a65t5j44] {
+        width: 100%;
+        text-align: center;
+    }
+
+    .ux-modal-content[b-48a65t5j44] {
+        height: 90vh; /* El modal aprovecha más la pantalla vertical */
+    }
+}

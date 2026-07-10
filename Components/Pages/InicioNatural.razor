@@ -1,0 +1,839 @@
+@page "/inicio/natural"
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Components.Forms
+@using MesaPartesDigital.Services
+@using MesaPartesDigital.Models
+
+@inject UbigeoService UbigeoService
+@inject IEmailService EmailService
+
+
+<div class="ux-bg">
+    <div class="ux-container">
+
+        <div class="ux-header">
+            <div class="ux-badge-top">Mesa de Partes Digital</div>
+            <h1>Persona Natural</h1>
+            <p class="ux-description">
+                Completa todos los campos para registrar tu documento.
+            </p>
+        </div>
+
+        <div class="ux-card-form">
+            <h2>I. DATOS DEL REMITENTE</h2>
+
+            <div class="ux-grid-form">
+                <div class="ux-field">
+                    <label>Tipo de Documento *</label>
+                    <select @bind="formulario.ICodTipoDocPer" @bind:after="OnTipoDocumentoChange">
+                        <option value="1">DNI</option>
+                        <option value="3">CE (Carnet de Extranjería)</option>
+                    </select>
+                </div>
+
+                <div class="ux-field">
+                    <label>Nro. Documento *</label>
+                    <input @bind="formulario.VDocPer"
+                           @bind:after="ValidarDocumento"
+                           maxlength="@(formulario.ICodTipoDocPer == 1 ? "8" : "10")"
+                           onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                           placeholder="@(formulario.ICodTipoDocPer == 1 ? "Ingresar Número de DNI" : "Ingresar Número de Carnet de Extranjería")" />
+
+                    @if (!string.IsNullOrEmpty(errorDocumento))
+                    {
+                        <span class="ux-error">@errorDocumento</span>
+                    }
+                </div>
+
+                @if (formulario.ICodTipoDocPer == 1)
+                {
+                    <div class="ux-field ux-field-button full-width">
+                        <button class="ux-btn-primary" @onclick="ValidarDatos">
+                            Validar datos
+                        </button>
+                    </div>
+                }
+
+                <div class="ux-field">
+                    <label>Apellido Paterno *</label>
+                    <input @bind="formulario.VApellidoPaterno" disabled="@bloquearDatos" style="text-transform: uppercase;" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Apellido Materno *</label>
+                    <input @bind="formulario.VApellidoMaterno" disabled="@bloquearDatos" style="text-transform: uppercase;" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Nombres *</label>
+                    <input @bind="formulario.VNombres" disabled="@bloquearDatos" style="text-transform: uppercase;" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Teléfono *</label>
+                    <input @bind="formulario.VTelefono" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Correo *</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; width: 100%; text-transform: uppercase;">
+                        <input type="email"
+                               @bind="formulario.VEmail"
+                               @bind:after="ValidarCorreo"
+                               placeholder="ejemplo@correo.com"
+                               style="flex: 1 1 200px; min-width: 0;"
+                               disabled="@(codigoVerificado || enviandoCorreo)" />
+
+                        <button type="button"
+                                class="ux-btn-secondary"
+                                @onclick="GenerarCodigoVerificacion"
+                                style="flex: 0 0 auto; min-width: 140px; white-space: nowrap;"
+                                disabled="@(string.IsNullOrEmpty(formulario.VEmail) || !string.IsNullOrEmpty(errorCorreo) || codigoVerificado || enviandoCorreo)">
+                            @(enviandoCorreo ? "Enviando..." : "Generar Código")
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(errorCorreo))
+                    {
+                        <span class="ux-error">@errorCorreo</span>
+                    }
+                    @if (!string.IsNullOrEmpty(mensajeCodigo))
+                    {
+                        <span style="color: #2e7d32; font-size: 0.85rem; margin-top: 4px; display: block;">@mensajeCodigo</span>
+                    }
+                </div>
+
+                @if (mostrarCampoCodigo)
+                {
+                    <div class="ux-field">
+                        <label>Ingresa código generado *</label>
+                        <div style="position: relative; width: 100%; margin-top: 5px;">
+                            <input type="text"
+                                   @bind="codigoIngresado"
+                                   @bind:after="VerificarCodigoAutomatico"
+                                   maxlength="6"
+                                   placeholder="AQUÍ LOS 6 DÍGITOS"
+                                   style="width: 100%; padding-right: 40px;"
+                                   disabled="@codigoVerificado" />
+
+                            @if (codigoVerificado)
+                            {
+                                <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #2e7d32; font-weight: bold;">
+                                    ✅
+                                </span>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorCodigo))
+                        {
+                            <span class="ux-error" style="display: block; margin-top: 4px;">@errorCodigo</span>
+                        }
+                    </div>
+                }
+
+                <div class="ux-field">
+                    <label>Dirección *</label>
+                    <input @bind="formulario.VDireccion" placeholder="Ej: Av. Arequipa 123, Dpto. 402, Urb. San Felipe" style="text-transform: uppercase;" />
+                    <small class="ux-help">
+                        Ingrese vía, número, interior/departamento, urbanización o AA.HH.
+                    </small>
+                </div>
+
+                <div class="ux-field">
+                    <label>Departamento *</label>
+                    <select @bind="departamentoSeleccionado" @bind:after="OnDepartamentoChanged">
+                        <option value="">-- SELECCIONAR --</option>
+                        @if (ListaDepartamentos != null)
+                        {
+                            @foreach (var dep in ListaDepartamentos)
+                            {
+                                <option value="@dep.vCodDepartamento" style="text-transform: uppercase;">@dep.vNomDepartamento</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="ux-field">
+                    <label>Provincia *</label>
+                    <select @bind="provinciaSeleccionada" @bind:after="OnProvinciaChanged" disabled="@(string.IsNullOrEmpty(departamentoSeleccionado))">
+                        <option value="">-- SELECCIONAR --</option>
+                        @if (ListaProvincias != null)
+                        {
+                            @foreach (var prov in ListaProvincias)
+                            {
+                                <option value="@prov.vCodProvincia" style="text-transform: uppercase;">@prov.vNomProvincia</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="ux-field">
+                    <label>Distrito *</label>
+                    <select @bind="formulario.VCodDistrito" disabled="@(string.IsNullOrEmpty(provinciaSeleccionada))">
+                        <option value="">-- SELECCIONAR --</option>
+                        @if (ListaDistritos != null)
+                        {
+                            @foreach (var dist in ListaDistritos)
+                            {
+                                <option value="@dist.vCodDistrito" style="text-transform: uppercase;">@dist.vNomDistrito</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ux-card-form">
+            <h2>II. DATOS DEL DOCUMENTO</h2>
+            <div class="ux-grid-form">
+                <div class="ux-field">
+                    <label>Tipo de Documento *</label>
+                    <select @bind="formulario.ICodTipoDoc">
+                        <option value="0">--SELECCIONAR--</option>
+                        @foreach (var doc in listaTiposDocumento)
+                        {
+                            <option value="@doc.ICodTipoDoc">@doc.VNombreTipoDoc</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="ux-field">
+                    <label>Nro Documento *</label>
+                    <input placeholder="Ej: CARTA N° 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Folio *</label>
+                    <input @bind="formulario.VNroPagFolios" placeholder="Ej: 15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                </div>
+
+                <div class="ux-field">
+                    <label>Fecha del Documento *</label>
+                    <input type="date" @bind="formulario.DFecDoc" />
+                </div>
+
+                <div class="ux-field full">
+                    <label>Asunto / Sumilla *</label>
+                    <textarea maxlength="255" @bind="asuntoDocumento" placeholder="Ingrese el resumen o asunto del documento..."  style="text-transform: uppercase;"></textarea>
+                </div>
+
+                <div class="ux-field full">
+                    <label>Referencia</label>
+                    <input @bind="formulario.VReferencia" placeholder="Ej: Exp. Anterior N° 4521" style="text-transform: uppercase;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="ux-card-form">
+            <h2>Documento adjunto</h2>
+
+            <InputFile OnChange="OnFileSelected" accept=".pdf" id="fileUpload" class="hidden-input" />
+
+            <p class="ux-file-hint">
+                (Peso máximo: 50MB. Solo se permite archivos en formato PDF)
+            </p>
+
+            @if (archivo != null)
+            {
+                <div class="ux-file-info">
+                    ✅ <span>@archivo.Name</span>
+                </div>
+
+                <div class="ux-pdf-preview">
+                    <iframe src="@pdfPreviewUrl"></iframe>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <p class="ux-error">@error</p>
+            }
+
+            <br />
+            <button type="button" class="ux-btn-secondary" @onclick="ToggleUrl">
+                🔗 Agregar URL
+            </button>
+
+            @if (mostrarUrl)
+            {
+                <input class="ux-input-url" @bind="urlIngresada" placeholder="https://..." style="text-transform: uppercase;" />
+            }
+        </div>
+
+        <div class="ux-card-form">
+            <h2>Anexos</h2>
+
+            <InputFile id="fileUploadMulti" OnChange="HandleFilesSelected" multiple class="hidden-input" />
+
+            <p class="ux-file-hint">
+                (Peso máximo de cada archivo: 20MB)(Formatos permitidos: PDF, DOCX, XLSX, PPT, JPG, PNG y ZIP)(Numero máximo de anexos: 10)
+            </p>
+
+            <br />
+
+            <div class="ux-table-wrapper">
+                <table class="ux-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Tamaño</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (archivos.Any())
+                        {
+                            @foreach (var archi in archivos)
+                            {
+                                <tr>
+                                    <td>@archi.Nombre</td>
+                                    <td>@archi.Tipo</td>
+                                    <td>@archi.Tamano</td>
+                                    <td>
+                                        <button class="btn-delete" @onclick="() => EliminarArchivo(archi)">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="ux-empty">
+                                    No hay archivos cargados
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="ux-divider" />
+
+            <div class="ux-nota">
+                <strong>Nota:</strong><br />
+                El número del expediente de la presente solicitud será notificado al correo electrónico consignado en el presente formulario.
+            </div>
+
+            <hr class="ux-divider" />
+
+            <div class="ux-actions">
+                <button class="ux-btn-primary" @onclick="Finalizar">
+                    Enviar solicitud
+                </button>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(previewUrl))
+        {
+            <div class="ux-modal-overlay" @onclick="CerrarPreview">
+                <div class="ux-modal-content" @onclick:stopPropagation="true">
+                    <button class="ux-close" @onclick="CerrarPreview">✖</button>
+                    <div class="ux-iframe-wrapper">
+                        <iframe src="@previewUrl"></iframe>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+    @code {
+
+        [Inject] private NavigationManager Nav { get; set; } = default!;
+        [Inject] private MesaPartesDigital.Services.TipoDocPerService TipoDocPerService { get; set; } = default!;
+        [Inject] private MesaPartesDigital.Services.TipoDocumentoService TipoDocumentoService { get; set; } = default!;
+        // [Inject] private MesaPartesDigital.Services.UbigeoService UbigeoService { get; set; } = default!;
+        [Inject] private MesaPartesDigital.Services.DocumentoService DocumentoService { get; set; } = default!;
+        // [Inject] private MesaPartesDigital.Services.IEmailService EmailService { get; set; } = default!;
+        [Inject] private IJSRuntime JS { get; set; } = default!;
+
+        private List<MesaPartesDigital.Models.TipoDocPer>? listaTiposDocPersona;
+        private List<MesaPartesDigital.Models.TipoDocumento> listaTiposDocumento = new();
+
+        // 📝 ÚNICO OBJETO PARA EL FORMULARIO
+        private MesaPartesDigital.Models.RegistroDocumentoRequest formulario = new()
+        {
+            ICodTipoDocPer = 1,
+            DFecDoc = DateTime.Today
+        };
+
+        private string errorDocumento = "";
+        private string errorCorreo = "";
+        private bool bloquearDatos = true;
+
+        // Campo de asunto desacoplado para prevenir errores de nombres en el modelo
+        private string asuntoDocumento = "";
+
+        // Archivo principal
+        private IBrowserFile? archivo;
+        private string? pdfPreviewUrl;
+
+        // Anexos
+        private List<ArchivoAdjunto> archivos = new();
+
+        // UI / estado
+        private string error = "";
+        private string urlArchivo = "";
+        private bool mostrarUrl = false;
+        private string? previewUrl;
+
+        // 📧 Correo y Validación OTP
+        private string codigoIngresado = "";
+        private string codigoGeneradoOculto = "";
+        private string errorCodigo = "";
+        private string mensajeCodigo = "";
+        private bool mostrarCampoCodigo = false;
+        private bool codigoVerificado = false;
+        private bool enviandoCorreo = false;
+
+        // 🗺️ Variables de estado para UBIGEO
+        private List<MesaPartesDigital.Models.Departamento> ListaDepartamentos { get; set; } = new();
+        private List<MesaPartesDigital.Models.Provincia> ListaProvincias { get; set; } = new();
+        private List<MesaPartesDigital.Models.Distrito> ListaDistritos { get; set; } = new();
+
+        private string departamentoSeleccionado { get; set; } = string.Empty;
+        private string provinciaSeleccionada { get; set; } = string.Empty;
+
+        private string urlIngresada = "";
+
+        // 🔄 INICIALIZACIÓN
+        protected override async Task OnInitializedAsync()
+        {
+            try
+            {
+                listaTiposDocPersona = await TipoDocPerService.ObtenerTiposDocPerAsync();
+                listaTiposDocumento = await TipoDocumentoService.ObtenerTiposDocumentoAsync();
+                ListaDepartamentos = await UbigeoService.ObtenerDepartamentosAsync();
+            }
+            catch (Exception ex)
+            {
+                errorDocumento = "No se pudieron cargar las configuraciones iniciales.";
+                Console.WriteLine($"Error OnInitializedAsync: {ex.Message}");
+            }
+        }
+
+        private async Task OnDepartamentoChanged()
+        {
+            provinciaSeleccionada = string.Empty;
+            formulario.VCodDistrito = string.Empty;
+            ListaProvincias.Clear();
+            ListaDistritos.Clear();
+
+            if (!string.IsNullOrEmpty(departamentoSeleccionado))
+            {
+                ListaProvincias = await UbigeoService.ObtenerProvinciasAsync(departamentoSeleccionado);
+            }
+        }
+
+        private async Task OnProvinciaChanged()
+        {
+            formulario.VCodDistrito = string.Empty;
+            ListaDistritos.Clear();
+
+            if (!string.IsNullOrEmpty(provinciaSeleccionada))
+            {
+                ListaDistritos = await UbigeoService.ObtenerDistritosAsync(provinciaSeleccionada);
+            }
+        }
+
+        private void ValidarDocumento()
+        {
+            errorDocumento = "";
+
+            if (string.IsNullOrWhiteSpace(formulario.VDocPer))
+            {
+                errorDocumento = "El número de documento es obligatorio.";
+                return;
+            }
+
+            if (formulario.ICodTipoDocPer == 1) // DNI
+            {
+                if (formulario.VDocPer.Length != 8)
+                {
+                    errorDocumento = "El DNI debe tener exactamente 8 dígitos numéricos.";
+                }
+            }
+            else if (formulario.ICodTipoDocPer == 3) // CE
+            {
+                if (formulario.VDocPer.Length > 10)
+                {
+                    errorDocumento = "El Carnet de Extranjería (CE) no puede superar los 10 caracteres.";
+                }
+            }
+        }
+
+        private async Task ValidarDatos()
+        {
+            errorDocumento = "";
+            if (string.IsNullOrEmpty(formulario.VDocPer))
+            {
+                errorDocumento = "Debe ingresar un número de documento.";
+                return;
+            }
+
+            if (formulario.ICodTipoDocPer == 1 && (formulario.VDocPer.Length != 8 || !formulario.VDocPer.All(char.IsDigit)))
+            {
+                errorDocumento = "DNI inválido.";
+                return;
+            }
+
+            try
+            {
+                var personaEncontrada = await TipoDocPerService.BuscarPersonaPorDocumentoAsync(formulario.ICodTipoDocPer, formulario.VDocPer);
+
+                if (personaEncontrada != null)
+                {
+                    formulario.VApellidoPaterno = personaEncontrada.vApellidoPaterno;
+                    formulario.VApellidoMaterno = personaEncontrada.vApellidoMaterno;
+                    formulario.VNombres = personaEncontrada.vNombres;
+                    bloquearDatos = true;
+                }
+                else
+                {
+                    errorDocumento = "Documento no registrado. Complete sus datos manualmente.";
+                    formulario.VApellidoPaterno = "";
+                    formulario.VApellidoMaterno = "";
+                    formulario.VNombres = "";
+                    bloquearDatos = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ValidarDatos] 🚨 ERROR: {ex.Message}");
+                errorDocumento = "Error al consultar la base de datos de la entidad.";
+            }
+
+            StateHasChanged();
+        }
+
+        private void OnTipoDocumentoChange()
+        {
+            formulario.VDocPer = "";
+            errorDocumento = "";
+            formulario.VApellidoPaterno = "";
+            formulario.VApellidoMaterno = "";
+            formulario.VNombres = "";
+            bloquearDatos = formulario.ICodTipoDocPer == 1;
+        }
+
+        private async Task OnFileSelected(InputFileChangeEventArgs e)
+        {
+            error = "";
+            archivo = e.File;
+
+            if (archivo == null) return;
+
+            if (archivo.ContentType != "application/pdf")
+            {
+                error = "Solo se permiten archivos PDF.";
+                archivo = null;
+                pdfPreviewUrl = null;
+                return;
+            }
+
+            if (archivo.Size > 25 * 1024 * 1024)
+            {
+                error = "Máximo 25MB.";
+                archivo = null;
+                pdfPreviewUrl = null;
+                return;
+            }
+
+            var stream = archivo.OpenReadStream(25 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+
+            var bytes = ms.ToArray();
+            pdfPreviewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(bytes)}";
+        }
+
+        private async Task HandleFilesSelected(InputFileChangeEventArgs e)
+        {
+            if (archivos.Count >= 10) return;
+
+            foreach (var file in e.GetMultipleFiles(10))
+            {
+                if (archivos.Count >= 10) break;
+                if (file.Size > 20 * 1024 * 1024) continue;
+
+                var extension = Path.GetExtension(file.Name).ToLower();
+                var permitidos = new[] { ".pdf", ".docx", ".xlsx", ".ppt", ".jpg", ".png", ".zip" };
+
+                if (!permitidos.Contains(extension)) continue;
+
+                using var ms = new MemoryStream();
+                await file.OpenReadStream(20 * 1024 * 1024).CopyToAsync(ms);
+
+                archivos.Add(new ArchivoAdjunto
+                {
+                    Nombre = file.Name,
+                    Tipo = extension,
+                    Tamano = $"{file.Size / 1024} KB",
+                    Base64 = Convert.ToBase64String(ms.ToArray()),
+                    FileBrowser = file
+                });
+            }
+        }
+
+        private void PreviewArchivo(ArchivoAdjunto archi) => previewUrl = $"data:application/pdf;base64,{archi.Base64}";
+        private void CerrarPreview() => previewUrl = null;
+        private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
+        private void ToggleUrl() => mostrarUrl = !mostrarUrl;
+
+        private void ValidarCorreo()
+        {
+            errorCorreo = "";
+            formulario.VEmail = formulario.VEmail?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(formulario.VEmail))
+            {
+                errorCorreo = "El correo electrónico es obligatorio.";
+                return;
+            }
+
+            var regexEmail = new System.Text.RegularExpressions.Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+            if (!regexEmail.IsMatch(formulario.VEmail))
+            {
+                errorCorreo = "El formato del correo electrónico no es válido.";
+            }
+        }
+
+        private async Task GenerarCodigoVerificacion()
+        {
+            errorCodigo = "";
+            errorCorreo = "";
+            mensajeCodigo = "";
+            enviandoCorreo = true;
+
+            var random = new Random();
+            codigoGeneradoOculto = random.Next(100000, 999999).ToString();
+
+            try
+            {
+                bool enviado = await EmailService.EnviarCodigoOtpAsync(formulario.VEmail, codigoGeneradoOculto);
+
+                if (enviado)
+                {
+                    mostrarCampoCodigo = true;
+                    mensajeCodigo = $"Se ha enviado un código de verificación a {formulario.VEmail.ToLower()}.";
+                    Console.WriteLine($"[MesaPartes] -> Token OTP despachado: {codigoGeneradoOculto}");
+                }
+                else
+                {
+                    errorCorreo = "No se pudo despachar el correo. Revise el log del servidor.";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCorreo = "Ocurrió un fallo inesperado al procesar el envío del correo electrónico.";
+                Console.WriteLine($"[SMTP Error]: {ex.Message}");
+            }
+            finally
+            {
+                enviandoCorreo = false;
+                StateHasChanged();
+            }
+        }
+
+        private void VerificarCodigoAutomatico()
+        {
+            errorCodigo = "";
+
+            if (string.IsNullOrEmpty(codigoIngresado) || codigoIngresado.Length < 6)
+            {
+                return;
+            }
+
+            if (codigoIngresado == codigoGeneradoOculto)
+            {
+                codigoVerificado = true;
+                mensajeCodigo = "¡Código Aprobado! ✅ El correo ha sido validado.";
+                errorCodigo = "";
+            }
+            else
+            {
+                codigoVerificado = false;
+                errorCodigo = "El código ingresado es incorrecto.";
+            }
+
+            StateHasChanged();
+        }
+
+        async Task Finalizar()
+        {
+            ValidarDocumento();
+            ValidarCorreo();
+
+            if (!codigoVerificado)
+            {
+                errorCodigo = "Debe validar su correo antes de enviar la solicitud.";
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(errorDocumento) || !string.IsNullOrEmpty(errorCorreo))
+            {
+                return;
+            }
+
+            if (archivo == null)
+            {
+                error = "El archivo principal PDF es estrictamente obligatorio.";
+                return;
+            }
+
+            try
+            {
+                // 1. Procesa el principal usando el IBrowserFile (Llama a la firma 1 del servicio)
+                string rutaPrincipal = await DocumentoService.GuardarArchivoEnPCAsync(archivo);
+
+                // 2. Procesa los anexos usando los strings de Base64 (Llama a la firma 2 del servicio)
+                var rutasAnexosTemporales = new List<string>();
+
+                if (archivos != null)
+                {
+                    foreach (var anexo in archivos)
+                    {
+                        if (!string.IsNullOrEmpty(anexo.Base64))
+                        {
+                            // Al pasarle dos strings, C# sabe usar el método del Base64 de forma automática
+                            string rutaHijo = await DocumentoService.GuardarArchivoEnPCAsync(anexo.Nombre, anexo.Base64);
+                            rutasAnexosTemporales.Add(rutaHijo);
+                        }
+                    }
+                }
+
+                // 3. Mapear datos al formulario principal e insertar en BD
+                formulario.VRutaDoc = rutaPrincipal;
+                formulario.ICodAsunto = 0;
+                formulario.BTipo = true;
+                formulario.VLink = urlIngresada;
+
+                if (string.IsNullOrEmpty(formulario.ICodTipoDoc.ToString()) || formulario.ICodTipoDoc == 0)
+                {
+                    formulario.ICodTipoDoc = 1;
+                }
+
+                // Registrar documento Padre en la BD
+                MesaPartesDigital.Models.RegistroDocumentoResponse resultadoBD = await DocumentoService.RegistroPersonaNatural_Home(formulario);
+
+                // 4. Registrar documentos Hijos (Anexos) en la BD
+                if (resultadoBD != null && resultadoBD.Status == "OK" && rutasAnexosTemporales.Count > 0)
+                {
+                    foreach (var rutaAnexo in rutasAnexosTemporales)
+                    {
+                        var requestHijo = new MesaPartesDigital.Models.RegistroDocumentoRequest
+                        {
+                            ICodTipoDocPer = formulario.ICodTipoDocPer,
+                            VDocPer = formulario.VDocPer,
+                            VNombres = formulario.VNombres,
+                            VApellidoPaterno = formulario.VApellidoPaterno,
+                            VApellidoMaterno = formulario.VApellidoMaterno,
+                            VEmail = formulario.VEmail,
+                            VTelefono = formulario.VTelefono,
+                            VDireccion = formulario.VDireccion,
+                            VCodDistrito = formulario.VCodDistrito,
+
+                            ICodAsunto = resultadoBD.ICodAsunto,
+                            BTipo = false,
+                            ICodTipoDoc = formulario.ICodTipoDoc, // Tu lógica heredada
+                            VNroDoc = formulario.VNroDoc,
+                            DFecDoc = formulario.DFecDoc,
+                            VReferencia = "Anexo adjunto",
+                            VNroPagFolios = formulario.VNroPagFolios,
+                            VLink = null,
+
+                            VRutaDoc = rutaAnexo // Asignamos la ruta que guardamos exitosamente
+                        };
+
+                        await DocumentoService.RegistroPersonaNatural_Home(requestHijo);
+                    }
+                }
+
+                // 📧 ENVÍO DE CORREO: Ejecutado en la línea principal de ejecución estable
+                // 📧 Reemplaza tu bloque de envío actual por este:
+                if (resultadoBD != null && !string.IsNullOrEmpty(resultadoBD.VAutoGenerado) && !string.IsNullOrEmpty(resultadoBD.MailSeguimiento))
+                {
+                    Console.WriteLine("[Mesa de Partes] Disparando envío de correo en segundo plano...");
+
+                    // Capturamos los datos en variables locales para que el hilo de fondo no pierda la referencia
+                    string correoDestino = resultadoBD.MailSeguimiento;
+                    string codigoTramite = resultadoBD.VAutoGenerado;
+
+                    // Se ejecuta en un hilo separado. Si falla o tarda, NO afectará al SweetAlert ni arrojará "Task was canceled"
+                    _ = Task.Run(async () =>
+                    {
+                        try
+                        {
+                            // Le damos un límite de 15 segundos al envío de correo para que no se quede colgado eternamente
+                            using var cts = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds(15));
+                            await EmailService.EnviarCargoDigitalAsync(correoDestino, codigoTramite);
+                            Console.WriteLine("[Mesa de Partes] Cargo digital enviado con éxito.");
+                        }
+                        catch (Exception mailEx)
+                        {
+                            // Si el correo falla, se registra en la consola pero el usuario ya vio su Swal de éxito
+                            Console.WriteLine($"[Mesa de Partes - Alerta] No se pudo enviar el correo de fondo: {mailEx.Message}");
+                        }
+                    });
+                }
+
+                // 🎨 DISEÑO PRESTIGIO DEL SWEETALERT (Banner Verde Institucional)
+                string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
+          "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
+              "<img src='https://www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
+              "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Documento Registrado!</h3>" +
+          "</div>" +
+          "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, su documentación ha sido ingresada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
+          "<div style='background-color: #f4f9f5; border: 1px dashed #35af72; border-radius: 6px; padding: 15px; margin: 20px 10px; text-align: left;'>" +
+              "<div style='margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'>" +
+                  "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Código de Trámite:</span>" +
+                  "<span style='color: #006432; font-family: monospace; font-size: 1.15rem; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px;'>" + (resultadoBD?.VAutoGenerado ?? "N/A") + "</span>" +
+              "</div>" +
+              "<div style='display: flex; justify-content: space-between; align-items: center;'>" +
+                  "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Mail de Seguimiento:</span>" +
+                  "<span style='color: #333333; font-size: 0.9rem; font-weight: 600; text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + (resultadoBD?.MailSeguimiento ?? "N/A") + "</span>" +
+              "</div>" +
+          "</div>" +
+          "<div style='font-size: 0.8rem; color: #666666; background-color: #fff8e7; border-left: 4px solid #f39c12; padding: 10px; margin: 0 10px 10px 10px; text-align: left; border-radius: 4px;'>📌 <strong>Notificación Enviada:</strong> Se ha despachado el cargo electrónico con el acuse de recibo a la dirección señalada.</div>" +
+      "</div>";
+
+                await JS.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = mensajeSwal,
+                    icon = "",
+                    confirmButtonText = "Finalizar y Volver",
+                    confirmButtonColor = "#35af72",
+                    allowOutsideClick = false,
+                    allowEscapeKey = false,
+
+                    // 🕒 AUTO-CIERRE EN 15 SEGUNDOS (15000 milisegundos)
+                    timer = 15000,
+                    timerProgressBar = true // Muestra una barrita verde consumiéndose abajo
+                });
+
+                Nav.NavigateTo("/");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Finalizar] Error crítico procesando registro: {ex.Message}");
+                error = $"Error en el registro: {ex.Message}";
+
+                await JS.InvokeVoidAsync("Swal.fire", new
+                {
+                    title = "Error de Procesamiento",
+                    text = $"No se pudo completar el registro debido al siguiente inconveniente: {ex.Message}",
+                    icon = "error",
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#dc3545"
+                });
+            }
+        }
+
+    }
