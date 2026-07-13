@@ -1,9 +1,7 @@
 @page "/natural"
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.Forms
-@using System.IO
-@inject IEmailService EmailService
-@inject MesaPartesDigital.Services.TipoDocumentoService TipoDocumentoService
+@using System.IO 
 
 <div class="ux-bg">
     <div class="ux-container">
@@ -25,7 +23,7 @@
                         <option value="0">--SELECCIONAR--</option>
                         @foreach (var doc in listaTiposDocumento)
                         {
-                            <option value="@doc.ICodTipoDoc">@doc.VNombreTipoDoc</option>
+                            <option value="@doc.iCodTipoDoc">@doc.vNombreTipoDoc</option>
                         }
                     </select>
                 </div>
@@ -162,15 +160,16 @@
 </div>
 
 @code {
+
     private List<MesaPartesDigital.Models.TipoDocumento> listaTiposDocumento = new();
 
     protected override async Task OnInitializedAsync()
     {
-        listaTiposDocumento = await TipoDocumentoService.ObtenerTiposDocumentoAsync();
+        // listaTiposDocumento = await TipoDocumentoService.ObtenerTiposDocumentoAsync();
     }
 
     [Inject] private NavigationManager Nav { get; set; } = default!;
-    [Inject] private MesaPartesDigital.Services.DocumentoService DocumentoService { get; set; } = default!;
+    // [Inject] private MesaPartesDigital.Services.DocumentoService DocumentoService { get; set; } = default!;
     [Inject] private IJSRuntime JS { get; set; } = default!;
 
     // 🟢 Parámetros heredados directamente desde la sesión del Dashboard padre
@@ -227,34 +226,9 @@
         pdfPreviewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(bytes)}";
     }
 
-    private async Task HandleFilesSelected(InputFileChangeEventArgs e)
-    {
-        if (anexosLista.Count >= 10) return;
 
-        foreach (var file in e.GetMultipleFiles(10))
-        {
-            if (anexosLista.Count >= 10) break;
-            if (file.Size > 20 * 1024 * 1024) continue;
 
-            var extension = Path.GetExtension(file.Name).ToLower();
-            var permitidos = new[] { ".pdf", ".docx", ".xlsx", ".ppt", ".jpg", ".png", ".zip" };
-
-            if (!permitidos.Contains(extension)) continue;
-
-            using var ms = new MemoryStream();
-            await file.OpenReadStream(20 * 1024 * 1024).CopyToAsync(ms);
-            string base64Resultado = Convert.ToBase64String(ms.ToArray());
-
-            anexosLista.Add(new MesaPartesDigital.Models.ArchivoAdjunto
-            {
-                Nombre = file.Name,
-                Tipo = extension,
-                Tamano = $"{file.Size / 1024} KB",
-                Base64 = base64Resultado,
-                FileBrowser = file
-            });
-        }
-    }
+    private void HandleFilesSelected() { }
 
     private void EliminarAnexo(MesaPartesDigital.Models.ArchivoAdjunto anexo) => anexosLista.Remove(anexo);
 
@@ -274,68 +248,68 @@
         try
         {
             // 1. Persistencia de archivos físicos en el servidor local
-            string rutaPrincipal = await DocumentoService.GuardarArchivoEnPCAsync(archivoPrincipal);
+            // string rutaPrincipal = await DocumentoService.GuardarArchivoEnPCAsync(archivoPrincipal);
 
-            var rutasAnexosFisicos = new List<string>();
-            foreach (var anexo in anexosLista)
-            {
-                if (!string.IsNullOrEmpty(anexo.Base64))
-                {
-                    string rutaAnexoPC = await DocumentoService.GuardarArchivoEnPCAsync(anexo.Nombre, anexo.Base64);
-                    rutasAnexosFisicos.Add(rutaAnexoPC);
-                }
-            }
+            // var rutasAnexosFisicos = new List<string>();
+            // foreach (var anexo in anexosLista)
+            // {
+            //     if (!string.IsNullOrEmpty(anexo.Base64))
+            //     {
+            //         string rutaAnexoPC = await DocumentoService.GuardarArchivoEnPCAsync(anexo.Nombre, anexo.Base64);
+            //         rutasAnexosFisicos.Add(rutaAnexoPC);
+            //     }
+            // }
 
             // 2. Mapeo y preparación del Formulario del Documento Padre
             formulario.ICodPer = UsuarioId;
             formulario.VEmail = UsuarioEmail;
-            formulario.VRutaDoc = rutaPrincipal;
-            formulario.VLink = urlIngresada;
-            formulario.BTipo = true; // Identificador de Documento Principal
-            formulario.ICodAsunto = 0;
+            // formulario.VRutaDoc = rutaPrincipal;
+            // formulario.VLink = urlIngresada;
+            // formulario.BTipo = true; Identificador de Documento Principal
+            // formulario.ICodAsunto = 0;
             formulario.VReferencia = asuntoDocumento;
 
             if (formulario.ICodTipoDoc == 0) formulario.ICodTipoDoc = 1;
 
             // 3. Registro del Documento Principal en la Base de Datos
-            var respuestaBD = await DocumentoService.RegistroTramiteInterno_Home(formulario);
+            // var respuestaBD = await DocumentoService.RegistroTramiteInterno_Home(formulario);
 
             // 4. Registro en cascada de los Anexos Adjuntos relacionados (Documentos Hijos)
-            if (respuestaBD != null && respuestaBD.Status == "OK" && rutasAnexosFisicos.Count > 0)
-            {
-                foreach (var rutaFisicaAnexo in rutasAnexosFisicos)
-                {
-                    var requestAnexoHijo = new MesaPartesDigital.Models.RegistroDocumentoRequest
-                    {
-                        ICodPer = UsuarioId,
-                        VEmail = UsuarioEmail,
-                        ICodAsunto = respuestaBD.ICodAsunto, // Vinculación mediante la llave del Padre
-                        BTipo = false,                       // Identificador de Anexo
-                        ICodTipoDoc = formulario.ICodTipoDoc,
-                        VNroDoc = formulario.VNroDoc,
-                        DFecDoc = formulario.DFecDoc,
-                        VReferencia = "Anexo adjunto institucional",
-                        VNroPagFolios = formulario.VNroPagFolios,
-                        VRutaDoc = rutaFisicaAnexo,
-                        VLink = null
-                    };
+            // if (respuestaBD != null && respuestaBD.Status == "OK" && rutasAnexosFisicos.Count > 0)
+            // {
+            //     foreach (var rutaFisicaAnexo in rutasAnexosFisicos)
+            //     {
+            //         var requestAnexoHijo = new MesaPartesDigital.Models.RegistroDocumentoRequest
+            //         {
+            //             ICodPer = UsuarioId,
+            //             VEmail = UsuarioEmail,
+            //             ICodAsunto = respuestaBD.ICodAsunto, Vinculación mediante la llave del Padre
+            //             BTipo = false,                       Identificador de Anexo
+            //             ICodTipoDoc = formulario.ICodTipoDoc,
+            //             VNroDoc = formulario.VNroDoc,
+            //             DFecDoc = formulario.DFecDoc,
+            //             VReferencia = "Anexo adjunto institucional",
+            //             VNroPagFolios = formulario.VNroPagFolios,
+            //             VRutaDoc = rutaFisicaAnexo,
+            //             VLink = null
+            //         };
 
-                    await DocumentoService.RegistroTramiteInterno_Home(requestAnexoHijo);
-                }
-            }
+            //         await DocumentoService.RegistroTramiteInterno_Home(requestAnexoHijo);
+            //     }
+            // }
 
             // ====================================================================
             // 📧 ENVÍO DEL CARGO ELECTRÓNICO (Capa Background de Alerta)
             // ====================================================================
-            if (respuestaBD != null && respuestaBD.Status == "OK" && !string.IsNullOrEmpty(UsuarioEmail))
-            {
+            // if (respuestaBD != null && respuestaBD.Status == "OK" && !string.IsNullOrEmpty(UsuarioEmail))
+            // {
                 // Invoca de fondo el despacho del mail institucional con el acuse de recibo formal
-                await EmailService.EnviarConfirmacionTramiteAsync(
-                    UsuarioEmail,
-                    respuestaBD.VAutoGenerado ?? "N/A",
-                    asuntoDocumento
-                );
-            }
+            //     await EmailService.EnviarConfirmacionTramiteAsync(
+            //         UsuarioEmail,
+            //         respuestaBD.VAutoGenerado ?? "N/A",
+            //         asuntoDocumento
+            //     );
+            // }
 
             // ====================================================================
             // 🎨 DISEÑO PRESTIGIO DEL SWEETALERT (Banner Verde Institucional)
@@ -349,7 +323,7 @@
                 "<div style='background-color: #f4f9f5; border: 1px dashed #35af72; border-radius: 6px; padding: 15px; margin: 20px 10px; text-align: left;'>" +
                     "<div style='margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'>" +
                         "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Código de Trámite:</span>" +
-                        "<span style='color: #006432; font-family: monospace; font-size: 1.15rem; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px;'>" + (respuestaBD?.VAutoGenerado ?? "N/A") + "</span>" +
+                        // "<span style='color: #006432; font-family: monospace; font-size: 1.15rem; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px;'>" + (respuestaBD?.VAutoGenerado ?? "N/A") + "</span>" +
                     "</div>" +
                     "<div style='display: flex; justify-content: space-between; align-items: center;'>" +
                         "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Mail de Notificación:</span>" +
@@ -387,4 +361,6 @@
             });
         }
     }
+
+    
 }

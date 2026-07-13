@@ -21,7 +21,6 @@ body[b-z7qvur1np6] {
     justify-content: center;
     padding: 40px 20px;
     background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
-
 }
 
 .ux-container[b-z7qvur1np6] {
@@ -100,7 +99,7 @@ body[b-z7qvur1np6] {
    ========================================================================== */
 .ux-grid-form[b-z7qvur1np6] {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Columnas simétricas en escritorio */
+    grid-template-columns: repeat(2, 1fr); /* Por defecto 2 columnas en PC */
     gap: 18px;
 }
 
@@ -110,15 +109,30 @@ body[b-z7qvur1np6] {
     gap: 6px;
 }
 
-    .ux-field.full[b-z7qvur1np6] {
+    /* Clases utilitarias de expansión en el Grid */
+    .ux-field.full[b-z7qvur1np6],
+    .full-width[b-z7qvur1np6] {
         grid-column: span 2;
     }
 
-    .ux-field label[b-z7qvur1np6] {
-        font-size: 13px;
-        font-weight: 500;
-        color: #334155;
-    }
+.ux-field-button[b-z7qvur1np6] {
+    display: flex;
+    align-items: flex-end; /* Alinea el botón perfectamente abajo con los inputs */
+}
+
+/* Labels e indicaciones */
+.ux-field label[b-z7qvur1np6] {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.ux-file-hint[b-z7qvur1np6] {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.4;
+}
 
 /* ==========================================================================
    6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
@@ -152,90 +166,22 @@ textarea[b-z7qvur1np6] {
         outline: none;
     }
 
+    /* Inputs deshabilitados (RENIEC) */
+    input:disabled[b-z7qvur1np6] {
+        background: #e2e8f0;
+        color: #64748b;
+        cursor: not-allowed;
+        border-color: #cbd5e1;
+    }
+
 textarea[b-z7qvur1np6] {
     min-height: 110px;
     resize: vertical;
 }
 
-.ux-input-url[b-z7qvur1np6] {
-    margin-top: 12px;
-}
-
-/* --- Grupo de Entrada Especial (Para RUC + Botón Validar) --- */
-.ux-input-group[b-z7qvur1np6] {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-}
-
-    .ux-input-group input[b-z7qvur1np6] {
-        flex: 1;
-    }
-
-    .ux-input-group .ux-button[b-z7qvur1np6] {
-        padding: 0 20px;
-        white-space: nowrap;
-    }
-
-/* --- Estado de Solo Lectura (Razón Social Autocompletada) --- */
-input.ux-readonly[b-z7qvur1np6] {
-    background-color: #e2e8f0;
-    color: #475569;
-    border-color: #cbd5e1;
-    cursor: not-allowed;
-}
-
-    input.ux-readonly:hover[b-z7qvur1np6],
-    input.ux-readonly:focus[b-z7qvur1np6] {
-        background-color: #e2e8f0;
-        border-color: #cbd5e1;
-        box-shadow: none;
-    }
-
 /* ==========================================================================
    7. BOTONES
    ========================================================================== */
-.ux-button[b-z7qvur1np6] {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-    .ux-button:hover[b-z7qvur1np6] {
-        background: #1d4ed8;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-    }
-
-    .ux-button:active[b-z7qvur1np6] {
-        transform: scale(0.98);
-    }
-
-.ux-button-outline[b-z7qvur1np6] {
-    background: transparent;
-    border: 1px solid #0c7c3b;
-    color: #0c7c3b;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-    .ux-button-outline:hover[b-z7qvur1np6] {
-        background: #0c7c3b;
-        color: white;
-    }
-
 .ux-btn-primary[b-z7qvur1np6] {
     width: 100%;
     background: #2563eb;
@@ -262,7 +208,6 @@ input.ux-readonly[b-z7qvur1np6] {
         transform: scale(0.98);
     }
 
-
 .ux-btn-secondary[b-z7qvur1np6] {
     background: transparent;
     border: 1px solid #0c7c3b;
@@ -280,15 +225,13 @@ input.ux-readonly[b-z7qvur1np6] {
         color: white;
     }
 
-
-
 /* ==========================================================================
    8. TABLAS RESPONSIVAS (ANEXOS)
    ========================================================================== */
 .ux-table-wrapper[b-z7qvur1np6] {
     width: 100%;
-    overflow-x: auto;
-    margin-top: 15px;
+    overflow-x: auto; /* Permite scroll horizontal en móviles si la tabla es grande */
+    margin-top: 12px;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
 }
@@ -298,7 +241,7 @@ input.ux-readonly[b-z7qvur1np6] {
     border-collapse: collapse;
     font-size: 13px;
     text-align: left;
-    min-width: 500px;
+    min-width: 500px; /* Evita que las columnas se aplasten en mobile */
 }
 
     .ux-table th[b-z7qvur1np6],
@@ -339,8 +282,19 @@ input.ux-readonly[b-z7qvur1np6] {
 }
 
 /* ==========================================================================
-   9. PREVISUALIZADOR PDF
+   9. PREVISUALIZADOR PDF E INPUTS DE ARCHIVOS
    ========================================================================== */
+.ux-file-info[b-z7qvur1np6] {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #166534;
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .ux-pdf-preview[b-z7qvur1np6] {
     margin-top: 15px;
     border-radius: 8px;
@@ -355,28 +309,92 @@ input.ux-readonly[b-z7qvur1np6] {
         display: block;
     }
 
-/* ==========================================================================
-   10. ESTADOS, NOTAS Y ACCIONES
-   ========================================================================== */
-.ux-success[b-z7qvur1np6] {
-    color: #16a34a;
-    font-size: 13px;
-    margin-top: 6px;
-    font-weight: 500;
+.hidden-input[b-z7qvur1np6] {
+    display: none;
 }
 
+.ux-input-url[b-z7qvur1np6] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   10. MODAL / VENTANA EMERGENTE DE PREVIEW
+   ========================================================================== */
+.ux-modal-overlay[b-z7qvur1np6] {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.ux-modal-content[b-z7qvur1np6] {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 85vh;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.ux-close[b-z7qvur1np6] {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+    .ux-close:hover[b-z7qvur1np6] {
+        background: #dc2626;
+    }
+
+.ux-iframe-wrapper[b-z7qvur1np6] {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+}
+
+    .ux-iframe-wrapper iframe[b-z7qvur1np6] {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+/* ==========================================================================
+   11. ESTADOS, NOTAS Y ACCIONES FINALES
+   ========================================================================== */
 .ux-error[b-z7qvur1np6] {
     color: #dc2626;
     font-size: 13px;
-    margin-top: 6px;
+    margin-top: 4px;
     font-weight: 500;
 }
 
 .ux-help[b-z7qvur1np6] {
     font-size: 12px;
     color: #64748b;
-    line-height: 1.5;
-    margin-bottom: 12px;
+    margin-top: 4px;
 }
 
 .ux-divider[b-z7qvur1np6] {
@@ -395,23 +413,22 @@ input.ux-readonly[b-z7qvur1np6] {
     border-radius: 0 8px 8px 0;
 }
 
-.ux-actions-right[b-z7qvur1np6] {
+.ux-actions[b-z7qvur1np6] {
     display: flex;
     justify-content: flex-end;
+    margin-top: 10px;
 }
 
-    .ux-actions-right .ux-button[b-z7qvur1np6] {
+    .ux-actions .ux-btn-primary[b-z7qvur1np6] {
+        width: auto; /* El botón de envío no ocupa todo el ancho en PC */
         min-width: 200px;
     }
 
-.mt-3[b-z7qvur1np6] {
-    margin-top: 1rem;
-}
-
 /* ==========================================================================
-   11. MEDIA QUERIES (RESPONSIVO COMPLETO)
+   12. MEDIA QUERIES (DISEÑO RESPONSIVO DE VERDAD)
    ========================================================================== */
 
+/* TABLETS (Pantallas menores a 768px) */
 @media (max-width: 768px) {
     .ux-bg[b-z7qvur1np6] {
         padding: 20px 15px;
@@ -421,21 +438,25 @@ input.ux-readonly[b-z7qvur1np6] {
         padding: 22px;
     }
 
-    /* Convertimos la rejilla a un bloque vertical */
+    /* Rompemos el grid a 1 sola columna para que los inputs no se aplasten */
     .ux-grid-form[b-z7qvur1np6] {
         grid-template-columns: 1fr;
         gap: 16px;
     }
 
-    .ux-field.full[b-z7qvur1np6] {
+    /* Forzamos a que todos los campos ocupen el ancho completo */
+    .ux-field.full[b-z7qvur1np6],
+    .full-width[b-z7qvur1np6],
+    .ux-field-button[b-z7qvur1np6] {
         grid-column: span 1;
     }
 
     .ux-pdf-preview iframe[b-z7qvur1np6] {
-        height: 350px;
+        height: 350px; /* Reducimos la altura del preview en tablets */
     }
 }
 
+/* CELULARES (Pantallas menores a 480px) */
 @media (max-width: 480px) {
     .ux-bg[b-z7qvur1np6] {
         padding: 15px 10px;
@@ -455,51 +476,19 @@ input.ux-readonly[b-z7qvur1np6] {
     }
 
     input[b-z7qvur1np6], select[b-z7qvur1np6], textarea[b-z7qvur1np6] {
-        font-size: 16px; /* Evita zoom forzado automático en iOS/Android */
+        font-size: 16px; /* Evita que iOS (Safari/iPhone) haga zoom forzado al enfocar */
         padding: 10px 12px;
     }
 
-    /* El grupo del RUC se apila verticalmente para dar comodidad en pantallas ultra chicas */
-    .ux-input-group[b-z7qvur1np6] {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-        .ux-input-group .ux-button[b-z7qvur1np6] {
-            width: 100%;
-            padding: 12px;
-        }
-
-    /* Los botones generales pasan a ocupar todo el espacio para comodidad del pulgar */
-    .ux-button[b-z7qvur1np6],
-    .ux-button-outline[b-z7qvur1np6],
-    .ux-actions-right .ux-button[b-z7qvur1np6] {
+    /* En celulares, todos los botones se vuelven de ancho completo */
+    .ux-btn-primary[b-z7qvur1np6],
+    .ux-btn-secondary[b-z7qvur1np6],
+    .ux-actions .ux-btn-primary[b-z7qvur1np6] {
         width: 100%;
         text-align: center;
     }
-}
 
-@media (max-width: 768px) {
-    .ux-bg[b-z7qvur1np6] {
-        padding: 20px 15px;
-    }
-
-    .ux-card-form[b-z7qvur1np6] {
-        padding: 22px;
-    }
-
-    /* La rejilla pasa a 1 sola columna vertical en móviles */
-    .ux-grid-form[b-z7qvur1np6] {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
-    /* ⚡ Obligamos a que deje de medir 2 columnas cuando la pantalla es pequeña */
-    .ux-field.full[b-z7qvur1np6] {
-        grid-column: span 1 !important;
-    }
-
-    .ux-pdf-preview iframe[b-z7qvur1np6] {
-        height: 350px;
+    .ux-modal-content[b-z7qvur1np6] {
+        height: 90vh; /* El modal aprovecha más la pantalla vertical */
     }
 }

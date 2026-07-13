@@ -2,9 +2,7 @@
 @layout EmptyLayout
 @rendermode InteractiveServer
 @inject Models.UserSession Session
-@inject NavigationManager Nav
-@inject MesaPartesDigital.Services.ILoginService LoginService
-@* 🌟 Nueva inyección para la persistencia *@
+@inject NavigationManager Nav  
 @inject Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage.ProtectedSessionStorage SessionStorage
 
 <div class="login-wrapper">
@@ -106,32 +104,30 @@
         mensajeAlert = string.Empty;
         esExito = false;
 
-        var resultado = await LoginService.ValidarCredencialesAsync(loginModel.Documento, loginModel.Password);
+        // var resultado = await LoginService.ValidarCredencialesAsync(loginModel.Documento, loginModel.Password);
 
-        if (resultado.Exitoso)
-        {
-            // 1. Asignamos los datos a la sesión en memoria
-            Session.ICodPer = resultado.ICodPer;
-            Session.VNombreCompleto = resultado.VNombreCompleto;
-            Session.VEmail = resultado.VEmail;
+        // if (resultado.Exitoso)
+        // { 
+        //     Session.ICodPer = resultado.ICodPer;
+        //     Session.VNombreCompleto = resultado.VNombreCompleto;
+        //     Session.VEmail = resultado.VEmail;
+             
+        //     var userSessionDto = new Models.UserSession
+        //     {
+        //         ICodPer = resultado.ICodPer,
+        //         VNombreCompleto = resultado.VNombreCompleto,
+        //         VEmail = resultado.VEmail
+        //     };
 
-            // 2. 🌟 Persistimos un objeto limpio (DTO) para evitar errores de serialización
-            var userSessionDto = new Models.UserSession
-            {
-                ICodPer = resultado.ICodPer,
-                VNombreCompleto = resultado.VNombreCompleto,
-                VEmail = resultado.VEmail
-            };
+        //     await SessionStorage.SetAsync("user_session", userSessionDto);
 
-            await SessionStorage.SetAsync("user_session", userSessionDto);
-
-            Nav.NavigateTo("/dashboard", true); // 🌟 El 'true' fuerza la recarga completa
-        }
-        else
-        {
-            mensajeAlert = resultado.Mensaje;
-            esExito = false;
-        }
+        //     Nav.NavigateTo("/dashboard", true); 
+        // }
+        // else
+        // {
+        //     mensajeAlert = resultado.Mensaje;
+        //     esExito = false;
+        // }
 
         isProcessing = false;
     }
@@ -149,10 +145,10 @@
 
         isProcessing = true;
 
-        var resultado = await LoginService.GestionarCredencialesAsync(loginModel.Documento, null, 2);
+        // var resultado = await LoginService.GestionarCredencialesAsync(loginModel.Documento, null, 2);
 
-        esExito = resultado.Exitoso;
-        mensajeAlert = resultado.Mensaje;
+        // esExito = resultado.Exitoso;
+        // mensajeAlert = resultado.Mensaje;
 
         isProcessing = false;
     }

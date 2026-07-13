@@ -8,23 +8,23 @@
     "net9.0": []
   },
   "packageFolders": {
-    "C:\\Users\\dba1_uti\\.nuget\\packages\\": {},
+    "C:\\Users\\cmora\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Front\\MesaPartesDigital.Front.csproj",
+      "projectUniqueName": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\MesaPartesDigital.Front.csproj",
       "projectName": "MesaPartesDigital.Front",
-      "projectPath": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Front\\MesaPartesDigital.Front.csproj",
-      "packagesPath": "C:\\Users\\dba1_uti\\.nuget\\packages\\",
-      "outputPath": "C:\\MPD\\Nueva carpeta (2)\\MesaPartesDigital.Front\\obj\\",
+      "projectPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\MesaPartesDigital.Front.csproj",
+      "packagesPath": "C:\\Users\\cmora\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\dba1_uti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cmora\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -51,7 +51,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -75,7 +75,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

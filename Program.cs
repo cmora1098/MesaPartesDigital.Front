@@ -1,7 +1,6 @@
 using MesaPartesDigital.Components;
 using MesaPartesDigital.Data;
-using MesaPartesDigital.Models;
-using MesaPartesDigital.Services;
+using MesaPartesDigital.Models; 
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +11,7 @@ builder.Services.AddScoped<UserSession>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient("MesaPartesApi", c => c.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!));
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("MesaPartesApi"));
-builder.Services.AddScoped<TipoPersonaService>();
-builder.Services.AddScoped<TipoDocumentoService>();
-builder.Services.AddScoped<TipoDocPerService>();
-builder.Services.AddScoped<EstadoService>();
-builder.Services.AddScoped<UbigeoService>();
-builder.Services.AddScoped<DocumentoService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<ILoginService, LoginService>();
+
 builder.Services.AddScoped<ApplicationDbContext>();
 var app = builder.Build();
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Error", createScopeForErrors: true); app.UseHsts(); }
