@@ -217,7 +217,7 @@
 
                 <div class="ux-field full">
                     <label>Asunto / Sumilla *</label>
-                    <textarea maxlength="255" @bind="asuntoDocumento" placeholder="Ingrese el resumen o asunto del documento..." style="text-transform: uppercase;"></textarea>
+                    <textarea maxlength="255" @bind="formulario.VNombreAsunto" placeholder="Ingrese el resumen o asunto del documento..." style="text-transform: uppercase;"></textarea>
                 </div>
 
                 <div class="ux-field full">
@@ -236,14 +236,14 @@
                 (Peso máximo: 50MB. Solo se permite archivos en formato PDF)
             </p>
 
-            @if (archivo != null)
+            @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
             {
                 <div class="ux-file-info">
-                    ✅ <span>@archivo.Name</span>
+                    ✅ <span>@archivo.Nombre</span>
                 </div>
 
                 <div class="ux-pdf-preview">
-                    <iframe src="@pdfPreviewUrl"></iframe>
+                    <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")"></iframe>
                 </div>
             }
 
@@ -360,7 +360,8 @@
 
 @code {
 
-    private RegistroDocumentoRequest formulario = new();
+    // private RegistroDocumentoRequest formulario = new();
+    private InicioPersNaturalDto formulario = new();
     private PersonaNaturalDto? personaConsultada;
 
     private List<TipoDocumento> listaTiposDocumento = new();
@@ -636,7 +637,7 @@
     // ******************************************************************
     // DOCUMENTOS ADJUNTOS
     // ******************************************************************
-    private IBrowserFile? archivo;
+    private ArchivoAdjunto archivo = new(); // Ahora 'archivo' es de tu clase personalizada
     private string error = "";
     private string? pdfPreviewUrl;
 
@@ -646,33 +647,21 @@
 
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {
-        error = "";
-        archivo = e.File;
-
-        if (archivo == null) return;
-
-        if (archivo.ContentType != "application/pdf")
+        var file = e.File;
+        if (file != null)
         {
-            error = "Solo se permiten archivos PDF.";
-            archivo = null;
-            pdfPreviewUrl = null;
-            return;
+            using var ms = new MemoryStream();
+            await file.OpenReadStream(50 * 1024 * 1024).CopyToAsync(ms);
+
+            archivo = new ArchivoAdjunto
+            {
+                Nombre = file.Name,
+                Tipo = file.ContentType,
+                Tamano = $"{file.Size / 1024} KB",
+                Contenido = ms.ToArray(),
+                FileBrowser = file
+            };
         }
-
-        if (archivo.Size > 25 * 1024 * 1024)
-        {
-            error = "Máximo 25MB.";
-            archivo = null;
-            pdfPreviewUrl = null;
-            return;
-        }
-
-        var stream = archivo.OpenReadStream(25 * 1024 * 1024);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-
-        var bytes = ms.ToArray();
-        pdfPreviewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(bytes)}";
     }
 
     // ************ 
@@ -725,15 +714,58 @@
                 Nombre = file.Name,
                 Tipo = extension,
                 Tamano = $"{file.Size / 1024} KB",
-                Base64 = Convert.ToBase64String(ms.ToArray()),
+                Contenido = ms.ToArray(), // Esto es lo que necesitas para subirlo
                 FileBrowser = file
             });
         }
     }
+
+
     private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
     private string? previewUrl;
     private void CerrarPreview() => previewUrl = null;
     
+
+    private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
+
+    private async Task MostrarMensajeExito(RegistroInicioPerNaturalResponse resultadoBD)
+    {
+        string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
+          "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
+              "<img src='https://www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
+              "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Documento Registrado!</h3>" +
+          "</div>" +
+          "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, su documentación ha sido ingresada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
+          "<div style='background-color: #f4f9f5; border: 1px dashed #35af72; border-radius: 6px; padding: 15px; margin: 20px 10px; text-align: left;'>" +
+              "<div style='margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'>" +
+                  "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Código de Trámite:</span>" +
+                  "<span style='color: #006432; font-family: monospace; font-size: 1.15rem; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px;'>" + (resultadoBD?.VAutoGenerado ?? "N/A") + "</span>" +
+              "</div>" +
+              "<div style='display: flex; justify-content: space-between; align-items: center;'>" +
+                  "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Mail de Seguimiento:</span>" +
+                  "<span style='color: #333333; font-size: 0.9rem; font-weight: 600; text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + (resultadoBD?.MailSeguimiento ?? "N/A") + "</span>" +
+              "</div>" +
+          "</div>" +
+          "<div style='font-size: 0.8rem; color: #666666; background-color: #fff8e7; border-left: 4px solid #f39c12; padding: 10px; margin: 0 10px 10px 10px; text-align: left; border-radius: 4px;'>📌 <strong>Notificación Enviada:</strong> Se ha despachado el cargo electrónico con el acuse de recibo a la dirección señalada.</div>" +
+      "</div>";
+
+        var result = await JS.InvokeAsync<object>("Swal.fire", new
+        {
+            html = mensajeSwal,
+            icon = "success", // Puedes poner "success" para que aparezca el check verde
+            confirmButtonText = "Finalizar y Volver",
+            confirmButtonColor = "#35af72",
+            allowOutsideClick = false,
+            allowEscapeKey = false,
+            timer = 15000,
+            timerProgressBar = true
+        });
+
+        // 2. Al llegar aquí, el usuario ya hizo click o el timer expiró.
+        // Ahora realizamos la navegación de forma segura.
+        // Nav.NavigateTo("/");
+    }
+
     async Task Finalizar()
     {
         // 1. Validaciones
@@ -750,64 +782,54 @@
 
         try
         {
-            // 2. Subir el archivo principal
-            var content = new MultipartFormDataContent();
-            var fileContent = new StreamContent(archivo.OpenReadStream(50 * 1024 * 1024));
-            content.Add(fileContent, "archivo", archivo.Name);
+            List<ArchivoRequest> listaArchivos = new List<ArchivoRequest>();
 
-            var responseUpload = await Http.PostAsync("api/archivos/subir", content);
-            if (!responseUpload.IsSuccessStatusCode) throw new Exception("Error al subir el archivo al servidor.");
+            // 2. Subir Archivo Principal
+            // Aquí debes asegurarte de que 'archivo' (tu variable global) sea de tipo ArchivoAdjunto
+            // Si tu variable 'archivo' es un IBrowserFile, cámbiala a tipo ArchivoAdjunto
+            var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
+            listaArchivos.Add(new ArchivoRequest { VRutaDoc = rutaPrincipal, BTipo = true });
 
-            var resUpload = await responseUpload.Content.ReadFromJsonAsync<RespuestaRuta>();
-
-            // 3. Preparar formulario (Incluyendo el archivo principal)
-            formulario.Archivos = new List<ArchivoRequest>
-        {
-            new ArchivoRequest { VRutaDoc = resUpload!.ruta, BTipo = true }
-        };
-
-            // 4. Enviar al nuevo endpoint unificado
-            var response = await Http.PostAsJsonAsync("api/documentos/registro-natural", formulario);
-
-            // Si el API devuelve error (BadRequest), capturamos el mensaje del RAISERROR de SQL
-            if (!response.IsSuccessStatusCode)
+            // 3. Subir Anexos (Aquí accedemos a las propiedades de 'item' que es ArchivoAdjunto)
+            foreach (var item in archivos)
             {
-                var errorDetalle = await response.Content.ReadAsStringAsync();
-                throw new Exception(errorDetalle);
+                // Accedemos a 'item.Nombre' y 'item.Contenido' que definimos en tu clase ArchivoAdjunto
+                var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
+                listaArchivos.Add(new ArchivoRequest { VRutaDoc = rutaAnexo, BTipo = false });
             }
 
-            var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponse>();
+            formulario.Archivos = listaArchivos;
 
-            // 5. Mostrar el SweetAlert de éxito
-            string mensajeSwal = "<div style='text-align: center;'>" +
-                "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; color: white;'>" +
-                    "<h3>¡Documento Registrado!</h3>" +
-                "</div>" +
-                "<p>Su documentación ha sido ingresada satisfactoriamente.</p>" +
-                "<div style='border: 1px dashed #35af72; padding: 15px; margin: 20px 0;'>" +
-                    "<p><strong>Código de Trámite:</strong> " + (resultadoBD?.VAutoGenerado ?? "N/A") + "</p>" +
-                    "<p><strong>Email:</strong> " + (resultadoBD?.MailSeguimiento ?? "N/A") + "</p>" +
-                "</div>" +
-                "<div style='background-color: #fff8e7; padding: 10px;'>📌 Se ha enviado el acuse de recibo a su correo.</div>" +
-            "</div>";
+            // 4. Enviar a la API
+            var response = await Http.PostAsJsonAsync("api/documentos/registro-natural", formulario);
 
-            await JS.InvokeVoidAsync("Swal.fire", new
-            {
-                html = mensajeSwal,
-                confirmButtonText = "Finalizar",
-                confirmButtonColor = "#35af72",
-                allowOutsideClick = false
-            });
+            if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
 
+            var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroInicioPerNaturalResponse>();
+
+            await MostrarMensajeExito(resultadoBD!);
             Nav.NavigateTo("/");
         }
         catch (Exception ex)
         {
-            // Esto mostrará el error real que viene desde tu Stored Procedure
             await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
         }
     }
 
+    // Método auxiliar para evitar duplicar código de subida
+    private async Task<string> SubirArchivo(string nombre, byte[] contenido)
+    {
+        using var content = new MultipartFormDataContent();
+        using var fileContent = new ByteArrayContent(contenido);
 
+        // El nombre del campo "archivo" debe coincidir con lo que espera tu API
+        content.Add(fileContent, "archivo", nombre);
+
+        var response = await Http.PostAsync("api/archivos/subir", content);
+        if (!response.IsSuccessStatusCode) throw new Exception($"Error al subir {nombre}");
+
+        var res = await response.Content.ReadFromJsonAsync<RespuestaRuta>();
+        return res!.ruta;
+    }
 
 }

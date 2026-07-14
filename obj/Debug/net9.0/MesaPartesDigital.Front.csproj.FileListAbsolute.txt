@@ -180,5 +180,5 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\refint\Mesa
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\MesaPartesDigital.Front.pdb
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\MesaPartesDigital.Front.genruntimeconfig.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\ref\MesaPartesDigital.Front.dll
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\cofiwk595n-jvvycz85ru.gz
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\wkhz4vaz0p-jvvycz85ru.gz
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\cofiwk595n-a0ivg87lne.gz
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\wkhz4vaz0p-a0ivg87lne.gz

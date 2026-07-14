@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.Forms
 @using System.IO 
-
+@* 
 <div class="ux-bg">
     <div class="ux-container">
 
@@ -157,210 +157,210 @@
         </div>
 
     </div>
-</div>
+</div> *@
 
 @code {
 
-    private List<MesaPartesDigital.Models.TipoDocumento> listaTiposDocumento = new();
+    // private List<MesaPartesDigital.Models.TipoDocumento> listaTiposDocumento = new();
 
-    protected override async Task OnInitializedAsync()
-    {
-        // listaTiposDocumento = await TipoDocumentoService.ObtenerTiposDocumentoAsync();
-    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     listaTiposDocumento = await TipoDocumentoService.ObtenerTiposDocumentoAsync();
+    // }
 
-    [Inject] private NavigationManager Nav { get; set; } = default!;
+    // [Inject] private NavigationManager Nav { get; set; } = default!;
     // [Inject] private MesaPartesDigital.Services.DocumentoService DocumentoService { get; set; } = default!;
-    [Inject] private IJSRuntime JS { get; set; } = default!;
+    // [Inject] private IJSRuntime JS { get; set; } = default!;
 
     // 🟢 Parámetros heredados directamente desde la sesión del Dashboard padre
-    [Parameter] public int UsuarioId { get; set; }
-    [Parameter] public string UsuarioEmail { get; set; } = string.Empty;
+    // [Parameter] public int UsuarioId { get; set; }
+    // [Parameter] public string UsuarioEmail { get; set; } = string.Empty;
 
     // Instancia única del payload optimizado para Trámite Interno
-    private MesaPartesDigital.Models.RegistroDocumentoRequest formulario = new()
-    {
-        ICodTipoDoc = 1,
-        DFecDoc = DateTime.Today
-    };
+    // private MesaPartesDigital.Models.RegistroDocumentoRequest formulario = new()
+    // {
+    //     ICodTipoDoc = 1,
+    //     DFecDoc = DateTime.Today
+    // };
 
-    private string asuntoDocumento = "";
-    private string urlIngresada = "";
+    // private string asuntoDocumento = "";
+    // private string urlIngresada = "";
 
     // Gestión de archivos
-    private IBrowserFile? archivoPrincipal;
-    private string? pdfPreviewUrl;
-    private string errorArchivoPrincipal = "";
-    private List<MesaPartesDigital.Models.ArchivoAdjunto> anexosLista = new();
-    private bool mostrarUrl = false;
+    // private IBrowserFile? archivoPrincipal;
+    // private string? pdfPreviewUrl;
+    // private string errorArchivoPrincipal = "";
+    // private List<MesaPartesDigital.Models.ArchivoAdjunto> anexosLista = new();
+    // private bool mostrarUrl = false;
 
     // =========================================================
     // ⚙️ MÉTODOS DE CONTROL DE EVENTOS DE ARCHIVO Y VISTA
     // =========================================================
-    private async Task OnFileSelected(InputFileChangeEventArgs e)
-    {
-        errorArchivoPrincipal = "";
-        archivoPrincipal = e.File;
+    // private async Task OnFileSelected(InputFileChangeEventArgs e)
+    // {
+    //     errorArchivoPrincipal = "";
+    //     archivoPrincipal = e.File;
 
-        if (archivoPrincipal == null) return;
+    //     if (archivoPrincipal == null) return;
 
-        if (archivoPrincipal.ContentType != "application/pdf")
-        {
-            errorArchivoPrincipal = "Solo se permiten archivos en formato PDF.";
-            archivoPrincipal = null;
-            pdfPreviewUrl = null;
-            return;
-        }
+    //     if (archivoPrincipal.ContentType != "application/pdf")
+    //     {
+    //         errorArchivoPrincipal = "Solo se permiten archivos en formato PDF.";
+    //         archivoPrincipal = null;
+    //         pdfPreviewUrl = null;
+    //         return;
+    //     }
 
-        if (archivoPrincipal.Size > 50 * 1024 * 1024)
-        {
-            errorArchivoPrincipal = "El archivo excede el límite permitido de 50MB.";
-            archivoPrincipal = null;
-            pdfPreviewUrl = null;
-            return;
-        }
+    //     if (archivoPrincipal.Size > 50 * 1024 * 1024)
+    //     {
+    //         errorArchivoPrincipal = "El archivo excede el límite permitido de 50MB.";
+    //         archivoPrincipal = null;
+    //         pdfPreviewUrl = null;
+    //         return;
+    //     }
 
-        var stream = archivoPrincipal.OpenReadStream(50 * 1024 * 1024);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        var bytes = ms.ToArray();
-        pdfPreviewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(bytes)}";
-    }
+    //     var stream = archivoPrincipal.OpenReadStream(50 * 1024 * 1024);
+    //     using var ms = new MemoryStream();
+    //     await stream.CopyToAsync(ms);
+    //     var bytes = ms.ToArray();
+    //     pdfPreviewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(bytes)}";
+    // }
 
 
 
-    private void HandleFilesSelected() { }
+    // private void HandleFilesSelected() { }
 
-    private void EliminarAnexo(MesaPartesDigital.Models.ArchivoAdjunto anexo) => anexosLista.Remove(anexo);
+    // private void EliminarAnexo(MesaPartesDigital.Models.ArchivoAdjunto anexo) => anexosLista.Remove(anexo);
 
-    private void ToggleUrl() => mostrarUrl = !mostrarUrl;
+    // private void ToggleUrl() => mostrarUrl = !mostrarUrl;
 
     // =========================================================
     // ENVÍO DE DATOS ACTUALIZADO CON LOS PARAMETROS
     // =========================================================
-    private async Task Finalizar()
-    {
-        if (archivoPrincipal == null)
-        {
-            errorArchivoPrincipal = "Es obligatorio adjuntar el archivo PDF principal.";
-            return;
-        }
+    // private async Task Finalizar()
+    // {
+    //     if (archivoPrincipal == null)
+    //     {
+    //         errorArchivoPrincipal = "Es obligatorio adjuntar el archivo PDF principal.";
+    //         return;
+    //     }
 
-        try
-        {
-            // 1. Persistencia de archivos físicos en el servidor local
-            // string rutaPrincipal = await DocumentoService.GuardarArchivoEnPCAsync(archivoPrincipal);
+    //     try
+    //     {
+    //         1. Persistencia de archivos físicos en el servidor local
+    //         string rutaPrincipal = await DocumentoService.GuardarArchivoEnPCAsync(archivoPrincipal);
 
-            // var rutasAnexosFisicos = new List<string>();
-            // foreach (var anexo in anexosLista)
-            // {
-            //     if (!string.IsNullOrEmpty(anexo.Base64))
-            //     {
-            //         string rutaAnexoPC = await DocumentoService.GuardarArchivoEnPCAsync(anexo.Nombre, anexo.Base64);
-            //         rutasAnexosFisicos.Add(rutaAnexoPC);
-            //     }
-            // }
+    //         var rutasAnexosFisicos = new List<string>();
+    //         foreach (var anexo in anexosLista)
+    //         {
+    //             if (!string.IsNullOrEmpty(anexo.Base64))
+    //             {
+    //                 string rutaAnexoPC = await DocumentoService.GuardarArchivoEnPCAsync(anexo.Nombre, anexo.Base64);
+    //                 rutasAnexosFisicos.Add(rutaAnexoPC);
+    //             }
+    //         }
 
-            // 2. Mapeo y preparación del Formulario del Documento Padre
-            formulario.ICodPer = UsuarioId;
-            formulario.VEmail = UsuarioEmail;
-            // formulario.VRutaDoc = rutaPrincipal;
-            // formulario.VLink = urlIngresada;
-            // formulario.BTipo = true; Identificador de Documento Principal
-            // formulario.ICodAsunto = 0;
-            formulario.VReferencia = asuntoDocumento;
+    //         2. Mapeo y preparación del Formulario del Documento Padre
+    //         formulario.ICodPer = UsuarioId;
+    //         formulario.VEmail = UsuarioEmail;
+    //         formulario.VRutaDoc = rutaPrincipal;
+    //         formulario.VLink = urlIngresada;
+    //         formulario.BTipo = true; Identificador de Documento Principal
+    //         formulario.ICodAsunto = 0;
+    //         formulario.VReferencia = asuntoDocumento;
 
-            if (formulario.ICodTipoDoc == 0) formulario.ICodTipoDoc = 1;
+    //         if (formulario.ICodTipoDoc == 0) formulario.ICodTipoDoc = 1;
 
-            // 3. Registro del Documento Principal en la Base de Datos
-            // var respuestaBD = await DocumentoService.RegistroTramiteInterno_Home(formulario);
+    //         3. Registro del Documento Principal en la Base de Datos
+    //         var respuestaBD = await DocumentoService.RegistroTramiteInterno_Home(formulario);
 
-            // 4. Registro en cascada de los Anexos Adjuntos relacionados (Documentos Hijos)
-            // if (respuestaBD != null && respuestaBD.Status == "OK" && rutasAnexosFisicos.Count > 0)
-            // {
-            //     foreach (var rutaFisicaAnexo in rutasAnexosFisicos)
-            //     {
-            //         var requestAnexoHijo = new MesaPartesDigital.Models.RegistroDocumentoRequest
-            //         {
-            //             ICodPer = UsuarioId,
-            //             VEmail = UsuarioEmail,
-            //             ICodAsunto = respuestaBD.ICodAsunto, Vinculación mediante la llave del Padre
-            //             BTipo = false,                       Identificador de Anexo
-            //             ICodTipoDoc = formulario.ICodTipoDoc,
-            //             VNroDoc = formulario.VNroDoc,
-            //             DFecDoc = formulario.DFecDoc,
-            //             VReferencia = "Anexo adjunto institucional",
-            //             VNroPagFolios = formulario.VNroPagFolios,
-            //             VRutaDoc = rutaFisicaAnexo,
-            //             VLink = null
-            //         };
+    //         4. Registro en cascada de los Anexos Adjuntos relacionados (Documentos Hijos)
+    //         if (respuestaBD != null && respuestaBD.Status == "OK" && rutasAnexosFisicos.Count > 0)
+    //         {
+    //             foreach (var rutaFisicaAnexo in rutasAnexosFisicos)
+    //             {
+    //                 var requestAnexoHijo = new MesaPartesDigital.Models.RegistroDocumentoRequest
+    //                 {
+    //                     ICodPer = UsuarioId,
+    //                     VEmail = UsuarioEmail,
+    //                     ICodAsunto = respuestaBD.ICodAsunto, Vinculación mediante la llave del Padre
+    //                     BTipo = false,                       Identificador de Anexo
+    //                     ICodTipoDoc = formulario.ICodTipoDoc,
+    //                     VNroDoc = formulario.VNroDoc,
+    //                     DFecDoc = formulario.DFecDoc,
+    //                     VReferencia = "Anexo adjunto institucional",
+    //                     VNroPagFolios = formulario.VNroPagFolios,
+    //                     VRutaDoc = rutaFisicaAnexo,
+    //                     VLink = null
+    //                 };
 
-            //         await DocumentoService.RegistroTramiteInterno_Home(requestAnexoHijo);
-            //     }
-            // }
+    //                 await DocumentoService.RegistroTramiteInterno_Home(requestAnexoHijo);
+    //             }
+    //         }
 
-            // ====================================================================
-            // 📧 ENVÍO DEL CARGO ELECTRÓNICO (Capa Background de Alerta)
-            // ====================================================================
-            // if (respuestaBD != null && respuestaBD.Status == "OK" && !string.IsNullOrEmpty(UsuarioEmail))
-            // {
-                // Invoca de fondo el despacho del mail institucional con el acuse de recibo formal
-            //     await EmailService.EnviarConfirmacionTramiteAsync(
-            //         UsuarioEmail,
-            //         respuestaBD.VAutoGenerado ?? "N/A",
-            //         asuntoDocumento
-            //     );
-            // }
+    //         ====================================================================
+    //         📧 ENVÍO DEL CARGO ELECTRÓNICO (Capa Background de Alerta)
+    //         ====================================================================
+    //         if (respuestaBD != null && respuestaBD.Status == "OK" && !string.IsNullOrEmpty(UsuarioEmail))
+    //         {
+    //             Invoca de fondo el despacho del mail institucional con el acuse de recibo formal
+    //             await EmailService.EnviarConfirmacionTramiteAsync(
+    //                 UsuarioEmail,
+    //                 respuestaBD.VAutoGenerado ?? "N/A",
+    //                 asuntoDocumento
+    //             );
+    //         }
 
-            // ====================================================================
-            // 🎨 DISEÑO PRESTIGIO DEL SWEETALERT (Banner Verde Institucional)
-            // ====================================================================
-            string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
-                "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
-                    "<img src='https://www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
-                    "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Trámite Registrado!</h3>" +
-                "</div>" +
-                "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, la documentación interna ha sido procesada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
-                "<div style='background-color: #f4f9f5; border: 1px dashed #35af72; border-radius: 6px; padding: 15px; margin: 20px 10px; text-align: left;'>" +
-                    "<div style='margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'>" +
-                        "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Código de Trámite:</span>" +
-                        // "<span style='color: #006432; font-family: monospace; font-size: 1.15rem; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px;'>" + (respuestaBD?.VAutoGenerado ?? "N/A") + "</span>" +
-                    "</div>" +
-                    "<div style='display: flex; justify-content: space-between; align-items: center;'>" +
-                        "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Mail de Notificación:</span>" +
-                        "<span style='color: #333333; font-size: 0.9rem; font-weight: 600; text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + (UsuarioEmail ?? "N/A") + "</span>" +
-                    "</div>" +
-                "</div>" +
-                "<div style='font-size: 0.8rem; color: #666666; background-color: #fff8e7; border-left: 4px solid #f39c12; padding: 10px; margin: 0 10px 10px 10px; text-align: left; border-radius: 4px;'>📌 <strong>Cargo Despachado:</strong> Se ha enviado el acuse de recibo electrónico formal con los detalles del expediente a su casilla.</div>" +
-            "</div>";
+    //         ====================================================================
+    //         🎨 DISEÑO PRESTIGIO DEL SWEETALERT (Banner Verde Institucional)
+    //         ====================================================================
+    //         string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
+    //             "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
+    //                 "<img src='https:www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
+    //                 "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Trámite Registrado!</h3>" +
+    //             "</div>" +
+    //             "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, la documentación interna ha sido procesada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
+    //             "<div style='background-color: #f4f9f5; border: 1px dashed #35af72; border-radius: 6px; padding: 15px; margin: 20px 10px; text-align: left;'>" +
+    //                 "<div style='margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'>" +
+    //                     "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Código de Trámite:</span>" +
+    //                     "<span style='color: #006432; font-family: monospace; font-size: 1.15rem; font-weight: bold; background: #e8f5e9; padding: 3px 8px; border-radius: 4px;'>" + (respuestaBD?.VAutoGenerado ?? "N/A") + "</span>" +
+    //                 "</div>" +
+    //                 "<div style='display: flex; justify-content: space-between; align-items: center;'>" +
+    //                     "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Mail de Notificación:</span>" +
+    //                     "<span style='color: #333333; font-size: 0.9rem; font-weight: 600; text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + (UsuarioEmail ?? "N/A") + "</span>" +
+    //                 "</div>" +
+    //             "</div>" +
+    //             "<div style='font-size: 0.8rem; color: #666666; background-color: #fff8e7; border-left: 4px solid #f39c12; padding: 10px; margin: 0 10px 10px 10px; text-align: left; border-radius: 4px;'>📌 <strong>Cargo Despachado:</strong> Se ha enviado el acuse de recibo electrónico formal con los detalles del expediente a su casilla.</div>" +
+    //         "</div>";
 
-            await JS.InvokeVoidAsync("Swal.fire", new
-            {
-                html = mensajeSwal,
-                icon = "",
-                confirmButtonText = "Finalizar y Volver",
-                confirmButtonColor = "#35af72",
-                allowOutsideClick = false,
-                allowEscapeKey = false,
-                timer = 15000,
-                timerProgressBar = true
-            });
+    //         await JS.InvokeVoidAsync("Swal.fire", new
+    //         {
+    //             html = mensajeSwal,
+    //             icon = "",
+    //             confirmButtonText = "Finalizar y Volver",
+    //             confirmButtonColor = "#35af72",
+    //             allowOutsideClick = false,
+    //             allowEscapeKey = false,
+    //             timer = 15000,
+    //             timerProgressBar = true
+    //         });
 
-            // Redirección e inicialización del ciclo de vida del Dashboard origen
-            Nav.NavigateTo("/dashboard", forceLoad: true);
-        }
-        catch (Exception ex)
-        {
-            errorArchivoPrincipal = $"Error: {ex.Message}";
-            await JS.InvokeVoidAsync("Swal.fire", new
-            {
-                title = "Error de Servidor",
-                text = $"No se pudo completar el registro: {ex.Message}",
-                icon = "error",
-                confirmButtonText = "Cerrar",
-                confirmButtonColor = "#dc3545"
-            });
-        }
-    }
+    //         Redirección e inicialización del ciclo de vida del Dashboard origen
+    //         Nav.NavigateTo("/dashboard", forceLoad: true);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         errorArchivoPrincipal = $"Error: {ex.Message}";
+    //         await JS.InvokeVoidAsync("Swal.fire", new
+    //         {
+    //             title = "Error de Servidor",
+    //             text = $"No se pudo completar el registro: {ex.Message}",
+    //             icon = "error",
+    //             confirmButtonText = "Cerrar",
+    //             confirmButtonColor = "#dc3545"
+    //         });
+    //     }
+    // }
 
     
 }

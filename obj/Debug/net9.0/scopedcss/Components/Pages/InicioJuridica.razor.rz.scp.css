@@ -134,6 +134,27 @@ body[b-z7qvur1np6] {
     line-height: 1.4;
 }
 
+/* Contenedor que agrupa input y botón en la misma línea */
+.ux-input-group[b-z7qvur1np6] {
+    display: flex;
+    gap: 8px; /* Espacio entre el input y el botón */
+    align-items: center;
+}
+
+    /* Ajuste para que el input dentro del grupo ocupe el espacio restante */
+    .ux-input-group input[b-z7qvur1np6] {
+        flex: 1;
+    }
+
+    /* Ajuste para que el botón no se estire excesivamente */
+    .ux-input-group .ux-btn-primary[b-z7qvur1np6] {
+        width: auto;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+
 /* ==========================================================================
    6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
    ========================================================================== */
