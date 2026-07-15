@@ -18,7 +18,7 @@
         // DATOS DEL ASUNTO Y DOCUMENTO
         public int ICodTipoDoc { get; set; }
         public string VNroDoc { get; set; } = string.Empty;
-        public DateTime DFecDoc { get; set; } = DateTime.Today;
+        public DateTime? DFecDoc { get; set; } = DateTime.Today;
         public string VNombreAsunto { get; set; } = string.Empty; // La Sumilla
         public string VReferencia { get; set; } = string.Empty;
         public string VNroPagFolios { get; set; } = string.Empty;

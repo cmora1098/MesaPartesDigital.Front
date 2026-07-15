@@ -323,3 +323,31 @@
         padding: 32px 20px;
     }
 }
+
+
+
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+    .input-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px; /* Tamaño amigable para vista móvil */
+    }
+
+/* Resaltado del captcha */
+#captcha {
+    background-color: #f9f9f9;
+    border-color: #35af72;
+}

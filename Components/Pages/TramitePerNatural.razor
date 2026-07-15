@@ -1,0 +1,59 @@
+@page "/dashboard/natural"
+ 
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using MesaPartesDigital.Models
+
+@inject ProtectedSessionStorage SessionStorage
+@inject UserSession Session
+@inject NavigationManager Nav
+
+<h3>Trámite - Persona Natural</h3>
+
+@if (cargando)
+{
+    <p>Cargando sesión...</p>
+}
+else if (!esAutorizado)
+{
+    <p>Redirigiendo...</p>
+}
+else
+{
+    <div class="container">
+        <h4>Bienvenido, @Session.VNombreCompleto 👋</h4>
+        <p>Aquí irá el trámite.</p>
+    </div>
+}
+
+@code {
+    private bool esAutorizado = false;
+    private bool cargando = true;
+    private bool yaCargoSesion = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !yaCargoSesion)
+        {
+            yaCargoSesion = true;
+
+            var result = await SessionStorage.GetAsync<UserSession>("user_session");
+
+            if (result.Success && result.Value != null)
+            {
+                Session.ICodPer = result.Value.ICodPer;
+                Session.VNombreCompleto = result.Value.VNombreCompleto;
+                Session.VEmail = result.Value.VEmail;
+
+                esAutorizado = true;
+            }
+            else
+            {
+                Nav.NavigateTo("/login", true);
+                return;
+            }
+
+            cargando = false;
+            StateHasChanged(); // 🔥 IMPORTANTE
+        }
+    }
+}   

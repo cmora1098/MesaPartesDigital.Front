@@ -2,32 +2,33 @@
 {
     public class InicioPersJuridicaDto
     {
-        // Datos de Empresa
-        public string VRucEmpresa { get; set; }
-        public string VRazonSocial { get; set; }
-
-        // Datos de Representante
         public int? ICodPer { get; set; }
 
-        public int ICodTipoDocPer { get; set; }
-        public string VDocPer { get; set; } = string.Empty;
-        public string VNombres { get; set; } = string.Empty;
-        public string VApellidoPaterno { get; set; } = string.Empty;
-        public string VApellidoMaterno { get; set; } = string.Empty;
-        public string VEmail { get; set; } = string.Empty;
-        public string VTelefono { get; set; } = string.Empty;
-        public string VDireccion { get; set; } = string.Empty;
-        public string VCodDistrito { get; set; } = string.Empty;
+        // Datos de Empresa (Cambiamos nombres para que coincidan con los parámetros del SP)
+        public string VRUC { get; set; } // Ajustado de VRucEmpresa
+        public string VRazonSocial { get; set; }
 
-        // Datos de Documento
-        public int ICodTipoDoc { get; set; }
-        public string VNroDoc { get; set; } = string.Empty;
-        public DateTime DFecDoc { get; set; } = DateTime.Today;
-        public string VNombreAsunto { get; set; } = string.Empty; // La Sumilla
-        public string VReferencia { get; set; } = string.Empty;
-        public string VNroPagFolios { get; set; } = string.Empty;
+        // Datos de Representante (Correctos)
+        public int? ICodTipoDocPer { get; set; }
+        public string VDocPer { get; set; }
+        public string VNombres { get; set; }
+        public string VApellidoPaterno { get; set; }
+        public string VApellidoMaterno { get; set; }
+        public string VEmail { get; set; }
+        public string VTelefono { get; set; }
+        public string VDireccion { get; set; }
+        public string VCodDistrito { get; set; }
 
-        public List<ArchivoRequestIPJ> Archivos { get; set; } = new(); 
+        // Datos de Documento (Correctos)
+        public int? ICodTipoDoc { get; set; }
+        public string VNroDoc { get; set; }
+        public DateTime? DFecDoc { get; set; } = DateTime.Today;
+        public string VNombreAsunto { get; set; }
+        public string VReferencia { get; set; }
+        public string VNroPagFolios { get; set; }
+
+        // Lista de archivos
+        public List<ArchivoRequestIPJ> Archivos { get; set; } = new();
     }  
     public class ArchivoRequestIPJ
         {

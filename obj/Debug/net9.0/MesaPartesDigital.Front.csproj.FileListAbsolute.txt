@@ -111,7 +111,6 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\rjsmcshtml.
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\Footer.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\Header.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\ConsultaExpediente.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\Dashboard.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
@@ -119,7 +118,6 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\C
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\InicioNatural.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\TramiteJuridicaInterno.razor.rz.scp.css
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\TramiteNaturalInterno.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\bundle\MesaPartesDigital.Front.styles.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\projectbundle\MesaPartesDigital.Front.bundle.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\5k4nl1aimk-khy4lop6wu.gz
@@ -180,5 +178,8 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\refint\Mesa
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\MesaPartesDigital.Front.pdb
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\MesaPartesDigital.Front.genruntimeconfig.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\ref\MesaPartesDigital.Front.dll
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\cofiwk595n-a0ivg87lne.gz
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\wkhz4vaz0p-a0ivg87lne.gz
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\TramitePerNatural.razor.rz.scp.css
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\InicioMainLayout.razor.rz.scp.css
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\Navbar.razor.rz.scp.css
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\cofiwk595n-f3cvnmu88g.gz
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\wkhz4vaz0p-f3cvnmu88g.gz

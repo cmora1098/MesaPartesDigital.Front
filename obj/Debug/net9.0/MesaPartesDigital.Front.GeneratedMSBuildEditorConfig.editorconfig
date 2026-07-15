@@ -32,10 +32,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -52,13 +48,17 @@ build_metadata.AdditionalFiles.CssScope = b-y8qyaeffx2
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSGVhZGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-39rokx7gwf
 
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/InicioMainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSW5pY2lvTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-pbbfmzssb5
+
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-yzhksk25oo
 
-[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-fmtyfexsgo
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/Navbar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2YmFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-uwld4ltydb
 
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/ConsultaExpediente.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25zdWx0YUV4cGVkaWVudGUucmF6b3I=
@@ -88,6 +88,6 @@ build_metadata.AdditionalFiles.CssScope = b-m5l9vkyir2
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlSnVyaWRpY2FJbnRlcm5vLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-ahqj5oy2w8
 
-[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramiteNaturalInterno.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlTmF0dXJhbEludGVybm8ucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-48a65t5j44
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlUGVyTmF0dXJhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-d90ul4yit0

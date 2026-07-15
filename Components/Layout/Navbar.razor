@@ -1,0 +1,43 @@
+﻿@using MesaPartesDigital.Models
+@inject UserSession Session
+@inject NavigationManager Nav
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage 
+@inject ProtectedSessionStorage SessionStorage
+
+<header class="topbar">
+    <div class="gov-left">
+        <img src="img/logo_agrorural.png" class="gov-logo" alt="Logo AgroRural" />
+        <div class="gov-divider" aria-hidden="true"></div>
+        <div class="gov-title">
+            <span class="gov-ministry">Programa de Desarrollo Productivo Agrario Rural</span>
+            <span class="gov-system">Mesa de Partes Digital</span>
+        </div>
+    </div>
+
+    <div class="user-menu">
+        @if (MostrarTimer)
+        {
+            <div class="session-timer">
+                Sesión expira en: <strong>@TimeSpan.FromSeconds(SegundosRestantes).ToString(@"mm\:ss")</strong>
+            </div>
+        }
+
+        <div class="user-info">
+            <span class="user-avatar" aria-hidden="true">👤</span>
+            <span class="user-name">@Session.VNombreCompleto</span>
+        </div>
+        <button class="btn btn-danger" @onclick="CerrarSesion">Cerrar Sesión</button>
+    </div>
+</header>
+
+@code {
+    [Parameter] public bool MostrarTimer { get; set; } = false;
+    [Parameter] public int SegundosRestantes { get; set; }
+
+    private async Task CerrarSesion()
+    {
+        Session.LimpiarSesion();
+        await SessionStorage.DeleteAsync("user_session");
+        Nav.NavigateTo("/login", true);
+    }
+}

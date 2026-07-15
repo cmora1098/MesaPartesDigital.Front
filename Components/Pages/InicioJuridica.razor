@@ -29,7 +29,7 @@
                 <div class="ux-field">
                     <label>RUC *</label>
                     <div class="ux-input-group">
-                        <input @bind="formulario.VRucEmpresa"  @oninput="OnRucInputChanged" placeholder="Ingrese RUC" maxlength="11"
+                        <input @bind="formulario.VRUC" @oninput="OnRucInputChanged" placeholder="Ingrese RUC" maxlength="11"
                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                disabled="@isProcessing" />
 
@@ -407,7 +407,7 @@
     private async Task ValidarRuc()
     {
         // Usamos directamente el formulario
-        if (string.IsNullOrWhiteSpace(formulario.VRucEmpresa) || formulario.VRucEmpresa.Length != 11)
+        if (string.IsNullOrWhiteSpace(formulario.VRUC) || formulario.VRUC.Length != 11)
         {
             rucErrorMsg = "El RUC debe tener 11 dígitos.";
             return;
@@ -419,7 +419,7 @@
         try
         {
             // Consultamos usando el valor que ya está en el formulario
-            var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={formulario.VRucEmpresa}");
+            var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={formulario.VRUC}");
 
             if (resultado != null)
             {
@@ -819,7 +819,7 @@
     {
         string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
           "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
-              "<img src='https:www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
+              "<img src='https://www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
               "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Documento Registrado!</h3>" +
           "</div>" +
           "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, su documentación ha sido ingresada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
@@ -869,12 +869,22 @@
 
     async Task Finalizar()
     {
-        // 1. Validaciones
-        ValidarDocumento();
+        // 1. Validaciones preventivas
+        ValidarDocumento(); // Asegura que los campos de datos estén validados
 
-        if (!codigoVerificado || !string.IsNullOrEmpty(errorDocumento)) return;
+        if (!codigoVerificado)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Error", "Debe verificar el correo electrónico primero.", "warning");
+            return;
+        }
 
-        if (archivo == null)
+        if (!string.IsNullOrEmpty(errorDocumento))
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Error", "Revise los campos de documento: " + errorDocumento, "error");
+            return;
+        }
+
+        if (archivo == null || archivo.Contenido == null)
         {
             await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
             return;
@@ -882,8 +892,8 @@
 
         try
         {
+            // 2. Preparación de archivos (Manteniendo la lógica que tenías)
             List<ArchivoRequestIPJ> listaArchivos = new List<ArchivoRequestIPJ>();
-
             var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
             listaArchivos.Add(new ArchivoRequestIPJ { VRutaDoc = rutaPrincipal, BTipo = true });
 
@@ -892,25 +902,32 @@
                 var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
                 listaArchivos.Add(new ArchivoRequestIPJ { VRutaDoc = rutaAnexo, BTipo = false });
             }
-             
-            formulario.Archivos = listaArchivos;
-              
-            var response = await Http.PostAsJsonAsync("api/documentos/registrar-juridica", formulario);
 
-            if (!response.IsSuccessStatusCode)
+            formulario.Archivos = listaArchivos;
+
+            // 3. Serialización y Envío (Debug activo)
+            // Imprime en consola para ver exactamente qué envías antes de fallar
+            Console.WriteLine("Enviando JSON: " + System.Text.Json.JsonSerializer.Serialize(formulario));
+
+            var response = await Http.PostAsJsonAsync("api/documentos/registro-juridica", formulario);
+
+            if (response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroInicioPerJuridicaResponse>();
+                await MostrarMensajeExito(resultadoBD!);
+                Nav.NavigateTo("/");
             }
-             
-            var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroInicioPerJuridicaResponse>();
-            await MostrarMensajeExito(resultadoBD!);
-            Nav.NavigateTo("/");
+            else
+            {
+                // Capturar error detallado del servidor
+                var errorDetalle = await response.Content.ReadAsStringAsync();
+                throw new Exception($"El servidor respondió con error: {response.StatusCode}. Detalle: {errorDetalle}");
+            }
         }
         catch (Exception ex)
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
+            Console.WriteLine($"Error crítico en el proceso: {ex.Message}");
+            await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", "Detalle técnico: " + ex.Message, "error");
         }
     }
-
 }

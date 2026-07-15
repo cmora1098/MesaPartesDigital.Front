@@ -1,94 +1,94 @@
-﻿    @page "/"
-    @inject NavigationManager Nav
-    @rendermode InteractiveServer
+﻿        @page "/"
+        @inject NavigationManager Nav
+        @rendermode InteractiveServer
 
-    <div class="ux-bg">
+        <div class="ux-bg">
 
-        <div class="ux-container">
+            <div class="ux-container">
 
-            <!-- HERO -->
-            <div class="ux-hero">
+                <!-- HERO -->
+                <div class="ux-hero">
 
-                <div class="ux-badge-top">Mesa de Partes Digital</div>
+                    <div class="ux-badge-top">Mesa de Partes Digital</div>
 
-                <!-- BLOQUE INFORMATIVO INSTITUCIONAL -->
-                @* <p class="ux-info-text">
-                    Mesa de Parte Digital: Se pueden presentar documentos las veinticuatro (24) horas,
-                    los siete (7) días de la semana, en concordancia con lo señalado en el artículo único de la
-                    Ley N° 31465, que modifica el numeral 117.1 del artículo 117 de la Ley N° 27444,
-                    Ley del Procedimiento Administrativo General.
-                </p> *@
+                    <!-- BLOQUE INFORMATIVO INSTITUCIONAL -->
+                    @* <p class="ux-info-text">
+                        Mesa de Parte Digital: Se pueden presentar documentos las veinticuatro (24) horas,
+                        los siete (7) días de la semana, en concordancia con lo señalado en el artículo único de la
+                        Ley N° 31465, que modifica el numeral 117.1 del artículo 117 de la Ley N° 27444,
+                        Ley del Procedimiento Administrativo General.
+                    </p> *@
 
-                @* <h1>Ingresa tu tipo de usuario</h1> *@
+                    @* <h1>Ingresa tu tipo de usuario</h1> *@
 
-                <p class="ux-description">
-                    Selecciona cómo deseas realizar tus trámites. Esto nos ayudará a personalizar tu experiencia.
-                </p>
+                    <p class="ux-description">
+                        Selecciona cómo deseas realizar tus trámites. Esto nos ayudará a personalizar tu experiencia.
+                    </p>
 
             
   
-            </div>
+                </div>
 
-            <!-- SELECTOR -->
-            <div class="ux-grid">
+                <!-- SELECTOR -->
+                <div class="ux-grid">
 
-                <div class="ux-card @(tipoPersona == "natural" ? "active" : "")"
-                     @onclick="SeleccionarNatural">
+                    <div class="ux-card @(tipoPersona == "natural" ? "active" : "")"
+                         @onclick="SeleccionarNatural">
 
-                    <div class="ux-icon-circle">👤</div>
+                        <div class="ux-icon-circle">👤</div>
 
-                    <h3>Persona Natural</h3>
+                        <h3>Persona Natural</h3>
 
-                    <p>Ciudadanos que realizan trámites personales o individuales.</p>
+                        <p>Ciudadanos que realizan trámites personales o individuales.</p>
 
-                    @if (tipoPersona == "natural")
-                    {
-                        <div class="ux-selected">✔ Seleccionado</div>
-                    }
+                        @if (tipoPersona == "natural")
+                        {
+                            <div class="ux-selected">✔ Seleccionado</div>
+                        }
+
+                    </div>
+
+                    <div class="ux-card @(tipoPersona == "juridica" ? "active" : "")"
+                         @onclick="SeleccionarJuridica">
+
+                        <div class="ux-icon-circle">🏢</div>
+
+                        <h3>Persona Jurídica</h3>
+
+                        <p>Empresas, instituciones o entidades públicas/privadas.</p>
+
+                        @if (tipoPersona == "juridica")
+                        {
+                            <div class="ux-selected">✔ Seleccionado</div>
+                        }
+
+                    </div>
 
                 </div>
 
-                <div class="ux-card @(tipoPersona == "juridica" ? "active" : "")"
-                     @onclick="SeleccionarJuridica">
-
-                    <div class="ux-icon-circle">🏢</div>
-
-                    <h3>Persona Jurídica</h3>
-
-                    <p>Empresas, instituciones o entidades públicas/privadas.</p>
-
-                    @if (tipoPersona == "juridica")
-                    {
-                        <div class="ux-selected">✔ Seleccionado</div>
-                    }
-
+                <!-- CTA -->
+                <div class="ux-actions">
+                    <button class="ux-button @(string.IsNullOrEmpty(tipoPersona) ? "disabled" : "")"
+                            @onclick="Continuar"
+                            disabled="@string.IsNullOrEmpty(tipoPersona)">
+                        Continuar →
+                    </button>
                 </div>
 
-            </div>
-
-            <!-- CTA -->
-            <div class="ux-actions">
-                <button class="ux-button @(string.IsNullOrEmpty(tipoPersona) ? "disabled" : "")"
-                        @onclick="Continuar"
-                        disabled="@string.IsNullOrEmpty(tipoPersona)">
-                    Continuar →
-                </button>
             </div>
 
         </div>
 
-    </div>
+        @code {
+            private string tipoPersona = string.Empty;
 
-    @code {
-        private string tipoPersona = string.Empty;
+            private void SeleccionarNatural() => tipoPersona = "natural";
 
-        private void SeleccionarNatural() => tipoPersona = "natural";
+            private void SeleccionarJuridica() => tipoPersona = "juridica";
 
-        private void SeleccionarJuridica() => tipoPersona = "juridica";
-
-        private void Continuar()
-        {
-            if (!string.IsNullOrWhiteSpace(tipoPersona))
-                Nav.NavigateTo($"/inicio/{tipoPersona}");
+            private void Continuar()
+            {
+                if (!string.IsNullOrWhiteSpace(tipoPersona))
+                    Nav.NavigateTo($"/inicio/{tipoPersona}");
+            }
         }
-    }

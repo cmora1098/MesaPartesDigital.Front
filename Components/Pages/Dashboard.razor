@@ -1,15 +1,19 @@
-﻿@page "/dashboard"
-@layout EmptyLayout
+﻿ @page "/dashboard"
+@layout MainLayout 
+
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@using MesaPartesDigital.Models 
+@using MesaPartesDigital.Models
 @inject ProtectedSessionStorage SessionStorage
 @inject UserSession Session
-@inject NavigationManager Nav 
-
-
+@inject NavigationManager Nav
+@inject HttpClient Http
 @using System.Timers
-@implements IDisposable // Importante para limpiar el temporizador
+@implements IDisposable
+@using MesaPartesDigital.Components
+@* ==========================================
+   SECCIÓN: INTERFAZ DE USUARIO (MODALES Y LAYOUT)
+   ========================================== *@
 
 @if (mostrarModalExtension)
 {
@@ -28,7 +32,7 @@
 @if (esAutorizado)
 {
     <div class="dash-container">
-        <header class="topbar">
+        @* <header class="topbar">
             <div class="gov-left">
                 <img src="img/logo_agrorural.png" class="gov-logo" alt="Logo AgroRural" />
                 <div class="gov-divider" aria-hidden="true"></div>
@@ -49,13 +53,14 @@
                 <button class="btn btn-danger" @onclick="CerrarSesion">Cerrar Sesión</button>
             </div>
         </header>
-
-        <main class="dash-content">
-            @if (pasoActual == "historial")
-            {
-                <section class="welcome-section" aria-labelledby="welcome-title">
-                    <h2 id="welcome-title">Bienvenido, @Session.VNombreCompleto</h2>
-                    <p>Gestione sus trámites de manera rápida, segura y disponible las 24 horas.</p>
+          *@
+        <Navbar MostrarTimer="true" SegundosRestantes="segundosRestantes" />
+    <main class="dash-content">
+    @if (pasoActual == "historial")
+    {
+                <section class="welcome-section">
+                    <h2>Bienvenido, @Session.VNombreCompleto</h2>
+                    <p>Gestione sus trámites de manera rápida y segura.</p>
                 </section>
 
                 <section class="cards-grid" aria-label="Acciones principales">
@@ -129,9 +134,10 @@
                         <button class="btn btn-sm btn-secondary" disabled="@(paginaActual >= totalPaginas)" @onclick="() => CambiarPagina(paginaActual + 1)">Siguiente</button>
                     </div>
                 </section>
-            }
-            else if (pasoActual == "selector")
-            {
+        
+    }
+    else if (pasoActual == "selector")
+    {
                 <div class="ux-bg">
                     <div class="ux-container">
                         <div class="ux-hero">
@@ -139,41 +145,23 @@
                             <p class="ux-description">Selecciona cómo deseas realizar tus trámites.</p>
                         </div>
                         <div class="ux-grid">
-
-                            <div class="ux-card @(tipoPersona == "natural" ? "active" : "")"
-                                 @onclick="SeleccionarNatural">
-
+                            <div class="ux-card @(tipoPersona == "natural" ? "active" : "")" @onclick="SeleccionarNatural">
                                 <div class="ux-icon-circle">👤</div>
-
                                 <h3>Persona Natural</h3>
-
-                                <p>Ciudadanos que realizan trámites personales o individuales.</p>
-
                                 @if (tipoPersona == "natural")
                                 {
                                     <div class="ux-selected">✔ Seleccionado</div>
                                 }
-
                             </div>
-
-                            <div class="ux-card @(tipoPersona == "juridica" ? "active" : "")"
-                                 @onclick="SeleccionarJuridica">
-
+                            <div class="ux-card @(tipoPersona == "juridica" ? "active" : "")" @onclick="SeleccionarJuridica">
                                 <div class="ux-icon-circle">🏢</div>
-
                                 <h3>Persona Jurídica</h3>
-
-                                <p>Empresas, instituciones o entidades públicas/privadas.</p>
-
                                 @if (tipoPersona == "juridica")
                                 {
                                     <div class="ux-selected">✔ Seleccionado</div>
                                 }
-
                             </div>
-
                         </div>
-
                         <div class="ux-actions">
                             <button class="ux-button-secondary" @onclick='() => CambiarPaso("historial")'>← Volver</button>
                             <button class="ux-button" @onclick="Continuar" disabled="@string.IsNullOrEmpty(tipoPersona)">Continuar →</button>
@@ -181,46 +169,46 @@
                     </div>
                 </div>
             }
-            else if (pasoActual.Contains("formulario"))
+    else if (pasoActual == "formulario_natural" || pasoActual == "formulario_juridica")
+    {
+        <div class="form-wrapper">
+            <button class="ux-button-secondary" @onclick='() => CambiarPaso("selector")'>← Cambiar tipo</button>
+            
+            @if (pasoActual == "formulario_natural")
             {
-                <div class="form-wrapper">
-                    <button class="ux-button-secondary" @onclick='() => CambiarPaso("selector")'>← Cambiar tipo</button>
-                    @if (pasoActual == "formulario_natural")
-                    {
-                        <TramiteNaturalInterno UsuarioId="@Session.ICodPer" UsuarioEmail="@Session.VEmail" />
+                        <TramitePerNatural UsuarioId="@Session.ICodPer" UsuarioEmail="@Session.VEmail" />
                     }
-                    else
-                    {
-                        <TramiteJuridicaInterno UsuarioId="@Session.ICodPer" UsuarioEmail="@Session.VEmail" />
-                    }
-                </div>
+            else
+            {
+                <TramiteJuridicaInterno UsuarioId="@Session.ICodPer" UsuarioEmail="@Session.VEmail" />
             }
-        </main>
-    </div>
+        </div>
+    }
+    </main>
+</div>
 }
 else
 {
     <div class="loading-overlay"><p>Validando sesión, por favor espere...</p></div>
 }
 
-
 @code {
+    @* ==========================================
+       SECCIÓN: VARIABLES DE ESTADO Y UI
+       ========================================== *@
+    private bool esAutorizado = false;
+    private string pasoActual = "historial";
+    private string tipoPersona = string.Empty;
+    private string filtroCodigo = "";
+    private string filtroEstado = "todos";
 
+    @* ==========================================
+       SECCIÓN: GESTIÓN DE SESIÓN Y TEMPORIZADOR
+       ========================================== *@
     private Timer? timerInactividad;
     private int segundosRestantes = 600;
-    private bool mostrarAdvertencia = false;
-
-    protected override void OnInitialized()
-    {
-        // Iniciar temporizador que se ejecuta cada segundo
-        timerInactividad = new Timer(1000);
-        timerInactividad.Elapsed += VerificarInactividad;
-        timerInactividad.AutoReset = true;
-        timerInactividad.Enabled = true;
-    }
-
     private bool mostrarModalExtension = false;
- 
+
     private void VerificarInactividad(object? sender, ElapsedEventArgs e)
     {
         InvokeAsync(() =>
@@ -231,9 +219,8 @@ else
             }
             else
             {
-                // En lugar de cerrar directamente, podrías activar una bandera para mostrar el Modal
                 mostrarModalExtension = true;
-                timerInactividad.Stop();
+                timerInactividad?.Stop();
             }
             StateHasChanged();
         });
@@ -246,27 +233,9 @@ else
         timerInactividad?.Start(); // Reactivamos el reloj
     }
 
-    private void ReiniciarTemporizador()
-    {
-        // Solo reiniciamos si el modal NO está abierto
-        if (!mostrarModalExtension)
-        {
-            segundosRestantes = 600;
-        }
-    }
-
-    public void Dispose()
-    {
-        timerInactividad?.Dispose();
-    }
-
-    private bool esAutorizado = false;
-    private string pasoActual = "historial";    
-    private string tipoPersona = string.Empty;
-    private string filtroCodigo = "";
-    private string filtroEstado = "todos";
-
-    // Paginación
+    @* ==========================================
+       SECCIÓN: LÓGICA DE DATOS Y PAGINACIÓN
+       ========================================== *@
     private int paginaActual = 1;
     private int elementosPorPagina = 5;
     private int totalPaginas => (int)Math.Ceiling((double)tramitesFiltrados.Count / elementosPorPagina);
@@ -277,41 +246,105 @@ else
     private IEnumerable<TramiteDto> GetTramitesPaginados() =>
         tramitesFiltrados.Skip((paginaActual - 1) * elementosPorPagina).Take(elementosPorPagina);
 
-    private void CambiarPagina(int nuevaPagina) => paginaActual = nuevaPagina;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private void CambiarPagina(int nuevaPagina)
     {
-        if (firstRender)
+        if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas)
         {
-            var result = await SessionStorage.GetAsync<UserSession>("user_session");
-            if (result.Success && result.Value != null)
-            {
-                Session.ICodPer = result.Value.ICodPer;
-                Session.VNombreCompleto = result.Value.VNombreCompleto;
-                Session.VEmail = result.Value.VEmail;
-
-                // todosLosTramites = await DocumentoService.ObtenerHistorialTramitesAsync(Session.ICodPer);
-                tramitesFiltrados = todosLosTramites;
-                esAutorizado = true;
-                StateHasChanged();
-            }
-            else Nav.NavigateTo("/login", true);
+            paginaActual = nuevaPagina;
         }
     }
 
     private void AplicarFiltros()
     {
+        // Esto funcionará ahora sobre la lista que viene de la API
         tramitesFiltrados = todosLosTramites.Where(t =>
             (string.IsNullOrEmpty(filtroCodigo) || t.Codigo.Contains(filtroCodigo, StringComparison.OrdinalIgnoreCase)) &&
             (filtroEstado == "todos" || t.Estado.Equals(filtroEstado, StringComparison.OrdinalIgnoreCase))
         ).ToList();
+
         paginaActual = 1;
     }
+    @* ==========================================
+       SECCIÓN: CICLO DE VIDA (INITIALIZATION / RENDER)
+       ========================================== *@
+    protected override void OnInitialized()
+    {
+        timerInactividad = new Timer(1000);
+        timerInactividad.Elapsed += VerificarInactividad;
+        timerInactividad.AutoReset = true;
+        timerInactividad.Enabled = true;
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Solo ejecutamos la lógica de carga en la primera renderización completa
+        if (firstRender)
+        {
+            try
+            {
+                // 1. Validamos la sesión desde el almacenamiento protegido
+                var result = await SessionStorage.GetAsync<UserSession>("user_session");
+
+                if (result.Success && result.Value != null)
+                {
+                    // 2. Asignamos valores al objeto Session inyectado
+                    Session.ICodPer = result.Value.ICodPer;
+                    Session.VNombreCompleto = result.Value.VNombreCompleto;
+                    Session.VEmail = result.Value.VEmail;
+
+                    // 3. Llamada segura al API
+                    // Usamos un control para evitar llamadas innecesarias si la lista ya existe
+                    if (todosLosTramites.Count == 0)
+                    {
+                        var lista = await Http.GetFromJsonAsync<List<TramiteDto>>($"api/documentos/historial/{Session.ICodPer}");
+
+                        if (lista != null)
+                        {
+                            todosLosTramites = lista;
+                            tramitesFiltrados = todosLosTramites;
+
+                            // Refrescamos la UI después de cargar los datos
+                            StateHasChanged();
+                        }
+                    }
+
+                    // 4. Autorizamos la vista
+                    esAutorizado = true;
+                }
+                else
+                {
+                    // Si la sesión no existe o es inválida, forzamos la redirección
+                    Nav.NavigateTo("/login", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Registramos el error en la terminal del servidor para diagnóstico
+                Console.WriteLine($"Error crítico en OnAfterRenderAsync: {ex.Message}");
+
+                // Opcional: Redirigir a login si falla la conexión al API
+                // Nav.NavigateTo("/login", true);
+            }
+
+            // Finalizamos forzando un último renderizado si hubo cambios
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose() => timerInactividad?.Dispose();
+
+    @* ==========================================
+       SECCIÓN: MÉTODOS DE NAVEGACIÓN Y ACCIONES
+       ========================================== *@
     private void CambiarPaso(string nuevoPaso) => pasoActual = nuevoPaso;
     private void SeleccionarNatural() => tipoPersona = "natural";
     private void SeleccionarJuridica() => tipoPersona = "juridica";
-    private void Continuar() => pasoActual = (tipoPersona == "natural") ? "formulario_natural" : "formulario_juridica";
+
+    private void Continuar()
+    {
+        if (!string.IsNullOrWhiteSpace(tipoPersona))
+            Nav.NavigateTo($"/dashboard/{tipoPersona}");
+    }
 
     private async Task CerrarSesion()
     {
