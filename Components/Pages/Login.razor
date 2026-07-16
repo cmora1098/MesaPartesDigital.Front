@@ -5,8 +5,10 @@
 @inject Models.UserSession Session
 @inject NavigationManager Nav  
 @inject HttpClient Http
-@inject IJSRuntime JS
+@inject IJSRuntime JS 
 
+
+@inject MesaPartesDigital.Services.SessionService SessionService
 @inject Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage.ProtectedSessionStorage SessionStorage
 
 <div class="login-wrapper">
@@ -119,9 +121,23 @@
 
             if (resultado?.Exitoso == true)
             {
+                 // string json = System.Text.Json.JsonSerializer.Serialize(resultado);
                 // Guardar sesión
-                await SessionStorage.SetAsync("user_session", resultado);
-                Nav.NavigateTo("/dashboard", true);
+                // await SessionStorage.SetAsync("user_session", resultado);
+                // await SessionStorage.SetAsync("user_session", json);
+                // SessionService.UserSession = resultado;
+                // Nav.NavigateTo("/dashboard", true);
+                // Console.WriteLine("LOGIN: Sesión guardada con clave 'user_session'" + resultado);
+                // Console.WriteLine("LOGIN22222222222: Sesión guardada con clave 'user_session'" + json);
+
+                string json = System.Text.Json.JsonSerializer.Serialize(resultado);
+                // Guardamos en el navegador
+                await JS.InvokeVoidAsync("localStorage.setItem", "user_session", json);
+
+                // Actualizamos el servicio en memoria
+                SessionService.UserSession = resultado;
+
+                Nav.NavigateTo("/Tramitar");
             }
             else
             {

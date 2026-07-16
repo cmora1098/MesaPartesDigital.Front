@@ -15,13 +15,15 @@
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <HeadOutlet />
+    @* <HeadOutlet /> *@
+    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 
 <body>
-    <Routes />
+    @* <Routes /> *@
+    <Routes @rendermode="@(new InteractiveServerRenderMode(prerender: false))" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="_framework/blazor.web.js"></script>
 </body>
 
-</html>
+</html>  

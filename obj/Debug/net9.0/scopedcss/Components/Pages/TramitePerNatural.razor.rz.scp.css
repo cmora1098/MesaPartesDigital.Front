@@ -492,3 +492,29 @@ textarea[b-d90ul4yit0] {
         height: 90vh; /* El modal aprovecha más la pantalla vertical */
     }
 }
+
+
+
+
+.ux-actions[b-d90ul4yit0] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-d90ul4yit0] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-d90ul4yit0] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }

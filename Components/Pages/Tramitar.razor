@@ -1,0 +1,303 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@layout MainLayout
+@page "/Tramitar"
+@inject IJSRuntime JS
+@inject Services.SessionService SessionService
+@inject NavigationManager Nav
+ 
+@inject ProtectedSessionStorage SessionStorage
+@inject HttpClient Http
+
+@if (cargando)
+{
+    <p>Cargando...</p>
+}
+else if (SessionService.UserSession == null)
+{
+
+    <p>No has iniciado sesión.</p>
+}
+else
+{
+
+    @* <h3>Bienvenido, @SessionService.UserSession.VNombreCompleto</h3> *@
+    <main class="dash-content">
+        @if (pasoActual == "historial")
+        {
+            <section class="welcome-section">
+                <h2>Bienvenido,  @SessionService.UserSession.VNombreCompleto</h2>
+                <p>Gestione sus trámites de manera rápida y segura.</p>
+            </section>
+
+            <section class="cards-grid" aria-label="Acciones principales">
+                <div class="action-card card-primary">
+                    <div class="card-body">
+                        <span class="card-icon">📄</span>
+                        <h3>Nuevo Trámite</h3>
+                        <p>Registre e ingrese una nueva solicitud o expediente en línea.</p>
+                    </div>
+                    <button class="btn-card" @onclick='() => CambiarPaso("selector")'>Iniciar Registro</button>
+                </div>
+                <div class="action-card card-secondary">
+                    <div class="card-body">
+                        <span class="card-icon">📊</span>
+                        <h3>Seguimiento</h3>
+                        <p>Consulte el estado en tiempo real de sus trámites enviados.</p>
+                    </div>
+                    <button class="btn-card">Ver Mis Trámites</button>
+                </div>
+            </section>
+
+            <section class="tramites-panel">
+                <div class="tramites-header">
+                    <h3>Historial de Trámites</h3>
+                    <span class="badge-count">@tramitesFiltrados.Count registrados</span>
+                </div>
+
+                <div class="filtros-container">
+                    <div class="filtro-item">
+                        <input type="text" @bind="filtroCodigo" placeholder="Buscar por código..." />
+                    </div>
+                    <div class="filtro-item">
+                        <select @bind="filtroEstado">
+                            <option value="todos">Todos los estados</option>
+                            <option value="enviado">Enviado</option>
+                            <option value="proceso">En proceso</option>
+                            <option value="finalizado">Finalizado</option>
+                            <option value="observado">Observado</option>
+                        </select>
+                    </div>
+                    <button class="btn-buscar" @onclick="AplicarFiltros">Filtrar Historial</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Código</th>
+                                <th>Asunto / Expediente</th>
+                                <th style="text-align: right;">Fecha Envío</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in GetTramitesPaginados())
+                            {
+                                <tr>
+                                    <td><span class="estado @item.Estado.ToLower()">@item.Estado</span></td>
+                                    <td class="txt-bold">@item.Codigo</td>
+                                    <td>@item.Asunto</td>
+                                    <td class="txt-date" style="text-align: right;">@item.Fecha</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-container" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px;">
+                    <button class="btn btn-sm btn-secondary" disabled="@(paginaActual == 1)" @onclick="() => CambiarPagina(paginaActual - 1)">Anterior</button>
+                    <span>Página <strong>@paginaActual</strong> de <strong>@(totalPaginas == 0 ? 1 : totalPaginas)</strong></span>
+                    <button class="btn btn-sm btn-secondary" disabled="@(paginaActual >= totalPaginas)" @onclick="() => CambiarPagina(paginaActual + 1)">Siguiente</button>
+                </div>
+            </section>
+
+        }
+        else if (pasoActual == "selector")
+        {
+            <div class="ux-bg-t">
+                <div class="ux-container-t">
+                    <div class="ux-hero-t">
+                        <div class="ux-badge-top-t">Mesa de Partes Digital</div>
+                        <p class="ux-description-t">Selecciona cómo deseas realizar tus trámites. Esto nos ayudará a personalizar tu experiencia.</p>
+                    </div>
+
+                    <div class="ux-grid-t">
+                        <div class="ux-card-t @(tipoPersona == "TPersonaNatural" ? "active" : "")" @onclick="SeleccionarNatural">
+                            <div class="ux-icon-circle">👤</div>
+                            <h3>Persona Natural</h3>
+                            <p>Ciudadanos que realizan trámites personales o individuales.</p>
+                            @if (tipoPersona == "TPersonaNatural")
+                            {
+                                <div class="ux-selected">✔ Seleccionado</div>
+                            }
+                        </div>
+
+                        <div class="ux-card-t @(tipoPersona == "TPersonaJuridica" ? "active" : "")" @onclick="SeleccionarJuridica">
+                            <div class="ux-icon-circle">🏢</div>
+                            <h3>Persona Jurídica</h3>
+                            <p>Empresas, instituciones o entidades públicas/privadas.</p>
+                            @if (tipoPersona == "TPersonaJuridica")
+                            {
+                                <div class="ux-selected">✔ Seleccionado</div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="ux-actions">
+                        <button class="ux-button-secondary" @onclick='() => CambiarPaso("historial")'>← Volver</button>
+                        <button class="ux-button" @onclick="Continuar" disabled="@string.IsNullOrEmpty(tipoPersona)">Continuar →</button>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (pasoActual == "formulario_natural" || pasoActual == "formulario_juridica")
+        {
+            <div class="form-wrapper">
+                <button class="ux-button-secondary" @onclick='() => CambiarPaso("selector")'>← Cambiar tipo</button>
+
+                @if (pasoActual == "formulario_natural")
+                {
+                    @* <TramitePerNatural UsuarioId="@SessionService.UserSession.ICodPer" UsuarioEmail="@SessionService.UserSession.VEmail" /> *@
+                    <TramitePerNatural UsuarioId="@SessionService.UserSession.ICodPer"
+                                       UsuarioEmail="@SessionService.UserSession.VEmail"
+                                       OnVolver='() => CambiarPaso("selector")' />
+                }
+                }
+                else
+                {
+                    <TramitePerJuridica UsuarioId="@SessionService.UserSession.ICodPer"
+                                       UsuarioEmail="@SessionService.UserSession.VEmail"
+                                       OnVolver='() => CambiarPaso("selector")' />              
+                }
+            </div>
+        }
+    </main>
+
+}
+
+@code {
+    private bool cargando = true;
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         if (SessionService.UserSession == null)
+    //         {
+    //             var json = await JS.InvokeAsync<string>("localStorage.getItem", "user_session");
+    //             if (!string.IsNullOrEmpty(json))
+    //             {
+    //                 SessionService.UserSession = System.Text.Json.JsonSerializer.Deserialize<LoginResultDto>(json);
+    //             }
+    //             else
+    //             {
+    //                 Nav.NavigateTo("/login"); 
+    //             }
+    //         }
+    //         cargando = false;
+    //         StateHasChanged();
+    //     }
+    // }
+
+    private UserSession Session = new UserSession();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                // 1. Verificación de sesión en memoria
+                if (SessionService.UserSession == null)
+                {
+                    var json = await JS.InvokeAsync<string>("localStorage.getItem", "user_session");
+                    if (!string.IsNullOrEmpty(json))
+                    {
+                        SessionService.UserSession = System.Text.Json.JsonSerializer.Deserialize<LoginResultDto>(json);
+                    }
+                    else
+                    {
+                        Nav.NavigateTo("/login", true);
+                        return; // Salimos si no hay sesión
+                    }
+                }
+
+                // 2. Carga del historial desde el API
+                var userId = SessionService.UserSession?.ICodPer;
+
+                if (userId != null && todosLosTramites.Count == 0)
+                {
+                    try
+                    {
+                        var lista = await Http.GetFromJsonAsync<List<TramiteDto>>($"api/documentos/historial/{userId}");
+
+                        if (lista != null)
+                        {
+                            todosLosTramites = lista;
+                            tramitesFiltrados = todosLosTramites;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error al obtener historial: {ex.Message}");
+                        // Puedes decidir si quieres mostrar un mensaje de error en la UI aquí
+                    }
+                }
+
+                // 3. Finalización
+                esAutorizado = true;
+                cargando = false;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error crítico en carga: {ex.Message}");
+                Nav.NavigateTo("/login", true);
+            }
+        }
+    }
+    @* ==========================================
+       SECCIÓN: VARIABLES DE ESTADO Y UI
+       ========================================== *@
+    private bool esAutorizado = false;
+    private string pasoActual = "historial";
+    private string tipoPersona = string.Empty;
+    private string filtroCodigo = "";
+    private string filtroEstado = "todos";
+     
+    @* ==========================================
+       SECCIÓN: MÉTODOS DE NAVEGACIÓN Y ACCIONES
+       ========================================== *@
+    private void CambiarPaso(string nuevoPaso) => pasoActual = nuevoPaso;
+    private void SeleccionarNatural() => tipoPersona = "TPersonaNatural";
+    private void SeleccionarJuridica() => tipoPersona = "TPersonaJuridica";
+
+    private void Continuar()
+    {
+        if (!string.IsNullOrWhiteSpace(tipoPersona))
+            Nav.NavigateTo($"/Tramitar/{tipoPersona}");
+    }
+
+    @* ==========================================
+       SECCIÓN: LÓGICA DE DATOS Y PAGINACIÓN
+       ========================================== *@
+    private int paginaActual = 1;
+    private int elementosPorPagina = 5;
+    private int totalPaginas => (int)Math.Ceiling((double)tramitesFiltrados.Count / elementosPorPagina);
+
+    private List<TramiteDto> todosLosTramites = new();
+    private List<TramiteDto> tramitesFiltrados = new();
+
+    private IEnumerable<TramiteDto> GetTramitesPaginados() =>
+        tramitesFiltrados.Skip((paginaActual - 1) * elementosPorPagina).Take(elementosPorPagina);
+
+    private void CambiarPagina(int nuevaPagina)
+    {
+        if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas)
+        {
+            paginaActual = nuevaPagina;
+        }
+    }
+
+    private void AplicarFiltros()
+    {
+        // Esto funcionará ahora sobre la lista que viene de la API
+        tramitesFiltrados = todosLosTramites.Where(t =>
+            (string.IsNullOrEmpty(filtroCodigo) || t.Codigo.Contains(filtroCodigo, StringComparison.OrdinalIgnoreCase)) &&
+            (filtroEstado == "todos" || t.Estado.Equals(filtroEstado, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+
+        paginaActual = 1;
+    }
+
+}

@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@page "/Tramitar/TPersonaNatural"
- 
+@page "/Tramitar/TPersonaJuridica"
+
 @layout MainLayout
 
 @inject IJSRuntime JS
@@ -13,19 +13,51 @@
 
 
 <div class="ux-bg">
+
     <div class="ux-container">
 
         <div class="ux-header">
             <div class="ux-badge-top">Mesa de Partes Digital</div>
-             
-            <h1>Persona Natural</h1>
+            <h1>Persona Jurídica</h1>
             <p class="ux-description">
                 Completa todos los campos para registrar tu documento.
             </p>
         </div>
-         
+
         <div class="ux-card-form">
-            <h2>I. DATOS DEL DOCUMENTO</h2>
+            <h2>I. DATOS DE LA EMPRESA</h2>
+
+            <div class="ux-grid-form">
+                <div class="ux-field">
+                    <label>RUC *</label>
+                    <div class="ux-input-group">
+                        <input @bind="formulario.VRucEmpresa" @oninput="OnRucInputChanged" placeholder="Ingrese RUC" maxlength="11"
+                               onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                               disabled="@isProcessing" />
+
+                        <button type="button" class="ux-btn-primary" @onclick="ValidarRuc" disabled="@isProcessing">
+                            @(isProcessing ? "Validando..." : "Validar")
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(rucErrorMsg))
+                    {
+                        <span class="ux-error">@rucErrorMsg</span>
+                    }
+                </div>
+
+                <div class="ux-field">
+                    <label>Razón Social *</label>
+                    <input @bind="formulario.VRazonSocial"
+                           readonly="@bloqueadoRazonSocial"
+                           class="@(bloqueadoRazonSocial ? "ux-readonly" : "")"
+                           disabled="@isProcessing" />
+                </div>
+            </div>
+        </div>
+
+        <div class="ux-card-form">
+            <h2>III. DATOS DEL DOCUMENTO</h2>
             <div class="ux-grid-form">
                 <div class="ux-field">
                     <label>Tipo de Documento *</label>
@@ -45,7 +77,7 @@
 
                 <div class="ux-field">
                     <label>Folio *</label>
-                    <input @bind="formulario.VNroPagFolios" placeholder="Ej: 15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <input @bind="formulario.VNroPagFolios" maxlength="50" placeholder="Ej: 15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
                 </div>
 
                 <div class="ux-field">
@@ -89,11 +121,24 @@
             {
                 <p class="ux-error">@error</p>
             }
+
+            @* <br />
+            <button type="button" class="ux-btn-secondary" @onclick="ToggleUrl">
+                🔗 Agregar URL
+            </button>
+
+            @if (mostrarUrl)
+            {
+                <input class="ux-input-url" @bind="urlIngresada" placeholder="https://..." style="text-transform: uppercase;" />
+            } *@
         </div>
-       
+
+
         <div class="ux-card-form">
             <h2>Anexos</h2>
 
+            @* <InputFile id="fileUploadMulti"
+                       multiple class="hidden-input" OnChange="HandleFilesSelected" /> *@
             <InputFile id="fileUploadMulti"
                        multiple class="hidden-input"
                        accept=".pdf"
@@ -106,6 +151,7 @@
                 </div>
             }
             <p class="ux-file-hint">
+                @* (Peso máximo de cada archivo: 20MB)(Formatos permitidos: PDF, DOCX, XLSX, PPT, JPG, PNG y ZIP)(Numero máximo de anexos: 10) *@
                 (Peso máximo de cada archivo: 20MB) (Formato permitido: **PDF**) (Número máximo de anexos: 10)
             </p>
 
@@ -183,12 +229,15 @@
             </div>
         }
 
+
+
     </div>
+
 </div>
 
-  
+
 @code {
-     
+
     // Parámetro para notificar al padre que el usuario quiere volver
     [Parameter] public EventCallback OnVolver { get; set; }
 
@@ -205,18 +254,78 @@
             Nav.NavigateTo("/Tramitar", true);
         }
     }
-    private TramitePersNaturalDto formulario = new();
+
+
+    private RegTramitePersJuridicaDto formulario = new();
+    private PersonaNaturalDto? personaConsultada;
+
+    // **********************
+    // I. DATOS DE LA EMPRESA
+    // **********************
+    private bool isProcessing = false;
+    private bool bloqueadoRazonSocial = true;
+    private string rucErrorMsg;
+
+    private async Task ValidarRuc()
+    {
+        // Usamos directamente el formulario
+        if (string.IsNullOrWhiteSpace(formulario.VRucEmpresa) || formulario.VRucEmpresa.Length != 11)
+        {
+            rucErrorMsg = "El RUC debe tener 11 dígitos.";
+            return;
+        }
+
+        isProcessing = true;
+        rucErrorMsg = string.Empty;
+
+        try
+        {
+            // Consultamos usando el valor que ya está en el formulario
+            var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={formulario.VRucEmpresa}");
+
+            if (resultado != null)
+            {
+                // Asignamos directamente al objeto del formulario
+                formulario.VRazonSocial = resultado.nombreRazonSocial;
+                bloqueadoRazonSocial = true;
+            }
+            else
+            {
+                rucErrorMsg = "No se encontró información para este RUC.";
+                bloqueadoRazonSocial = false;
+            }
+        }
+        catch (Exception)
+        {
+            rucErrorMsg = "Error al consultar el servicio.";
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    private void OnRucInputChanged(ChangeEventArgs e)
+    {
+        // Al cambiar el RUC, reseteamos la Razón Social en el formulario
+        formulario.VRazonSocial = string.Empty;
+        bloqueadoRazonSocial = false;
+    }
+ 
+    // ************************
+    // II. DATOS DEL DOCUMENTO
+    // ************************
     private List<TipoDocumento> listaTiposDocumento = new();
 
     protected override async Task OnInitializedAsync()
-    {
+    { 
         // Carga los tipos de documento al abrir la página
         listaTiposDocumento = await Http.GetFromJsonAsync<List<TipoDocumento>>("api/documentos/tipos-documento");
     }
 
-    // ******************************************************************
-    // DOCUMENTOS ADJUNTOS
-    // ******************************************************************
+    // *****************
+    // DOCUMENTO ADJUNTO
+    // *****************
     private ArchivoAdjunto archivo = new(); // Ahora 'archivo' es de tu clase personalizada
     private string error = "";
     private string? pdfPreviewUrl;
@@ -243,7 +352,6 @@
             };
         }
     }
-
 
     // ************
     // ANEXOS
@@ -309,16 +417,17 @@
 
     private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
 
-    private async Task MostrarMensajeExito(RegistroDocumentoResponseTPN resultadoBD)
+    private async Task MostrarMensajeExitoJuridica(RegistroDocumentoResponseTPJ resultadoBD)
     {
-        string emailUsuario = SessionService.UserSession?.VEmail ?? "No disponible";
+        // Usamos el MailSeguimiento que viene directamente desde la respuesta del SP
+        string mailSeguimiento = resultadoBD?.MailSeguimiento ?? "No disponible";
 
         string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
           "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
               "<img src='https://www.gob.pe/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDk2ODQ0LCJwdXIiOiJibG9iX2lkIn19--1fc9a7807cf6c726e857b951ca1a374a8414a140/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fbGltaXQiOltudWxsLDQ4XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--830247c4bafe7cadca50817d8559bf1a09e3aa28/paga%20gob.pe.png' style='max-height: 45px; width: auto;' alt='Logo AGRO RURAL' />" +
-              "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Documento Registrado!</h3>" +
+              "<h3 style='color: #ffffff; margin: 12px 0 0 0; font-size: 1.3rem; font-weight: 600;'>¡Trámite Jurídico Registrado!</h3>" +
           "</div>" +
-          "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, su documentación ha sido ingresada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
+          "<p style='color: #555555; font-size: 0.95rem; line-height: 1.5; padding: 0 10px;'>Estimado usuario, su documentación empresarial ha sido ingresada de forma satisfactoria en la Mesa de Partes Virtual.</p>" +
           "<div style='background-color: #f4f9f5; border: 1px dashed #35af72; border-radius: 6px; padding: 15px; margin: 20px 10px; text-align: left;'>" +
               "<div style='margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'>" +
                   "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Código de Trámite:</span>" +
@@ -326,16 +435,16 @@
               "</div>" +
               "<div style='display: flex; justify-content: space-between; align-items: center;'>" +
                   "<span style='color: #666666; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;'>Mail de Seguimiento:</span>" +
-                  "<span style='color: #333333; font-size: 0.9rem; font-weight: 600; text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + emailUsuario + "</span>" +
+                  "<span style='color: #333333; font-size: 0.9rem; font-weight: 600; text-align: right; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + mailSeguimiento + "</span>" +
               "</div>" +
           "</div>" +
           "<div style='font-size: 0.8rem; color: #666666; background-color: #fff8e7; border-left: 4px solid #f39c12; padding: 10px; margin: 0 10px 10px 10px; text-align: left; border-radius: 4px;'>📌 <strong>Notificación Enviada:</strong> Se ha despachado el cargo electrónico con el acuse de recibo a la dirección señalada.</div>" +
       "</div>";
 
-        var result = await JS.InvokeAsync<object>("Swal.fire", new
+        await JS.InvokeAsync<object>("Swal.fire", new
         {
             html = mensajeSwal,
-            icon = "success", // Puedes poner "success" para que aparezca el check verde
+            icon = "success",
             confirmButtonText = "Finalizar y Volver",
             confirmButtonColor = "#35af72",
             allowOutsideClick = false,
@@ -343,56 +452,6 @@
             timer = 15000,
             timerProgressBar = true
         });
-
-        // 2. Al llegar aquí, el usuario ya hizo click o el timer expiró.
-        // Ahora realizamos la navegación de forma segura.
-        // Nav.NavigateTo("/");
-    }
-
-    async Task Finalizar()
-    {
-        if (archivo == null)
-        {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
-            return;
-        }
-
-        try
-        {
-            // 1. ASIGNACIÓN DEL ID Y CORREO DE SESIÓN
-            // Aquí es donde garantizamos que el formulario lleve el ID del usuario logueado
-            formulario.ICodPer = SessionService.UserSession.ICodPer;
-            formulario.VEmail = SessionService.UserSession.VEmail;
-
-            List<ArchivoRequestTPN> listaArchivos = new List<ArchivoRequestTPN>();
-
-            // 2. Subir Archivo Principal
-            var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
-            listaArchivos.Add(new ArchivoRequestTPN { VRutaDoc = rutaPrincipal, BTipo = true });
-
-            // 3. Subir Anexos
-            foreach (var item in archivos)
-            {
-                var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
-                listaArchivos.Add(new ArchivoRequestTPN { VRutaDoc = rutaAnexo, BTipo = false });
-            }
-
-            formulario.Archivos = listaArchivos;
-
-            // 4. Enviar a la API
-            var response = await Http.PostAsJsonAsync("api/documentos/registro-tramite-natural", formulario);
-
-            if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
-
-            var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPN>();
-
-            await MostrarMensajeExito(resultadoBD!);
-            Nav.NavigateTo("/Tramitar");
-        }
-        catch (Exception ex)
-        {
-            await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
-        }
     }
 
     // Método auxiliar para evitar duplicar código de subida
@@ -411,5 +470,59 @@
         return res!.ruta;
     }
 
+    async Task Finalizar()
+    {
+        // Validación básica de campos obligatorios (asegúrate de incluir VNombreAsunto en tu UI)
+        if (string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El nombre del asunto es obligatorio.", "warning");
+            return;
+        }
 
-}   
+        if (archivo == null)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
+            return;
+        }
+
+        try
+        {
+            List<ArchivoRequestTPJ> listaArchivos = new List<ArchivoRequestTPJ>();
+
+            // 1. Subir Archivo Principal
+            var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
+            listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaPrincipal, BTipo = true });
+
+            // 2. Subir Anexos
+            foreach (var item in archivos)
+            {
+                var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
+                listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaAnexo, BTipo = false });
+            }
+
+            // 3. Asignamos la lista al DTO
+            formulario.Archivos = listaArchivos;
+
+            // 4. Enviar a la API
+            var response = await Http.PostAsJsonAsync("api/documentos/registro-tramite-juridica", formulario);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new Exception(errorMsg);
+            }
+
+            var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPJ>();
+
+            // 5. Mostrar éxito y navegar
+            await MostrarMensajeExitoJuridica(resultadoBD!);
+            Nav.NavigateTo("/Tramitar");
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
+        }
+    }
+
+
+}

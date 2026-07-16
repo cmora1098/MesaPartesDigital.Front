@@ -1,0 +1,203 @@
+/* HEADER / TOPBAR */
+.topbar[b-yzhksk25oo] {
+    background: #ffffff;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* LOGO Y TÍTULOS */
+.gov-left[b-yzhksk25oo] {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.gov-logo[b-yzhksk25oo] {
+    height: 40px;
+    width: auto;
+}
+
+.gov-divider[b-yzhksk25oo] {
+    width: 1px;
+    height: 32px;
+    background: #e2e8f0;
+}
+
+.gov-title[b-yzhksk25oo] {
+    display: flex;
+    flex-direction: column;
+}
+
+.gov-ministry[b-yzhksk25oo] {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.gov-system[b-yzhksk25oo] {
+    font-size: 1rem;
+    color: #143d16;
+    font-weight: 700;
+}
+
+/* MENÚ DE USUARIO */
+.user-menu[b-yzhksk25oo] {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.session-timer[b-yzhksk25oo] {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.user-info[b-yzhksk25oo] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.user-avatar[b-yzhksk25oo] {
+    font-size: 1.2rem;
+}
+
+/* RESPONSIVE HEADER */
+@media (max-width: 768px) {
+    .topbar[b-yzhksk25oo] {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px 16px;
+    }
+
+    .gov-left[b-yzhksk25oo] {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .gov-divider[b-yzhksk25oo] {
+        display: none;
+    }
+
+    .user-menu[b-yzhksk25oo] {
+        width: 100%;
+        justify-content: space-between;
+        font-size: 0.8rem;
+    }
+}
+
+
+
+/* MODAL BACKDROP (FONDO OSCURO CON DESENFOQUE) */
+.modal-backdrop[b-yzhksk25oo] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 61, 22, 0.4); /* Tono verdoso institucional */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(6px);
+    animation: fadeIn-b-yzhksk25oo 0.3s ease-out;
+}
+
+/* CONTENEDOR DEL MODAL */
+.modal-content[b-yzhksk25oo] {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    animation: slideUp-b-yzhksk25oo 0.3s ease-out;
+}
+
+    .modal-content h2[b-yzhksk25oo] {
+        color: #143d16;
+        margin: 0 0 16px 0;
+        font-size: 1.5rem;
+    }
+
+    .modal-content p[b-yzhksk25oo] {
+        color: #64748b;
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+/* ACCIONES (BOTONES) */
+.modal-actions[b-yzhksk25oo] {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+    /* Sobrescribimos o añadimos estilos de botones dentro del modal */
+    .modal-actions .btn[b-yzhksk25oo] {
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .modal-actions .btn-primary[b-yzhksk25oo] {
+        background: #166534;
+        border: none;
+        color: white;
+    }
+
+        .modal-actions .btn-primary:hover[b-yzhksk25oo] {
+            background: #14532d;
+            transform: translateY(-2px);
+        }
+
+    .modal-actions .btn-secondary[b-yzhksk25oo] {
+        background: #f1f5f9;
+        border: none;
+        color: #475569;
+    }
+
+        .modal-actions .btn-secondary:hover[b-yzhksk25oo] {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+/* ANIMACIONES */
+@keyframes fadeIn-b-yzhksk25oo {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp-b-yzhksk25oo {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+.main-wrapper[b-yzhksk25oo] {
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+}

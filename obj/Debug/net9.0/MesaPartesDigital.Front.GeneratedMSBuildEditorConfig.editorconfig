@@ -84,9 +84,13 @@ build_metadata.AdditionalFiles.CssScope = b-py7tcbq0ce
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-m5l9vkyir2
 
-[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramiteJuridicaInterno.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlSnVyaWRpY2FJbnRlcm5vLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-ahqj5oy2w8
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Tramitar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-52twrfpcoc
+
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramitePerJuridica.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlUGVySnVyaWRpY2EucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-wvaveewqvm
 
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlUGVyTmF0dXJhbC5yYXpvcg==

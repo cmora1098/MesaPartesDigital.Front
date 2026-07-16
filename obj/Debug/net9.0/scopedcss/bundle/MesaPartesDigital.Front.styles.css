@@ -504,6 +504,209 @@ body[b-39rokx7gwf] {
 
 
 /* _content/MesaPartesDigital.Front/Components/Layout/MainLayout.razor.rz.scp.css */
+/* HEADER / TOPBAR */
+.topbar[b-yzhksk25oo] {
+    background: #ffffff;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* LOGO Y TÍTULOS */
+.gov-left[b-yzhksk25oo] {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.gov-logo[b-yzhksk25oo] {
+    height: 40px;
+    width: auto;
+}
+
+.gov-divider[b-yzhksk25oo] {
+    width: 1px;
+    height: 32px;
+    background: #e2e8f0;
+}
+
+.gov-title[b-yzhksk25oo] {
+    display: flex;
+    flex-direction: column;
+}
+
+.gov-ministry[b-yzhksk25oo] {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.gov-system[b-yzhksk25oo] {
+    font-size: 1rem;
+    color: #143d16;
+    font-weight: 700;
+}
+
+/* MENÚ DE USUARIO */
+.user-menu[b-yzhksk25oo] {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.session-timer[b-yzhksk25oo] {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.user-info[b-yzhksk25oo] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.user-avatar[b-yzhksk25oo] {
+    font-size: 1.2rem;
+}
+
+/* RESPONSIVE HEADER */
+@media (max-width: 768px) {
+    .topbar[b-yzhksk25oo] {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px 16px;
+    }
+
+    .gov-left[b-yzhksk25oo] {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .gov-divider[b-yzhksk25oo] {
+        display: none;
+    }
+
+    .user-menu[b-yzhksk25oo] {
+        width: 100%;
+        justify-content: space-between;
+        font-size: 0.8rem;
+    }
+}
+
+
+
+/* MODAL BACKDROP (FONDO OSCURO CON DESENFOQUE) */
+.modal-backdrop[b-yzhksk25oo] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 61, 22, 0.4); /* Tono verdoso institucional */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(6px);
+    animation: fadeIn-b-yzhksk25oo 0.3s ease-out;
+}
+
+/* CONTENEDOR DEL MODAL */
+.modal-content[b-yzhksk25oo] {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    animation: slideUp-b-yzhksk25oo 0.3s ease-out;
+}
+
+    .modal-content h2[b-yzhksk25oo] {
+        color: #143d16;
+        margin: 0 0 16px 0;
+        font-size: 1.5rem;
+    }
+
+    .modal-content p[b-yzhksk25oo] {
+        color: #64748b;
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+/* ACCIONES (BOTONES) */
+.modal-actions[b-yzhksk25oo] {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+    /* Sobrescribimos o añadimos estilos de botones dentro del modal */
+    .modal-actions .btn[b-yzhksk25oo] {
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .modal-actions .btn-primary[b-yzhksk25oo] {
+        background: #166534;
+        border: none;
+        color: white;
+    }
+
+        .modal-actions .btn-primary:hover[b-yzhksk25oo] {
+            background: #14532d;
+            transform: translateY(-2px);
+        }
+
+    .modal-actions .btn-secondary[b-yzhksk25oo] {
+        background: #f1f5f9;
+        border: none;
+        color: #475569;
+    }
+
+        .modal-actions .btn-secondary:hover[b-yzhksk25oo] {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+/* ANIMACIONES */
+@keyframes fadeIn-b-yzhksk25oo {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp-b-yzhksk25oo {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+.main-wrapper[b-yzhksk25oo] {
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+}
 /* _content/MesaPartesDigital.Front/Components/Layout/Navbar.razor.rz.scp.css */
 /* ==========================================================================
    ESTILOS GENERALES Y RESETS
@@ -1681,6 +1884,7 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
         text-align: center;
     }
 }
+
 /* MODAL BACKDROP (FONDO OSCURO CON DESENFOQUE) */
 .modal-backdrop[b-05kz0oof75] {
     position: fixed;
@@ -3441,50 +3645,333 @@ textarea[b-py7tcbq0ce] {
     background-color: #f9f9f9;
     border-color: #35af72;
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/TramiteJuridicaInterno.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/Tramitar.razor.rz.scp.css */
+ 
 /* ==========================================================================
-   1. RESET / BASE / TIPOGRAFÍA
+   1. RESET Y ESTRUCTURA GLOBAL DEL DASHBOARD
    ========================================================================== */
-*[b-ahqj5oy2w8] {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body[b-ahqj5oy2w8] {
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    background: #f1f5f9;
-}
-
-/* ==========================================================================
-   2. ESTRUCTURA Y CONTENEDORES
-   ========================================================================== */
-.ux-bg[b-ahqj5oy2w8] {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;
-    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
-}
-
-.ux-container[b-ahqj5oy2w8] {
+.dash-content[b-52twrfpcoc] {
+    flex: 1;
+    max-width: 1400px;
     width: 100%;
-    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 40px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding-bottom: 40px;
+    gap: 32px;
+
+}
+
+/* Aplícalo al body o al contenedor raíz para que cubra todo */
+body[b-52twrfpcoc] {
+    margin: 0;
+    padding: 0;
+    /* Fondo aplicado a toda la pantalla */
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+    min-height: 100vh;
 }
 
 /* ==========================================================================
-   3. HEADER
+   2. BIENVENIDA Y TARJETAS DE ACCIÓN
    ========================================================================== */
-.ux-header[b-ahqj5oy2w8] {
-    text-align: center;
-    margin-bottom: 10px;
+.welcome-section h2[b-52twrfpcoc] {
+    margin: 0 0 6px 0;
+    color: #143d16;
+    font-size: 1.75rem;
+    font-weight: 700;
 }
 
-.ux-badge-top[b-ahqj5oy2w8] {
+.welcome-section p[b-52twrfpcoc] {
+    margin: 0;
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.cards-grid[b-52twrfpcoc] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.action-card[b-52twrfpcoc] {
+    border-radius: 16px;
+    padding: 32px;
+    color: white;
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+
+.card-primary[b-52twrfpcoc] {
+    background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+}
+
+.card-secondary[b-52twrfpcoc] {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.card-icon[b-52twrfpcoc] {
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.btn-card[b-52twrfpcoc] {
+    background-color: #ffffff;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.card-primary .btn-card[b-52twrfpcoc] {
+    color: #166534;
+}
+
+.card-secondary .btn-card[b-52twrfpcoc] {
+    color: #1e40af;
+}
+
+/* ==========================================================================
+   3. PANEL DE HISTORIAL Y TABLAS
+   ========================================================================== */
+.tramites-panel[b-52twrfpcoc] {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.tramites-header[b-52twrfpcoc] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 14px;
+}
+
+.badge-count[b-52twrfpcoc] {
+    background-color: #f1f5f9;
+    color: #475569;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.filtros-container[b-52twrfpcoc] {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.filtro-item[b-52twrfpcoc] {
+    flex: 1;
+    min-width: 220px;
+}
+
+.filtros-container input[b-52twrfpcoc], .filtros-container select[b-52twrfpcoc] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-buscar[b-52twrfpcoc] {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.table-responsive[b-52twrfpcoc] {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.custom-table[b-52twrfpcoc] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 700px;
+}
+
+    .custom-table th[b-52twrfpcoc] {
+        padding: 14px 16px;
+        color: #475569;
+        font-weight: 600;
+        background-color: #f8fafc;
+        text-align: left;
+    }
+
+    .custom-table td[b-52twrfpcoc] {
+        padding: 16px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+.estado[b-52twrfpcoc] {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+    .estado.enviado[b-52twrfpcoc] {
+        background-color: #fef3c7;
+        color: #d97706;
+    }
+
+    .estado.proceso[b-52twrfpcoc] {
+        background-color: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .estado.finalizado[b-52twrfpcoc] {
+        background-color: #dcfce7;
+        color: #16a34a;
+    }
+
+    .estado.observado[b-52twrfpcoc] {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+
+/* ==========================================================================
+   4. UI SELECTOR (Estilo Premium)
+   ========================================================================== */
+.ux-bg[b-52twrfpcoc] {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+.ux-container[b-52twrfpcoc] {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.ux-grid[b-52twrfpcoc] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.ux-card[b-52twrfpcoc] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .ux-card.active[b-52twrfpcoc] {
+        border-color: #166534;
+        border-width: 2px;
+    }
+
+.ux-icon-circle[b-52twrfpcoc] {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.ux-button[b-52twrfpcoc] {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0c7c3b 100%);
+    color: white;
+    border: none;
+    padding: 15px 48px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.ux-button-secondary[b-52twrfpcoc] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ANIMACIONES Y RESPONSIVE */
+@keyframes fadeIn-b-52twrfpcoc {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-wrapper[b-52twrfpcoc] {
+    animation: fadeIn-b-52twrfpcoc 0.4s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .ux-grid[b-52twrfpcoc] {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-content[b-52twrfpcoc] {
+        padding: 16px;
+    }
+}
+
+
+
+
+
+/* ==========================================================================
+  ESTRUCTURA Y CONTENEDORES (Alineación Estricta a la Izquierda)
+   ========================================================================== */
+.ux-bg-t[b-52twrfpcoc] {
+    /*    min-height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+}
+
+.ux-container-t[b-52twrfpcoc] {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    text-align: left;
+}
+
+.ux-hero-t[b-52twrfpcoc] {
+    text-align: left;
+}
+
+.ux-badge-top-t[b-52twrfpcoc] {
     display: inline-block;
     padding: 6px 14px;
     border-radius: 6px;
@@ -3499,14 +3986,267 @@ body[b-ahqj5oy2w8] {
     box-shadow: 0 1px 2px rgba(0,0,0,0.02);
 }
 
-.ux-header h1[b-ahqj5oy2w8] {
+.ux-hero-t h1[b-52twrfpcoc] {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description-t[b-52twrfpcoc] {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-top: 6px;
+}
+
+
+/* ==========================================================================
+  REJILLA DE TARJETAS (Grid de 2 Columnas)
+   ========================================================================== */
+.ux-grid-t[b-52twrfpcoc] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+
+/* ==========================================================================
+ TARJETAS PREMIUM DE ALTA DEFINICIÓN
+   ========================================================================== */
+.ux-card-t[b-52twrfpcoc] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .ux-card-t:hover[b-52twrfpcoc] {
+        border-color: #cbd5e1;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.06);
+    }
+
+    /* --------------------------------------------------------------------------
+   ESTADOS ACTIVOS CON BORDES TECNOLÓGICOS Y GLOW SUTIL
+   -------------------------------------------------------------------------- */
+
+    /* Perfil 1: InicioNatural (Verde Esmeralda Institucional) */
+    .ux-card-t:nth-child(1).active[b-52twrfpcoc] {
+        border-color: #0c7c3b;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(12, 124, 59, 0.15);
+    }
+
+        .ux-card-t:nth-child(1).active .ux-icon-circle[b-52twrfpcoc] {
+            background: #e6f4ea;
+            color: #0c7c3b;
+        }
+
+        .ux-card-t:nth-child(1).active .ux-selected[b-52twrfpcoc] {
+            color: #0c7c3b;
+            font-weight: 700;
+        }
+
+    /* Perfil 2: InicioJuridica (Azul Corporativo Ejecutivo) */
+    .ux-card-t:nth-child(2).active[b-52twrfpcoc] {
+        border-color: #1e3a8a;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.15);
+    }
+
+        .ux-card-t:nth-child(2).active .ux-icon-circle[b-52twrfpcoc] {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .ux-card-t:nth-child(2).active .ux-selected[b-52twrfpcoc] {
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+
+/* ==========================================================================
+   ELEMENTOS INTERNOS DE LA TARJETA
+   ========================================================================== */
+.ux-icon-circle[b-52twrfpcoc] {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.ux-card-t h3[b-52twrfpcoc] {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.ux-card-t p[b-52twrfpcoc] {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 24px;
+}
+
+/* Marcador inferior de selección */
+.ux-selected[b-52twrfpcoc] {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 14px;
+    margin-top: auto;
+}
+ 
+.ux-actions[b-52twrfpcoc] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-52twrfpcoc] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-52twrfpcoc] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+/* ==========================================================================
+   MEDIA QUERIES (Responsivo Adaptable)
+   ========================================================================== */
+
+/* Tablet y Escritorio pequeño */
+@media (max-width: 900px) {
+    .ux-container-t[b-52twrfpcoc] {
+        padding: 0 20px;
+    }
+}
+
+/* Celulares (donde ocurre el problema de la imagen) */
+@media (max-width: 768px) {
+    .ux-bg-t[b-52twrfpcoc] {
+        padding: 20px 10px; /* Menos padding lateral para aprovechar espacio */
+        align-items: flex-start;
+    }
+
+    .ux-grid-t[b-52twrfpcoc] {
+        grid-template-columns: 1fr; /* Una sola columna */
+        gap: 16px;
+    }
+
+    .ux-card-t[b-52twrfpcoc] {
+        padding: 20px; /* Un poco menos de padding interno en móvil */
+    }
+
+    .ux-actions[b-52twrfpcoc] {
+        flex-direction: column-reverse; /* El botón de 'Continuar' arriba, 'Volver' abajo */
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .ux-button[b-52twrfpcoc], .ux-button-secondary[b-52twrfpcoc] {
+        width: 100%; /* Botones de ancho completo */
+        padding: 14px;
+        text-align: center;
+    }
+}
+/* _content/MesaPartesDigital.Front/Components/Pages/TramitePerJuridica.razor.rz.scp.css */
+/* ==========================================================================
+   1. RESET / BASE / TIPOGRAFÍA
+   ========================================================================== */
+*[b-wvaveewqvm] {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body[b-wvaveewqvm] {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f1f5f9;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA Y CONTENEDORES
+   ========================================================================== */
+.ux-bg[b-wvaveewqvm] {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+}
+
+.ux-container[b-wvaveewqvm] {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   3. HEADER
+   ========================================================================== */
+.ux-header[b-wvaveewqvm] {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ux-badge-top[b-wvaveewqvm] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-header h1[b-wvaveewqvm] {
     font-size: clamp(22px, 5vw, 32px);
     font-weight: 700;
     color: #0f172a;
     letter-spacing: -0.5px;
 }
 
-.ux-description[b-ahqj5oy2w8] {
+.ux-description[b-wvaveewqvm] {
     font-size: 14px;
     color: #64748b;
     max-width: 600px;
@@ -3517,7 +4257,7 @@ body[b-ahqj5oy2w8] {
 /* ==========================================================================
    4. TARJETAS DEL FORMULARIO (CARDS)
    ========================================================================== */
-.ux-card-form[b-ahqj5oy2w8] {
+.ux-card-form[b-wvaveewqvm] {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -3528,7 +4268,7 @@ body[b-ahqj5oy2w8] {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-    .ux-card-form h2[b-ahqj5oy2w8] {
+    .ux-card-form h2[b-wvaveewqvm] {
         font-size: 16px;
         font-weight: 700;
         color: #0c7c3b; /* Identidad Institucional Verde */
@@ -3541,34 +4281,70 @@ body[b-ahqj5oy2w8] {
 /* ==========================================================================
    5. GRID RESPONSIVO DEL FORMULARIO
    ========================================================================== */
-.ux-grid-form[b-ahqj5oy2w8] {
+.ux-grid-form[b-wvaveewqvm] {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Columnas simétricas en escritorio */
+    grid-template-columns: repeat(2, 1fr); /* Por defecto 2 columnas en PC */
     gap: 18px;
 }
 
-.ux-field[b-ahqj5oy2w8] {
+.ux-field[b-wvaveewqvm] {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-    .ux-field.full[b-ahqj5oy2w8] {
+    /* Clases utilitarias de expansión en el Grid */
+    .ux-field.full[b-wvaveewqvm],
+    .full-width[b-wvaveewqvm] {
         grid-column: span 2;
     }
 
-    .ux-field label[b-ahqj5oy2w8] {
-        font-size: 13px;
-        font-weight: 500;
-        color: #334155;
+.ux-field-button[b-wvaveewqvm] {
+    display: flex;
+    align-items: flex-end; /* Alinea el botón perfectamente abajo con los inputs */
+}
+
+/* Labels e indicaciones */
+.ux-field label[b-wvaveewqvm] {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.ux-file-hint[b-wvaveewqvm] {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* Contenedor que agrupa input y botón en la misma línea */
+.ux-input-group[b-wvaveewqvm] {
+    display: flex;
+    gap: 8px; /* Espacio entre el input y el botón */
+    align-items: center;
+}
+
+    /* Ajuste para que el input dentro del grupo ocupe el espacio restante */
+    .ux-input-group input[b-wvaveewqvm] {
+        flex: 1;
     }
+
+    /* Ajuste para que el botón no se estire excesivamente */
+    .ux-input-group .ux-btn-primary[b-wvaveewqvm] {
+        width: auto;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
 
 /* ==========================================================================
    6. CONTROLES DE ENTRADA (INPUTS, SELECTS, TEXTAREA)
    ========================================================================== */
-input[b-ahqj5oy2w8],
-select[b-ahqj5oy2w8],
-textarea[b-ahqj5oy2w8] {
+input[b-wvaveewqvm],
+select[b-wvaveewqvm],
+textarea[b-wvaveewqvm] {
     width: 100%;
     padding: 11px 14px;
     border-radius: 8px;
@@ -3580,106 +4356,38 @@ textarea[b-ahqj5oy2w8] {
     box-sizing: border-box;
 }
 
-    input:hover[b-ahqj5oy2w8],
-    select:hover[b-ahqj5oy2w8],
-    textarea:hover[b-ahqj5oy2w8] {
+    input:hover[b-wvaveewqvm],
+    select:hover[b-wvaveewqvm],
+    textarea:hover[b-wvaveewqvm] {
         border-color: #94a3b8;
     }
 
-    input:focus[b-ahqj5oy2w8],
-    select:focus[b-ahqj5oy2w8],
-    textarea:focus[b-ahqj5oy2w8] {
+    input:focus[b-wvaveewqvm],
+    select:focus[b-wvaveewqvm],
+    textarea:focus[b-wvaveewqvm] {
         background: white;
         border-color: #2563eb;
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         outline: none;
     }
 
-textarea[b-ahqj5oy2w8] {
+    /* Inputs deshabilitados (RENIEC) */
+    input:disabled[b-wvaveewqvm] {
+        background: #e2e8f0;
+        color: #64748b;
+        cursor: not-allowed;
+        border-color: #cbd5e1;
+    }
+
+textarea[b-wvaveewqvm] {
     min-height: 110px;
     resize: vertical;
 }
 
-.ux-input-url[b-ahqj5oy2w8] {
-    margin-top: 12px;
-}
-
-/* --- Grupo de Entrada Especial (Para RUC + Botón Validar) --- */
-.ux-input-group[b-ahqj5oy2w8] {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-}
-
-    .ux-input-group input[b-ahqj5oy2w8] {
-        flex: 1;
-    }
-
-    .ux-input-group .ux-button[b-ahqj5oy2w8] {
-        padding: 0 20px;
-        white-space: nowrap;
-    }
-
-/* --- Estado de Solo Lectura (Razón Social Autocompletada) --- */
-input.ux-readonly[b-ahqj5oy2w8] {
-    background-color: #e2e8f0;
-    color: #475569;
-    border-color: #cbd5e1;
-    cursor: not-allowed;
-}
-
-    input.ux-readonly:hover[b-ahqj5oy2w8],
-    input.ux-readonly:focus[b-ahqj5oy2w8] {
-        background-color: #e2e8f0;
-        border-color: #cbd5e1;
-        box-shadow: none;
-    }
-
 /* ==========================================================================
    7. BOTONES
    ========================================================================== */
-.ux-button[b-ahqj5oy2w8] {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-    .ux-button:hover[b-ahqj5oy2w8] {
-        background: #1d4ed8;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-    }
-
-    .ux-button:active[b-ahqj5oy2w8] {
-        transform: scale(0.98);
-    }
-
-.ux-button-outline[b-ahqj5oy2w8] {
-    background: transparent;
-    border: 1px solid #0c7c3b;
-    color: #0c7c3b;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-    .ux-button-outline:hover[b-ahqj5oy2w8] {
-        background: #0c7c3b;
-        color: white;
-    }
-
-.ux-btn-primary[b-ahqj5oy2w8] {
+.ux-btn-primary[b-wvaveewqvm] {
     width: 100%;
     background: #2563eb;
     color: white;
@@ -3696,17 +4404,16 @@ input.ux-readonly[b-ahqj5oy2w8] {
     gap: 8px;
 }
 
-    .ux-btn-primary:hover[b-ahqj5oy2w8] {
+    .ux-btn-primary:hover[b-wvaveewqvm] {
         background: #1d4ed8;
         box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
     }
 
-    .ux-btn-primary:active[b-ahqj5oy2w8] {
+    .ux-btn-primary:active[b-wvaveewqvm] {
         transform: scale(0.98);
     }
 
-
-.ux-btn-secondary[b-ahqj5oy2w8] {
+.ux-btn-secondary[b-wvaveewqvm] {
     background: transparent;
     border: 1px solid #0c7c3b;
     color: #0c7c3b;
@@ -3718,49 +4425,47 @@ input.ux-readonly[b-ahqj5oy2w8] {
     transition: all 0.2s ease;
 }
 
-    .ux-btn-secondary:hover[b-ahqj5oy2w8] {
+    .ux-btn-secondary:hover[b-wvaveewqvm] {
         background: #0c7c3b;
         color: white;
     }
 
-
-
 /* ==========================================================================
    8. TABLAS RESPONSIVAS (ANEXOS)
    ========================================================================== */
-.ux-table-wrapper[b-ahqj5oy2w8] {
+.ux-table-wrapper[b-wvaveewqvm] {
     width: 100%;
-    overflow-x: auto;
-    margin-top: 15px;
+    overflow-x: auto; /* Permite scroll horizontal en móviles si la tabla es grande */
+    margin-top: 12px;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
 }
 
-.ux-table[b-ahqj5oy2w8] {
+.ux-table[b-wvaveewqvm] {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
     text-align: left;
-    min-width: 500px;
+    min-width: 500px; /* Evita que las columnas se aplasten en mobile */
 }
 
-    .ux-table th[b-ahqj5oy2w8],
-    .ux-table td[b-ahqj5oy2w8] {
+    .ux-table th[b-wvaveewqvm],
+    .ux-table td[b-wvaveewqvm] {
         padding: 12px 14px;
         border-bottom: 1px solid #e2e8f0;
     }
 
-    .ux-table th[b-ahqj5oy2w8] {
+    .ux-table th[b-wvaveewqvm] {
         background: #f1f5f9;
         font-weight: 600;
         color: #475569;
     }
 
-    .ux-table tbody tr:last-child td[b-ahqj5oy2w8] {
+    .ux-table tbody tr:last-child td[b-wvaveewqvm] {
         border-bottom: none;
     }
 
-.btn-delete[b-ahqj5oy2w8] {
+.btn-delete[b-wvaveewqvm] {
     background: transparent;
     border: none;
     color: #ef4444;
@@ -3771,64 +4476,139 @@ input.ux-readonly[b-ahqj5oy2w8] {
     border-radius: 4px;
 }
 
-    .btn-delete:hover[b-ahqj5oy2w8] {
+    .btn-delete:hover[b-wvaveewqvm] {
         background: #fee2e2;
     }
 
-.ux-empty[b-ahqj5oy2w8] {
+.ux-empty[b-wvaveewqvm] {
     text-align: center;
     color: #94a3b8;
     padding: 30px !important;
 }
 
 /* ==========================================================================
-   9. PREVISUALIZADOR PDF
+   9. PREVISUALIZADOR PDF E INPUTS DE ARCHIVOS
    ========================================================================== */
-.ux-pdf-preview[b-ahqj5oy2w8] {
+.ux-file-info[b-wvaveewqvm] {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #166534;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ux-pdf-preview[b-wvaveewqvm] {
     margin-top: 15px;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #cbd5e1;
 }
 
-    .ux-pdf-preview iframe[b-ahqj5oy2w8] {
+    .ux-pdf-preview iframe[b-wvaveewqvm] {
         width: 100%;
         height: 450px;
         border: none;
         display: block;
     }
 
-/* ==========================================================================
-   10. ESTADOS, NOTAS Y ACCIONES
-   ========================================================================== */
-.ux-success[b-ahqj5oy2w8] {
-    color: #16a34a;
-    font-size: 13px;
-    margin-top: 6px;
-    font-weight: 500;
+.hidden-input[b-wvaveewqvm] {
+    display: none;
 }
 
-.ux-error[b-ahqj5oy2w8] {
+.ux-input-url[b-wvaveewqvm] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   10. MODAL / VENTANA EMERGENTE DE PREVIEW
+   ========================================================================== */
+.ux-modal-overlay[b-wvaveewqvm] {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.ux-modal-content[b-wvaveewqvm] {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 85vh;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.ux-close[b-wvaveewqvm] {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+    .ux-close:hover[b-wvaveewqvm] {
+        background: #dc2626;
+    }
+
+.ux-iframe-wrapper[b-wvaveewqvm] {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+}
+
+    .ux-iframe-wrapper iframe[b-wvaveewqvm] {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+/* ==========================================================================
+   11. ESTADOS, NOTAS Y ACCIONES FINALES
+   ========================================================================== */
+.ux-error[b-wvaveewqvm] {
     color: #dc2626;
     font-size: 13px;
-    margin-top: 6px;
+    margin-top: 4px;
     font-weight: 500;
 }
 
-.ux-help[b-ahqj5oy2w8] {
+.ux-help[b-wvaveewqvm] {
     font-size: 12px;
     color: #64748b;
-    line-height: 1.5;
-    margin-bottom: 12px;
+    margin-top: 4px;
 }
 
-.ux-divider[b-ahqj5oy2w8] {
+.ux-divider[b-wvaveewqvm] {
     border: none;
     border-top: 1px solid #e2e8f0;
     margin: 24px 0;
 }
 
-.ux-nota[b-ahqj5oy2w8] {
+.ux-nota[b-wvaveewqvm] {
     font-size: 13.5px;
     color: #475569;
     line-height: 1.5;
@@ -3838,114 +4618,111 @@ input.ux-readonly[b-ahqj5oy2w8] {
     border-radius: 0 8px 8px 0;
 }
 
-.ux-actions-right[b-ahqj5oy2w8] {
+.ux-actions[b-wvaveewqvm] {
     display: flex;
     justify-content: flex-end;
+    margin-top: 10px;
 }
 
-    .ux-actions-right .ux-button[b-ahqj5oy2w8] {
+    .ux-actions .ux-btn-primary[b-wvaveewqvm] {
+        width: auto; /* El botón de envío no ocupa todo el ancho en PC */
         min-width: 200px;
     }
 
-.mt-3[b-ahqj5oy2w8] {
-    margin-top: 1rem;
-}
-
 /* ==========================================================================
-   11. MEDIA QUERIES (RESPONSIVO COMPLETO)
+   12. MEDIA QUERIES (DISEÑO RESPONSIVO DE VERDAD)
    ========================================================================== */
 
+/* TABLETS (Pantallas menores a 768px) */
 @media (max-width: 768px) {
-    .ux-bg[b-ahqj5oy2w8] {
+    .ux-bg[b-wvaveewqvm] {
         padding: 20px 15px;
     }
 
-    .ux-card-form[b-ahqj5oy2w8] {
+    .ux-card-form[b-wvaveewqvm] {
         padding: 22px;
     }
 
-    /* Convertimos la rejilla a un bloque vertical */
-    .ux-grid-form[b-ahqj5oy2w8] {
+    /* Rompemos el grid a 1 sola columna para que los inputs no se aplasten */
+    .ux-grid-form[b-wvaveewqvm] {
         grid-template-columns: 1fr;
         gap: 16px;
     }
 
-    .ux-field.full[b-ahqj5oy2w8] {
+    /* Forzamos a que todos los campos ocupen el ancho completo */
+    .ux-field.full[b-wvaveewqvm],
+    .full-width[b-wvaveewqvm],
+    .ux-field-button[b-wvaveewqvm] {
         grid-column: span 1;
     }
 
-    .ux-pdf-preview iframe[b-ahqj5oy2w8] {
-        height: 350px;
+    .ux-pdf-preview iframe[b-wvaveewqvm] {
+        height: 350px; /* Reducimos la altura del preview en tablets */
     }
 }
 
+/* CELULARES (Pantallas menores a 480px) */
 @media (max-width: 480px) {
-    .ux-bg[b-ahqj5oy2w8] {
+    .ux-bg[b-wvaveewqvm] {
         padding: 15px 10px;
     }
 
-    .ux-card-form[b-ahqj5oy2w8] {
+    .ux-card-form[b-wvaveewqvm] {
         padding: 16px;
         border-radius: 12px;
     }
 
-    .ux-header h1[b-ahqj5oy2w8] {
+    .ux-header h1[b-wvaveewqvm] {
         font-size: 20px;
     }
 
-    .ux-description[b-ahqj5oy2w8] {
+    .ux-description[b-wvaveewqvm] {
         font-size: 13px;
     }
 
-    input[b-ahqj5oy2w8], select[b-ahqj5oy2w8], textarea[b-ahqj5oy2w8] {
-        font-size: 16px; /* Evita zoom forzado automático en iOS/Android */
+    input[b-wvaveewqvm], select[b-wvaveewqvm], textarea[b-wvaveewqvm] {
+        font-size: 16px; /* Evita que iOS (Safari/iPhone) haga zoom forzado al enfocar */
         padding: 10px 12px;
     }
 
-    /* El grupo del RUC se apila verticalmente para dar comodidad en pantallas ultra chicas */
-    .ux-input-group[b-ahqj5oy2w8] {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-        .ux-input-group .ux-button[b-ahqj5oy2w8] {
-            width: 100%;
-            padding: 12px;
-        }
-
-    /* Los botones generales pasan a ocupar todo el espacio para comodidad del pulgar */
-    .ux-button[b-ahqj5oy2w8],
-    .ux-button-outline[b-ahqj5oy2w8],
-    .ux-actions-right .ux-button[b-ahqj5oy2w8] {
+    /* En celulares, todos los botones se vuelven de ancho completo */
+    .ux-btn-primary[b-wvaveewqvm],
+    .ux-btn-secondary[b-wvaveewqvm],
+    .ux-actions .ux-btn-primary[b-wvaveewqvm] {
         width: 100%;
         text-align: center;
     }
-}
 
-@media (max-width: 768px) {
-    .ux-bg[b-ahqj5oy2w8] {
-        padding: 20px 15px;
-    }
-
-    .ux-card-form[b-ahqj5oy2w8] {
-        padding: 22px;
-    }
-
-    /* La rejilla pasa a 1 sola columna vertical en móviles */
-    .ux-grid-form[b-ahqj5oy2w8] {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
-    /* ⚡ Obligamos a que deje de medir 2 columnas cuando la pantalla es pequeña */
-    .ux-field.full[b-ahqj5oy2w8] {
-        grid-column: span 1 !important;
-    }
-
-    .ux-pdf-preview iframe[b-ahqj5oy2w8] {
-        height: 350px;
+    .ux-modal-content[b-wvaveewqvm] {
+        height: 90vh; /* El modal aprovecha más la pantalla vertical */
     }
 }
+
+
+
+
+.ux-actions[b-wvaveewqvm] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-wvaveewqvm] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-wvaveewqvm] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
 /* _content/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
@@ -4441,3 +5218,29 @@ textarea[b-d90ul4yit0] {
         height: 90vh; /* El modal aprovecha más la pantalla vertical */
     }
 }
+
+
+
+
+.ux-actions[b-d90ul4yit0] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-d90ul4yit0] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-d90ul4yit0] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
