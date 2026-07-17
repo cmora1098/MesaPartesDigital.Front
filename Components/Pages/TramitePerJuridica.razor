@@ -48,7 +48,7 @@
 
                 <div class="ux-field">
                     <label>Razón Social *</label>
-                    <input @bind="formulario.VRazonSocial"
+                    <input value="@razonSocial"
                            readonly="@bloqueadoRazonSocial"
                            class="@(bloqueadoRazonSocial ? "ux-readonly" : "")"
                            disabled="@isProcessing" />
@@ -259,6 +259,8 @@
     private RegTramitePersJuridicaDto formulario = new();
     private PersonaNaturalDto? personaConsultada;
 
+    private string razonSocial = string.Empty;
+
     // **********************
     // I. DATOS DE LA EMPRESA
     // **********************
@@ -268,7 +270,6 @@
 
     private async Task ValidarRuc()
     {
-        // Usamos directamente el formulario
         if (string.IsNullOrWhiteSpace(formulario.VRucEmpresa) || formulario.VRucEmpresa.Length != 11)
         {
             rucErrorMsg = "El RUC debe tener 11 dígitos.";
@@ -280,19 +281,23 @@
 
         try
         {
-            // Consultamos usando el valor que ya está en el formulario
             var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={formulario.VRucEmpresa}");
 
             if (resultado != null)
             {
-                // Asignamos directamente al objeto del formulario
-                formulario.VRazonSocial = resultado.nombreRazonSocial;
+                // 1. Asignamos a la variable que se muestra en el input de Razón Social
+                razonSocial = resultado.nombreRazonSocial;
+
+                // 2. Asignamos al formulario para que se envíe al SP (Asegúrate de que este campo exista en tu DTO)
+                // formulario.VRazonSocial = resultado.nombreRazonSocial;
+
                 bloqueadoRazonSocial = true;
             }
             else
             {
                 rucErrorMsg = "No se encontró información para este RUC.";
                 bloqueadoRazonSocial = false;
+                razonSocial = string.Empty; // Limpiamos si no hay éxito
             }
         }
         catch (Exception)
@@ -308,7 +313,7 @@
     private void OnRucInputChanged(ChangeEventArgs e)
     {
         // Al cambiar el RUC, reseteamos la Razón Social en el formulario
-        formulario.VRazonSocial = string.Empty;
+        razonSocial = string.Empty;
         bloqueadoRazonSocial = false;
     }
  
@@ -472,7 +477,7 @@
 
     async Task Finalizar()
     {
-        // Validación básica de campos obligatorios (asegúrate de incluir VNombreAsunto en tu UI)
+        // 1. Validaciones existentes
         if (string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
         {
             await JS.InvokeVoidAsync("Swal.fire", "Atención", "El nombre del asunto es obligatorio.", "warning");
@@ -487,34 +492,35 @@
 
         try
         {
+            // 1. ASIGNACIÓN DEL ID Y CORREO DE SESIÓN
+            // Aquí es donde garantizamos que el formulario lleve el ID del usuario logueado
+            formulario.ICodPer = SessionService.UserSession.ICodPer;
+            formulario.VEmail = SessionService.UserSession.VEmail;
+             
             List<ArchivoRequestTPJ> listaArchivos = new List<ArchivoRequestTPJ>();
 
-            // 1. Subir Archivo Principal
+            // 2. Subir Archivo Principal
             var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
             listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaPrincipal, BTipo = true });
 
-            // 2. Subir Anexos
             foreach (var item in archivos)
             {
                 var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
                 listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaAnexo, BTipo = false });
             }
 
-            // 3. Asignamos la lista al DTO
+            // 3. Asegura que el formulario tenga los datos de la lista
             formulario.Archivos = listaArchivos;
+             
 
-            // 4. Enviar a la API
+            // 4. Enviar a la API (Endpoint actualizado)
             var response = await Http.PostAsJsonAsync("api/documentos/registro-tramite-juridica", formulario);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorMsg = await response.Content.ReadAsStringAsync();
-                throw new Exception(errorMsg);
-            }
+            
+            if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
 
             var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPJ>();
-
-            // 5. Mostrar éxito y navegar
+            
+          
             await MostrarMensajeExitoJuridica(resultadoBD!);
             Nav.NavigateTo("/Tramitar");
         }
@@ -523,6 +529,5 @@
             await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
         }
     }
-
 
 }
