@@ -40,7 +40,7 @@
 
                 <div class="ux-field">
                     <label>Nro Documento *</label>
-                    <input placeholder="Ej: CARTA N° 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
+                    <input placeholder="Ej: 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
                 </div>
 
                 <div class="ux-field">
@@ -351,42 +351,63 @@
 
     async Task Finalizar()
     {
-        if (archivo == null)
+        // 1. Validaciones
+        if (formulario.ICodTipoDoc <= 0 || string.IsNullOrWhiteSpace(formulario.VNroDoc) ||
+            string.IsNullOrWhiteSpace(formulario.VNroPagFolios) || formulario.DFecDoc == default ||
+            string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Complete los campos obligatorios (*).", "warning");
+            return;
+        }
+
+        // 2. VALIDACIÓN DEL DOCUMENTO PRINCIPAL
+        if (archivo == null || archivo.Contenido == null || archivo.Contenido.Length == 0)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El documento principal es obligatorio.", "warning");
             return;
         }
 
         try
         {
-            // 1. ASIGNACIÓN DEL ID Y CORREO DE SESIÓN
-            // Aquí es donde garantizamos que el formulario lleve el ID del usuario logueado
             formulario.ICodPer = SessionService.UserSession.ICodPer;
             formulario.VEmail = SessionService.UserSession.VEmail;
 
-            List<ArchivoRequestTPN> listaArchivos = new List<ArchivoRequestTPN>();
+            // 2. Registro Principal
+            formulario.VRutaDoc = await SubirArchivo(archivo.Nombre, archivo.Contenido);
+            formulario.BTipo = false;
 
-            // 2. Subir Archivo Principal
-            var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
-            listaArchivos.Add(new ArchivoRequestTPN { VRutaDoc = rutaPrincipal, BTipo = true });
-
-            // 3. Subir Anexos
-            foreach (var item in archivos)
-            {
-                var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
-                listaArchivos.Add(new ArchivoRequestTPN { VRutaDoc = rutaAnexo, BTipo = false });
-            }
-
-            formulario.Archivos = listaArchivos;
-
-            // 4. Enviar a la API
             var response = await Http.PostAsJsonAsync("api/documentos/registro-tramite-natural", formulario);
-
             if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
 
-            var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPN>();
+            // Mantenemos esta variable como referencia única
+            var resultadoPrincipal = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPN>();
 
-            await MostrarMensajeExito(resultadoBD!);
+            // 3. Registro Anexos (Opcional)
+            if (archivos != null && archivos.Any())
+            {
+                foreach (var item in archivos)
+                {
+                    var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
+                    var anexo = new TramitePersNaturalDto
+                    {
+                        ICodPer = formulario.ICodPer,
+                        VEmail = formulario.VEmail,
+                        ICodTipoDoc = formulario.ICodTipoDoc,
+                        VNroDoc = formulario.VNroDoc,
+                        VNroPagFolios = formulario.VNroPagFolios,
+                        DFecDoc = formulario.DFecDoc,
+                        VNombreAsunto = formulario.VNombreAsunto,
+                        VReferencia = formulario.VReferencia,
+                        VRutaDoc = rutaAnexo,
+                        BTipo = true, // Es Anexo
+                        ICodAsunto = resultadoPrincipal!.ICodAsunto
+                    };
+                    await Http.PostAsJsonAsync("api/documentos/registro-tramite-natural", anexo);
+                }
+            }
+
+            // 4. Éxito
+            await MostrarMensajeExito(resultadoPrincipal!);
             Nav.NavigateTo("/Tramitar");
         }
         catch (Exception ex)
@@ -394,6 +415,7 @@
             await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
         }
     }
+
 
     // Método auxiliar para evitar duplicar código de subida
     private async Task<string> SubirArchivo(string nombre, byte[] contenido)

@@ -2,40 +2,41 @@
 {
     public class InicioPersJuridicaDto
     {
+        // DATOS DE LA EMPRESA
+        public string vRucEmpresa { get; set; } = string.Empty;
+        public string VRazonSocial { get; set; } = string.Empty;
+
+        // DATOS DEL REPRESENTANTE LEGAL
+        public int ICodTipoDocPer { get; set; }
+        public string VDocPer { get; set; } = string.Empty;
+        public string VNombres { get; set; } = string.Empty;
+        public string VApellidoPaterno { get; set; } = string.Empty;
+        public string VApellidoMaterno { get; set; } = string.Empty;
+        public string VEmail { get; set; } = string.Empty;
+        public string VTelefono { get; set; } = string.Empty;
+        public string VDireccion { get; set; } = string.Empty;
+        public string VCodDistrito { get; set; } = string.Empty;
+
+        // DATOS DEL DOCUMENTO
+        public int ICodTipoDoc { get; set; }
+        public string VNroDoc { get; set; } = string.Empty;
+        public DateTime DFecDoc { get; set; } = DateTime.Today;
+        public string VNombreAsunto { get; set; } = string.Empty;
+        public string VReferencia { get; set; } = string.Empty;
+        public string VNroPagFolios { get; set; } = string.Empty;
+
+        // --- 4. LISTA DE ARCHIVOS ---
         public int? ICodPer { get; set; }
+        public List<ArchivoRequestPJH> Archivos { get; set; } = new();
+    }
 
-        // Datos de Empresa (Cambiamos nombres para que coincidan con los parámetros del SP)
-        public string VRUC { get; set; } // Ajustado de VRucEmpresa
-        public string VRazonSocial { get; set; }
+    public class ArchivoRequestPJH
+    {
+        public string VRutaDoc { get; set; } = string.Empty;
+        public bool BTipo { get; set; } // true (1) = Principal, false (0) = Anexo
+    }
 
-        // Datos de Representante (Correctos)
-        public int? ICodTipoDocPer { get; set; }
-        public string VDocPer { get; set; }
-        public string VNombres { get; set; }
-        public string VApellidoPaterno { get; set; }
-        public string VApellidoMaterno { get; set; }
-        public string VEmail { get; set; }
-        public string VTelefono { get; set; }
-        public string VDireccion { get; set; }
-        public string VCodDistrito { get; set; }
-
-        // Datos de Documento (Correctos)
-        public int? ICodTipoDoc { get; set; }
-        public string VNroDoc { get; set; }
-        public DateTime? DFecDoc { get; set; } = DateTime.Today;
-        public string VNombreAsunto { get; set; }
-        public string VReferencia { get; set; }
-        public string VNroPagFolios { get; set; }
-
-        // Lista de archivos
-        public List<ArchivoRequestIPJ> Archivos { get; set; } = new();
-    }  
-    public class ArchivoRequestIPJ
-        {
-            public string VRutaDoc { get; set; } = string.Empty;
-            public bool BTipo { get; set; } // true (1) = Principal, false (0) = Anexo
-        }
-    public class RegistroInicioPerJuridicaResponse
+    public class RegistroDocumentoResponsePJH
     {
         public int ICodDoc { get; set; }
         public int ICodAsunto { get; set; }

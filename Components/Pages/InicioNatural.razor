@@ -202,7 +202,7 @@
 
                 <div class="ux-field">
                     <label>Nro Documento *</label>
-                    <input placeholder="Ej: CARTA N° 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
+                    <input placeholder="Ej: 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
                 </div>
 
                 <div class="ux-field">
@@ -772,11 +772,38 @@
         ValidarDocumento();
         ValidarCorreo();
 
-        if (!codigoVerificado || !string.IsNullOrEmpty(errorDocumento) || !string.IsNullOrEmpty(errorCorreo)) return;
-
-        if (archivo == null)
+        // 2. Validación de campos obligatorios (*)
+        if (string.IsNullOrWhiteSpace(formulario.VDocPer) ||
+            string.IsNullOrWhiteSpace(formulario.VApellidoPaterno) ||
+            string.IsNullOrWhiteSpace(formulario.VApellidoMaterno) ||
+            string.IsNullOrWhiteSpace(formulario.VNombres) ||
+            string.IsNullOrWhiteSpace(formulario.VTelefono) ||
+            string.IsNullOrWhiteSpace(formulario.VEmail) ||
+            string.IsNullOrWhiteSpace(formulario.VDireccion) ||
+            string.IsNullOrWhiteSpace(departamentoSeleccionado) ||
+            string.IsNullOrWhiteSpace(provinciaSeleccionada) ||
+            string.IsNullOrWhiteSpace(formulario.VCodDistrito) ||
+            formulario.ICodTipoDoc == 0 ||
+            string.IsNullOrWhiteSpace(formulario.VNroDoc) ||
+            string.IsNullOrWhiteSpace(formulario.VNroPagFolios) ||
+            formulario.DFecDoc == default ||
+            string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Por favor, complete todos los campos obligatorios marcados con (*).", "warning");
+            return;
+        }
+
+        // 3. Validación de errores previos y verificación de correo
+        if (!codigoVerificado || !string.IsNullOrEmpty(errorDocumento) || !string.IsNullOrEmpty(errorCorreo))
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Existen errores en los datos ingresados o el código de verificación no ha sido validado.", "warning");
+            return;
+        }
+
+        // 4. Validación de documento principal obligatorio
+        if (archivo == null || archivo.Contenido == null || archivo.Contenido.Length == 0)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El documento principal es obligatorio.", "warning");
             return;
         }
 
@@ -785,17 +812,16 @@
             List<ArchivoRequest> listaArchivos = new List<ArchivoRequest>();
 
             // 2. Subir Archivo Principal
-            // Aquí debes asegurarte de que 'archivo' (tu variable global) sea de tipo ArchivoAdjunto
-            // Si tu variable 'archivo' es un IBrowserFile, cámbiala a tipo ArchivoAdjunto
             var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
-            listaArchivos.Add(new ArchivoRequest { VRutaDoc = rutaPrincipal, BTipo = true });
+            // false = 0 (Principal)
+            listaArchivos.Add(new ArchivoRequest { VRutaDoc = rutaPrincipal, BTipo = false });
 
             // 3. Subir Anexos (Aquí accedemos a las propiedades de 'item' que es ArchivoAdjunto)
             foreach (var item in archivos)
             {
-                // Accedemos a 'item.Nombre' y 'item.Contenido' que definimos en tu clase ArchivoAdjunto
                 var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
-                listaArchivos.Add(new ArchivoRequest { VRutaDoc = rutaAnexo, BTipo = false });
+                // true = 1 (Anexo)
+                listaArchivos.Add(new ArchivoRequest { VRutaDoc = rutaAnexo, BTipo = true });
             }
 
             formulario.Archivos = listaArchivos;

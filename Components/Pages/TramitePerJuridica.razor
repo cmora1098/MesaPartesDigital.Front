@@ -48,8 +48,9 @@
 
                 <div class="ux-field">
                     <label>Razón Social *</label>
-                    <input value="@razonSocial"
-                           readonly="@bloqueadoRazonSocial"
+                    <!-- Usamos @bind-Value para asegurar que el valor se guarde en el DTO -->
+                    <input @bind="formulario.VRazonSocial"
+                           readonly="@bloqueadoRazonSocial" style="text-transform: uppercase;"
                            class="@(bloqueadoRazonSocial ? "ux-readonly" : "")"
                            disabled="@isProcessing" />
                 </div>
@@ -72,7 +73,7 @@
 
                 <div class="ux-field">
                     <label>Nro Documento *</label>
-                    <input placeholder="Ej: CARTA N° 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
+                    <input placeholder="Ej: 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
                 </div>
 
                 <div class="ux-field">
@@ -285,12 +286,8 @@
 
             if (resultado != null)
             {
-                // 1. Asignamos a la variable que se muestra en el input de Razón Social
+                formulario.VRazonSocial = resultado.nombreRazonSocial;
                 razonSocial = resultado.nombreRazonSocial;
-
-                // 2. Asignamos al formulario para que se envíe al SP (Asegúrate de que este campo exista en tu DTO)
-                // formulario.VRazonSocial = resultado.nombreRazonSocial;
-
                 bloqueadoRazonSocial = true;
             }
             else
@@ -302,7 +299,8 @@
         }
         catch (Exception)
         {
-            rucErrorMsg = "Error al consultar el servicio.";
+            //rucErrorMsg = "Error al consultar el servicio.";
+            rucErrorMsg = "No se encontró información para este RUC. Ingrese el nombre manualmente.";
         }
         finally
         {
@@ -477,14 +475,14 @@
 
     async Task Finalizar()
     {
-        // 1. Validaciones existentes
+        // 1. Validaciones
         if (string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
         {
             await JS.InvokeVoidAsync("Swal.fire", "Atención", "El nombre del asunto es obligatorio.", "warning");
             return;
         }
 
-        if (archivo == null)
+        if (archivo == null || archivo.Contenido == null)
         {
             await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
             return;
@@ -492,41 +490,47 @@
 
         try
         {
-            // 1. ASIGNACIÓN DEL ID Y CORREO DE SESIÓN
-            // Aquí es donde garantizamos que el formulario lleve el ID del usuario logueado
+            // 2. Asignación de datos de sesión
             formulario.ICodPer = SessionService.UserSession.ICodPer;
             formulario.VEmail = SessionService.UserSession.VEmail;
-             
+
             List<ArchivoRequestTPJ> listaArchivos = new List<ArchivoRequestTPJ>();
 
-            // 2. Subir Archivo Principal
+            // 3. Subir y agregar Archivo Principal
+            // EsAnexo = false (0) -> Principal
             var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
-            listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaPrincipal, BTipo = true });
+            listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaPrincipal, BTipo = false });
 
+            // 4. Subir y agregar Anexos
+            // EsAnexo = true (1) -> Anexo
             foreach (var item in archivos)
             {
                 var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
-                listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaAnexo, BTipo = false });
+                listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaAnexo, BTipo = true });
             }
 
-            // 3. Asegura que el formulario tenga los datos de la lista
             formulario.Archivos = listaArchivos;
-             
 
-            // 4. Enviar a la API (Endpoint actualizado)
+            // 5. Enviar a la API
             var response = await Http.PostAsJsonAsync("api/documentos/registro-tramite-juridica", formulario);
-            
-            if (!response.IsSuccessStatusCode) throw new Exception(await response.Content.ReadAsStringAsync());
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception(errorContent);
+            }
 
             var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPJ>();
-            
-          
+
+            // 6. Finalización exitosa
             await MostrarMensajeExitoJuridica(resultadoBD!);
             Nav.NavigateTo("/Tramitar");
         }
         catch (Exception ex)
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", ex.Message, "error");
+            // Limpiamos el mensaje de error si es un error técnico muy largo del SP
+            string msg = ex.Message.Contains("Error:") ? ex.Message.Split("Error:")[1] : ex.Message;
+            await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", msg, "error");
         }
     }
 

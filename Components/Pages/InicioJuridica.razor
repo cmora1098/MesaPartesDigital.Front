@@ -29,7 +29,7 @@
                 <div class="ux-field">
                     <label>RUC *</label>
                     <div class="ux-input-group">
-                        <input @bind="formulario.VRUC" @oninput="OnRucInputChanged" placeholder="Ingrese RUC" maxlength="11"
+                        <input @bind="formulario.vRucEmpresa" @oninput="OnRucInputChanged" placeholder="Ingrese RUC" maxlength="11"
                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                disabled="@isProcessing" />
 
@@ -47,7 +47,7 @@
                 <div class="ux-field">
                     <label>Razón Social *</label>
                     <input @bind="formulario.VRazonSocial"
-                           readonly="@bloqueadoRazonSocial"
+                           readonly="@bloqueadoRazonSocial" style="text-transform: uppercase;"
                            class="@(bloqueadoRazonSocial ? "ux-readonly" : "")"
                            disabled="@isProcessing" />
                 </div>
@@ -237,7 +237,7 @@
 
                 <div class="ux-field">
                     <label>Nro Documento *</label>
-                    <input placeholder="Ej: CARTA N° 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
+                    <input placeholder="Ej: 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
                 </div>
 
                 <div class="ux-field">
@@ -407,7 +407,7 @@
     private async Task ValidarRuc()
     {
         // Usamos directamente el formulario
-        if (string.IsNullOrWhiteSpace(formulario.VRUC) || formulario.VRUC.Length != 11)
+        if (string.IsNullOrWhiteSpace(formulario.vRucEmpresa) || formulario.vRucEmpresa.Length != 11)
         {
             rucErrorMsg = "El RUC debe tener 11 dígitos.";
             return;
@@ -419,7 +419,7 @@
         try
         {
             // Consultamos usando el valor que ya está en el formulario
-            var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={formulario.VRUC}");
+            var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={formulario.vRucEmpresa}");
 
             if (resultado != null)
             {
@@ -435,7 +435,8 @@
         }
         catch (Exception)
         {
-            rucErrorMsg = "Error al consultar el servicio.";
+           //rucErrorMsg = "Error al consultar el servicio.";
+            rucErrorMsg = "No se encontró información para este RUC. Ingrese el nombre manualmente.";
         }
         finally
         {
@@ -815,7 +816,7 @@
 
     private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
 
-    private async Task MostrarMensajeExito(RegistroInicioPerJuridicaResponse resultadoBD)
+    private async Task MostrarMensajeExito(RegistroDocumentoResponsePJH resultadoBD)
     {
         string mensajeSwal = "<div style='text-align: center; font-family: Arial, sans-serif;'>" +
           "<div style='background-color: #35af72; margin: -1.25em -1.25em 20px -1.25em; padding: 25px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;'>" +
@@ -869,59 +870,78 @@
 
     async Task Finalizar()
     {
-        // 1. Validaciones preventivas
-        ValidarDocumento(); // Asegura que los campos de datos estén validados
+        // 1. Validaciones básicas de formato y datos de empresa
+        ValidarDocumento();
+        ValidarCorreo();
 
-        if (!codigoVerificado)
+        // 2. Validación de campos obligatorios (*)
+        if (string.IsNullOrWhiteSpace(formulario.vRucEmpresa) ||
+            string.IsNullOrWhiteSpace(formulario.VRazonSocial) ||
+            string.IsNullOrWhiteSpace(formulario.VDocPer) ||
+            string.IsNullOrWhiteSpace(formulario.VApellidoPaterno) ||
+            string.IsNullOrWhiteSpace(formulario.VApellidoMaterno) ||
+            string.IsNullOrWhiteSpace(formulario.VNombres) ||
+            string.IsNullOrWhiteSpace(formulario.VTelefono) ||
+            string.IsNullOrWhiteSpace(formulario.VEmail) ||
+            string.IsNullOrWhiteSpace(formulario.VDireccion) ||
+            string.IsNullOrWhiteSpace(departamentoSeleccionado) ||
+            string.IsNullOrWhiteSpace(provinciaSeleccionada) ||
+            string.IsNullOrWhiteSpace(formulario.VCodDistrito) ||
+            formulario.ICodTipoDoc == 0 ||
+            string.IsNullOrWhiteSpace(formulario.VNroDoc) ||
+            string.IsNullOrWhiteSpace(formulario.VNroPagFolios) ||
+            formulario.DFecDoc == default ||
+            string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Error", "Debe verificar el correo electrónico primero.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Por favor, complete todos los campos obligatorios marcados con (*).", "warning");
             return;
         }
 
-        if (!string.IsNullOrEmpty(errorDocumento))
+        // 3. Validación de errores de lógica, RUC y verificación de correo
+        if (!codigoVerificado || !string.IsNullOrEmpty(errorDocumento) || !string.IsNullOrEmpty(errorCorreo))
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Error", "Revise los campos de documento: " + errorDocumento, "error");
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Existen errores en los datos ingresados o falta validar información (Documento o Correo).", "warning");
             return;
         }
 
-        if (archivo == null || archivo.Contenido == null)
+        // 4. Validación de documento principal obligatorio
+        if (archivo == null || archivo.Contenido == null || archivo.Contenido.Length == 0)
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El documento principal es obligatorio.", "warning");
             return;
         }
 
         try
         {
-            // 2. Preparación de archivos (Manteniendo la lógica que tenías)
-            List<ArchivoRequestIPJ> listaArchivos = new List<ArchivoRequestIPJ>();
-            var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
-            listaArchivos.Add(new ArchivoRequestIPJ { VRutaDoc = rutaPrincipal, BTipo = true });
+            // 1. Preparar lista de archivos con el tipo correcto
+            List<ArchivoRequestPJH> listaArchivos = new List<ArchivoRequestPJH>();
 
+            // Principal = false (0)
+            var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
+            listaArchivos.Add(new ArchivoRequestPJH { VRutaDoc = rutaPrincipal, BTipo = false });
+
+            // Anexos = true (1)
             foreach (var item in archivos)
             {
                 var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
-                listaArchivos.Add(new ArchivoRequestIPJ { VRutaDoc = rutaAnexo, BTipo = false });
+                listaArchivos.Add(new ArchivoRequestPJH { VRutaDoc = rutaAnexo, BTipo = true });
             }
 
             formulario.Archivos = listaArchivos;
 
-            // 3. Serialización y Envío (Debug activo)
-            // Imprime en consola para ver exactamente qué envías antes de fallar
-            Console.WriteLine("Enviando JSON: " + System.Text.Json.JsonSerializer.Serialize(formulario));
-
+            // 2. Enviar a la API
             var response = await Http.PostAsJsonAsync("api/documentos/registro-juridica", formulario);
 
             if (response.IsSuccessStatusCode)
             {
-                var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroInicioPerJuridicaResponse>();
+                var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponsePJH>();
                 await MostrarMensajeExito(resultadoBD!);
                 Nav.NavigateTo("/");
             }
             else
             {
-                // Capturar error detallado del servidor
                 var errorDetalle = await response.Content.ReadAsStringAsync();
-                throw new Exception($"El servidor respondió con error: {response.StatusCode}. Detalle: {errorDetalle}");
+                throw new Exception(errorDetalle);
             }
         }
         catch (Exception ex)
@@ -930,4 +950,6 @@
             await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", "Detalle técnico: " + ex.Message, "error");
         }
     }
+
+
 }
