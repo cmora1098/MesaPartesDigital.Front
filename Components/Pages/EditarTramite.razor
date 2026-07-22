@@ -1,0 +1,937 @@
+﻿@layout MainLayout
+@page "/EditarTramite/{idAsunto:int}"
+@inject HttpClient Http
+@inject NavigationManager Nav
+@inject IJSRuntime JSRuntime
+
+@inject IConfiguration Configuration
+
+<div class="ux-bg-t">
+    <div class="ux-container-t">
+        <div class="ux-hero-t">
+            <div class="ux-badge-top-t">Modo Edición</div>
+            <h1>CÓDIGO DE TRÁMITE: @(tramite?.CodigoTramite ?? idAsunto.ToString())</h1>
+            <p class="ux-description-t">Actualiza la información necesaria y mantén tu expediente al día.</p>
+        </div>
+
+        @if (tramite != null)
+        {
+            <!-- Información del Expediente -->
+            <div class="ux-card-form">
+                <h2>Información del Expediente</h2>
+                <div class="form-grid-t">
+                    <div class="form-group-t">
+                        <label>Tipo de Trámite</label>
+                        <select @bind="tramite.TipoTramite" class="ux-select" disabled>
+                            <option value="0">Seleccione...</option>
+                            <option value="1">Persona Jurídica</option>
+                            <option value="2">Persona Natural</option>
+                        </select>
+                    </div>
+
+                    @if (tramite.TipoTramite == 1)
+                    {
+                        <div class="form-group-t animate-fade-in span-two">
+                            <label>RUC *</label>
+                            <div class="ux-input-group">
+                                <input @bind="tramite.RucTramite"
+                                       @oninput="OnRucInputChanged"
+                                       placeholder="Ingrese RUC"
+                                       maxlength="11"
+                                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                       disabled="@isProcessing" />
+
+                                <button type="button"
+                                        class="ux-btn-action"
+                                        @onclick="ValidarRuc"
+                                        disabled="@isProcessing">
+                                    @(isProcessing ? "Validando..." : "Validar")
+                                </button>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(razonSocial))
+                            {
+                                <div class="ruc-feedback text-success">
+                                    <strong>Empresa:</strong> @razonSocial
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(rucErrorMsg))
+                            {
+                                <div class="ruc-feedback text-error">
+                                    @rucErrorMsg
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <div class="form-group-t">
+                        <label>Correo de Seguimiento</label>
+                        <input type="email" class="form-control-t" @bind="tramite.CorreoTramite" style="text-transform: uppercase;" />
+                    </div>
+                    <div class="form-group-t">
+                        <label>Dependencia</label>
+                        <input type="text" class="form-control-t" value="@tramite.NombreDependencia" disabled />
+                    </div>
+                    <div class="form-group-t">
+                        <label>Estado Actual</label>
+                        <div class="estado-display">@tramite.EstadoTramite</div>
+                    </div>
+                    <div class="form-group-t">
+                        <label>Fecha de Creación</label>
+                        <div class="estado-display">@tramite.Fecha</div>
+                    </div>
+                </div>
+
+                <div class="ux-actions-section">
+                    <button class="ux-button-small" @onclick="ActualizarExpediente">
+                        Actualizar Datos del Expediente
+                    </button>
+                </div>
+            </div>
+
+            <!-- Información del Documento -->
+            <div class="ux-card-form">
+                <h2>Información del Documento</h2>
+                <div class="form-grid-t">
+                    <div class="form-group-t span-two">
+                        <label>Asunto / Expediente</label>
+                        <textarea class="form-control-t"
+                                  maxlength="255"
+                                  @bind="tramite.AsuntoTramite"
+                                  placeholder="Ingrese el resumen o asunto del documento..."
+                                  style="text-transform: uppercase; resize: vertical; min-height: 80px;">
+                            </textarea>
+                    </div>
+                    <div class="form-group-t">
+                        <label>Tipo de Documento *</label>
+                        <select @bind="tramite.iCodTipoDoc">
+                            <option value="0">--SELECCIONAR--</option>
+                            @foreach (var doc in listaTiposDocumento)
+                            {
+                                <option value="@doc.iCodTipoDoc">@doc.vNombreTipoDoc</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group-t">
+                        <label>Nro Documento * </label>
+                        <input placeholder="Ej: 001-2024" @bind="tramite.NroDocumento" style="text-transform: uppercase;" />
+                    </div>
+                    <div class="form-group-t">
+                        <label>Folio *</label>
+                        <input @bind="tramite.FoliosDocumento" placeholder="Ej: 15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    </div>
+                    <div class="form-group-t">
+                        <label>Fecha del Documento *</label>
+                        <input type="date" @bind="tramite.FechaDocumento" />
+                    </div>
+                    <div class="form-group-t span-two">
+                        <label>Referencia</label>
+                        <input @bind="tramite.RefDocumento" placeholder="Ej: Exp. Anterior N° 4521" style="text-transform: uppercase;" />
+                    </div>
+                </div>
+
+                <div class="ux-actions-section">
+                    <button class="ux-button-small" @onclick="ActualizarDocumento">
+                        Actualizar Datos del Documento
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documento Adjunto -->
+            <div class="ux-card-form">
+                <h2>Documento Adjunto</h2>
+                <div class="form-grid-t">
+                    <div class="form-group-t span-two upload-container">
+                        <label for="fileUpload" class="ux-button-small file-label-btn">
+                            📁 Seleccionar Nuevo PDF
+                        </label>
+                        <InputFile OnChange="OnFileSelected" accept=".pdf" id="fileUpload" class="hidden-input" style="display: none;" />
+
+                        <span class="ux-file-hint">
+                            (Peso máximo: 50MB. Solo formato PDF)
+                        </span>
+                    </div>
+
+                    @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
+                    {
+                        <div class="form-group-t span-two file-selected-alert">
+                            <span>✅ <strong>@archivo.Nombre</strong> (Nuevo archivo seleccionado)</span>
+                            <button type="button" class="btn-quitar-archivo" @onclick="() => archivo = null">✕ Quitar</button>
+                        </div>
+
+                        <div class="form-group-t span-two ux-pdf-preview">
+                            <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")" style="width: 100%; height: 400px; border: 1px solid #ccc;"></iframe>
+                        </div>
+                    }
+                    else if (!string.IsNullOrEmpty(tramite?.RutaDocumento))
+                    {
+                        <div class="form-group-t span-two">
+                            <div class="ux-file-info" style="margin-bottom: 10px;">
+                                📂 <span>Documento actual registrado en el sistema</span>
+                            </div>
+
+                            <div style="margin-bottom: 15px;">
+                                <a href="@GetApiUrl(tramite.iCodAsunto)"
+                                   target="_blank" class="ux-button-small" style="text-decoration: none; display: inline-block; text-align: center;">
+                                    🔍 Ver Documento Actual en Pantalla Completa
+                                </a>
+                            </div>
+
+                            <div class="ux-pdf-preview" style="width: 100%; height: 500px; border: 1px solid #ccc; background: #f9f9f9;">
+                                <object data="@GetApiUrl(tramite.iCodAsunto)"
+                                        type="application/pdf"
+                                        width="100%"
+                                        height="100%">
+                                    <div style="padding: 20px; text-align: center;">
+                                        <p>Tu navegador no puede mostrar el PDF directamente.</p>
+                                        <a href="@GetApiUrl(tramite.iCodAsunto)" target="_blank" class="ux-button-small">
+                                            Descargar / Ver PDF
+                                        </a>
+                                    </div>
+                                </object>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(error))
+                    {
+                        <div class="form-group-t span-two">
+                            <p class="ux-error" style="color: red;">@error</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="ux-actions-section">
+                    <button class="ux-button-small" @onclick="ActualizarDocumentoAdjunto">
+                        Actualizar Documento Adjunto
+                    </button>
+                </div>
+            </div>
+
+            <!-- Anexos del Trámite -->
+            <div class="ux-card-form">
+                <h2>Anexos del Trámite</h2>
+
+                <div class="form-grid-t" style="margin-bottom: 20px;">
+                    <InputFile id="fileUploadMulti"  
+                               multiple class="hidden-input"
+                               accept=".pdf"
+                               OnChange="HandleFilesSelected" />
+
+                    @if (!string.IsNullOrEmpty(errorArchivo))
+                    {
+                        <div class="ux-error" style="color: red; margin: 10px 0;">
+                            <strong>¡Atención!</strong> @errorArchivo
+                        </div>
+                    }
+
+                    <p class="ux-file-hint">
+                        (Peso máximo de cada archivo: 20MB) (Formato permitido: <strong>PDF</strong>) (Número máximo de anexos: 10)
+                    </p>
+                </div>
+
+                <!-- TABLA 1: ANEXOS REGISTRADOS -->
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Documentos Ya Registrados</h3>
+                <div class="ux-table-wrapper" style="margin-bottom: 25px;">
+                    <table class="ux-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (listaAnexosRegistrados.Any())
+                            {
+                                int indexReg = 1;
+                                @foreach (var anexo in listaAnexosRegistrados)
+                                {
+                                    var nombreVisual = $"Anexo {indexReg++}";
+                                    <tr>
+                                        <td>@nombreVisual</td>
+                                        <td>PDF (Registrado)</td>
+                                        <td>
+                                            <div class="table-actions-group">
+                                                <button class="ux-button-small" @onclick="() => VerDocumento(anexo)">
+                                                    Ver
+                                                </button>
+                                                <button class="btn-delete" @onclick="() => EliminarAnexoRegistrado(anexo.iCodDoc, nombreVisual)">
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="ux-empty">No hay documentos registrados en la base de datos.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLA 2: NUEVOS ANEXOS A SUBIR -->
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Nuevos Anexos por Subir</h3>
+                <div class="ux-table-wrapper">
+                    <table class="ux-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre de Archivo</th>
+                                <th>Tipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (archivosNuevos.Any())
+                            {
+                                int indexNuevo = 1;
+                                @foreach (var archi in archivosNuevos)
+                                {
+                                    <tr>
+                                        <td>@indexNuevo</td>
+                                        <td>@archi.Nombre (Nuevo)</td>
+                                        <td>PDF</td>
+                                        <td>
+                                            <button class="btn-delete" @onclick="() => EliminarArchivoLocal(archi)">
+                                                Quitar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    indexNuevo++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="ux-empty">No hay nuevos archivos seleccionados.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- VISOR INTEGRADO -->
+                @if (!string.IsNullOrEmpty(previewUrl))
+                {
+                    <div style="margin-top: 20px;">
+                        <div class="ux-iframe-wrapper" style="border: 1px solid #dcdcdc; border-radius: 6px; overflow: hidden; background: #2f2f2f; height: 600px;">
+                            <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
+                        </div>
+                    </div>
+                }
+
+                <div class="ux-actions-section" style="margin-top: 20px;">
+                    <button class="ux-button-small" @onclick="ActualizarDocumentoAnexos">
+                        Subir Nuevos Anexos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botones de Acción Globales -->
+            <div class="ux-actions-fixed">
+                <button class="ux-button-secondary" @onclick='() => Nav.NavigateTo("/Tramitar")'>Cancelar</button>
+                <button class="ux-button" @onclick="GuardarCambios">Actualizar Trámite</button>
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public int idAsunto { get; set; }
+    private AsuntoEdicionDto? tramite;
+
+    private List<TipoDocumento>
+    listaTiposDocumento = new(); 
+    protected override async Task OnInitializedAsync()
+    {
+        tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
+        listaTiposDocumento = await Http.GetFromJsonAsync<List<TipoDocumento>>("api/documentos/tipos-documento");
+        await CargarAnexos();
+    }
+
+    // Clase auxiliar para capturar el resultado de SweetAlert2 en C#
+    public class SweetAlertResult
+    {
+        public bool IsConfirmed { get; set; }
+        public bool IsDenied { get; set; }
+        public bool IsDismissed { get; set; }
+    }
+
+    // **************************
+    // Información del Expediente
+    // **************************
+    private string razonSocial = string.Empty;
+    private bool isProcessing = false;
+    private bool bloqueadoRazonSocial = true;
+    private string rucErrorMsg;
+
+    private void OnRucInputChanged(ChangeEventArgs e)
+    {
+        tramite.RucTramite = e.Value?.ToString() ?? string.Empty;
+
+        // Limpiar estados al editar
+        if (string.IsNullOrEmpty(tramite.RucTramite))
+        {
+            rucErrorMsg = string.Empty;
+            razonSocial = string.Empty;
+            bloqueadoRazonSocial = false;
+        }
+    }
+
+    private async Task ValidarRuc()
+    {
+        if (string.IsNullOrWhiteSpace(tramite.RucTramite) || tramite.RucTramite.Length != 11)
+        {
+            rucErrorMsg = "El RUC debe tener 11 dígitos.";
+            razonSocial = string.Empty;
+            return;
+        }
+
+        isProcessing = true;
+        rucErrorMsg = string.Empty;
+        razonSocial = string.Empty;
+
+        try
+        {
+            var resultado = await Http.GetFromJsonAsync<ContribuyenteDto>($"api/personas/juridica?documento={tramite.RucTramite}");
+
+            if (resultado != null && !string.IsNullOrWhiteSpace(resultado.nombreRazonSocial))
+            {
+                razonSocial = resultado.nombreRazonSocial;
+                bloqueadoRazonSocial = true;
+            }
+            else
+            {
+                rucErrorMsg = "No se encontró información para este RUC.";
+                bloqueadoRazonSocial = false;
+            }
+        }
+        catch (Exception)
+        {
+            rucErrorMsg = "No se encontró información para este RUC. Ingrese el nombre manualmente.";
+            bloqueadoRazonSocial = false;
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    private async Task ActualizarExpediente()
+    {
+        // Lanzar SweetAlert2 de confirmación
+        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]
+        {
+            new
+            {
+                title = "¿Estás seguro?",
+                text = "¿Estás seguro de actualizar los datos de Expediente?",
+                icon = "question",
+                showCancelButton = true,
+                confirmButtonText = "Sí, actualizar",
+                cancelButtonText = "Cancelar",
+                confirmButtonColor = "#0c7c3b",
+                cancelButtonColor = "#d33"
+            }
+        });
+
+        // Verificamos si el usuario hizo clic en confirmar
+        if (confirmResult.IsConfirmed)
+        {
+            Console.WriteLine("[DEBUG] Parámetros a actualizar enviados al API:");
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(tramite));
+
+            var response = await Http.PutAsJsonAsync("api/documentos/actualizar-datos-expediente", tramite);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Actualizado!", "Los datos del expediente se actualizaron correctamente.", "success");
+            }
+            else
+            {
+                string errorDetails = await response.Content.ReadAsStringAsync();
+                // Imprime el error completo en la consola del navegador (F12)
+                Console.WriteLine($"[ERROR API] Código: {response.StatusCode} - Detalle: {errorDetails}");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo actualizar el expediente.", "error");
+            }
+        }
+    }
+
+    // *************************
+    // Información del Documento
+    // *************************
+    private AsuntoEdicionDto? tramiteOriginal = new();
+
+    private async Task ActualizarDocumento()
+    {
+        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]
+        {
+        new
+        {
+            title = "¿Estás seguro?",
+            text = "¿Deseas actualizar la información del documento?",
+            icon = "question",
+            showCancelButton = true,
+            confirmButtonText = "Sí, actualizar",
+            cancelButtonText = "Cancelar",
+            confirmButtonColor = "#0c7c3b",
+            cancelButtonColor = "#d33"
+        }
+        });
+
+        if (confirmResult.IsConfirmed)
+        {
+            try
+            {
+                // 1. DETECTAR QUÉ CAMPOS FUERON MODIFICADOS
+                tramite.CambiosRealizados = new List<string>();
+
+                if (tramiteOriginal != null && tramite != null)
+                {
+                    if (tramite.AsuntoTramite != tramiteOriginal.AsuntoTramite)
+                        tramite.CambiosRealizados.Add("El Asunto / Resumen del documento fue modificado.");
+
+                    if (tramite.iCodTipoDoc != tramiteOriginal.iCodTipoDoc)
+                        tramite.CambiosRealizados.Add("El Tipo de Documento fue actualizado.");
+
+                    if (tramite.NroDocumento != tramiteOriginal.NroDocumento)
+                        tramite.CambiosRealizados.Add("El Número de Documento fue actualizado.");
+
+                    if (tramite.FechaDocumento != tramiteOriginal.FechaDocumento)
+                        tramite.CambiosRealizados.Add("La Fecha del Documento fue modificada.");
+
+                    if (tramite.RefDocumento != tramiteOriginal.RefDocumento)
+                        tramite.CambiosRealizados.Add("La Referencia fue actualizada.");
+
+                    if (tramite.FoliosDocumento != tramiteOriginal.FoliosDocumento)
+                        tramite.CambiosRealizados.Add("El Número de Páginas / Folios fue modificado.");
+                }
+
+                // 2. ENVIAR EL OBJETO COMPLETO A LA API
+                var response = await Http.PutAsJsonAsync("api/documentos/actualizar-datos-documento", tramite);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Actualizar el respaldo original local para futuras ediciones en la misma sesión
+                    if (tramite != null && tramiteOriginal != null)
+                    {
+                        tramiteOriginal.AsuntoTramite = tramite.AsuntoTramite;
+                        tramiteOriginal.iCodTipoDoc = tramite.iCodTipoDoc;
+                        tramiteOriginal.NroDocumento = tramite.NroDocumento;
+                        tramiteOriginal.FechaDocumento = tramite.FechaDocumento;
+                        tramiteOriginal.RefDocumento = tramite.RefDocumento;
+                        tramiteOriginal.FoliosDocumento = tramite.FoliosDocumento;
+                    }
+
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Actualizado!", "Los datos del documento se actualizaron correctamente.", "success");
+                }
+                else
+                {
+                    string errorDetails = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"[ERROR API] {errorDetails}");
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo actualizar el documento.", "error");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Blazor Error] {ex.Message}");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "Ocurrió un error de red al intentar actualizar.", "error");
+            }
+        }
+    }
+
+    // ******************
+    // DOCUMENTOS ADJUNTO
+    // ******************
+
+    private ArchivoAdjunto archivo = new();
+    private string error = "";
+    private string? pdfPreviewUrl;
+
+    private bool mostrarUrl = false;
+    private void ToggleUrl() => mostrarUrl = !mostrarUrl;
+    private string urlIngresada = "";
+
+    // Método que genera la URL absoluta automáticamente tanto en Localhost como en Producción
+    // private string GetApiUrl(int id) => $"{Nav.BaseUri}api/documentos/ver-archivo/{id}";
+
+    private string GetApiUrl(int id)
+    {
+        // Leemos la sección exacta ApiSettings -> BaseUrl
+        var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
+
+        if (!baseUrl.EndsWith("/"))
+            baseUrl += "/";
+
+        return $"{baseUrl}api/documentos/ver-archivo/{id}";
+    }
+
+    // private string GetApiUrl(int id) => $"https:localhost:7100/api/documentos/ver-archivo/{id}";
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        error = "";
+        var file = e.File;
+        if (file != null)
+        {
+            if (!file.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                error = "Solo se permiten archivos en formato PDF.";
+                return;
+            }
+
+            try
+            {
+                using var ms = new MemoryStream();
+                await file.OpenReadStream(50 * 1024 * 1024).CopyToAsync(ms);
+
+                archivo = new ArchivoAdjunto
+                {
+                    Nombre = file.Name,
+                    Tipo = file.ContentType,
+                    Tamano = $"{file.Size / 1024} KB",
+                    Contenido = ms.ToArray(),
+                    FileBrowser = file
+                };
+            }
+            catch (Exception ex)
+            {
+                error = "Error al leer el archivo seleccionado.";
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+
+    private async Task ActualizarDocumentoAdjunto()
+    {
+        if (archivo?.FileBrowser == null)
+        {
+            error = "Por favor selecciona un archivo PDF antes de actualizar.";
+            await JSRuntime.InvokeVoidAsync("Swal.fire", "Atención", "Debe seleccionar un archivo.", "warning");
+            return;
+        }
+
+        try
+        {
+            error = string.Empty;
+
+            var contentType = archivo.Tipo?.ToLower() ?? string.Empty;
+            var extension = Path.GetExtension(archivo.Nombre)?.ToLower() ?? string.Empty;
+
+            bool esPdf = contentType == "application/pdf" || extension == ".pdf";
+            if (!esPdf)
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Formato no válido", "Solo se permite subir archivos en formato PDF.", "error");
+                return;
+            }
+
+            long maxFileSize = 52 * 1024 * 1024;
+            if (archivo.FileBrowser.Size > maxFileSize)
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo demasiado pesado", "No puedes subir archivos muy pesados.", "warning");
+                return;
+            }
+
+            var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
+            if (!baseUrl.EndsWith("/")) baseUrl += "/";
+
+            var urlEndpoint = $"{baseUrl}api/documentos/actualizar-documento-principal/{tramite?.iCodAsunto}";
+
+            using var content = new MultipartFormDataContent();
+            using var stream = archivo.FileBrowser.OpenReadStream(maxAllowedSize: maxFileSize);
+            using var fileContent = new StreamContent(stream);
+
+            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/pdf");
+            content.Add(fileContent, "archivo", archivo.Nombre);
+
+            var response = await Http.PutAsync(urlEndpoint, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                error = string.Empty;
+                tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
+                archivo = new();
+
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Actualizado!", "El documento principal se actualizó correctamente.", "success");
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[ERROR API] {errorContent}");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo actualizar el documento adjunto.", "error");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Atrapa cualquier error de red/stream y muestra un mensaje limpio evitando el texto técnico
+            Console.WriteLine($"[Error oculto]: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo muy pesado", "No puedes subir archivos muy pesados.", "warning");
+        }
+    }
+
+    // ******
+    // ANEXOS
+    // ******
+    private List<AnexoDto> listaAnexosRegistrados = new();
+    private async Task CargarAnexos()
+    {
+        listaAnexosRegistrados = await Http.GetFromJsonAsync<List<AnexoDto>>($"api/documentos/listar-anexos/{idAsunto}") ?? new();
+    }
+        
+    private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
+    private List<ArchivoAdjunto> archivos = new();
+    private string errorArchivo = "";
+
+    // private async Task HandleFilesSelected(InputFileChangeEventArgs e)
+    // {
+    //     errorArchivo = "";
+
+    //     foreach (var file in e.GetMultipleFiles(10))
+    //     {
+    //         if (archivos.Count >= 10)
+    //         {
+    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Límite alcanzado", "Ha alcanzado el límite máximo de 10 archivos.", "warning");
+    //             break;
+    //         }
+
+    //         if (archivos.Any(a => a.Nombre == file.Name))
+    //         {
+    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo duplicado", $"El archivo '{file.Name}' ya ha sido agregado.", "warning");
+    //             continue;
+    //         }
+             
+    //         long maxFileSize = 20 * 1024 * 1024;
+    //         if (file.Size > maxFileSize)
+    //         {
+    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo muy pesado", $"El archivo '{file.Name}' supera los 20MB permitidos.", "warning");
+    //             continue;
+    //         }
+
+    //         var extension = Path.GetExtension(file.Name).ToLower();
+    //         if (extension != ".pdf")
+    //         {
+    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Formato no válido", $"El archivo '{file.Name}' no es un PDF válido.", "error");
+    //             continue;
+    //         }
+
+    //         try
+    //         {
+    //             using var ms = new MemoryStream();
+    //             using var stream = file.OpenReadStream(maxAllowedSize: maxFileSize);
+    //             await stream.CopyToAsync(ms);
+
+    //             archivos.Add(new ArchivoAdjunto
+    //             {
+    //                 Nombre = file.Name,
+    //                 Tipo = extension,
+    //                 Tamano = $"{Math.Round((double)file.Size / (1024 * 1024), 2)} MB",
+    //                 Contenido = ms.ToArray(),
+    //                 FileBrowser = file
+    //             });
+    //         }
+    //         catch (Exception)
+    //         {
+    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo muy pesado", "No puedes subir archivos muy pesados.", "warning");
+    //         }
+    //     }
+    // }
+
+    private async Task HandleFilesSelected(InputFileChangeEventArgs e)
+    {
+        errorArchivo = string.Empty;
+        var archivosSeleccionados = e.GetMultipleFiles(10); // Límite máximo de anexos
+
+        foreach (var file in archivosSeleccionados)
+        {
+            if (file.Size > 20 * 1024 * 1024) // 20MB por archivo
+            {
+                errorArchivo = $"El archivo {file.Name} supera el límite de 20MB.";
+                continue;
+            }
+
+            if (!file.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                errorArchivo = "Solo se permiten archivos en formato PDF.";
+                continue;
+            }
+
+            using var stream = file.OpenReadStream(20 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+
+            archivosNuevos.Add(new ArchivoAdjunto
+            {
+                Nombre = file.Name,
+                Tipo = file.ContentType,
+                Tamano = $"{file.Size / 1024} KB",
+                Contenido = ms.ToArray() // Convertido a byte[] listo para viajar por JSON
+            });
+        }
+        StateHasChanged();
+    }
+
+    private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
+    private string? previewUrl;
+    private void CerrarPreview() => previewUrl = null;
+
+    private void VerDocumento(AnexoDto anexo)
+    {
+        // Si anexo.Ruta ya tiene la ruta física completa (ej: C:\MesaDePartesLocal\REGDOC\archivo.pdf),
+        // puedes mapearla directamente a través de tu controlador pasando el iCodDoc
+        // o apuntando a un endpoint que lea el archivo directamente por su ruta o ID.
+        var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
+
+        if (!baseUrl.EndsWith("/"))
+            baseUrl += "/";
+
+        previewUrl = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
+    }
+
+    private async Task EliminarAnexoRegistrado(int iCodDoc, string nombreVisual)
+    {
+        // Confirmación con SweetAlert2
+        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new
+        {
+            title = $"¿Estás seguro de eliminar el {nombreVisual}?",
+            text = "Esta acción dará de baja el documento del trámite.",
+            icon = "warning",
+            showCancelButton = true,
+            confirmButtonText = "Sí, eliminar",
+            cancelButtonText = "Cancelar"
+        });
+
+        // Validamos si el usuario hizo clic en confirmar (dependiendo de cómo retorne tu SweetAlert)
+        // Si usas la estructura estándar de SweetAlert2 en Blazor, validamos la propiedad IsConfirmed o el valor booleano:
+        bool confirmado = false;
+
+        if (confirmResult != null)
+        {
+            // Si confirmResult viene como objeto dinámico o clase de resultado:
+            confirmado = confirmResult.IsConfirmed; // O si es directo boolean según tu librería JSInterop
+        }
+
+        if (!confirmado) return; // Si canceló, no hacemos nada
+
+        try
+        {
+            var response = await Http.DeleteAsync($"api/documentos/eliminar-anexo/{iCodDoc}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Eliminado!", "El anexo se eliminó correctamente.", "success");
+
+                // 🟢 1. Ocultamos el visor integrando limpiando la URL de vista previa
+                previewUrl = string.Empty;
+
+                // 2. Recargamos la lista automáticamente para que desaparezca de la tabla
+                await CargarAnexos();
+
+                // 3. Forzamos a Blazor a redibujar el componente
+                StateHasChanged();
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo procesar la eliminación en la base de datos.", "error");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("Swal.fire", "Error de red", $"Ocurrió un error: {ex.Message}", "error");
+        }
+    }
+
+    private List<ArchivoAdjunto> archivosNuevos = new();
+   
+    private void EliminarArchivoLocal(ArchivoAdjunto archivo)
+    {
+        archivosNuevos.Remove(archivo);
+        StateHasChanged();
+    }
+
+    private async Task ActualizarDocumentoAnexos()
+    {
+        if (!archivosNuevos.Any())
+        {
+            await JSRuntime.InvokeVoidAsync("Swal.fire", "Aviso", "No hay nuevos anexos por guardar.", "info");
+            return;
+        }
+
+        try
+        {
+            // Enviamos la lista de objetos ArchivoAdjunto a la API
+            var response = await Http.PostAsJsonAsync($"api/documentos/registrar-anexos/{idAsunto}", archivosNuevos);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Éxito!", "Los anexos se guardaron correctamente.", "success");
+
+                // Limpiamos la lista local de nuevos archivos
+                archivosNuevos.Clear();
+
+                // Recargamos la tabla de anexos registrados desde la Base de Datos
+                await CargarAnexos();
+
+                StateHasChanged();
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudieron guardar los anexos en la base de datos.", "error");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("Swal.fire", "Error de red", $"Ocurrió un error: {ex.Message}", "error");
+        }
+    }
+
+    // ******************
+    // Actualizar Cambios
+    // ****************** 
+
+    private async Task GuardarCambios()
+    {
+        try
+        {
+            // 1. Si hay nuevos anexos, los enviamos primero
+            if (archivosNuevos.Any())
+            {
+                var responseAnexos = await Http.PostAsJsonAsync($"api/documentos/registrar-anexos/{idAsunto}", archivosNuevos);
+
+                if (!responseAnexos.IsSuccessStatusCode)
+                {
+                    var errorContent = await responseAnexos.Content.ReadAsStringAsync();
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudieron guardar los nuevos anexos.", "error");
+                    return;
+                }
+            }
+
+            // 2. Ejecutamos el cambio de estado del trámite (de 5 a 1)
+            var responseEstado = await Http.PutAsync($"api/documentos/cambiar-estado/{idAsunto}", null);
+
+            if (responseEstado.IsSuccessStatusCode)
+            {
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Éxito!", "Los cambios se guardaron y el trámite fue actualizado correctamente.", "success");
+
+                archivosNuevos.Clear();
+                Nav.NavigateTo("/Tramitar");
+            }
+            else
+            {
+                // LEER EL MENSAJE REAL QUE MANDA LA API
+                var errorServidor = await responseEstado.Content.ReadAsStringAsync();
+                await JSRuntime.InvokeVoidAsync("Swal.fire", "Aviso", $"No se pudo actualizar el estado: {errorServidor}", "warning");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("Swal.fire", "Error de red", $"Ocurrió un error inesperado: {ex.Message}", "error");
+        }
+    }
+}

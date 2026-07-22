@@ -1337,6 +1337,381 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
         justify-content: center;
     }
 }
+/* _content/MesaPartesDigital.Front/Components/Pages/EditarTramite.razor.rz.scp.css */
+/* ==========================================================================
+       ESTILOS GENERALES Y LAYOUT RESPONSIVE
+       ========================================================================== */
+.ux-bg-t[b-hf17ukhkei] {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f8fafc;
+    box-sizing: border-box;
+}
+
+.ux-container-t[b-hf17ukhkei] {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.ux-hero-t h1[b-hf17ukhkei] {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    margin: 0;
+    word-break: break-word;
+}
+
+.ux-badge-top-t[b-hf17ukhkei] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+/* Tarjeta Formulario Premium */
+.ux-card-form[b-hf17ukhkei] {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+    .ux-card-form h2[b-hf17ukhkei] {
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #0c7c3b;
+        margin-bottom: 32px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .ux-card-form h2[b-hf17ukhkei]::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+/* Grid de Formulario Responsivo */
+.form-grid-t[b-hf17ukhkei] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.form-group-t label[b-hf17ukhkei] {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group-t input[b-hf17ukhkei],
+.form-group-t select[b-hf17ukhkei],
+.form-group-t textarea[b-hf17ukhkei] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+    .form-group-t input:focus[b-hf17ukhkei],
+    .form-group-t select:focus[b-hf17ukhkei],
+    .form-group-t textarea:focus[b-hf17ukhkei] {
+        border-color: #0c7c3b;
+        box-shadow: 0 0 0 3px rgba(12, 124, 59, 0.1);
+        outline: none;
+    }
+
+    .form-group-t input:disabled[b-hf17ukhkei] {
+        background: #f1f5f9;
+        cursor: not-allowed;
+    }
+
+.estado-display[b-hf17ukhkei] {
+    padding: 12px 16px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #334155;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Botones y Acciones */
+.ux-actions-fixed[b-hf17ukhkei] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.ux-button[b-hf17ukhkei] {
+    background: #0c7c3b;
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+    box-sizing: border-box;
+}
+
+    .ux-button:hover[b-hf17ukhkei] {
+        background: #09632f;
+    }
+
+.ux-button-secondary[b-hf17ukhkei] {
+    background: #ffffff;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 14px 32px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.span-two[b-hf17ukhkei] {
+    grid-column: span 2;
+}
+
+.ux-actions-section[b-hf17ukhkei] {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.ux-button-small[b-hf17ukhkei] {
+    background: #e2e8f0;
+    color: #475569;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .ux-button-small:hover[b-hf17ukhkei] {
+        background: #cbd5e1;
+        color: #1e293b;
+    }
+
+/* Tablas Responsivas */
+.ux-table-wrapper[b-hf17ukhkei] {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.ux-table[b-hf17ukhkei] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+    min-width: 450px;
+}
+
+    .ux-table th[b-hf17ukhkei],
+    .ux-table td[b-hf17ukhkei] {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ux-table th[b-hf17ukhkei] {
+        background: #f1f5f9;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .ux-table tbody tr:last-child td[b-hf17ukhkei] {
+        border-bottom: none;
+    }
+
+.table-actions-group[b-hf17ukhkei] {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.btn-delete[b-hf17ukhkei] {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+    .btn-delete:hover[b-hf17ukhkei] {
+        background: #fee2e2;
+    }
+
+.ux-empty[b-hf17ukhkei] {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px !important;
+}
+
+/* Inputs de RUC y Grupos de Validación */
+.ux-input-group[b-hf17ukhkei] {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+    .ux-input-group input[b-hf17ukhkei] {
+        flex: 1;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+.ux-btn-action[b-hf17ukhkei] {
+    background: #0c7c3b;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+    .ux-btn-action:hover[b-hf17ukhkei] {
+        background: #09632f;
+    }
+
+.ruc-feedback[b-hf17ukhkei] {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+.text-success[b-hf17ukhkei] {
+    color: #0c7c3b;
+}
+
+.text-error[b-hf17ukhkei] {
+    color: #ef4444;
+}
+
+.file-label-btn[b-hf17ukhkei] {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.file-selected-alert[b-hf17ukhkei] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #e8f5e9;
+    padding: 10px;
+    border-radius: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-quitar-archivo[b-hf17ukhkei] {
+    padding: 2px 8px;
+    font-size: 11px;
+    background: #ff5252;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+       MEDIA QUERIES PARA ADAPTABILIDAD MÓVIL (MÁX 768px)
+       ========================================================================== */
+@media (max-width: 768px) {
+    .ux-bg-t[b-hf17ukhkei] {
+        padding: 15px 10px;
+    }
+
+    .ux-card-form[b-hf17ukhkei] {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    .ux-hero-t h1[b-hf17ukhkei] {
+        font-size: 20px;
+    }
+
+    .form-grid-t[b-hf17ukhkei] {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .span-two[b-hf17ukhkei] {
+        grid-column: span 1;
+    }
+
+    .ux-actions-fixed[b-hf17ukhkei] {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .ux-button[b-hf17ukhkei],
+    .ux-button-secondary[b-hf17ukhkei] {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .ux-input-group[b-hf17ukhkei] {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+        .ux-input-group input[b-hf17ukhkei] {
+            border-radius: 10px !important;
+        }
+
+    .ux-btn-action[b-hf17ukhkei] {
+        width: 100%;
+        border-radius: 10px !important;
+    }
+
+    .file-selected-alert[b-hf17ukhkei] {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 /* _content/MesaPartesDigital.Front/Components/Pages/Home.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET, BASE Y TIPOGRAFÍA

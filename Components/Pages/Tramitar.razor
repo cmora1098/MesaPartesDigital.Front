@@ -72,7 +72,7 @@ else
                 </div>
 
                 <div class="table-responsive">
-                    <table class="custom-table">
+                    @* <table class="custom-table">
                         <thead>
                             <tr>
                                 <th>Estado</th>
@@ -89,6 +89,36 @@ else
                                     <td class="txt-bold">@item.Codigo</td>
                                     <td>@item.Asunto</td>
                                     <td class="txt-date" style="text-align: right;">@item.Fecha</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table> *@
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Código</th>
+                                <th>Asunto</th>
+                                <th>Fecha</th>
+                                <th>Acción</th> <!-- Nueva columna -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in GetTramitesPaginados())
+                            {
+                                <tr>
+                                    <td><span class="estado @item.Estado.ToLower()">@item.Estado</span></td>
+                                    <td class="txt-bold">@item.Codigo</td>
+                                    <td>@item.Asunto</td>
+                                    <td class="txt-date">@item.Fecha</td>
+                                    <td>
+                                        @if (item.Estado.Equals("Observado", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <button class="btn btn-warning btn-sm" @onclick="() => EditarTramite(item.iCodAsunto)">
+                                                Editar
+                                            </button>
+                                        }
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -300,4 +330,11 @@ else
         paginaActual = 1;
     }
 
+
+    private void EditarTramite(int idAsunto)
+    {
+        // Redirige a una ruta donde tengas el formulario de carga
+        // Asegúrate de pasar el ID para que el formulario cargue los datos existentes
+        Nav.NavigateTo($"/EditarTramite/{idAsunto}");
+    }
 }

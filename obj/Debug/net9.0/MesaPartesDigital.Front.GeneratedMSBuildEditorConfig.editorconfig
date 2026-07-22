@@ -64,6 +64,10 @@ build_metadata.AdditionalFiles.CssScope = b-uwld4ltydb
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25zdWx0YUV4cGVkaWVudGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-923svrkr4m
 
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/EditarTramite.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0YXJUcmFtaXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-hf17ukhkei
+
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-5icodrumzi

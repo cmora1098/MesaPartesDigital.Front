@@ -181,5 +181,6 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\C
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Layout\Navbar.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\Tramitar.razor.rz.scp.css
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\TramitePerJuridica.razor.rz.scp.css
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\cofiwk595n-6ybcklvwls.gz
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\wkhz4vaz0p-6ybcklvwls.gz
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\scopedcss\Components\Pages\EditarTramite.razor.rz.scp.css
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\cofiwk595n-7klc297te8.gz
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net9.0\compressed\wkhz4vaz0p-7klc297te8.gz
