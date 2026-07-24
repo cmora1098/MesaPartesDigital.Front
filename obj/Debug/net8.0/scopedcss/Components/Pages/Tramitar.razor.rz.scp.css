@@ -1,0 +1,535 @@
+ 
+/* ==========================================================================
+   1. RESET Y ESTRUCTURA GLOBAL DEL DASHBOARD
+   ========================================================================== */
+.dash-content[b-52twrfpcoc] {
+    flex: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+}
+
+/* Aplícalo al body o al contenedor raíz para que cubra todo */
+body[b-52twrfpcoc] {
+    margin: 0;
+    padding: 0;
+    /* Fondo aplicado a toda la pantalla */
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   2. BIENVENIDA Y TARJETAS DE ACCIÓN
+   ========================================================================== */
+.welcome-section h2[b-52twrfpcoc] {
+    margin: 0 0 6px 0;
+    color: #143d16;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.welcome-section p[b-52twrfpcoc] {
+    margin: 0;
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.cards-grid[b-52twrfpcoc] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.action-card[b-52twrfpcoc] {
+    border-radius: 16px;
+    padding: 32px;
+    color: white;
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+
+.card-primary[b-52twrfpcoc] {
+    background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+}
+
+.card-secondary[b-52twrfpcoc] {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.card-icon[b-52twrfpcoc] {
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.btn-card[b-52twrfpcoc] {
+    background-color: #ffffff;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.card-primary .btn-card[b-52twrfpcoc] {
+    color: #166534;
+}
+
+.card-secondary .btn-card[b-52twrfpcoc] {
+    color: #1e40af;
+}
+
+/* ==========================================================================
+   3. PANEL DE HISTORIAL Y TABLAS
+   ========================================================================== */
+.tramites-panel[b-52twrfpcoc] {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.tramites-header[b-52twrfpcoc] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 14px;
+}
+
+.badge-count[b-52twrfpcoc] {
+    background-color: #f1f5f9;
+    color: #475569;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.filtros-container[b-52twrfpcoc] {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.filtro-item[b-52twrfpcoc] {
+    flex: 1;
+    min-width: 220px;
+}
+
+.filtros-container input[b-52twrfpcoc], .filtros-container select[b-52twrfpcoc] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-buscar[b-52twrfpcoc] {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.table-responsive[b-52twrfpcoc] {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.custom-table[b-52twrfpcoc] {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 700px;
+}
+
+    .custom-table th[b-52twrfpcoc] {
+        padding: 14px 16px;
+        color: #475569;
+        font-weight: 600;
+        background-color: #f8fafc;
+        text-align: left;
+    }
+
+    .custom-table td[b-52twrfpcoc] {
+        padding: 16px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+.estado[b-52twrfpcoc] {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+    .estado.enviado[b-52twrfpcoc] {
+        background-color: #fef3c7;
+        color: #d97706;
+    }
+
+    .estado.proceso[b-52twrfpcoc] {
+        background-color: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .estado.finalizado[b-52twrfpcoc] {
+        background-color: #dcfce7;
+        color: #16a34a;
+    }
+
+    .estado.observado[b-52twrfpcoc] {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+
+/* ==========================================================================
+   4. UI SELECTOR (Estilo Premium)
+   ========================================================================== */
+.ux-bg[b-52twrfpcoc] {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+.ux-container[b-52twrfpcoc] {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.ux-grid[b-52twrfpcoc] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.ux-card[b-52twrfpcoc] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .ux-card.active[b-52twrfpcoc] {
+        border-color: #166534;
+        border-width: 2px;
+    }
+
+.ux-icon-circle[b-52twrfpcoc] {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.ux-button[b-52twrfpcoc] {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0c7c3b 100%);
+    color: white;
+    border: none;
+    padding: 15px 48px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.ux-button-secondary[b-52twrfpcoc] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ANIMACIONES Y RESPONSIVE */
+@keyframes fadeIn-b-52twrfpcoc {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-wrapper[b-52twrfpcoc] {
+    animation: fadeIn-b-52twrfpcoc 0.4s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .ux-grid[b-52twrfpcoc] {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-content[b-52twrfpcoc] {
+        padding: 16px;
+    }
+}
+
+
+
+
+
+/* ==========================================================================
+  ESTRUCTURA Y CONTENEDORES (Alineación Estricta a la Izquierda)
+   ========================================================================== */
+.ux-bg-t[b-52twrfpcoc] {
+    /*    min-height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+}
+
+.ux-container-t[b-52twrfpcoc] {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    text-align: left;
+}
+
+.ux-hero-t[b-52twrfpcoc] {
+    text-align: left;
+}
+
+.ux-badge-top-t[b-52twrfpcoc] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ux-hero-t h1[b-52twrfpcoc] {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.ux-description-t[b-52twrfpcoc] {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-top: 6px;
+}
+
+
+/* ==========================================================================
+  REJILLA DE TARJETAS (Grid de 2 Columnas)
+   ========================================================================== */
+.ux-grid-t[b-52twrfpcoc] {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+
+/* ==========================================================================
+ TARJETAS PREMIUM DE ALTA DEFINICIÓN
+   ========================================================================== */
+.ux-card-t[b-52twrfpcoc] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .ux-card-t:hover[b-52twrfpcoc] {
+        border-color: #cbd5e1;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.06);
+    }
+
+    /* --------------------------------------------------------------------------
+   ESTADOS ACTIVOS CON BORDES TECNOLÓGICOS Y GLOW SUTIL
+   -------------------------------------------------------------------------- */
+
+    /* Perfil 1: InicioNatural (Verde Esmeralda Institucional) */
+    .ux-card-t:nth-child(1).active[b-52twrfpcoc] {
+        border-color: #0c7c3b;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(12, 124, 59, 0.15);
+    }
+
+        .ux-card-t:nth-child(1).active .ux-icon-circle[b-52twrfpcoc] {
+            background: #e6f4ea;
+            color: #0c7c3b;
+        }
+
+        .ux-card-t:nth-child(1).active .ux-selected[b-52twrfpcoc] {
+            color: #0c7c3b;
+            font-weight: 700;
+        }
+
+    /* Perfil 2: InicioJuridica (Azul Corporativo Ejecutivo) */
+    .ux-card-t:nth-child(2).active[b-52twrfpcoc] {
+        border-color: #1e3a8a;
+        border-width: 2px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.15);
+    }
+
+        .ux-card-t:nth-child(2).active .ux-icon-circle[b-52twrfpcoc] {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .ux-card-t:nth-child(2).active .ux-selected[b-52twrfpcoc] {
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+
+/* ==========================================================================
+   ELEMENTOS INTERNOS DE LA TARJETA
+   ========================================================================== */
+.ux-icon-circle[b-52twrfpcoc] {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.ux-card-t h3[b-52twrfpcoc] {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.ux-card-t p[b-52twrfpcoc] {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 24px;
+}
+
+/* Marcador inferior de selección */
+.ux-selected[b-52twrfpcoc] {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 14px;
+    margin-top: auto;
+}
+ 
+.ux-actions[b-52twrfpcoc] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-52twrfpcoc] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-52twrfpcoc] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+/* ==========================================================================
+   MEDIA QUERIES (Responsivo Adaptable)
+   ========================================================================== */
+
+/* Tablet y Escritorio pequeño */
+@media (max-width: 900px) {
+    .ux-container-t[b-52twrfpcoc] {
+        padding: 0 20px;
+    }
+}
+
+/* Celulares (donde ocurre el problema de la imagen) */
+@media (max-width: 768px) {
+    .ux-bg-t[b-52twrfpcoc] {
+        padding: 20px 10px; /* Menos padding lateral para aprovechar espacio */
+        align-items: flex-start;
+    }
+
+    .ux-grid-t[b-52twrfpcoc] {
+        grid-template-columns: 1fr; /* Una sola columna */
+        gap: 16px;
+    }
+
+    .ux-card-t[b-52twrfpcoc] {
+        padding: 20px; /* Un poco menos de padding interno en móvil */
+    }
+
+    .ux-actions[b-52twrfpcoc] {
+        flex-direction: column-reverse; /* El botón de 'Continuar' arriba, 'Volver' abajo */
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .ux-button[b-52twrfpcoc], .ux-button-secondary[b-52twrfpcoc] {
+        width: 100%; /* Botones de ancho completo */
+        padding: 14px;
+        text-align: center;
+    }
+}
