@@ -42,3 +42,4 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\refint\Mesa
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\MesaPartesDigital.Front.pdb
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\MesaPartesDigital.Front.genruntimeconfig.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\ref\MesaPartesDigital.Front.dll
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\web.config

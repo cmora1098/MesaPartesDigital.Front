@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/MDP/login"
 
 @layout EmptyLayout
 @rendermode InteractiveServer
@@ -137,7 +137,7 @@
                 // Actualizamos el servicio en memoria
                 SessionService.UserSession = resultado;
 
-                Nav.NavigateTo("/Tramitar");
+                Nav.NavigateTo("/MDP/Tramitar");
             }
             else
             {

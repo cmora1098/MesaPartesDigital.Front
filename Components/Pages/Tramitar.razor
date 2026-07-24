@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 @layout MainLayout
-@page "/Tramitar"
+@page "/MDP/Tramitar"
 @inject IJSRuntime JS
 @inject Services.SessionService SessionService
 @inject NavigationManager Nav
@@ -295,7 +295,7 @@ else
     private void Continuar()
     {
         if (!string.IsNullOrWhiteSpace(tipoPersona))
-            Nav.NavigateTo($"/Tramitar/{tipoPersona}");
+            Nav.NavigateTo($"/MDP/Tramitar/{tipoPersona}");
     }
 
     @* ==========================================
@@ -335,6 +335,6 @@ else
     {
         // Redirige a una ruta donde tengas el formulario de carga
         // Asegúrate de pasar el ID para que el formulario cargue los datos existentes
-        Nav.NavigateTo($"/EditarTramite/{idAsunto}");
+        Nav.NavigateTo($"/MDP/EditarTramite/{idAsunto}");
     }
 }

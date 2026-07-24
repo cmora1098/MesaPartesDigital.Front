@@ -29,7 +29,7 @@
         <div class="gov-right @(menuAbierto ? "show" : "")">
 
             <button class="gov-btn-outline"
-                    @onclick="@(() => IrA("/consulta-expediente"))" >
+                    @onclick="@(() => IrA("/MDP/consulta-expediente"))">
                 Consulta tu expediente
             </button>
 
@@ -40,7 +40,7 @@
             </a>
 
             <button class="gov-btn-primary"
-                    @onclick="@(() => IrA("/login"))">
+                    @onclick="@(() => IrA("/MDP/login"))">
                 Iniciar sesión
             </button>
 
@@ -66,7 +66,7 @@
 
     private void ConsultarExpediente()
     {
-        Navigation.NavigateTo("/consulta-expediente");
+        Navigation.NavigateTo("/MDP/consulta-expediente");
     }
      
 }

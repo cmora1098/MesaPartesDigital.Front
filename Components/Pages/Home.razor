@@ -1,4 +1,4 @@
-﻿        @page "/"
+﻿        @page "/MDP/Inicio"
         @inject NavigationManager Nav
         @rendermode InteractiveServer
 
@@ -79,7 +79,7 @@
 
         </div>
 
-        @code {
+        @* @code {
             private string tipoPersona = string.Empty;
 
             private void SeleccionarNatural() => tipoPersona = "natural";
@@ -91,4 +91,18 @@
                 if (!string.IsNullOrWhiteSpace(tipoPersona))
                     Nav.NavigateTo($"/inicio/{tipoPersona}");
             }
-        }
+             
+        } *@
+@code {
+    private string tipoPersona = string.Empty;
+
+    private void SeleccionarNatural() => tipoPersona = "natural";
+
+    private void SeleccionarJuridica() => tipoPersona = "juridica";
+
+    private void Continuar()
+    {
+        if (!string.IsNullOrWhiteSpace(tipoPersona))
+            Nav.NavigateTo($"/MDP/inicio/{tipoPersona}"); // 🟢 Actualizado con el prefijo /MDP/
+    }
+}
