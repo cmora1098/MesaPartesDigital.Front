@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@page "/MDP/Tramitar/TPersonaNatural"
+@page "/{PrefijoModulo}/TPersonaNatural"
  
 @layout MainLayout
 
@@ -188,7 +188,9 @@
 
   
 @code {
-     
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
+
     // Parámetro para notificar al padre que el usuario quiere volver
     [Parameter] public EventCallback OnVolver { get; set; }
 
@@ -202,7 +204,9 @@
         else
         {
             // Si no hay padre escuchando (caso de error), redirigimos a la ruta segura
-            Nav.NavigateTo("/Tramitar", true);
+            // Nav.NavigateTo("/Tramitar", true);
+            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar", true);
+
         }
     }
     private TramitePersNaturalDto formulario = new();
@@ -408,7 +412,9 @@
 
             // 4. Éxito
             await MostrarMensajeExito(resultadoPrincipal!);
-            Nav.NavigateTo("/Tramitar");
+            // Nav.NavigateTo("/Tramitar");
+            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
+
         }
         catch (Exception ex)
         {

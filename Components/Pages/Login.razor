@@ -1,4 +1,4 @@
-﻿@page "/MDP/login"
+﻿@page "/{PrefijoModulo}/login"
 
 @layout EmptyLayout
 @rendermode InteractiveServer
@@ -98,6 +98,10 @@
 </div>
  
 @code {
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
+
+
     private LoginDto loginModel = new();
     private string mensajeAlert = string.Empty;
     private bool esExito = false;
@@ -137,7 +141,8 @@
                 // Actualizamos el servicio en memoria
                 SessionService.UserSession = resultado;
 
-                Nav.NavigateTo("/MDP/Tramitar");
+                // Nav.NavigateTo("/MDP/Tramitar");
+                Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
             }
             else
             {

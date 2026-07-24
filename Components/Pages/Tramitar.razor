@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 @layout MainLayout
-@page "/MDP/Tramitar"
+@page "/{PrefijoModulo}/Tramitar"
 @inject IJSRuntime JS
 @inject Services.SessionService SessionService
 @inject NavigationManager Nav
@@ -195,30 +195,11 @@ else
     </main>
 
 }
-
 @code {
-    private bool cargando = true;
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     if (firstRender)
-    //     {
-    //         if (SessionService.UserSession == null)
-    //         {
-    //             var json = await JS.InvokeAsync<string>("localStorage.getItem", "user_session");
-    //             if (!string.IsNullOrEmpty(json))
-    //             {
-    //                 SessionService.UserSession = System.Text.Json.JsonSerializer.Deserialize<LoginResultDto>(json);
-    //             }
-    //             else
-    //             {
-    //                 Nav.NavigateTo("/login"); 
-    //             }
-    //         }
-    //         cargando = false;
-    //         StateHasChanged();
-    //     }
-    // }
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
 
+    private bool cargando = true;
     private UserSession Session = new UserSession();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -237,8 +218,9 @@ else
                     }
                     else
                     {
-                        Nav.NavigateTo("/login", true);
-                        return; // Salimos si no hay sesión
+                        // 🟢 Dinámico: Usa el prefijo actual para el login
+                        Nav.NavigateTo($"/{PrefijoModulo}/login", true);
+                        return;
                     }
                 }
 
@@ -260,7 +242,6 @@ else
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Error al obtener historial: {ex.Message}");
-                        // Puedes decidir si quieres mostrar un mensaje de error en la UI aquí
                     }
                 }
 
@@ -272,10 +253,12 @@ else
             catch (Exception ex)
             {
                 Console.WriteLine($"Error crítico en carga: {ex.Message}");
-                Nav.NavigateTo("/login", true);
+                // 🟢 Dinámico: Usa el prefijo actual en caso de error crítico
+                Nav.NavigateTo($"/{PrefijoModulo}/login", true);
             }
         }
     }
+
     @* ==========================================
        SECCIÓN: VARIABLES DE ESTADO Y UI
        ========================================== *@
@@ -284,7 +267,7 @@ else
     private string tipoPersona = string.Empty;
     private string filtroCodigo = "";
     private string filtroEstado = "todos";
-     
+
     @* ==========================================
        SECCIÓN: MÉTODOS DE NAVEGACIÓN Y ACCIONES
        ========================================== *@
@@ -295,7 +278,8 @@ else
     private void Continuar()
     {
         if (!string.IsNullOrWhiteSpace(tipoPersona))
-            Nav.NavigateTo($"/MDP/Tramitar/{tipoPersona}");
+            // 🟢 Corregido: Usa la variable PrefijoModulo en lugar de "/MDP/"
+            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar/{tipoPersona}");
     }
 
     @* ==========================================
@@ -321,7 +305,6 @@ else
 
     private void AplicarFiltros()
     {
-        // Esto funcionará ahora sobre la lista que viene de la API
         tramitesFiltrados = todosLosTramites.Where(t =>
             (string.IsNullOrEmpty(filtroCodigo) || t.Codigo.Contains(filtroCodigo, StringComparison.OrdinalIgnoreCase)) &&
             (filtroEstado == "todos" || t.Estado.Equals(filtroEstado, StringComparison.OrdinalIgnoreCase))
@@ -330,11 +313,9 @@ else
         paginaActual = 1;
     }
 
-
     private void EditarTramite(int idAsunto)
     {
-        // Redirige a una ruta donde tengas el formulario de carga
-        // Asegúrate de pasar el ID para que el formulario cargue los datos existentes
-        Nav.NavigateTo($"/MDP/EditarTramite/{idAsunto}");
+        // 🟢 Corregido: Usa la variable PrefijoModulo en lugar de "/MDP/"
+        Nav.NavigateTo($"/{PrefijoModulo}/EditarTramite/{idAsunto}");
     }
 }

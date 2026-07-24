@@ -1,6 +1,5 @@
 ﻿@rendermode InteractiveServer
 @inject NavigationManager Nav
-@inject NavigationManager Navigation
 
 <header class="gov-header">
 
@@ -29,7 +28,7 @@
         <div class="gov-right @(menuAbierto ? "show" : "")">
 
             <button class="gov-btn-outline"
-                    @onclick="@(() => IrA("/MDP/consulta-expediente"))">
+                    @onclick="@(() => IrA("consulta-expediente"))">
                 Consulta tu expediente
             </button>
 
@@ -40,7 +39,7 @@
             </a>
 
             <button class="gov-btn-primary"
-                    @onclick="@(() => IrA("/MDP/login"))">
+                    @onclick="@(() => IrA("login"))">
                 Iniciar sesión
             </button>
 
@@ -58,15 +57,36 @@
         menuAbierto = !menuAbierto;
     }
 
-    private void IrA(string url)
+    private void IrA(string destino)
     {
         menuAbierto = false;
-        Nav.NavigateTo(url);
+
+        // Extrae dinámicamente el prefijo actual de la URL (ej: /MDP/ o /Logistica/)
+        string prefijo = ObtenerPrefijoActual();
+
+        // Navega manteniendo el prefijo dinámico + la ruta de destino
+        Nav.NavigateTo($"/{prefijo}/{destino}");
     }
 
-    private void ConsultarExpediente()
+    private string ObtenerPrefijoActual()
     {
-        Navigation.NavigateTo("/MDP/consulta-expediente");
+        try
+        {
+            // Analiza la ruta actual, ej: https://localhost:7100/MDP/inicio/natural
+            var uri = new Uri(Nav.Uri);
+            var segmentos = uri.Segments;
+
+            // segmentos[0] es "/", segmentos[1] sería "MDP/"
+            if (segmentos.Length > 1)
+            {
+                return segmentos[1].Trim('/');
+            }
+        }
+        catch
+        {
+            // Fallback por defecto si ocurre algún error
+        }
+
+        return "MDP";
     }
-     
 }

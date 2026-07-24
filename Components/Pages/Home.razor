@@ -1,5 +1,5 @@
-﻿        @page "/MDP/Inicio"
-        @inject NavigationManager Nav
+﻿@page "/{PrefijoModulo}/Inicio"
+@inject NavigationManager Nav
         @rendermode InteractiveServer
 
         <div class="ux-bg">
@@ -93,7 +93,11 @@
             }
              
         } *@
+
 @code {
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
+
     private string tipoPersona = string.Empty;
 
     private void SeleccionarNatural() => tipoPersona = "natural";
@@ -103,6 +107,9 @@
     private void Continuar()
     {
         if (!string.IsNullOrWhiteSpace(tipoPersona))
-            Nav.NavigateTo($"/MDP/inicio/{tipoPersona}"); // 🟢 Actualizado con el prefijo /MDP/
+        {
+            // Utiliza la variable PrefijoModulo para mantener la ruta dinámica
+            Nav.NavigateTo($"/{PrefijoModulo}/inicio/{tipoPersona}");
+        }
     }
 }

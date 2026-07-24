@@ -1,4 +1,4 @@
-﻿@page "/MDP/consulta-expediente"
+﻿@page "/{PrefijoModulo}/consulta-expediente"
 @rendermode InteractiveServer
 
 <div class="ux-bg">
@@ -119,6 +119,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
+
     private string cutBusqueda = "";
     private string periodoBusqueda = "2026";
     private bool mostrarResultado = false;

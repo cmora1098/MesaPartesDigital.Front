@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@page "/MDP/Tramitar/TPersonaJuridica"
+@page "/{PrefijoModulo}/TPersonaJuridica"
 
 @layout MainLayout
 
@@ -239,8 +239,13 @@
 
 @code {
 
-    // Parámetro para notificar al padre que el usuario quiere volver
-    [Parameter] public EventCallback OnVolver { get; set; }
+
+
+        [Parameter]
+        public string PrefijoModulo { get; set; } = string.Empty;
+
+        // Parámetro para notificar al padre que el usuario quiere volver
+        [Parameter] public EventCallback OnVolver { get; set; }
 
     private async Task ManejarVolver()
     {
@@ -252,7 +257,9 @@
         else
         {
             // Si no hay padre escuchando (caso de error), redirigimos a la ruta segura
-            Nav.NavigateTo("/Tramitar", true);
+            // Nav.NavigateTo("/Tramitar", true);
+            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar", true);
+
         }
     }
 
@@ -314,7 +321,7 @@
         razonSocial = string.Empty;
         bloqueadoRazonSocial = false;
     }
- 
+
     // ************************
     // II. DATOS DEL DOCUMENTO
     // ************************
@@ -524,7 +531,10 @@
 
             // 6. Finalización exitosa
             await MostrarMensajeExitoJuridica(resultadoBD!);
-            Nav.NavigateTo("/Tramitar");
+
+            // Nav.NavigateTo("/Tramitar");
+
+            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
         }
         catch (Exception ex)
         {

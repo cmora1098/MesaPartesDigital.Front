@@ -1,4 +1,4 @@
-@page "/MDP/inicio/natural"
+@page "/{PrefijoModulo}/inicio/natural"
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Components.Forms
@@ -359,6 +359,9 @@
 </div>
 
 @code {
+
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
 
     // private RegistroDocumentoRequest formulario = new();
     private InicioPersNaturalDto formulario = new();
@@ -764,6 +767,7 @@
         // 2. Al llegar aquí, el usuario ya hizo click o el timer expiró.
         // Ahora realizamos la navegación de forma segura.
         // Nav.NavigateTo("/");
+        // Nav.NavigateTo($"/{PrefijoModulo}/Inicio");
     }
 
     async Task Finalizar()
@@ -834,7 +838,8 @@
             var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroInicioPerNaturalResponse>();
 
             await MostrarMensajeExito(resultadoBD!);
-            Nav.NavigateTo("/");
+            // Nav.NavigateTo("/");
+            Nav.NavigateTo($"/{PrefijoModulo}/Inicio");
         }
         catch (Exception ex)
         {

@@ -1,4 +1,4 @@
-@page "/MDP/inicio/juridica"
+@page "/{PrefijoModulo}/inicio/juridica"
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Components.Forms
@@ -396,6 +396,8 @@
 
 
 @code {
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
 
     // ********************** 
     // I. DATOS DE LA EMPRESA
@@ -850,6 +852,7 @@
         });
          
         // Nav.NavigateTo("/");
+        // Nav.NavigateTo($"/{PrefijoModulo}/Inicio");
     }
 
     // Método auxiliar para evitar duplicar código de subida
@@ -936,7 +939,8 @@
             {
                 var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponsePJH>();
                 await MostrarMensajeExito(resultadoBD!);
-                Nav.NavigateTo("/");
+                // Nav.NavigateTo("/");
+                Nav.NavigateTo($"/{PrefijoModulo}/Inicio");
             }
             else
             {

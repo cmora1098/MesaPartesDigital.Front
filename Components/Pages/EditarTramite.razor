@@ -1,5 +1,5 @@
 ﻿@layout MainLayout
-@page "/MDP/EditarTramite/{idAsunto:int}"
+@page "/{PrefijoModulo}/EditarTramite/{idAsunto:int}"
 @inject HttpClient Http
 @inject NavigationManager Nav
 @inject IJSRuntime JSRuntime
@@ -335,7 +335,7 @@
 
             <!-- Botones de Acción Globales -->
             <div class="ux-actions-fixed">
-                <button class="ux-button-secondary" @onclick='() => Nav.NavigateTo("/Tramitar")'>Cancelar</button>
+                <button class="ux-button-secondary" @onclick='() => Nav.NavigateTo($"/{PrefijoModulo}/Tramitar")'>Cancelar</button>
                 <button class="ux-button" @onclick="GuardarCambios">Actualizar Trámite</button>
             </div>
         }
@@ -344,6 +344,9 @@
 
 
 @code {
+    [Parameter]
+    public string PrefijoModulo { get; set; } = string.Empty;
+
     [Parameter] public int idAsunto { get; set; }
     private AsuntoEdicionDto? tramite;
 
@@ -920,7 +923,8 @@
                 await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Éxito!", "Los cambios se guardaron y el trámite fue actualizado correctamente.", "success");
 
                 archivosNuevos.Clear();
-                Nav.NavigateTo("/Tramitar");
+                // Nav.NavigateTo("/Tramitar");
+                Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
             }
             else
             {
