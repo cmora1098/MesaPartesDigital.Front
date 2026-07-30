@@ -1,0 +1,14 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+@inject IConfiguration Configuration
+
+@code {
+    protected override void OnInitialized()
+    {
+        // 1. Lee dinámicamente el prefijo desde el appsettings.json (por defecto usa "MDP" si no lo encuentra)
+        string prefijoModulo = Configuration["ModuloSettings:Prefijo"] ?? "MDP";
+
+        // 2. Redirige automáticamente a la ruta dinámica correspondiente
+        Navigation.NavigateTo($"/{prefijoModulo}/Inicio", forceLoad: false);
+    }
+}

@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\MesaPartesDigital.Front.csproj",
+      "projectUniqueName": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\MesaPartesDigital.Front.csproj",
       "projectName": "MesaPartesDigital.Front",
-      "projectPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\MesaPartesDigital.Front.csproj",
+      "projectPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\MesaPartesDigital.Front.csproj",
       "packagesPath": "C:\\Users\\programador_suti06\\.nuget\\packages\\",
-      "outputPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\obj\\",
+      "outputPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
