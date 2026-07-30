@@ -1,105 +1,109 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\",
+  "WorkspaceRootPath": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\iniciojuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\iniciojuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\editartramite.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\editartramite.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\editartramite.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\consultaexpediente.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\consultaexpediente.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\iniciojuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\iniciojuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\layout\\navbar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\navbar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\layout\\iniciomainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\iniciomainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\layout\\header.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\header.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\tramitepernatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitepernatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\tramiteperjuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramiteperjuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\tramitar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\inicionatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\inicionatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\inicionatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\mesapartesdigital.front.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\tramitepernatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitepernatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\tramitar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\consultaexpediente.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\consultaexpediente.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\layout\\iniciomainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\iniciomainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\layout\\header.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\header.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\layout\\navbar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\navbar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\tramiteperjuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramiteperjuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\mesapartesdigital.front.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:mesapartesdigital.front.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\tramitar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\tramitar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\models\\iniciopersnaturaldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\models\\iniciopersnaturaldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:models\\iniciopersnaturaldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\models\\iniciopersjuridicadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\models\\iniciopersjuridicadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:models\\iniciopersjuridicadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\pages\\home.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\pages\\home.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\home.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\components\\base\\pagebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\components\\base\\pagebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\base\\pagebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mpvfront\\models\\applicationsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|d:\\proyectos\\nueva mesa de partes\\mesapartesfront\\models\\applicationsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:models\\applicationsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -110,8 +114,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Index.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\Index.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Index.razor*",
+              "RelativeToolTip": "Components\\Pages\\Index.razor*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-30T19:29:13.088Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
@@ -121,211 +138,51 @@
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Navbar.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\Navbar.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\Navbar.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\Navbar.razor",
-              "RelativeToolTip": "Components\\Layout\\Navbar.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-27T23:22:10.159Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "EditarTramite.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\EditarTramite.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\EditarTramite.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\EditarTramite.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\EditarTramite.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\EditarTramite.razor",
               "RelativeToolTip": "Components\\Pages\\EditarTramite.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgCAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAYDAAAAAAAAAADgvxgDAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-07-28T02:10:13.612Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "InicioNatural.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\InicioNatural.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\InicioNatural.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\InicioNatural.razor",
+              "RelativeToolTip": "Components\\Pages\\InicioNatural.razor",
+              "ViewState": "AgIAADQDAAAAAAAAAADgv0UDAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T02:04:34.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ConsultaExpediente.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\ConsultaExpediente.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\ConsultaExpediente.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\ConsultaExpediente.razor",
-              "RelativeToolTip": "Components\\Pages\\ConsultaExpediente.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI4AAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T01:26:26.585Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Home.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\Home.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "Components\\Pages\\Home.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-27T23:34:13.156Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "InicioJuridica.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\InicioJuridica.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\InicioJuridica.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\InicioJuridica.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\InicioJuridica.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\InicioJuridica.razor",
               "RelativeToolTip": "Components\\Pages\\InicioJuridica.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI4BAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAJsDAAAAAAAAAADgv64DAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-07-28T02:04:43.203Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-07-24T19:40:52.111Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MainLayout.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\MainLayout.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\MainLayout.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\MainLayout.razor",
-              "RelativeToolTip": "Components\\Layout\\MainLayout.razor",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-27T23:21:38.379Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "InicioMainLayout.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\InicioMainLayout.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\InicioMainLayout.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\InicioMainLayout.razor",
-              "RelativeToolTip": "Components\\Layout\\InicioMainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T01:47:44.29Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Header.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\Header.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\Header.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Layout\\Header.razor",
-              "RelativeToolTip": "Components\\Layout\\Header.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-27T23:02:16.626Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "Routes.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Routes.razor",
-              "RelativeDocumentMoniker": "Components\\Routes.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Routes.razor",
-              "RelativeToolTip": "Components\\Routes.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-27T23:31:09.075Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "App.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\App.razor",
-              "RelativeDocumentMoniker": "Components\\App.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\App.razor",
-              "RelativeToolTip": "Components\\App.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-26T14:10:53.622Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "_Imports.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\_Imports.razor",
-              "RelativeDocumentMoniker": "Components\\_Imports.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\_Imports.razor",
-              "RelativeToolTip": "Components\\_Imports.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T01:25:21.639Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TramitePerNatural.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\TramitePerNatural.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\TramitePerNatural.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\TramitePerNatural.razor",
-              "RelativeToolTip": "Components\\Pages\\TramitePerNatural.razor",
-              "ViewState": "AgIAALgBAAAAAAAAAAAAAJYBAABhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T02:09:59.464Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "TramitePerJuridica.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\TramitePerJuridica.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\TramitePerJuridica.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\TramitePerJuridica.razor",
-              "RelativeToolTip": "Components\\Pages\\TramitePerJuridica.razor",
-              "ViewState": "AgIAABUCAAAAAAAAAAAAABQCAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T02:09:40.193Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Tramitar.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Tramitar.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\Tramitar.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Tramitar.razor",
-              "RelativeToolTip": "Components\\Pages\\Tramitar.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0BAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T02:09:28.269Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
               "Title": "Login.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Login.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Login.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\Login.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Login.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Login.razor",
               "RelativeToolTip": "Components\\Pages\\Login.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAANYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -334,37 +191,189 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "InicioNatural.razor",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\InicioNatural.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\InicioNatural.razor",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\InicioNatural.razor",
-              "RelativeToolTip": "Components\\Pages\\InicioNatural.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYDAAAnAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "Tramitar.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Tramitar.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\Tramitar.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Tramitar.razor",
+              "RelativeToolTip": "Components\\Pages\\Tramitar.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0BAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-28T02:04:34.04Z",
+              "WhenOpened": "2026-07-28T02:09:28.269Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TramitePerNatural.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\TramitePerNatural.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\TramitePerNatural.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\TramitePerNatural.razor",
+              "RelativeToolTip": "Components\\Pages\\TramitePerNatural.razor",
+              "ViewState": "AgIAAE0BAAAAAAAAAADgv14BAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T02:09:59.464Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Routes.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Routes.razor",
+              "RelativeDocumentMoniker": "Components\\Routes.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Routes.razor",
+              "RelativeToolTip": "Components\\Routes.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-27T23:31:09.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Home.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\Home.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Home.razor",
+              "RelativeToolTip": "Components\\Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-27T23:34:13.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\appsettings.json*",
+              "RelativeToolTip": "appsettings.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-24T19:40:52.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ConsultaExpediente.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\ConsultaExpediente.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\ConsultaExpediente.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\ConsultaExpediente.razor",
+              "RelativeToolTip": "Components\\Pages\\ConsultaExpediente.razor",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAAAI4AAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T01:26:26.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "Components\\Layout\\MainLayout.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-27T23:21:38.379Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "InicioMainLayout.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\InicioMainLayout.razor",
+              "RelativeDocumentMoniker": "Components\\Layout\\InicioMainLayout.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\InicioMainLayout.razor",
+              "RelativeToolTip": "Components\\Layout\\InicioMainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T01:47:44.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Header.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\Header.razor",
+              "RelativeDocumentMoniker": "Components\\Layout\\Header.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\Header.razor",
+              "RelativeToolTip": "Components\\Layout\\Header.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-27T23:02:16.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "App.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\App.razor",
+              "RelativeDocumentMoniker": "Components\\App.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\App.razor",
+              "RelativeToolTip": "Components\\App.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-26T14:10:53.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Navbar.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\Navbar.razor",
+              "RelativeDocumentMoniker": "Components\\Layout\\Navbar.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Layout\\Navbar.razor",
+              "RelativeToolTip": "Components\\Layout\\Navbar.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-27T23:22:10.159Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_Imports.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\_Imports.razor",
+              "RelativeDocumentMoniker": "Components\\_Imports.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\_Imports.razor",
+              "RelativeToolTip": "Components\\_Imports.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T01:25:21.639Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 17,
-              "Title": "MesaPartesDigital.Front.csproj",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\MesaPartesDigital.Front.csproj",
-              "RelativeDocumentMoniker": "MesaPartesDigital.Front.csproj",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\MesaPartesDigital.Front.csproj",
-              "RelativeToolTip": "MesaPartesDigital.Front.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-07-26T12:44:54.194Z",
-              "EditorCaption": ""
+              "Title": "TramitePerJuridica.razor",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\TramitePerJuridica.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\TramitePerJuridica.razor",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\TramitePerJuridica.razor",
+              "RelativeToolTip": "Components\\Pages\\TramitePerJuridica.razor",
+              "ViewState": "AgIAABUCAAAAAAAAAAAAABQCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T02:09:40.193Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 18,
+              "Title": "MesaPartesDigital.Front.csproj",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\MesaPartesDigital.Front.csproj",
+              "RelativeDocumentMoniker": "MesaPartesDigital.Front.csproj",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\MesaPartesDigital.Front.csproj",
+              "RelativeToolTip": "MesaPartesDigital.Front.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-07-26T12:44:54.194Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
               "Title": "InicioPersJuridicaDto.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Models\\InicioPersJuridicaDto.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Models\\InicioPersJuridicaDto.cs",
               "RelativeDocumentMoniker": "Models\\InicioPersJuridicaDto.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Models\\InicioPersJuridicaDto.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Models\\InicioPersJuridicaDto.cs",
               "RelativeToolTip": "Models\\InicioPersJuridicaDto.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAqwAIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -372,11 +381,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "InicioPersNaturalDto.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Models\\InicioPersNaturalDto.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Models\\InicioPersNaturalDto.cs",
               "RelativeDocumentMoniker": "Models\\InicioPersNaturalDto.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Models\\InicioPersNaturalDto.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Models\\InicioPersNaturalDto.cs",
               "RelativeToolTip": "Models\\InicioPersNaturalDto.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAhwCIAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -384,11 +393,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Tramitar.razor.css",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Tramitar.razor.css",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Tramitar.razor.css",
               "RelativeDocumentMoniker": "Components\\Pages\\Tramitar.razor.css",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Tramitar.razor.css",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Tramitar.razor.css",
               "RelativeToolTip": "Components\\Pages\\Tramitar.razor.css",
               "ViewState": "AgIAAIUBAAAAAAAAAAAAAJIBAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
@@ -396,11 +405,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "Home.razor.css",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Home.razor.css",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Home.razor.css",
               "RelativeDocumentMoniker": "Components\\Pages\\Home.razor.css",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Pages\\Home.razor.css",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Pages\\Home.razor.css",
               "RelativeToolTip": "Components\\Pages\\Home.razor.css",
               "ViewState": "AgIAAGwAAAAAAAAAAAAAAH4AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
@@ -408,11 +417,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "ApplicationSettings.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Models\\ApplicationSettings.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Models\\ApplicationSettings.cs",
               "RelativeDocumentMoniker": "Models\\ApplicationSettings.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Models\\ApplicationSettings.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Models\\ApplicationSettings.cs",
               "RelativeToolTip": "Models\\ApplicationSettings.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -420,11 +429,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Program.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Program.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Program.cs",
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -432,11 +441,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "PageBase.cs",
-              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Base\\PageBase.cs",
+              "DocumentMoniker": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Base\\PageBase.cs",
               "RelativeDocumentMoniker": "Components\\Base\\PageBase.cs",
-              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\mpvfront\\Components\\Base\\PageBase.cs",
+              "ToolTip": "D:\\Proyectos\\NUEVA MESA DE PARTES\\MesaPartesFront\\Components\\Base\\PageBase.cs",
               "RelativeToolTip": "Components\\Base\\PageBase.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
