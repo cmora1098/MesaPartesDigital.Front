@@ -1,4 +1,4 @@
-/* _content/MesaPartesDigital.Front/Components/Layout/Footer.razor.rz.scp.css */
+/* /Components/Layout/Footer.razor.rz.scp.css */
 /* =========================
    FOOTER INSTITUCIONAL
 ========================= */
@@ -42,7 +42,7 @@
         text-align: center;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Layout/Header.razor.rz.scp.css */
+/* /Components/Layout/Header.razor.rz.scp.css */
 /* =========================
    FUENTE GLOBAL
 ========================= */
@@ -406,7 +406,7 @@ body[b-39rokx7gwf] {
         background: #f8fafc;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Layout/InicioMainLayout.razor.rz.scp.css */
+/* /Components/Layout/InicioMainLayout.razor.rz.scp.css */
 
 
 /* CONTENEDOR */
@@ -503,7 +503,7 @@ body[b-39rokx7gwf] {
 
 
 
-/* _content/MesaPartesDigital.Front/Components/Layout/MainLayout.razor.rz.scp.css */
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
 /* HEADER / TOPBAR */
 .topbar[b-yzhksk25oo] {
     background: #ffffff;
@@ -707,7 +707,7 @@ body[b-39rokx7gwf] {
 .main-wrapper[b-yzhksk25oo] {
     background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
 }
-/* _content/MesaPartesDigital.Front/Components/Layout/Navbar.razor.rz.scp.css */
+/* /Components/Layout/Navbar.razor.rz.scp.css */
 /* ==========================================================================
    ESTILOS GENERALES Y RESETS
    ========================================================================== */
@@ -987,7 +987,7 @@ body[b-39rokx7gwf] {
         opacity: 1;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/ConsultaExpediente.razor.rz.scp.css */
+/* /Components/Pages/ConsultaExpediente.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE 
    ========================================================================== */
@@ -1337,7 +1337,7 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
         justify-content: center;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/EditarTramite.razor.rz.scp.css */
+/* /Components/Pages/EditarTramite.razor.rz.scp.css */
 /* ==========================================================================
        ESTILOS GENERALES Y LAYOUT RESPONSIVE
        ========================================================================== */
@@ -1712,7 +1712,7 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
         align-items: flex-start;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/Home.razor.rz.scp.css */
+/* /Components/Pages/Home.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET, BASE Y TIPOGRAFÍA
    ========================================================================== */
@@ -2006,7 +2006,7 @@ body[b-5icodrumzi] {
         text-align: center;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/InicioJuridica.razor.rz.scp.css */
+/* /Components/Pages/InicioJuridica.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -2522,7 +2522,7 @@ textarea[b-z7qvur1np6] {
         height: 90vh; /* El modal aprovecha más la pantalla vertical */
     }
 } 
-/* _content/MesaPartesDigital.Front/Components/Pages/InicioNatural.razor.rz.scp.css */
+/* /Components/Pages/InicioNatural.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -3018,7 +3018,7 @@ textarea[b-py7tcbq0ce] {
     }
 }
 
-/* _content/MesaPartesDigital.Front/Components/Pages/Login.razor.rz.scp.css */
+/* /Components/Pages/Login.razor.rz.scp.css */
 /* ==========================================================================
    RESET & BASE CORRECTIONS
    ========================================================================== */
@@ -3372,7 +3372,7 @@ textarea[b-py7tcbq0ce] {
     background-color: #f9f9f9;
     border-color: #35af72;
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/Tramitar.razor.rz.scp.css */
+/* /Components/Pages/Tramitar.razor.rz.scp.css */
  
 /* ==========================================================================
    1. RESET Y ESTRUCTURA GLOBAL DEL DASHBOARD
@@ -3908,7 +3908,7 @@ body[b-52twrfpcoc] {
         text-align: center;
     }
 }
-/* _content/MesaPartesDigital.Front/Components/Pages/TramitePerJuridica.razor.rz.scp.css */
+/* /Components/Pages/TramitePerJuridica.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -4450,7 +4450,7 @@ textarea[b-wvaveewqvm] {
         background: #f1f5f9;
         color: #0f172a;
     }
-/* _content/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor.rz.scp.css */
+/* /Components/Pages/TramitePerNatural.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */

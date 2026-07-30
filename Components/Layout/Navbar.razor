@@ -1,6 +1,6 @@
 ﻿@using MesaPartesDigital.Models
 @inject UserSession Session
-@inject NavigationManager Nav
+@inherits PageBase
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage 
 @inject ProtectedSessionStorage SessionStorage
 
@@ -38,6 +38,6 @@
     {
         Session.LimpiarSesion();
         await SessionStorage.DeleteAsync("user_session");
-        Nav.NavigateTo("/login", true);
+        Ir("login", true);
     }
 }

@@ -1,11 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 @layout MainLayout
-@page "/{PrefijoModulo}/Tramitar"
+@page "/Tramitar"
 @inject IJSRuntime JS
 @inject Services.SessionService SessionService
-@inject NavigationManager Nav
- 
+@inherits PageBase
 @inject ProtectedSessionStorage SessionStorage
 @inject HttpClient Http
 
@@ -196,8 +195,7 @@ else
 
 }
 @code {
-    [Parameter]
-    public string PrefijoModulo { get; set; } = string.Empty;
+   
 
     private bool cargando = true;
     private UserSession Session = new UserSession();
@@ -219,7 +217,7 @@ else
                     else
                     {
                         // 🟢 Dinámico: Usa el prefijo actual para el login
-                        Nav.NavigateTo($"/{PrefijoModulo}/login", true);
+                       Ir($"/login", true);
                         return;
                     }
                 }
@@ -254,7 +252,7 @@ else
             {
                 Console.WriteLine($"Error crítico en carga: {ex.Message}");
                 // 🟢 Dinámico: Usa el prefijo actual en caso de error crítico
-                Nav.NavigateTo($"/{PrefijoModulo}/login", true);
+               Ir($"/login", true);
             }
         }
     }
@@ -279,7 +277,7 @@ else
     {
         if (!string.IsNullOrWhiteSpace(tipoPersona))
             // 🟢 Corregido: Usa la variable PrefijoModulo en lugar de "/MDP/"
-            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar/{tipoPersona}");
+            Ir($"/Tramitar/{tipoPersona}");
     }
 
     @* ==========================================
@@ -316,6 +314,6 @@ else
     private void EditarTramite(int idAsunto)
     {
         // 🟢 Corregido: Usa la variable PrefijoModulo en lugar de "/MDP/"
-        Nav.NavigateTo($"/{PrefijoModulo}/EditarTramite/{idAsunto}");
+       Ir($"/EditarTramite/{idAsunto}");
     }
 }

@@ -1,4 +1,4 @@
-@page "/{PrefijoModulo}/inicio/natural"
+@page "/inicio/natural"
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Components.Forms
@@ -7,7 +7,7 @@
 @using System.Net.Http.Json
 @inject HttpClient Http  
 
-@inject NavigationManager Nav
+@inherits PageBase
 @inject IJSRuntime JS
 
 <div class="ux-bg">
@@ -359,9 +359,6 @@
 </div>
 
 @code {
-
-    [Parameter]
-    public string PrefijoModulo { get; set; } = string.Empty;
 
     // private RegistroDocumentoRequest formulario = new();
     private InicioPersNaturalDto formulario = new();
@@ -839,7 +836,8 @@
 
             await MostrarMensajeExito(resultadoBD!);
             // Nav.NavigateTo("/");
-            Nav.NavigateTo($"/{PrefijoModulo}/Inicio");
+            // Nav.NavigateTo($"/inicio");
+            Ir($"/");
         }
         catch (Exception ex)
         {

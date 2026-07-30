@@ -1,20 +1,23 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using MesaPartesDigital.Models
+@inject ApplicationSettings AppSettings
+
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />
 
-    <!-- Estilos locales (reemplazando @Assets por rutas normales de wwwroot) -->
+    <base href="@AppSettings.BasePath" />
+
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="MesaPartesDigital.Front.styles.css" />
 
-    <!-- CDNs adicionales opcionales -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <link rel="icon" type="image/png" href="favicon.png" />
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <HeadOutlet @rendermode="InteractiveServer" />
@@ -22,6 +25,7 @@
 
 <body>
     <Routes @rendermode="@(new InteractiveServerRenderMode(prerender: false))" />
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="_framework/blazor.web.js"></script>
 </body>

@@ -1,12 +1,12 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@page "/{PrefijoModulo}/TPersonaJuridica"
+@page "/TPersonaJuridica"
 
 @layout MainLayout
 
 @inject IJSRuntime JS
 @inject Services.SessionService SessionService
-@inject NavigationManager Nav
+@inherits PageBase
 
 @inject ProtectedSessionStorage SessionStorage
 @inject HttpClient Http
@@ -241,8 +241,7 @@
 
 
 
-        [Parameter]
-        public string PrefijoModulo { get; set; } = string.Empty;
+      
 
         // Parámetro para notificar al padre que el usuario quiere volver
         [Parameter] public EventCallback OnVolver { get; set; }
@@ -258,7 +257,7 @@
         {
             // Si no hay padre escuchando (caso de error), redirigimos a la ruta segura
             // Nav.NavigateTo("/Tramitar", true);
-            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar", true);
+           Ir($"/Tramitar", true);
 
         }
     }
@@ -534,7 +533,7 @@
 
             // Nav.NavigateTo("/Tramitar");
 
-            Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
+            Ir($"/Tramitar");
         }
         catch (Exception ex)
         {

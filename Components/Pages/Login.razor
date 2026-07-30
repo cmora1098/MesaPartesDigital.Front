@@ -1,9 +1,9 @@
-﻿@page "/{PrefijoModulo}/login"
+﻿@page "/login"
 
 @layout EmptyLayout
 @rendermode InteractiveServer
 @inject Models.UserSession Session
-@inject NavigationManager Nav  
+@inherits PageBase
 @inject HttpClient Http
 @inject IJSRuntime JS 
 
@@ -98,10 +98,7 @@
 </div>
  
 @code {
-    [Parameter]
-    public string PrefijoModulo { get; set; } = string.Empty;
-
-
+   
     private LoginDto loginModel = new();
     private string mensajeAlert = string.Empty;
     private bool esExito = false;
@@ -142,7 +139,7 @@
                 SessionService.UserSession = resultado;
 
                 // Nav.NavigateTo("/MDP/Tramitar");
-                Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
+               Ir($"/Tramitar");
             }
             else
             {

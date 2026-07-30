@@ -1,4 +1,4 @@
-@page "/{PrefijoModulo}/inicio/juridica"
+@page "/inicio/juridica"
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Components.Forms
@@ -6,8 +6,8 @@
 
 @using System.Net.Http.Json
 @inject HttpClient Http
+@inherits PageBase
 
-@inject NavigationManager Nav
 @inject IJSRuntime JS
  
 <div class="ux-bg">
@@ -396,8 +396,7 @@
 
 
 @code {
-    [Parameter]
-    public string PrefijoModulo { get; set; } = string.Empty;
+   
 
     // ********************** 
     // I. DATOS DE LA EMPRESA
@@ -940,7 +939,8 @@
                 var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponsePJH>();
                 await MostrarMensajeExito(resultadoBD!);
                 // Nav.NavigateTo("/");
-                Nav.NavigateTo($"/{PrefijoModulo}/Inicio");
+                // Nav.NavigateTo($"/Inicio");
+                Ir($"/");
             }
             else
             {

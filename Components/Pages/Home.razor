@@ -1,6 +1,6 @@
-﻿@page "/{PrefijoModulo}/Inicio"
-@inject NavigationManager Nav
-        @rendermode InteractiveServer
+﻿@page "/"
+@inherits PageBase
+@rendermode InteractiveServer
 
         <div class="ux-bg">
 
@@ -78,27 +78,8 @@
             </div>
 
         </div>
-
-        @* @code {
-            private string tipoPersona = string.Empty;
-
-            private void SeleccionarNatural() => tipoPersona = "natural";
-
-            private void SeleccionarJuridica() => tipoPersona = "juridica";
-
-            private void Continuar()
-            {
-                if (!string.IsNullOrWhiteSpace(tipoPersona))
-                    Nav.NavigateTo($"/inicio/{tipoPersona}");
-            }
-             
-        } *@
-
 @code {
-    [Parameter]
-    public string PrefijoModulo { get; set; } = string.Empty;
-
-    private string tipoPersona = string.Empty;
+   private string tipoPersona = string.Empty;
 
     private void SeleccionarNatural() => tipoPersona = "natural";
 
@@ -106,10 +87,9 @@
 
     private void Continuar()
     {
-        if (!string.IsNullOrWhiteSpace(tipoPersona))
-        {
-            // Utiliza la variable PrefijoModulo para mantener la ruta dinámica
-            Nav.NavigateTo($"/{PrefijoModulo}/inicio/{tipoPersona}");
-        }
+        if (string.IsNullOrWhiteSpace(tipoPersona))
+            return;
+
+        Ir($"inicio/{tipoPersona}");
     }
 }

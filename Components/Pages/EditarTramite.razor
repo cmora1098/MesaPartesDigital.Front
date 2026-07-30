@@ -1,7 +1,7 @@
 ﻿@layout MainLayout
-@page "/{PrefijoModulo}/EditarTramite/{idAsunto:int}"
+@page "/EditarTramite/{idAsunto:int}"
 @inject HttpClient Http
-@inject NavigationManager Nav
+@inherits PageBase
 @inject IJSRuntime JSRuntime
 
 @inject IConfiguration Configuration
@@ -335,7 +335,7 @@
 
             <!-- Botones de Acción Globales -->
             <div class="ux-actions-fixed">
-                <button class="ux-button-secondary" @onclick='() => Nav.NavigateTo($"/{PrefijoModulo}/Tramitar")'>Cancelar</button>
+                <button class="ux-button-secondary" @onclick='() => Ir($"/Tramitar")'>Cancelar</button>
                 <button class="ux-button" @onclick="GuardarCambios">Actualizar Trámite</button>
             </div>
         }
@@ -344,9 +344,7 @@
 
 
 @code {
-    [Parameter]
-    public string PrefijoModulo { get; set; } = string.Empty;
-
+    
     [Parameter] public int idAsunto { get; set; }
     private AsuntoEdicionDto? tramite;
 
@@ -924,7 +922,7 @@
 
                 archivosNuevos.Clear();
                 // Nav.NavigateTo("/Tramitar");
-                Nav.NavigateTo($"/{PrefijoModulo}/Tramitar");
+                Ir($"/Tramitar");
             }
             else
             {
