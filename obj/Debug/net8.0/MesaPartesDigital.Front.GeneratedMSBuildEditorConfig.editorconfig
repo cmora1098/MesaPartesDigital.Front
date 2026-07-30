@@ -12,93 +12,93 @@ build_property.EntryPointFilePath =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MesaPartesDigital
 build_property.RootNamespace = MesaPartesDigital
-build_property.ProjectDir = D:\Proyectos\NUEVA MESA DE PARTES\MesaPartesFront\
+build_property.ProjectDir = C:\Users\cmora\source\repos\MesaPartesDigital.Front\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Proyectos\NUEVA MESA DE PARTES\MesaPartesFront
+build_property.MSBuildProjectDirectory = C:\Users\cmora\source\repos\MesaPartesDigital.Front
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/App.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/App.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Layout/EmptyLayout.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/EmptyLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcRW1wdHlMYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/Error.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/Index.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Routes.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/_Imports.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Layout/Footer.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/Footer.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcRm9vdGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-y8qyaeffx2
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Layout/Header.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/Header.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSGVhZGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-39rokx7gwf
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Layout/InicioMainLayout.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/InicioMainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSW5pY2lvTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-pbbfmzssb5
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Layout/MainLayout.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-yzhksk25oo
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Layout/Navbar.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Layout/Navbar.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2YmFyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-uwld4ltydb
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/ConsultaExpediente.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/ConsultaExpediente.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25zdWx0YUV4cGVkaWVudGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-923svrkr4m
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/EditarTramite.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/EditarTramite.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0YXJUcmFtaXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-hf17ukhkei
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/Home.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-5icodrumzi
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/InicioJuridica.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/InicioJuridica.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbmljaW9KdXJpZGljYS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-z7qvur1np6
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/InicioNatural.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/InicioNatural.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbmljaW9OYXR1cmFsLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-py7tcbq0ce
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/Login.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-m5l9vkyir2
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/Tramitar.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Tramitar.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRhci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-52twrfpcoc
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/TramitePerJuridica.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramitePerJuridica.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlUGVySnVyaWRpY2EucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-wvaveewqvm
 
-[D:/Proyectos/NUEVA MESA DE PARTES/MesaPartesFront/Components/Pages/TramitePerNatural.razor]
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlUGVyTmF0dXJhbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-d90ul4yit0
