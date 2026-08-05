@@ -22,6 +22,8 @@
         public string VNombreAsunto { get; set; } = string.Empty; // La Sumilla
         public string VReferencia { get; set; } = string.Empty;
         public string VNroPagFolios { get; set; } = string.Empty;
+        public bool AceptaTerminos { get; set; }
+        public bool AceptaDatosPersonales { get; set; }
 
         public List<ArchivoRequest> Archivos { get; set; } = new();
         

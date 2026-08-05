@@ -207,6 +207,26 @@
 
             <hr class="ux-divider" />
 
+            <!-- BLOQUE DE CHECKBOXES OBLIGATORIOS -->
+            <div class="ux-field full" style="margin: 20px 0;">
+                <!-- Check 1: Términos y Condiciones / Declaración Jurada -->
+                <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                    <input type="checkbox" id="chkTerminos" @bind="aceptaTerminos" style="margin-top: 4px; width: 18px; height: 18px;" />
+                    <label for="chkTerminos" style="font-size: 0.9rem; line-height: 1.4; color: #333; cursor: pointer;">
+                        Declaro bajo juramento que los datos consignados y la documentación adjunta son veraces y auténticos, sujetándome a las responsabilidades legales correspondientes. Asimismo, acepto los <a href="#" @onclick="MostrarTerminos" @onclick:preventDefault="true" style="color: #0d6efd; text-decoration: underline;">Términos y Condiciones</a> y autorizo la notificación electrónica al correo indicado conforme al TUO de la Ley N° 27444.
+                    </label>
+                </div>
+
+                <!-- Check 2: Tratamiento de Datos Personales -->
+                <div style="display: flex; align-items: flex-start; gap: 10px;">
+                    <input type="checkbox" id="chkDatos" @bind="aceptaDatosPersonales" style="margin-top: 4px; width: 18px; height: 18px;" />
+                    <label for="chkDatos" style="font-size: 0.9rem; line-height: 1.4; color: #333; cursor: pointer;">
+                        Brindo mi consentimiento libre, previo, expreso e informado para el <a href="#" @onclick="MostrarPoliticaDatos" @onclick:preventDefault="true" style="color: #0d6efd; text-decoration: underline;">Tratamiento de mis Datos Personales</a> para los fines exclusivos del presente trámite, bajo la Ley N° 29733.
+                    </label>
+                </div>
+            </div>
+            <!-- FIN DEL BLOQUE -->
+
             <div class="ux-actions">
                 <button class="ux-button-secondary" @onclick="ManejarVolver">
                     ← Volver
@@ -239,12 +259,8 @@
 
 @code {
 
-
-
-      
-
-        // Parámetro para notificar al padre que el usuario quiere volver
-        [Parameter] public EventCallback OnVolver { get; set; }
+    // Parámetro para notificar al padre que el usuario quiere volver
+    [Parameter] public EventCallback OnVolver { get; set; }
 
     private async Task ManejarVolver()
     {
@@ -261,7 +277,6 @@
 
         }
     }
-
 
     private RegTramitePersJuridicaDto formulario = new();
     private PersonaNaturalDto? personaConsultada;
@@ -479,6 +494,124 @@
         return res!.ruta;
     }
 
+    private bool aceptaTerminos = false;
+    private bool aceptaDatosPersonales = false;
+
+    // Modal para Términos y Condiciones (Opción 9 UX)
+    private async Task MostrarTerminos()
+    {
+        await JS.InvokeVoidAsync("Swal.fire", new
+        {
+            title = "Condiciones del Servicio",
+            html = @"<div style='text-align: left; font-size: 0.88rem; line-height: 1.6; max-height: 350px; overflow-y: auto; padding-right: 4px; color: #334155;'>" +
+                   "<div style='background: #eff6ff; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; text-align: center; font-weight: 500;'>" +
+                   "📌 Por favor, revisa estos breves puntos antes de enviar tu solicitud." +
+                   "</div>" +
+                   "<div style='margin-bottom: 12px;'>" +
+                   "<b style='color: #0f172a; display: block;'>1. Validez oficial</b>" +
+                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Recepción virtual de documentos con total validez legal equivalente a la presencial.</p>" +
+                   "</div>" +
+                   "<div style='margin-bottom: 12px;'>" +
+                   "<b style='color: #0f172a; display: block;'>2. Responsabilidad de la información</b>" +
+                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Asumes plena responsabilidad administrativa, civil y penal por los datos adjuntos (Art. IV y Art. 32 del TUO de la Ley N° 27444).</p>" +
+                   "</div>" +
+                   "<div>" +
+                   "<b style='color: #0f172a; display: block;'>3. Notificaciones electrónicas</b>" +
+                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Autorizas el uso del correo electrónico registrado para el seguimiento de tu trámite.</p>" +
+                   "</div>" +
+                   "</div>",
+            confirmButtonText = "Entendido, estoy de acuerdo",
+            confirmButtonColor = "#2563eb",
+            width = "600px"
+        });
+    }
+
+    // Modal para Tratamiento de Datos Personales - Ley N° 29733 (Opción 9 UX)
+    private async Task MostrarPoliticaDatos()
+    {
+        await JS.InvokeVoidAsync("Swal.fire", new
+        {
+            title = "Compromiso con tus Datos Personales",
+            html = @"<div style='text-align: left; font-size: 0.88rem; line-height: 1.6; max-height: 350px; overflow-y: auto; padding-right: 4px; color: #334155;'>" +
+                   "<div style='background: #f0fdf4; color: #166534; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; text-align: center; font-weight: 500;'>" +
+                   "🛡️ Transparencia y seguridad en el manejo de tu información." +
+                   "</div>" +
+                   "<div style='margin-bottom: 12px;'>" +
+                   "<b style='color: #0f172a; display: block;'>1. Finalidad exclusiva</b>" +
+                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Los datos recabados serán tratados exclusivamente para gestionar, tramitar y dar seguimiento a tu solicitud.</p>" +
+                   "</div>" +
+                   "<div style='margin-bottom: 12px;'>" +
+                   "<b style='color: #0f172a; display: block;'>2. Confidencialidad y protección</b>" +
+                   "<p style='margin: 2px 0 0 0; color: #64748b;'>La institución se compromete a salvaguardar tu información aplicando estrictas medidas de seguridad (Ley N° 29733).</p>" +
+                   "</div>" +
+                   "<div>" +
+                   "<b style='color: #0f172a; display: block;'>3. Tus derechos ARCO</b>" +
+                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Podrás ejercer tus derechos de Acceso, Rectificación, Cancelación y Oposición a través de los canales oficiales.</p>" +
+                   "</div>" +
+                   "</div>",
+            confirmButtonText = "Aceptar y continuar",
+            confirmButtonColor = "#2563eb",
+            width = "600px"
+        });
+    }
+
+     
+    // async Task Finalizar()
+    // {
+    //      if (string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
+    //     {
+    //         await JS.InvokeVoidAsync("Swal.fire", "Atención", "El nombre del asunto es obligatorio.", "warning");
+    //         return;
+    //     }
+
+    //     if (archivo == null || archivo.Contenido == null)
+    //     {
+    //         await JS.InvokeVoidAsync("Swal.fire", "Atención", "El archivo principal es obligatorio.", "warning");
+    //         return;
+    //     }
+
+    //     try
+    //     {
+    //          formulario.ICodPer = SessionService.UserSession.ICodPer;
+    //         formulario.VEmail = SessionService.UserSession.VEmail;
+
+    //         List<ArchivoRequestTPJ> listaArchivos = new List<ArchivoRequestTPJ>();
+
+           
+    //         var rutaPrincipal = await SubirArchivo(archivo.Nombre, archivo.Contenido);
+    //         listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaPrincipal, BTipo = false });
+
+       
+    //         foreach (var item in archivos)
+    //         {
+    //             var rutaAnexo = await SubirArchivo(item.Nombre, item.Contenido);
+    //             listaArchivos.Add(new ArchivoRequestTPJ { VRutaDoc = rutaAnexo, BTipo = true });
+    //         }
+
+    //         formulario.Archivos = listaArchivos;
+
+    //          var response = await Http.PostAsJsonAsync("api/documentos/registro-tramite-juridica", formulario);
+
+    //         if (!response.IsSuccessStatusCode)
+    //         {
+    //             var errorContent = await response.Content.ReadAsStringAsync();
+    //             throw new Exception(errorContent);
+    //         }
+
+    //         var resultadoBD = await response.Content.ReadFromJsonAsync<RegistroDocumentoResponseTPJ>();
+
+    //          await MostrarMensajeExitoJuridica(resultadoBD!);
+
+ 
+    //         Ir($"/Tramitar");
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //          string msg = ex.Message.Contains("Error:") ? ex.Message.Split("Error:")[1] : ex.Message;
+    //         await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", msg, "error");
+    //     }
+    // }
+
     async Task Finalizar()
     {
         // 1. Validaciones
@@ -494,11 +627,22 @@
             return;
         }
 
+        // Validación obligatoria de AMBOS checkboxes independientes para Persona Jurídica
+        if (!aceptaTerminos || !aceptaDatosPersonales)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Debe aceptar obligatoriamente los Términos y Condiciones y el Tratamiento de Datos Personales para continuar.", "warning");
+            return;
+        }
+
         try
         {
             // 2. Asignación de datos de sesión
             formulario.ICodPer = SessionService.UserSession.ICodPer;
             formulario.VEmail = SessionService.UserSession.VEmail;
+
+            // ASIGNA LOS ESTADOS DE LOS CHECKBOXES AL DTO ANTES DE ENVIAR EL JSON
+            formulario.AceptaTerminos = aceptaTerminos;
+            formulario.AceptaDatosPersonales = aceptaDatosPersonales;
 
             List<ArchivoRequestTPJ> listaArchivos = new List<ArchivoRequestTPJ>();
 
@@ -531,8 +675,6 @@
             // 6. Finalización exitosa
             await MostrarMensajeExitoJuridica(resultadoBD!);
 
-            // Nav.NavigateTo("/Tramitar");
-
             Ir($"/Tramitar");
         }
         catch (Exception ex)
@@ -542,5 +684,4 @@
             await JS.InvokeVoidAsync("Swal.fire", "Error al Registrar", msg, "error");
         }
     }
-
 }

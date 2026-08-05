@@ -24,6 +24,8 @@
         public string VNombreAsunto { get; set; } = string.Empty;
         public string VReferencia { get; set; } = string.Empty;
         public string VNroPagFolios { get; set; } = string.Empty;
+        public bool AceptaTerminos { get; set; }
+        public bool AceptaDatosPersonales { get; set; }
 
         // --- 4. LISTA DE ARCHIVOS ---
         public int? ICodPer { get; set; }

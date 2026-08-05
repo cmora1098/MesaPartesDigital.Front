@@ -102,7 +102,7 @@
     {
         // Limpiamos todo
         await SessionStorage.DeleteAsync("user_session");
-        Nav.NavigateTo("login", true);
+        Nav.NavigateTo("/", true);
     }
 
     public void Dispose() => timerInactividad?.Dispose();
