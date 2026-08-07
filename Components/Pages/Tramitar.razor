@@ -99,6 +99,7 @@ else
                                 <th>Código</th>
                                 <th>Asunto</th>
                                 <th>Fecha</th>
+                                <th>Fecha Subsanación</th>
                                 <th>Acción</th> <!-- Nueva columna -->
                             </tr>
                         </thead>
@@ -110,6 +111,7 @@ else
                                     <td class="txt-bold">@item.Codigo</td>
                                     <td>@item.Asunto</td>
                                     <td class="txt-date">@item.Fecha</td>
+                                    <td class="txt-date">@item.FechaSubsanacion</td>
                                     <td>
                                         @if (item.Estado.Equals("Observado", StringComparison.OrdinalIgnoreCase))
                                         {

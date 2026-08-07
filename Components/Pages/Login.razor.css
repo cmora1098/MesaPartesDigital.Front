@@ -1,353 +1,361 @@
 ﻿/* ==========================================================================
-   RESET & BASE CORRECTIONS
+   DISEÑO NEOCLÁSICO MODERNO - MESA DE PARTES DIGITAL AGRO RURAL
    ========================================================================== */
-.login-wrapper * {
+.neo-login-wrapper * {
     box-sizing: border-box;
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    transition: all 0.2s ease-in-out;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.login-wrapper {
-    display: flex;
+.neo-login-wrapper {
+    position: relative;
     min-height: 100vh;
-    background-color: #f0fdf4; /* Fondo menta claro institucional */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #15843f;
+    padding: 30px 16px;
+    overflow-x: hidden;
+}
+
+/* Luces de fondo ambientales difuminadas */
+.neo-ambient-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at 10% 15%, rgba(12, 124, 59, 0.15) 0%, transparent 45%), radial-gradient(circle at 90% 85%, rgba(37, 99, 235, 0.12) 0%, transparent 45%);
+    pointer-events: none;
+}
+
+.neo-main-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
 }
 
 /* ==========================================================================
-   PANEL IZQUIERDO (ESCRITORIO)
+   PANEL IZQUIERDO
    ========================================================================== */
-.login-left {
-    width: 55%;
-    background: linear-gradient(135deg, #77fa7d 0%, #153417 100%); /* Verdes corporativos más profundos */
-    position: relative;
-    overflow: hidden;
+.neo-left-panel {
+    background: linear-gradient(145deg, #3bb553 0%, #000a01 100%);
+    padding: 50px 40px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-}
-
-    /* Efectos de luces mejorados mediante gradientes limpios */
-    .login-left::before {
-        content: "";
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-        top: -200px;
-        left: -200px;
-    }
-
-    .login-left::after {
-        content: "";
-        position: absolute;
-        width: 700px;
-        height: 700px;
-        background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, transparent 70%);
-        bottom: -250px;
-        right: -250px;
-    }
-
-.login-left-content {
+    flex-direction: column;
+    justify-content: space-between;
     position: relative;
-    z-index: 2;
-    max-width: 560px;
-    color: #ffffff;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.login-logo {
-    height: 65px;
+.neo-logo {
+    height: 52px;
     width: auto;
-    margin-bottom: 40px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-}
-
-.login-left h2 {
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 1.3;
     margin-bottom: 24px;
-    color: #f0fdf4;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
-    .login-left h2 strong {
+.neo-badge-tag {
+    display: inline-block;
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.neo-left-panel h2 {
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: #f0fdf4;
+    margin-bottom: 16px;
+}
+
+    .neo-left-panel h2 strong {
         font-weight: 700;
         color: #ffffff;
     }
 
-.login-left p {
-    font-size: 0.95rem;
-    line-height: 1.65;
+.neo-left-panel p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #cbd5e1;
     margin-bottom: 20px;
-    color: #e2e8f0;
     text-align: justify;
 }
 
-/* Alerta interna UX */
-.alerta-box {
-    background: rgba(255, 255, 255, 0.08);
-    border-left: 4px solid #4ade80;
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 30px;
+.neo-info-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 14px;
+    border-radius: 10px;
     display: flex;
-    gap: 12px;
-    backdrop-filter: blur(4px);
-}
-
-.alerta-icon {
-    font-size: 1.25rem;
-    line-height: 1;
-}
-
-.alerta-text {
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: #f1f5f9;
-}
-
-.dev-footer {
-    margin-top: 40px;
+    align-items: center;
+    gap: 10px;
     font-size: 0.8rem;
-    color: #a7f3d0;
+    color: #e2e8f0;
+    margin-bottom: 14px;
+}
+
+.neo-alert-box {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-left: 3px solid #f87171;
+    padding: 12px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: #fca5a5;
+    line-height: 1.45;
+}
+
+.neo-footer-text {
+    margin-top: 30px;
+    font-size: 0.73rem;
+    color: #6ee7b7;
     opacity: 0.8;
 }
 
 /* ==========================================================================
    PANEL DERECHO (FORMULARIO)
    ========================================================================== */
-.login-right {
-    width: 45%;
+.neo-right-panel {
+    background: #ffffff;
+    padding: 50px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    background-color: #f8fafc;
 }
 
-.login-container-form {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-/* Oculto por defecto en desktop */
-.login-logo-mobile {
+.neo-logo-mobile {
     display: none;
-    height: 55px;
-    margin: 0 auto 10px auto;
+    height: 46px;
+    margin: 0 auto 20px auto;
 }
 
-.login-box {
-    background: #ffffff;
-    padding: 40px 32px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
-}
-
-    .login-box h3 {
-        margin: 0 0 6px 0;
-        color: #14532d;
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-align: center;
-    }
-
-.login-subtitle {
-    color: #64748b;
-    font-size: 0.9rem;
+.neo-form-header {
     text-align: center;
     margin-bottom: 28px;
 }
 
-/* INPUTS ACCESIBLES */
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 20px;
-    text-align: left;
-}
+    .neo-form-header h3 {
+        margin: 0 0 4px 0;
+        color: #0f172a;
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
 
-    .input-group label {
+    .neo-form-header p {
+        color: #64748b;
         font-size: 0.85rem;
-        font-weight: 600;
-        color: #334155;
+        margin: 0;
     }
 
-    .input-group input {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        color: #1e293b;
-        background-color: #fff;
-    }
-
-        .input-group input:focus {
-            border-color: #16a34a;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
-            background-color: #f0fdf4;
-        }
-
-/* BOTÓN PRINCIPAL */
-.btn-login {
-    width: 100%;
-    background: #16a34a;
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
-    margin-top: 10px;
+/* Alertas dinámicas */
+.neo-alert-msg {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.83rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    line-height: 1.4;
 }
 
-    .btn-login:hover {
-        background: #15803d;
-        transform: translateY(-1px);
-        box-shadow: 0 6px 12px -2px rgba(22, 163, 74, 0.3);
-    }
+.msg-error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
 
-    .btn-login:active {
-        transform: translateY(0);
-    }
+.msg-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
 
-/* ENLACES SECUNDARIOS DE ACCIÓN */
-.login-actions-secondary {
+/* Etiquetas flotantes estilizadas */
+.neo-floating-group {
+    margin-bottom: 20px;
+}
+
+.neo-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.neo-input-icon {
+    position: absolute;
+    right: 16px;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.neo-input-wrap input {
+    width: 100%;
+    padding: 15px 45px 15px 16px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    background-color: #f8fafc;
+    outline: none;
+}
+
+.neo-input-wrap label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #64748b;
+    font-size: 0.88rem;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.neo-input-wrap input:focus ~ label,
+.neo-input-wrap input:not(:placeholder-shown) ~ label {
+    top: 0px;
+    transform: translateY(-50%) scale(0.82);
+    background: #ffffff;
+    padding: 0 6px;
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.neo-input-wrap input:focus {
+    border-color: #16a34a;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+/* Botón de acceso */
+.neo-submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(22, 163, 74, 0.25);
+    margin-top: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 24px;
-    font-size: 0.85rem;
 }
 
-.btn-link {
+    .neo-submit-btn:hover {
+        background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+    }
+
+.neo-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.neo-actions-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 22px;
+}
+
+.neo-link-btn {
     background: none;
     border: none;
     color: #16a34a;
     font-weight: 600;
+    font-size: 0.83rem;
     cursor: pointer;
-    padding: 2px 4px;
 }
 
-    .btn-link:hover {
-        color: #15803d;
+    .neo-link-btn:hover {
         text-decoration: underline;
     }
 
-.divider {
-    color: #cbd5e1;
-    user-select: none;
+/* Animaciones */
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
-/* CAJA DE SOPORTE */
-.soporte-box {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e2e8f0;
-    text-align: center;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-
-    .soporte-box h4 {
-        margin: 0 0 10px 0;
-        color: #334155;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .soporte-box p {
-        margin: 6px 0;
-        font-size: 0.85rem;
-        color: #475569;
-    }
-
-    .soporte-box .anexo {
-        background-color: #f1f5f9;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-weight: 600;
-    }
 
 /* ==========================================================================
-   RESPONSIVE DESIGN (MEDIA QUERIES)
+   RESPONSIVO PERFECTO (TABLETS Y MÓVILES)
    ========================================================================== */
-
-/* Tablets grandes y Laptops chicas */
-@media (max-width: 1024px) {
-    .login-left {
-        width: 45%;
-        padding: 40px;
-    }
-
-    .login-right {
-        width: 55%;
-    }
-}
-
-/* Tablets medianas y Móviles (Todo pasa a una columna) */
 @media (max-width: 850px) {
-    .login-wrapper {
-        background-color: #f8fafc;
+    .neo-login-wrapper {
+        padding: 16px 10px;
+        background: #ffffff;
     }
 
-    .login-left {
-        display: none; /* Oculta panel lateral */
+    .neo-main-container {
+        grid-template-columns: 1fr;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        background: transparent;
     }
 
-    .login-right {
-        width: 100%;
-        padding: 30px 16px;
+    .neo-left-panel {
+        display: none; /* Se oculta en móviles para priorizar la usabilidad del login */
     }
 
-    .login-container-form {
-        max-width: 100%;
+    .neo-right-panel {
+        padding: 20px 10px;
     }
 
-    .login-logo-mobile {
-        display: block; /* El logo reaparece arriba del login box */
+    .neo-logo-mobile {
+        display: block; /* Muestra el logo arriba en celulares */
     }
 
-    .login-box {
-        padding: 32px 20px;
+    .neo-input-wrap input {
+        font-size: 16px; /* Previene zoom automático en iOS/Android */
     }
-}
-
-
-
-
-.input-group {
-    margin-bottom: 1.5rem;
-}
-
-    .input-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: #444;
-    }
-
-    .input-group input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px; /* Tamaño amigable para vista móvil */
-    }
-
-/* Resaltado del captcha */
-#captcha {
-    background-color: #f9f9f9;
-    border-color: #35af72;
 }

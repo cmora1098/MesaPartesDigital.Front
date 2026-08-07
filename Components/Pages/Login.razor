@@ -5,172 +5,159 @@
 @inject Models.UserSession Session
 @inherits PageBase
 @inject HttpClient Http
-@inject IJSRuntime JS 
-
-
+@inject IJSRuntime JS
 @inject MesaPartesDigital.Services.SessionService SessionService
 @inject Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage.ProtectedSessionStorage SessionStorage
 
-<div class="login-wrapper">
+<div class="neo-login-wrapper">
+    <div class="neo-ambient-glow"></div>
 
-    <aside class="login-left">
-        <div class="login-left-content">
-            <img src="img/logomax_agrorural.png" alt="Logo Agro Rural" class="login-logo" />
+    <!-- CONTENEDOR PRINCIPAL ASIMÉTRICO -->
+    <div class="neo-main-container animate-fade-in">
 
-            <h2>Bienvenido a la Plataforma de<br /><strong>Mesa de Partes Digital</strong></h2>
+        <!-- PANEL IZQUIERDO: INFORMACIÓN INSTITUCIONAL MODERNA -->
+        <section class="neo-left-panel">
+            <div class="neo-left-content">
+                <img src="img/logomax_agrorural.png" alt="Logo Agro Rural" class="neo-logo" />
 
-            <p>
-                Esta entidad pone a su disposición la Mesa de Partes Digital, un canal diseñado para brindar mayor agilidad, eficiencia y accesibilidad a sus trámites administrativos.
-            </p>
+                <div class="neo-badge-tag">Mesa de Partes Digital Oficial</div>
 
-            <p>
-                En cumplimiento con la Ley N° 31465 (que modifica la Ley N° 27444 del Procedimiento Administrativo General), nuestra plataforma se encuentra habilitada para la presentación de documentos las veinticuatro (24) horas del día, los siete (7) días de la semana.
-            </p>
+                <h2>Agilidad, transparencia y<br /><strong>trámites sin barreras</strong></h2>
 
-            <div class="alerta-box">
-                <span class="alerta-icon">⚠️</span>
-                <div class="alerta-text">
-                    <strong>Nota importante sobre su recepción:</strong><br />
-                    El envío del documento no genera su aceptación automática. La recepción formal será validada únicamente mediante la constancia de ingreso enviada a su correo registrado.
+                <p>
+                    Esta entidad pone a su disposición la Mesa de Partes Digital, un canal diseñado para brindar mayor eficiencia y accesibilidad a sus gestiones administrativas las 24 horas del día.
+                </p>
+
+                <div class="neo-info-pill">
+                    <span class="neo-pill-icon">📋</span>
+                    <span><strong>Ley N° 31465:</strong> Habilitado 24/7 para recepción formal de documentos electrónicos.</span>
                 </div>
+
+                <div class="neo-alert-box">
+                    <span class="neo-alert-icon">⚠️</span>
+                    <div class="neo-alert-text">
+                        <strong>Nota de recepción:</strong> El envío no genera aceptación automática; la validación formal se notifica mediante constancia a su correo electrónico.
+                    </div>
+                </div>
+
+                <footer class="neo-footer-text">
+                    Sub Unidad de Tecnologías de la Información — Agro Rural
+                </footer>
             </div>
+        </section>
 
-            <footer class="dev-footer">
-                Desarrollado por la Sub Unidad de Tecnologías de la Información.
-            </footer>
-        </div>
-    </aside>
+        <!-- PANEL DERECHO: ACCESO AL SISTEMA (FORMULARIO DINÁMICO) -->
+        <section class="neo-right-panel">
+            <div class="neo-form-card">
 
-    <main class="login-right">
-        <div class="login-container-form">
-            <div class="login-box">
-                <h3>Acceso al Sistema</h3>
-                <p class="login-subtitle">Ingrese sus credenciales para continuar</p>
+                <img src="img/logomax_agrorural.png" alt="Logo Agro Rural" class="neo-logo-mobile" />
+
+                <div class="neo-form-header">
+                    <h3>Bienvenido</h3>
+                    <p>Ingresa tus credenciales para acceder al sistema</p>
+                </div>
 
                 @if (!string.IsNullOrEmpty(mensajeAlert))
                 {
-                    <div class="alert @(esExito ? "alert-success" : "alert-danger")" style="...">
-                        @mensajeAlert
+                    <div class="neo-alert-msg @(esExito ? "msg-success" : "msg-error")">
+                        <span>@(esExito ? "✔" : "⚠️")</span>
+                        <div>@mensajeAlert</div>
                     </div>
                 }
 
                 <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
-                    <div class="input-group">
-                        <label for="documento">Número de DNI</label>
-                        <input id="documento" type="text" @bind-value="loginModel.Documento" maxlength="12" required />
+
+                    <div class="neo-floating-group">
+                        <div class="neo-input-wrap">
+                            <input id="documento" type="text" @bind-value="loginModel.Documento" maxlength="12" placeholder=" " required />
+                            <label for="documento">Número de DNI</label>
+                            <span class="neo-input-icon">👤</span>
+                        </div>
                     </div>
 
-                    <div class="input-group">
-                        <label for="password">Contraseña</label>
-                        <input id="password" type="password" @bind-value="loginModel.Password" placeholder="••••••••" required />
+                    <div class="neo-floating-group">
+                        <div class="neo-input-wrap">
+                            <input id="password" type="password" @bind-value="loginModel.Password" placeholder=" " required />
+                            <label for="password">Contraseña</label>
+                            <span class="neo-input-icon">🔒</span>
+                        </div>
                     </div>
-                    <!-- captcha -->
-                    @* <div class="input-group">
-                        <label for="captcha">Verificación de seguridad: <strong>@captchaTexto</strong></label>
-                        <input id="captcha" type="number" @bind-value="captchaRespuesta"
-                               placeholder="Escribe el resultado" required />
-                        <small style="color: #666;">Por favor, resuelve esta suma para continuar.</small>
-                    </div> *@
 
-
-                    <button type="submit" class="btn-login" disabled="@isProcessing">
+                    <button type="submit" class="neo-submit-btn" disabled="@isProcessing">
                         @if (isProcessing)
                         {
-                            <span>Validando...</span>
+                            <span class="neo-spinner"></span>
+                            <span>Validando credenciales...</span>
                         }
                         else
                         {
-
-                            <span>Ingresar de forma segura</span>
+                            <span>Iniciar Sesión de Forma Segura</span>
                         }
                     </button>
                 </EditForm>
 
-                <div class="login-actions-secondary" style="...">
-                    <button type="button" class="btn-link" @onclick="ProcesarRecuperacionClave" disabled="@isProcessing">
-                        ¿No recuerdas tu clave? Genere una nueva aquí
+                <div class="neo-actions-footer">
+                    <button type="button" class="neo-link-btn" @onclick="ProcesarRecuperacionClave" disabled="@isProcessing">
+                        ¿Olvidaste tu contraseña? Genera una nueva
                     </button>
                 </div>
-            </div>
-        </div>
-    </main>
 
+            </div>
+        </section>
+
+    </div>
 </div>
- 
+
 @code {
-   
     private LoginDto loginModel = new();
     private string mensajeAlert = string.Empty;
     private bool esExito = false;
     private bool isProcessing = false;
-     
+
     private async Task HandleLogin()
     {
-        //  if (captchaRespuesta != (num1 + num2))
-        // {
-        //     mensajeAlert = "El resultado de la suma es incorrecto. Inténtalo de nuevo.";
-        //     esExito = false;
-        //     GenerarCaptcha();  
-        //     return;
-        // }
         isProcessing = true;
+        mensajeAlert = string.Empty;
         try
         {
-            // Llamada al endpoint que definimos en AutenticacionController
             var response = await Http.PostAsJsonAsync("api/autenticacion/login", loginModel);
             var resultado = await response.Content.ReadFromJsonAsync<LoginResultDto>();
 
             if (resultado?.Exitoso == true)
             {
-                 // string json = System.Text.Json.JsonSerializer.Serialize(resultado);
-                // Guardar sesión
-                // await SessionStorage.SetAsync("user_session", resultado);
-                // await SessionStorage.SetAsync("user_session", json);
-                // SessionService.UserSession = resultado;
-                // Nav.NavigateTo("/dashboard", true);
-                // Console.WriteLine("LOGIN: Sesión guardada con clave 'user_session'" + resultado);
-                // Console.WriteLine("LOGIN22222222222: Sesión guardada con clave 'user_session'" + json);
-
                 string json = System.Text.Json.JsonSerializer.Serialize(resultado);
-                // Guardamos en el navegador
                 await JS.InvokeVoidAsync("localStorage.setItem", "user_session", json);
-
-                // Actualizamos el servicio en memoria
                 SessionService.UserSession = resultado;
-
                 // Nav.NavigateTo("/MDP/Tramitar");
-               Ir($"/Tramitar");
             }
             else
             {
-                mensajeAlert = resultado?.Mensaje ?? "Error al intentar ingresar.";
+                esExito = false;
+                mensajeAlert = resultado?.Mensaje ?? "Credenciales incorrectas. Verifique sus datos.";
             }
-           
-            // if (!resultado?.Exitoso ?? true) GenerarCaptcha();            // Si falla el login, refresca el captcha para evitar intentos automatizados
-
         }
-        catch (Exception) { mensajeAlert = "Error de conexión con el servidor."; }
-        finally { isProcessing = false; }
-       
+        catch (Exception)
+        {
+            esExito = false;
+            mensajeAlert = "Error de conexión con el servidor central.";
+        }
+        finally
+        {
+            isProcessing = false;
+        }
     }
 
     private async Task ProcesarRecuperacionClave()
     {
-        // 1. Validar Captcha (mantenemos tu lógica de seguridad)
-        // if (captchaRespuesta != (num1 + num2))
-        // {
-        //     mensajeAlert = "El resultado de la suma es incorrecto.";
-        //     GenerarCaptcha();
-        //     return;
-        // }
-
         if (string.IsNullOrWhiteSpace(loginModel.Documento))
         {
-            mensajeAlert = "Por favor, ingrese su número de DNI.";
+            esExito = false;
+            mensajeAlert = "Por favor, ingrese primero su número de DNI.";
             return;
         }
 
         isProcessing = true;
+        mensajeAlert = string.Empty;
         try
         {
             var request = new { Documento = loginModel.Documento, CodigoOtp = (string?)null, TipoAccion = 2 };
@@ -179,52 +166,24 @@
 
             if (resultado?.Exitoso == true)
             {
-                // AQUÍ ESTÁ EL CAMBIO EN EL FRONT:
-                // Usamos el EmailDestino que viene del API para mostrarlo en el Swal
-                string emailDestino = resultado.EmailDestino ?? "su correo";
-                string mensajeSwal = $"Se ha enviado la nueva contraseña a: <br><strong>{emailDestino}</strong>";
-
+                string emailDestino = resultado.EmailDestino ?? "su correo registrado";
+                string mensajeSwal = $"Se ha enviado temporalmente la nueva contraseña a: <br><strong>{emailDestino}</strong>";
                 await JS.InvokeVoidAsync("Swal.fire", "¡Recuperación exitosa!", mensajeSwal, "success");
-
-                // Limpiamos el mensaje de alerta superior si todo salió bien
-                mensajeAlert = string.Empty;
             }
             else
             {
-                mensajeAlert = resultado?.Mensaje ?? "Error en la solicitud.";
+                esExito = false;
+                mensajeAlert = resultado?.Mensaje ?? "No se pudo procesar la recuperación de credenciales.";
             }
         }
         catch (Exception)
         {
-            mensajeAlert = "Error al conectar con el servidor.";
+            esExito = false;
+            mensajeAlert = "Error al conectar con el servidor de recuperación.";
         }
         finally
         {
             isProcessing = false;
-            // GenerarCaptcha(); // Refrescamos el captcha tras el intento
         }
     }
-
-    // CAPTCHA
-
-
-    // private int num1;
-    // private int num2;
-    // private int? captchaRespuesta;
-    // private string captchaTexto => $"{num1} + {num2} = ?";
-
-    // protected override void OnInitialized()
-    // {
-    //     GenerarCaptcha();
-    // }
-
-    // private void GenerarCaptcha()
-    // {
-    //     var rnd = new Random();
-    //     num1 = rnd.Next(1, 10);
-    //     num2 = rnd.Next(1, 10);
-    //     captchaRespuesta = null;
-    // }
-
-   
 }

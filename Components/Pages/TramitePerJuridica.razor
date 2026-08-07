@@ -630,7 +630,7 @@
         // Validación obligatoria de AMBOS checkboxes independientes para Persona Jurídica
         if (!aceptaTerminos || !aceptaDatosPersonales)
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Debe aceptar obligatoriamente los Términos y Condiciones y el Tratamiento de Datos Personales para continuar.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Para continuar, es necesario que nos des tu conformidad con los Términos y Condiciones y el Tratamiento de Datos Personales.", "warning");
             return;
         }
 

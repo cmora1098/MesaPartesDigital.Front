@@ -989,7 +989,7 @@ body[b-39rokx7gwf] {
 }
 /* /Components/Pages/ConsultaExpediente.razor.rz.scp.css */
 /* ==========================================================================
-   1. RESET / BASE 
+   1. RESET Y BASE 
    ========================================================================== */
 *[b-923svrkr4m] {
     box-sizing: border-box;
@@ -998,67 +998,70 @@ body[b-39rokx7gwf] {
 }
 
 /* ==========================================================================
-   2. ESTRUCTURA Y FONDO (Línea Institucional)
+   2. CONTENEDOR Y FONDO DINÁMICO (Efecto Moderno)
    ========================================================================== */
 .ux-bg[b-923svrkr4m] {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Permite scroll natural si aparecen los resultados */
-    padding: 40px 20px;
-    background: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.08), transparent 40%), radial-gradient(circle at 90% 90%, rgba(12,124,59,0.08), transparent 40%), #f1f5f9;
+    align-items: flex-start;
+    padding: 40px 16px;
+    background: radial-gradient(circle at 10% 20%, rgba(12, 124, 59, 0.06) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 40%), #f8fafc;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .ux-container-centered[b-923svrkr4m] {
     width: 100%;
-    max-width: 600px; /* Un poco más ancho para albergar los datos del trámite cómodamente */
+    max-width: 720px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
 }
 
 /* ==========================================================================
-   3. TARJETA (CARD)
+   3. TARJETA PRINCIPAL DEL FORMULARIO
    ========================================================================== */
 .ux-card-form[b-923svrkr4m] {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 35px;
-    border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.03);
+    background: #ffffff;
+    padding: 38px;
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 1px 1px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
 }
 
-/* ==========================================================================
-   4. ENCABEZADO Y TEXTOS DE CONSULTA
-   ========================================================================== */
 .ux-header-consulta[b-923svrkr4m] {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .ux-title-institucional[b-923svrkr4m] {
-    font-size: 20px;
-    font-weight: 700;
-    color: #0c7c3b;
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0c7c3b 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
+/* Caja de Instrucciones Interactiva */
 .ux-instruction-box[b-923svrkr4m] {
-    background: #f8fafc;
-    border-left: 4px solid #2563eb;
-    padding: 16px;
-    border-radius: 4px 12px 12px 4px;
-    margin-bottom: 24px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 100%);
+    border: 1px solid #d1fae5;
+    border-left: 5px solid #0c7c3b;
+    padding: 18px 20px;
+    border-radius: 12px;
+    margin-bottom: 26px;
 }
 
 .ux-instruction-title[b-923svrkr4m] {
-    font-size: 12px;
-    font-weight: 700;
-    color: #1e293b;
+    font-size: 11px;
+    font-weight: 800;
+    color: #065f46;
     margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .ux-instruction-list[b-923svrkr4m] {
@@ -1070,18 +1073,16 @@ body[b-39rokx7gwf] {
 
     .ux-instruction-list li[b-923svrkr4m] {
         font-size: 13px;
-        color: #475569;
-        line-height: 1.4;
+        color: #334155;
+        line-height: 1.5;
     }
 
     .ux-instruction-list strong[b-923svrkr4m] {
-        color: #2563eb;
-        font-weight: 600;
+        color: #0c7c3b;
+        font-weight: 700;
     }
 
-/* ==========================================================================
-   5. CAMPOS DEL FORMULARIO
-   ========================================================================== */
+/* Inputs y Selectores de Alto Impacto */
 .ux-grid-form-single[b-923svrkr4m] {
     display: flex;
     flex-direction: column;
@@ -1096,19 +1097,19 @@ body[b-39rokx7gwf] {
 
     .ux-field label[b-923svrkr4m] {
         font-size: 13px;
-        font-weight: 500;
-        color: #334155;
+        font-weight: 700;
+        color: #1e293b;
     }
 
 input[b-923svrkr4m], select[b-923svrkr4m] {
     width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
+    padding: 14px 18px;
+    border-radius: 12px;
     border: 1px solid #cbd5e1;
     background: #f8fafc;
-    font-size: 14px;
+    font-size: 15px;
     color: #0f172a;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
     input:hover[b-923svrkr4m], select:hover[b-923svrkr4m] {
@@ -1116,72 +1117,126 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
     }
 
     input:focus[b-923svrkr4m], select:focus[b-923svrkr4m] {
-        background: white;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        background: #ffffff;
+        border-color: #0c7c3b;
+        box-shadow: 0 0 0 4px rgba(12, 124, 59, 0.12);
         outline: none;
     }
 
 .ux-button-submit[b-923svrkr4m] {
     width: 100%;
-    background: #2563eb;
+    background: linear-gradient(135deg, #0c7c3b 0%, #096330 100%);
     color: white;
     border: none;
-    padding: 14px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 8px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 20px -4px rgba(12, 124, 59, 0.3);
 }
 
     .ux-button-submit:hover[b-923svrkr4m] {
-        background: #1d4ed8;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px -4px rgba(12, 124, 59, 0.4);
     }
 
 /* ==========================================================================
-   6. NUEVA SECCIÓN: DISEÑO DE RESULTADOS (MODERNO)
+   4. TARJETA DE RESULTADOS (DISEÑO EXPEDIENTE DIGITAL FLOTANTE)
    ========================================================================== */
 .ux-result-card[b-923svrkr4m] {
-    border-top: 4px solid #0c7c3b; /* Remate superior verde institucional */
+    border-left: 6px solid #0c7c3b;
+    background: #ffffff;
+    padding: 38px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
 }
 
-.ux-result-header[b-923svrkr4m] {
+.ux-result-header-general[b-923svrkr4m] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
 }
 
-    .ux-result-header h2[b-923svrkr4m] {
-        font-size: 16px;
-        font-weight: 700;
+    .ux-result-header-general h2[b-923svrkr4m] {
+        font-size: 18px;
+        font-weight: 800;
         color: #0f172a;
     }
 
-/* Etiquetas de Estado Modernas */
+.ux-subtitle-total[b-923svrkr4m] {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Contenedor dinámico de documentos */
+.ux-documents-container[b-923svrkr4m] {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.ux-document-item-box[b-923svrkr4m] {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.25s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+    .ux-document-item-box:hover[b-923svrkr4m] {
+        background: #ffffff;
+        border-color: #cbd5e1;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    }
+
+.ux-doc-item-header[b-923svrkr4m] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 12px;
+}
+
+.ux-doc-number[b-923svrkr4m] {
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    background: #0c7c3b;
+    padding: 5px 12px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Badges de estado con alto contraste visual */
 .ux-badge-status[b-923svrkr4m] {
     padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 700;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
     letter-spacing: 0.5px;
 }
 
 .status-process[b-923svrkr4m] {
     background: #fef3c7;
-    color: #d97706; /* Ámbar / En Proceso */
+    color: #b45309;
 }
 
 .status-success[b-923svrkr4m] {
     background: #dcfce7;
-    color: #15803d; /* Verde / Finalizado */
+    color: #166534;
 }
 
-/* Distribución de la metadata del Trámite */
+/* Grilla interna de datos */
 .ux-result-grid[b-923svrkr4m] {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1199,8 +1254,8 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
     }
 
 .ux-result-label[b-923svrkr4m] {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     color: #64748b;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1214,63 +1269,104 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
 }
 
 .ux-highlight[b-923svrkr4m] {
-    color: #2563eb;
-    font-weight: 700;
+    color: #0c7c3b;
+    font-weight: 800;
 }
 
 .ux-code-text[b-923svrkr4m] {
     font-family: monospace;
-    background: #f1f5f9;
-    padding: 4px 8px;
-    border-radius: 4px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 8px;
     font-size: 13px;
     display: inline-block;
+    color: #0f172a;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
 }
 
 .ux-text-justify[b-923svrkr4m] {
     text-align: justify;
 }
 
-/* Ubicación Actual Destacada */
+/* Caja de ubicación / atención rediseñada */
 .ux-current-location-box[b-923svrkr4m] {
-    margin-top: 24px;
-    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-    border: 1px dashed #cbd5e1;
-    padding: 16px;
-    border-radius: 8px;
+    margin-top: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 18px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
 }
 
 .ux-location-label[b-923svrkr4m] {
-    font-size: 12px;
-    font-weight: 700;
-    color: #0c7c3b;
+    font-size: 11px;
+    font-weight: 800;
+    color: #475569;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .ux-location-value[b-923svrkr4m] {
     font-size: 14px;
     font-weight: 600;
-    color: #334155;
+    color: #0f172a;
 }
 
-/* Botón Volver */
+/* Alerta amigable moderna */
+.ux-alert-link[b-923svrkr4m] {
+    color: #991b1b;
+    background: #fff5f5;
+    border: 1px dashed #f87171;
+    padding: 12px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    transition: all 0.2s ease;
+}
+
+    .ux-alert-link:hover[b-923svrkr4m] {
+        background: #fee2e2;
+        transform: scale(1.005);
+    }
+
+.ux-link-atencion[b-923svrkr4m] {
+    font-size: 13px;
+    color: #2563eb;
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+    .ux-link-atencion:hover[b-923svrkr4m] {
+        text-decoration: underline;
+    }
+
+/* Footer / Botón Volver */
 .ux-result-footer[b-923svrkr4m] {
-    margin-top: 24px;
+    margin-top: 26px;
     display: flex;
     justify-content: flex-start;
 }
 
 .ux-button-back[b-923svrkr4m] {
-    background: transparent;
-    border: 1px solid #94a3b8;
-    color: #475569;
-    padding: 10px 18px;
-    border-radius: 8px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 12px 20px;
+    border-radius: 10px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -1279,20 +1375,20 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
 }
 
     .ux-button-back:hover[b-923svrkr4m] {
-        background: #f1f5f9;
+        background: #e2e8f0;
         color: #0f172a;
-        border-color: #64748b;
+        transform: translateX(-2px);
     }
 
-/* Animación sutil de entrada */
+/* Animación de entrada fluida */
 .animate-fade-in[b-923svrkr4m] {
-    animation: fadeIn-b-923svrkr4m 0.4s ease-out forwards;
+    animation: fadeIn-b-923svrkr4m 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeIn-b-923svrkr4m {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(12px);
     }
 
     to {
@@ -1302,39 +1398,34 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
 }
 
 /* ==========================================================================
-   7. MEDIA QUERIES (RESPONSIVO MÓVIL)
+   5. RESPONSIVO PERFECTO (Móviles, Tablets y PC)
    ========================================================================== */
-@media (max-width: 580px) {
+@media (max-width: 640px) {
+    .ux-bg[b-923svrkr4m] {
+        padding: 20px 10px;
+    }
+
+    .ux-card-form[b-923svrkr4m], .ux-result-card[b-923svrkr4m] {
+        padding: 24px 18px;
+        border-radius: 14px;
+    }
+
     .ux-result-grid[b-923svrkr4m] {
-        grid-template-columns: 1fr; /* Una columna en celulares */
+        grid-template-columns: 1fr;
     }
 
     .ux-result-item.full-width[b-923svrkr4m] {
         grid-column: span 1;
     }
-}
 
-@media (max-width: 480px) {
-    .ux-bg[b-923svrkr4m] {
-        padding: 15px 10px;
-    }
-
-    .ux-card-form[b-923svrkr4m] {
-        padding: 24px 16px;
-        border-radius: 12px;
-    }
-
-    .ux-title-institucional[b-923svrkr4m] {
-        font-size: 18px;
+    .ux-result-header-general[b-923svrkr4m] {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     input[b-923svrkr4m], select[b-923svrkr4m] {
-        font-size: 16px;
-    }
-
-    .ux-button-submit[b-923svrkr4m], .ux-button-back[b-923svrkr4m] {
-        width: 100%;
-        justify-content: center;
+        font-size: 16px; /* Evita zoom automático en celulares al hacer foco */
     }
 }
 /* /Components/Pages/EditarTramite.razor.rz.scp.css */
@@ -3020,357 +3111,365 @@ textarea[b-py7tcbq0ce] {
 
 /* /Components/Pages/Login.razor.rz.scp.css */
 /* ==========================================================================
-   RESET & BASE CORRECTIONS
+   DISEÑO NEOCLÁSICO MODERNO - MESA DE PARTES DIGITAL AGRO RURAL
    ========================================================================== */
-.login-wrapper *[b-m5l9vkyir2] {
+.neo-login-wrapper *[b-m5l9vkyir2] {
     box-sizing: border-box;
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-    transition: all 0.2s ease-in-out;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.login-wrapper[b-m5l9vkyir2] {
-    display: flex;
+.neo-login-wrapper[b-m5l9vkyir2] {
+    position: relative;
     min-height: 100vh;
-    background-color: #f0fdf4; /* Fondo menta claro institucional */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #15843f;
+    padding: 30px 16px;
+    overflow-x: hidden;
+}
+
+/* Luces de fondo ambientales difuminadas */
+.neo-ambient-glow[b-m5l9vkyir2] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at 10% 15%, rgba(12, 124, 59, 0.15) 0%, transparent 45%), radial-gradient(circle at 90% 85%, rgba(37, 99, 235, 0.12) 0%, transparent 45%);
+    pointer-events: none;
+}
+
+.neo-main-container[b-m5l9vkyir2] {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
 }
 
 /* ==========================================================================
-   PANEL IZQUIERDO (ESCRITORIO)
+   PANEL IZQUIERDO
    ========================================================================== */
-.login-left[b-m5l9vkyir2] {
-    width: 55%;
-    background: linear-gradient(135deg, #77fa7d 0%, #153417 100%); /* Verdes corporativos más profundos */
-    position: relative;
-    overflow: hidden;
+.neo-left-panel[b-m5l9vkyir2] {
+    background: linear-gradient(145deg, #3bb553 0%, #000a01 100%);
+    padding: 50px 40px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-}
-
-    /* Efectos de luces mejorados mediante gradientes limpios */
-    .login-left[b-m5l9vkyir2]::before {
-        content: "";
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-        top: -200px;
-        left: -200px;
-    }
-
-    .login-left[b-m5l9vkyir2]::after {
-        content: "";
-        position: absolute;
-        width: 700px;
-        height: 700px;
-        background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, transparent 70%);
-        bottom: -250px;
-        right: -250px;
-    }
-
-.login-left-content[b-m5l9vkyir2] {
+    flex-direction: column;
+    justify-content: space-between;
     position: relative;
-    z-index: 2;
-    max-width: 560px;
-    color: #ffffff;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.login-logo[b-m5l9vkyir2] {
-    height: 65px;
+.neo-logo[b-m5l9vkyir2] {
+    height: 52px;
     width: auto;
-    margin-bottom: 40px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-}
-
-.login-left h2[b-m5l9vkyir2] {
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 1.3;
     margin-bottom: 24px;
-    color: #f0fdf4;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
-    .login-left h2 strong[b-m5l9vkyir2] {
+.neo-badge-tag[b-m5l9vkyir2] {
+    display: inline-block;
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.neo-left-panel h2[b-m5l9vkyir2] {
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: #f0fdf4;
+    margin-bottom: 16px;
+}
+
+    .neo-left-panel h2 strong[b-m5l9vkyir2] {
         font-weight: 700;
         color: #ffffff;
     }
 
-.login-left p[b-m5l9vkyir2] {
-    font-size: 0.95rem;
-    line-height: 1.65;
+.neo-left-panel p[b-m5l9vkyir2] {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #cbd5e1;
     margin-bottom: 20px;
-    color: #e2e8f0;
     text-align: justify;
 }
 
-/* Alerta interna UX */
-.alerta-box[b-m5l9vkyir2] {
-    background: rgba(255, 255, 255, 0.08);
-    border-left: 4px solid #4ade80;
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 30px;
+.neo-info-pill[b-m5l9vkyir2] {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 14px;
+    border-radius: 10px;
     display: flex;
-    gap: 12px;
-    backdrop-filter: blur(4px);
-}
-
-.alerta-icon[b-m5l9vkyir2] {
-    font-size: 1.25rem;
-    line-height: 1;
-}
-
-.alerta-text[b-m5l9vkyir2] {
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: #f1f5f9;
-}
-
-.dev-footer[b-m5l9vkyir2] {
-    margin-top: 40px;
+    align-items: center;
+    gap: 10px;
     font-size: 0.8rem;
-    color: #a7f3d0;
+    color: #e2e8f0;
+    margin-bottom: 14px;
+}
+
+.neo-alert-box[b-m5l9vkyir2] {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-left: 3px solid #f87171;
+    padding: 12px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: #fca5a5;
+    line-height: 1.45;
+}
+
+.neo-footer-text[b-m5l9vkyir2] {
+    margin-top: 30px;
+    font-size: 0.73rem;
+    color: #6ee7b7;
     opacity: 0.8;
 }
 
 /* ==========================================================================
    PANEL DERECHO (FORMULARIO)
    ========================================================================== */
-.login-right[b-m5l9vkyir2] {
-    width: 45%;
+.neo-right-panel[b-m5l9vkyir2] {
+    background: #ffffff;
+    padding: 50px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    background-color: #f8fafc;
 }
 
-.login-container-form[b-m5l9vkyir2] {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-/* Oculto por defecto en desktop */
-.login-logo-mobile[b-m5l9vkyir2] {
+.neo-logo-mobile[b-m5l9vkyir2] {
     display: none;
-    height: 55px;
-    margin: 0 auto 10px auto;
+    height: 46px;
+    margin: 0 auto 20px auto;
 }
 
-.login-box[b-m5l9vkyir2] {
-    background: #ffffff;
-    padding: 40px 32px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
-}
-
-    .login-box h3[b-m5l9vkyir2] {
-        margin: 0 0 6px 0;
-        color: #14532d;
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-align: center;
-    }
-
-.login-subtitle[b-m5l9vkyir2] {
-    color: #64748b;
-    font-size: 0.9rem;
+.neo-form-header[b-m5l9vkyir2] {
     text-align: center;
     margin-bottom: 28px;
 }
 
-/* INPUTS ACCESIBLES */
-.input-group[b-m5l9vkyir2] {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 20px;
-    text-align: left;
-}
+    .neo-form-header h3[b-m5l9vkyir2] {
+        margin: 0 0 4px 0;
+        color: #0f172a;
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
 
-    .input-group label[b-m5l9vkyir2] {
+    .neo-form-header p[b-m5l9vkyir2] {
+        color: #64748b;
         font-size: 0.85rem;
-        font-weight: 600;
-        color: #334155;
+        margin: 0;
     }
 
-    .input-group input[b-m5l9vkyir2] {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        color: #1e293b;
-        background-color: #fff;
-    }
-
-        .input-group input:focus[b-m5l9vkyir2] {
-            border-color: #16a34a;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
-            background-color: #f0fdf4;
-        }
-
-/* BOTÓN PRINCIPAL */
-.btn-login[b-m5l9vkyir2] {
-    width: 100%;
-    background: #16a34a;
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
-    margin-top: 10px;
+/* Alertas dinámicas */
+.neo-alert-msg[b-m5l9vkyir2] {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.83rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    line-height: 1.4;
 }
 
-    .btn-login:hover[b-m5l9vkyir2] {
-        background: #15803d;
-        transform: translateY(-1px);
-        box-shadow: 0 6px 12px -2px rgba(22, 163, 74, 0.3);
-    }
+.msg-error[b-m5l9vkyir2] {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
 
-    .btn-login:active[b-m5l9vkyir2] {
-        transform: translateY(0);
-    }
+.msg-success[b-m5l9vkyir2] {
+    background-color: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
 
-/* ENLACES SECUNDARIOS DE ACCIÓN */
-.login-actions-secondary[b-m5l9vkyir2] {
+/* Etiquetas flotantes estilizadas */
+.neo-floating-group[b-m5l9vkyir2] {
+    margin-bottom: 20px;
+}
+
+.neo-input-wrap[b-m5l9vkyir2] {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.neo-input-icon[b-m5l9vkyir2] {
+    position: absolute;
+    right: 16px;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.neo-input-wrap input[b-m5l9vkyir2] {
+    width: 100%;
+    padding: 15px 45px 15px 16px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    background-color: #f8fafc;
+    outline: none;
+}
+
+.neo-input-wrap label[b-m5l9vkyir2] {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #64748b;
+    font-size: 0.88rem;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.neo-input-wrap input:focus ~ label[b-m5l9vkyir2],
+.neo-input-wrap input:not(:placeholder-shown) ~ label[b-m5l9vkyir2] {
+    top: 0px;
+    transform: translateY(-50%) scale(0.82);
+    background: #ffffff;
+    padding: 0 6px;
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.neo-input-wrap input:focus[b-m5l9vkyir2] {
+    border-color: #16a34a;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+/* Botón de acceso */
+.neo-submit-btn[b-m5l9vkyir2] {
+    width: 100%;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(22, 163, 74, 0.25);
+    margin-top: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 24px;
-    font-size: 0.85rem;
 }
 
-.btn-link[b-m5l9vkyir2] {
+    .neo-submit-btn:hover[b-m5l9vkyir2] {
+        background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+    }
+
+.neo-spinner[b-m5l9vkyir2] {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin-b-m5l9vkyir2 0.7s linear infinite;
+}
+
+@keyframes spin-b-m5l9vkyir2 {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.neo-actions-footer[b-m5l9vkyir2] {
+    display: flex;
+    justify-content: center;
+    margin-top: 22px;
+}
+
+.neo-link-btn[b-m5l9vkyir2] {
     background: none;
     border: none;
     color: #16a34a;
     font-weight: 600;
+    font-size: 0.83rem;
     cursor: pointer;
-    padding: 2px 4px;
 }
 
-    .btn-link:hover[b-m5l9vkyir2] {
-        color: #15803d;
+    .neo-link-btn:hover[b-m5l9vkyir2] {
         text-decoration: underline;
     }
 
-.divider[b-m5l9vkyir2] {
-    color: #cbd5e1;
-    user-select: none;
+/* Animaciones */
+.animate-fade-in[b-m5l9vkyir2] {
+    animation: fadeIn-b-m5l9vkyir2 0.4s ease-out forwards;
 }
 
-/* CAJA DE SOPORTE */
-.soporte-box[b-m5l9vkyir2] {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e2e8f0;
-    text-align: center;
+@keyframes fadeIn-b-m5l9vkyir2 {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-
-    .soporte-box h4[b-m5l9vkyir2] {
-        margin: 0 0 10px 0;
-        color: #334155;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .soporte-box p[b-m5l9vkyir2] {
-        margin: 6px 0;
-        font-size: 0.85rem;
-        color: #475569;
-    }
-
-    .soporte-box .anexo[b-m5l9vkyir2] {
-        background-color: #f1f5f9;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-weight: 600;
-    }
 
 /* ==========================================================================
-   RESPONSIVE DESIGN (MEDIA QUERIES)
+   RESPONSIVO PERFECTO (TABLETS Y MÓVILES)
    ========================================================================== */
-
-/* Tablets grandes y Laptops chicas */
-@media (max-width: 1024px) {
-    .login-left[b-m5l9vkyir2] {
-        width: 45%;
-        padding: 40px;
-    }
-
-    .login-right[b-m5l9vkyir2] {
-        width: 55%;
-    }
-}
-
-/* Tablets medianas y Móviles (Todo pasa a una columna) */
 @media (max-width: 850px) {
-    .login-wrapper[b-m5l9vkyir2] {
-        background-color: #f8fafc;
+    .neo-login-wrapper[b-m5l9vkyir2] {
+        padding: 16px 10px;
+        background: #ffffff;
     }
 
-    .login-left[b-m5l9vkyir2] {
-        display: none; /* Oculta panel lateral */
+    .neo-main-container[b-m5l9vkyir2] {
+        grid-template-columns: 1fr;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        background: transparent;
     }
 
-    .login-right[b-m5l9vkyir2] {
-        width: 100%;
-        padding: 30px 16px;
+    .neo-left-panel[b-m5l9vkyir2] {
+        display: none; /* Se oculta en móviles para priorizar la usabilidad del login */
     }
 
-    .login-container-form[b-m5l9vkyir2] {
-        max-width: 100%;
+    .neo-right-panel[b-m5l9vkyir2] {
+        padding: 20px 10px;
     }
 
-    .login-logo-mobile[b-m5l9vkyir2] {
-        display: block; /* El logo reaparece arriba del login box */
+    .neo-logo-mobile[b-m5l9vkyir2] {
+        display: block; /* Muestra el logo arriba en celulares */
     }
 
-    .login-box[b-m5l9vkyir2] {
-        padding: 32px 20px;
+    .neo-input-wrap input[b-m5l9vkyir2] {
+        font-size: 16px; /* Previene zoom automático en iOS/Android */
     }
-}
-
-
-
-
-.input-group[b-m5l9vkyir2] {
-    margin-bottom: 1.5rem;
-}
-
-    .input-group label[b-m5l9vkyir2] {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: #444;
-    }
-
-    .input-group input[b-m5l9vkyir2] {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px; /* Tamaño amigable para vista móvil */
-    }
-
-/* Resaltado del captcha */
-#captcha[b-m5l9vkyir2] {
-    background-color: #f9f9f9;
-    border-color: #35af72;
 }
 /* /Components/Pages/Tramitar.razor.rz.scp.css */
  
