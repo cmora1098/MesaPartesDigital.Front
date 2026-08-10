@@ -1,5 +1,6 @@
 using MesaPartesDigital.Components;
 using MesaPartesDigital.Models;
+using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,7 +55,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<UserSession>();
 builder.Services.AddScoped<MesaPartesDigital.Services.SessionService>();
-
+builder.Services.AddScoped<DocumentoAdjuntoServices>();
 
 builder.Services.AddHttpClient("MesaPartesApi", client =>
 {

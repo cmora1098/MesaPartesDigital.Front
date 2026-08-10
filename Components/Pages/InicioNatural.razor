@@ -10,11 +10,13 @@
 @inherits PageBase
 @inject IJSRuntime JS
 
+@inject DocumentoAdjuntoServices ArchivoPrincipalService // Documento Adjunto
+
 <div class="ux-bg">
     <div class="ux-container">
 
         <div class="ux-header">
-            <div class="ux-badge-top">Mesa de Partes Digital</div>
+            <div class="ux-badge-top">Mesa de Partes Virtual</div>
             <h1>Persona Natural</h1>
             <p class="ux-description">
                 Completa todos los campos para registrar tu documento.
@@ -24,13 +26,18 @@
         <div class="ux-card-form">
             <h2>I. DATOS DEL REMITENTE</h2> 
             <div class="ux-grid-form">
+
                 <div class="ux-field">
                     <label>Tipo de Documento *</label>
                     <select @bind="formulario.ICodTipoDocPer" @bind:after="OnTipoDocumentoChange">
                         <option value="0">-- SELECCIONE --</option>
                         <option value="1">DNI</option>
                         <option value="3">CE (Carnet de Extranjería)</option>
-                    </select>   
+                    </select>
+                    @if (!string.IsNullOrEmpty(errorTipoDoc))
+                    {
+                        <span class="ux-error">@errorTipoDoc</span>
+                    }
                 </div>
 
                 <div class="ux-field">
@@ -56,24 +63,43 @@
                     </div>
                 }
 
+                
                 <div class="ux-field">
                     <label>Apellido Paterno *</label>
                     <input @bind="formulario.VApellidoPaterno" disabled="@bloquearDatos" style="text-transform: uppercase;" />
+                    @if (!string.IsNullOrEmpty(errorPaterno))
+                    {
+                        <span class="ux-error">@errorPaterno</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Apellido Materno *</label>
                     <input @bind="formulario.VApellidoMaterno" disabled="@bloquearDatos" style="text-transform: uppercase;" />
+                    @if (!string.IsNullOrEmpty(errorMaterno))
+                    {
+                        <span class="ux-error">@errorMaterno</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Nombres *</label>
                     <input @bind="formulario.VNombres" disabled="@bloquearDatos" style="text-transform: uppercase;" />
+                    @if (!string.IsNullOrEmpty(errorNombres))
+                    {
+                        <span class="ux-error">@errorNombres</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Teléfono *</label>
-                    <input @bind="formulario.VTelefono" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <input @bind="formulario.VTelefono"
+                           @bind:after="LimpiarErrorTelefono"
+                           onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    @if (!string.IsNullOrEmpty(errorTelefono))
+                    {
+                        <span class="ux-error">@errorTelefono</span>
+                    }
                 </div>
 
                 <div class="ux-field">
@@ -109,21 +135,33 @@
                 {
                     <div class="ux-field">
                         <label>Ingresa código generado *</label>
-                        <div style="position: relative; width: 100%; margin-top: 5px;">
-                            <input type="text"
-                                   @bind="codigoIngresado"
-                                   @bind:after="VerificarCodigo"
-                                   maxlength="6"
-                                   placeholder="AQUÍ LOS 6 DÍGITOS"
-                                   style="width: 100%; padding-right: 40px;"
-                                   disabled="@codigoVerificado" />
 
-                            @if (codigoVerificado)
-                            {
-                                <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #2e7d32; font-weight: bold;">
-                                    ✅
-                                </span>
-                            }
+                        <!-- Contenedor flexible para el input y su propio botón de Validar -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; width: 100%; margin-top: 5px;">
+                            <div style="position: relative; flex: 1 1 200px; min-width: 0;">
+                                <input type="text"
+                                       @bind="codigoIngresado"
+                                       maxlength="6"
+                                       placeholder="AQUÍ LOS 6 DÍGITOS"
+                                       style="width: 100%; padding-right: 40px; height: 100%;"
+                                       disabled="@codigoVerificado" />
+
+                                @if (codigoVerificado)
+                                {
+                                    <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #2e7d32; font-weight: bold;">
+                                        ✅
+                                    </span>
+                                }
+                            </div>
+
+                            <!-- Botón explícito para validar el código -->
+                            <button type="button"
+                                    class="ux-btn-secondary"
+                                    @onclick="VerificarCodigo"
+                                    style="flex: 0 0 auto; min-width: 140px; white-space: nowrap;"
+                                    disabled="@(string.IsNullOrEmpty(codigoIngresado) || codigoIngresado.Length < 6 || codigoVerificado || verificandoCodigo)">
+                                @(verificandoCodigo ? "Validando..." : "Validar Código")
+                            </button>
                         </div>
 
                         @if (!string.IsNullOrEmpty(errorCodigo))
@@ -133,12 +171,17 @@
                     </div>
                 }
 
+                
                 <div class="ux-field">
                     <label>Dirección *</label>
-                    <input @bind="formulario.VDireccion" placeholder="Ej: Av. Arequipa 123, Dpto. 402, Urb. San Felipe" style="text-transform: uppercase;" />
-                    <small class="ux-help">
-                        Ingrese vía, número, interior/departamento, urbanización o AA.HH.
-                    </small>
+                    <input @bind="formulario.VDireccion"
+                           @bind:after="LimpiarErrorDireccion"
+                           placeholder="Ej: Av. Arequipa 123..." style="text-transform: uppercase;" />
+                    <small class="ux-help">Ingrese vía, número, interior/departamento, urbanización o AA.HH.</small>
+                    @if (!string.IsNullOrEmpty(errorDireccion))
+                    {
+                        <span class="ux-error">@errorDireccion</span>
+                    }
                 </div>
 
                 <div class="ux-field">
@@ -147,12 +190,16 @@
                         <option value="">-- SELECCIONAR --</option>
                         @if (ListaDepartamentos != null)
                         {
-                            @foreach (var dep in ListaDepartamentos)
+                            @foreach (var dept in ListaDepartamentos)
                             {
-                                <option value="@dep.vCodigo" style="text-transform: uppercase;">@dep.vDescripcion</option>
+                                <option value="@dept.vCodigo">@dept.vDescripcion</option>
                             }
                         }
                     </select>
+                    @if (!string.IsNullOrEmpty(errorDepartamento))
+                    {
+                        <span class="ux-error">@errorDepartamento</span>
+                    }
                 </div>
 
                 <div class="ux-field">
@@ -163,15 +210,21 @@
                         {
                             @foreach (var prov in ListaProvincias)
                             {
-                                <option value="@prov.vCodigo" style="text-transform: uppercase;">@prov.vDescripcion</option>
+                                <option value="@prov.vCodigo">@prov.vDescripcion</option>
                             }
                         }
                     </select>
+                    @if (!string.IsNullOrEmpty(errorProvincia))
+                    {
+                        <span class="ux-error">@errorProvincia</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Distrito *</label>
-                    <select @bind="formulario.VCodDistrito" disabled="@(string.IsNullOrEmpty(provinciaSeleccionada))">
+                    <select @bind="formulario.VCodDistrito"
+                            @bind:after="LimpiarErrorDistrito"
+                            disabled="@(string.IsNullOrEmpty(provinciaSeleccionada))">
                         <option value="">-- SELECCIONAR --</option>
                         @if (ListaDistritos != null)
                         {
@@ -181,6 +234,10 @@
                             }
                         }
                     </select>
+                    @if (!string.IsNullOrEmpty(errorDistrito))
+                    {
+                        <span class="ux-error">@errorDistrito</span>
+                    }
                 </div>
 
             </div>
@@ -191,33 +248,53 @@
             <div class="ux-grid-form">
                 <div class="ux-field">
                     <label>Tipo de Documento *</label>
-                    <select @bind="formulario.ICodTipoDoc">
+                    <select @bind="formulario.ICodTipoDoc" @bind:after="LimpiarErrorTipoDocTramite">
                         <option value="0">--SELECCIONAR--</option>
                         @foreach (var doc in listaTiposDocumento)
                         {
                             <option value="@doc.iCodTipoDoc">@doc.vNombreTipoDoc</option>
                         }
                     </select>
+                    @if (!string.IsNullOrEmpty(errorTipoDocTramite))
+                    {
+                        <span class="ux-error">@errorTipoDocTramite</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Nro Documento *</label>
-                    <input placeholder="Ej: 001-2024" @bind="formulario.VNroDoc" style="text-transform: uppercase;" />
+                    <input placeholder="Ej: 001-2024" @bind="formulario.VNroDoc" @bind:after="LimpiarErrorNroDocTramite" style="text-transform: uppercase;" />
+                    @if (!string.IsNullOrEmpty(errorNroDocTramite))
+                    {
+                        <span class="ux-error">@errorNroDocTramite</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Folio *</label>
-                    <input @bind="formulario.VNroPagFolios" placeholder="Ej: 15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <input @bind="formulario.VNroPagFolios" @bind:after="LimpiarErrorFolios" placeholder="Ej: 15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    @if (!string.IsNullOrEmpty(errorFolios))
+                    {
+                        <span class="ux-error">@errorFolios</span>
+                    }
                 </div>
 
                 <div class="ux-field">
                     <label>Fecha del Documento *</label>
-                    <input type="date" @bind="formulario.DFecDoc" />
+                    <input type="date" @bind="formulario.DFecDoc" @bind:after="LimpiarErrorFechaDoc" />
+                    @if (!string.IsNullOrEmpty(errorFechaDoc))
+                    {
+                        <span class="ux-error">@errorFechaDoc</span>
+                    }
                 </div>
 
                 <div class="ux-field full">
                     <label>Asunto / Sumilla *</label>
-                    <textarea maxlength="255" @bind="formulario.VNombreAsunto" placeholder="Ingrese el resumen o asunto del documento..." style="text-transform: uppercase;"></textarea>
+                    <textarea maxlength="255" @bind="formulario.VNombreAsunto" @bind:after="LimpiarErrorAsunto" placeholder="Ingrese el resumen o asunto del documento..." style="text-transform: uppercase;"></textarea>
+                    @if (!string.IsNullOrEmpty(errorAsunto))
+                    {
+                        <span class="ux-error">@errorAsunto</span>
+                    }
                 </div>
 
                 <div class="ux-field full">
@@ -230,48 +307,47 @@
         <div class="ux-card-form">
             <h2>Documento adjunto</h2>
 
-            <InputFile OnChange="OnFileSelected" accept=".pdf" id="fileUpload" class="hidden-input" />
+            <!-- InputFile condicionado: si no hay archivo válido, se muestra el selector -->
+            @if (archivo.Contenido == null || archivo.Contenido.Length == 0)
+            {
+                <div class="ux-upload-area">
+                    <InputFile @key="inputKey" OnChange="OnFileSelected" accept=".pdf" class="form-control" />
+                </div>
+            }
 
             <p class="ux-file-hint">
                 (Peso máximo: 50MB. Solo se permite archivos en formato PDF)
             </p>
 
+            <!-- La tarjeta verde y el visor solo se pintan si el archivo pasó todas las validaciones -->
             @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
             {
-                <div class="ux-file-info">
-                    ✅ <span>@archivo.Nombre</span>
+                <div class="ux-file-info-container" style="display: flex; justify-content: space-between; align-items: center; background: #e8f5e9; padding: 10px; border-radius: 8px;">
+                    <div class="ux-file-info" style="font-weight: 600; color: #2e7d32;">
+                        ✅ <span>@archivo.Nombre</span> (@archivo.Tamano)
+                    </div>
+                    <button type="button" class="ux-btn-delete" @onclick="RemoverArchivo" style="background: none; border: none; cursor: pointer; color: #d33; font-weight: bold;">
+                        ❌ Quitar
+                    </button>
                 </div>
 
-                <div class="ux-pdf-preview">
-                    <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")"></iframe>
+                <div class="ux-pdf-preview" style="margin-top: 15px; height: 400px; border: 1px solid #ddd;">
+                    <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")" width="100%" height="100%"></iframe>
                 </div>
             }
-
-            @if (!string.IsNullOrEmpty(error))
-            {
-                <p class="ux-error">@error</p>
-            }
-
-            @* <br />
-            <button type="button" class="ux-btn-secondary" @onclick="ToggleUrl">
-                🔗 Agregar URL
-            </button>
-
-            @if (mostrarUrl)
-            {
-                <input class="ux-input-url" @bind="urlIngresada" placeholder="https://..." style="text-transform: uppercase;" />
-            } *@
         </div>
-         
+
         <div class="ux-card-form">
             <h2>Anexos</h2>
 
-            @* <InputFile id="fileUploadMulti"
-                       multiple class="hidden-input" OnChange="HandleFilesSelected" /> *@
-            <InputFile id="fileUploadMulti"
-                       multiple class="hidden-input"
-                       accept=".pdf"
-                       OnChange="HandleFilesSelected" />
+            <!-- InputFile múltiple con el diseño unificado -->
+            <div class="ux-upload-area">
+                <InputFile @key="inputAnexosKey"
+                           multiple
+                           accept=".pdf"
+                           class="form-control"
+                           OnChange="HandleFilesSelected" />
+            </div>
 
             @if (!string.IsNullOrEmpty(errorArchivo))
             {
@@ -279,22 +355,18 @@
                     <strong>¡Atención!</strong> @errorArchivo
                 </div>
             }
+
             <p class="ux-file-hint">
-                @* (Peso máximo de cada archivo: 20MB)(Formatos permitidos: PDF, DOCX, XLSX, PPT, JPG, PNG y ZIP)(Numero máximo de anexos: 10) *@
-                (Peso máximo de cada archivo: 20MB) (Formato permitido: **PDF**) (Número máximo de anexos: 10)
+                (Peso máximo de cada archivo: 20MB) (Formato permitido: <b>PDF</b>) (Número máximo de anexos: 10)
             </p>
-             
 
-            <br />
-
-            <div class="ux-table-wrapper">
+            <div class="ux-table-wrapper" style="margin-top: 15px;">
                 <table class="ux-table">
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Tipo</th>
                             <th>Tamaño</th>
-                            <th>Acciones</th>
+                            <th style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -303,11 +375,15 @@
                             @foreach (var archi in archivos)
                             {
                                 <tr>
-                                    <td>@archi.Nombre</td>
-                                    <td>@archi.Tipo</td>
+                                    <td>📄 @archi.Nombre</td>
                                     <td>@archi.Tamano</td>
-                                    <td>
-                                        <button class="btn-delete" @onclick="() => EliminarArchivo(archi)">
+                                    <td style="text-align: center; display: flex; gap: 8px; justify-content: center;">
+                                        <!-- Botón de Vista Previa -->
+                                        <button type="button" class="btn btn-sm btn-outline-primary" @onclick="() => VerPreviewAnexo(archi)" style="padding: 2px 10px; font-size: 0.85rem;">
+                                            Ver
+                                        </button>
+                                        <!-- Botón Eliminar -->
+                                        <button type="button" class="btn btn-sm btn-outline-danger" @onclick="() => EliminarArchivo(archi)" style="padding: 2px 10px; font-size: 0.85rem;">
                                             Eliminar
                                         </button>
                                     </td>
@@ -317,8 +393,8 @@
                         else
                         {
                             <tr>
-                                <td colspan="4" class="ux-empty">
-                                    No hay archivos cargados
+                                <td colspan="3" class="ux-empty" style="text-align: center; color: #64748b; padding: 20px;">
+                                    No hay archivos anexos cargados
                                 </td>
                             </tr>
                         }
@@ -336,26 +412,17 @@
             <hr class="ux-divider" />
 
             <!-- BLOQUE DE CHECKBOXES OBLIGATORIOS -->
-            <div class="ux-field full" style="margin: 20px 0;">
-                <!-- Check 1: Términos y Condiciones / Declaración Jurada -->
-                <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
-                    <input type="checkbox" id="chkTerminos" @bind="aceptaTerminos" style="margin-top: 4px; width: 18px; height: 18px;" />
-                    <label for="chkTerminos" style="font-size: 0.9rem; line-height: 1.4; color: #333; cursor: pointer;">
-                        Declaro bajo juramento que los datos consignados y la documentación adjunta son veraces y auténticos, sujetándome a las responsabilidades legales correspondientes. Asimismo, acepto los <a href="#" @onclick="MostrarTerminos" @onclick:preventDefault="true" style="color: #0d6efd; text-decoration: underline;">Términos y Condiciones</a> y autorizo la notificación electrónica al correo indicado conforme al TUO de la Ley N° 27444.
-                    </label>
-                </div>
-
-                <!-- Check 2: Tratamiento de Datos Personales -->
-                <div style="display: flex; align-items: flex-start; gap: 10px;">
-                    <input type="checkbox" id="chkDatos" @bind="aceptaDatosPersonales" style="margin-top: 4px; width: 18px; height: 18px;" />
-                    <label for="chkDatos" style="font-size: 0.9rem; line-height: 1.4; color: #333; cursor: pointer;">
-                        Brindo mi consentimiento libre, previo, expreso e informado para el <a href="#" @onclick="MostrarPoliticaDatos" @onclick:preventDefault="true" style="color: #0d6efd; text-decoration: underline;">Tratamiento de mis Datos Personales</a> para los fines exclusivos del presente trámite, bajo la Ley N° 29733.
-                    </label>
-                </div>
-            </div>
+            <DeclaracionesLegales AceptaTerminos="aceptaTerminos"
+                                  AceptaTerminosChanged="(valor => aceptaTerminos = valor)"
+                                  AceptaDatosPersonales="aceptaDatosPersonales"
+                                  AceptaDatosPersonalesChanged="(valor => aceptaDatosPersonales = valor)" />
             <!-- FIN DEL BLOQUE -->
              
             <div class="ux-actions">
+                <button class="ux-button-secondary" @onclick="ManejarVolver">
+                    ← Volver
+                </button>
+
                 <button class="ux-btn-primary" @onclick="Finalizar">
                     Enviar solicitud
                 </button>
@@ -379,25 +446,38 @@
 </div>
 
 @code {
+    [Parameter] public EventCallback OnVolver { get; set; }
+    private async Task ManejarVolver()
+    {
+        // Intentamos notificar al padre primero
+        if (OnVolver.HasDelegate)
+        {
+            await OnVolver.InvokeAsync();
+        }
+        else
+        {
+            // Si no hay padre escuchando (caso de error), redirigimos a la ruta segura
+            // Nav.NavigateTo("/Tramitar", true);
+            Ir($"/", true);
+
+        }
+    }
 
     // private RegistroDocumentoRequest formulario = new();
     private InicioPersNaturalDto formulario = new();
-    private PersonaNaturalDto? personaConsultada;
-
+    private PersonaNaturalDto? personaConsultada; 
     private List<TipoDocumento> listaTiposDocumento = new();
 
     // *******************
     // DATOS DEL REMITENTE
-    // *******************
-
+    // ******************* 
     private string errorDocumento = "";
-    private bool bloquearDatos = true;
-
+    private bool bloquearDatos = true; 
     private void OnTipoDocumentoChange()
     {
-
         formulario.VDocPer = "";
         errorDocumento = "";
+        errorTipoDoc = "";
         formulario.VApellidoPaterno = "";
         formulario.VApellidoMaterno = "";
         formulario.VNombres = "";
@@ -433,8 +513,11 @@
     private async Task ValidarDatos()
     {
         errorDocumento = "";
+        errorPaterno = "";
+        errorMaterno = "";
+        errorNombres = "";
 
-        // 1. Validaciones de formulario (igual que antes)
+        // 1. Validaciones de formulario
         if (string.IsNullOrEmpty(formulario.VDocPer))
         {
             errorDocumento = "Debe ingresar un número de documento.";
@@ -449,13 +532,12 @@
 
         try
         {
-            // 2. Llamada al API (Asegúrate de que la URL sea la correcta)
+            // 2. Llamada al API
             string url = $"api/personas/natural?tipoDocumento={formulario.ICodTipoDocPer}&documento={formulario.VDocPer}";
 
-            // Hacemos el llamado esperando el DTO
             var personaEncontrada = await Http.GetFromJsonAsync<PersonaNaturalDto>(url);
 
-            // 3. Lógica de asignación (Si el objeto llega, aunque sea vacío, no será null)
+            // 3. Lógica de asignación
             if (personaEncontrada != null && !string.IsNullOrEmpty(personaEncontrada.vDocPer))
             {
                 formulario.ICodPer = personaEncontrada.iCodPer;
@@ -464,16 +546,19 @@
                 formulario.VNombres = personaEncontrada.vNombres;
 
                 bloquearDatos = true;
+
+                // 👈 Vuelve a asegurar que se limpien los errores por si acaso
+                errorPaterno = "";
+                errorMaterno = "";
+                errorNombres = "";
             }
             else
             {
-                // Caso donde el API responde OK pero el objeto está vacío
                 LimpiarFormularioPersona("Documento no registrado. Complete sus datos manualmente.");
             }
         }
         catch (HttpRequestException ex)
         {
-            // Si el API devuelve 404, entra aquí
             if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 LimpiarFormularioPersona("Documento no registrado. Complete sus datos manualmente.");
@@ -492,7 +577,6 @@
             formulario.VApellidoPaterno = "";
             formulario.VApellidoMaterno = "";
             formulario.VNombres = "";
-            // errorDocumento = "Error al consultar la base de datos de la entidad.";
         }
 
         StateHasChanged();
@@ -509,7 +593,139 @@
         bloquearDatos = false;
     }
 
+    private string errorTipoDoc = "";
+    private string errorPaterno = "";
+    private string errorMaterno = "";
+    private string errorNombres = "";
+    private string errorTelefono = "";
+    private string errorDireccion = "";
+    private string errorDepartamento = "";
+    private string errorProvincia = "";
+    private string errorDistrito = "";
+
+    private bool ValidarFormularioRemitente()
+    {
+        // Limpiamos mensajes previos
+        errorDocumento = "";
+        errorTipoDoc = "";
+        errorPaterno = "";
+        errorMaterno = "";
+        errorNombres = "";
+        errorTelefono = "";
+        errorCorreo = "";
+        errorDireccion = "";
+        errorDepartamento = "";
+        errorProvincia = "";
+        errorDistrito = "";
+        errorCodigo = "";
+
+        bool esValido = true;
+
+        // 1. Tipo de Documento
+        if (formulario.ICodTipoDocPer <= 0)
+        {
+            errorTipoDoc = "Debe seleccionar un tipo de documento.";
+            esValido = false;
+        }
+
+        // 2. Número de Documento
+        if (string.IsNullOrWhiteSpace(formulario.VDocPer))
+        {
+            errorDocumento = "El número de documento es obligatorio.";
+            esValido = false;
+        }
+        else if (formulario.ICodTipoDocPer == 1 && (formulario.VDocPer.Length != 8 || !formulario.VDocPer.All(char.IsDigit)))
+        {
+            errorDocumento = "El DNI debe tener exactamente 8 dígitos numéricos.";
+            esValido = false;
+        }
+        else if (formulario.ICodTipoDocPer == 3 && formulario.VDocPer.Length > 10)
+        {
+            errorDocumento = "El Carnet de Extranjería no puede superar los 10 caracteres.";
+            esValido = false;
+        }
+
+        // 3. Apellidos y Nombres
+        if (string.IsNullOrWhiteSpace(formulario.VApellidoPaterno))
+        {
+            errorPaterno = "El apellido paterno es obligatorio.";
+            esValido = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(formulario.VApellidoMaterno))
+        {
+            errorMaterno = "El apellido materno es obligatorio.";
+            esValido = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(formulario.VNombres))
+        {
+            errorNombres = "Los nombres son obligatorios.";
+            esValido = false;
+        }
+
+        // 4. Teléfono
+        if (string.IsNullOrWhiteSpace(formulario.VTelefono))
+        {
+            errorTelefono = "El teléfono es obligatorio.";
+            esValido = false;
+        }
+
+        // 5. Correo y Código de Verificación OTP
+        if (string.IsNullOrWhiteSpace(formulario.VEmail))
+        {
+            errorCorreo = "El correo electrónico es obligatorio.";
+            esValido = false;
+        }
+        else
+        {
+            ValidarCorreo();
+            if (!string.IsNullOrEmpty(errorCorreo)) esValido = false;
+        }
+
+        if (!codigoVerificado)
+        {
+            errorCodigo = "Debe validar el código de 6 dígitos enviado a su correo.";
+            esValido = false;
+        }
+
+        // 6. Dirección
+        if (string.IsNullOrWhiteSpace(formulario.VDireccion))
+        {
+            errorDireccion = "La dirección domiciliaria es obligatoria.";
+            esValido = false;
+        }
+
+        // 7. Ubigeo (Departamento, Provincia, Distrito)
+        if (string.IsNullOrWhiteSpace(departamentoSeleccionado))
+        {
+            errorDepartamento = "Debe seleccionar un departamento.";
+            esValido = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(provinciaSeleccionada))
+        {
+            errorProvincia = "Debe seleccionar una provincia.";
+            esValido = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(formulario.VCodDistrito))
+        {
+            errorDistrito = "Debe seleccionar un distrito.";
+            esValido = false;
+        }
+
+        StateHasChanged();
+        return esValido;
+    }
+
+    private void LimpiarErrorTelefono() { if (!string.IsNullOrWhiteSpace(formulario.VTelefono)) errorTelefono = ""; }
+    private void LimpiarErrorDireccion() { if (!string.IsNullOrWhiteSpace(formulario.VDireccion)) errorDireccion = ""; }
+    private void LimpiarErrorDistrito() { if (!string.IsNullOrEmpty(formulario.VCodDistrito)) errorDistrito = ""; }
+
+    // ******
     // CORREO  
+    // ******
     private string errorCorreo = "";
     private void ValidarCorreo()
     {
@@ -534,7 +750,6 @@
     private bool enviandoCorreo = false;
     private string errorCodigo = "";
     private string mensajeCodigo = "";
-    private string codigoGeneradoOculto = "";
     private bool mostrarCampoCodigo = false;
 
     private async Task GenerarCodigoVerificacion()
@@ -546,7 +761,6 @@
 
         try
         {
-            // Ya no enviamos un código, solo el correo. El servidor se encarga.
             var response = await Http.PostAsJsonAsync("api/correos/otp", new { Correo = formulario.VEmail });
 
             if (response.IsSuccessStatusCode)
@@ -567,7 +781,8 @@
     }
 
     private string codigoIngresado = "";
-   
+    private bool verificandoCodigo = false; // Indicador visual opcional mientras valida
+
     private async Task VerificarCodigo()
     {
         errorCodigo = "";
@@ -578,9 +793,10 @@
             return;
         }
 
+        verificandoCodigo = true;
+
         try
         {
-            // El objeto 'request' debe coincidir con la estructura del modelo en el API
             var request = new { Correo = formulario.VEmail, Codigo = codigoIngresado };
             var response = await Http.PostAsJsonAsync("api/correos/verificar", request);
 
@@ -588,7 +804,7 @@
             {
                 codigoVerificado = true;
                 mensajeCodigo = "¡Código Aprobado! ✅ El correo ha sido validado.";
-                mostrarCampoCodigo = false; // Ocultamos el campo tras éxito
+                mostrarCampoCodigo = false; // Oculta el campo tras éxito
             }
             else
             {
@@ -601,8 +817,11 @@
             errorCodigo = "Error de conexión con el servicio de validación.";
             Console.WriteLine($"[Error]: {ex.Message}");
         }
-
-        StateHasChanged();
+        finally
+        {
+            verificandoCodigo = false;
+            StateHasChanged();
+        }
     }
 
     // DEPARTAMENTO - PROVINCIA - DISTRITO
@@ -624,64 +843,171 @@
 
     private async Task OnDepartamentoChanged()
     {
-        // Reiniciar estados
         provinciaSeleccionada = "";
         formulario.VCodDistrito = "";
         ListaProvincias.Clear();
         ListaDistritos.Clear();
 
+        // Limpia o actualiza el estado de los errores del ubigeo dependiente
+        errorDepartamento = string.IsNullOrEmpty(departamentoSeleccionado) ? errorDepartamento : "";
+        errorProvincia = "";
+        errorDistrito = "";
+
         if (!string.IsNullOrEmpty(departamentoSeleccionado))
         {
             ListaProvincias = await Http.GetFromJsonAsync<List<UbigeoModel>>($"api/ubigeo?codigoPadre={departamentoSeleccionado}");
         }
+
+        StateHasChanged(); // 👈 Esto obliga a Blazor a redibujar las opciones en pantalla
     }
 
     private async Task OnProvinciaChanged()
     {
-        // Reiniciar estados
         formulario.VCodDistrito = "";
         ListaDistritos.Clear();
+
+        errorProvincia = string.IsNullOrEmpty(provinciaSeleccionada) ? errorProvincia : "";
+        errorDistrito = "";
 
         if (!string.IsNullOrEmpty(provinciaSeleccionada))
         {
             ListaDistritos = await Http.GetFromJsonAsync<List<UbigeoModel>>($"api/ubigeo?codigoPadre={provinciaSeleccionada}");
         }
+
+        StateHasChanged(); // 👈 Asegura que los distritos aparezcan desplegables de inmediato
+    }
+     
+    private void LimpiarErrorDepartamento()
+    {
+        if (!string.IsNullOrEmpty(departamentoSeleccionado))
+        {
+            errorDepartamento = "";
+        }
+    }
+
+    private void LimpiarErrorProvincia()
+    {
+        if (!string.IsNullOrEmpty(provinciaSeleccionada))
+        {
+            errorProvincia = "";
+        }
     }
 
     // ******************************************************************
     // DOCUMENTOS
+    // ******************************************************************
 
     // Campo de asunto desacoplado para prevenir errores de nombres en el modelo
     private string asuntoDocumento = "";
+    private string errorTipoDocTramite = "";
+    private string errorNroDocTramite = "";
+    private string errorFolios = "";
+    private string errorFechaDoc = "";
+    private string errorAsunto = "";
 
+    private bool ValidarFormularioDocumentos()
+    {
+        // 1. Limpiar errores previos de la sección de documentos
+        errorTipoDocTramite = "";
+        errorNroDocTramite = "";
+        errorFolios = "";
+        errorFechaDoc = "";
+        errorAsunto = "";
+
+        bool esValido = true;
+
+        // 2. Validar Tipo de Documento del Trámite
+        if (formulario.ICodTipoDoc <= 0)
+        {
+            errorTipoDocTramite = "Debe seleccionar un tipo de documento.";
+            esValido = false;
+        }
+
+        // 3. Validar Nro Documento
+        if (string.IsNullOrWhiteSpace(formulario.VNroDoc))
+        {
+            errorNroDocTramite = "El número de documento es obligatorio.";
+            esValido = false;
+        }
+
+        // 4. Validar Folios
+        if (string.IsNullOrWhiteSpace(formulario.VNroPagFolios))
+        {
+            errorFolios = "El número de folios es obligatorio.";
+            esValido = false;
+        }
+
+        // 5. Validar Fecha del Documento
+        if (formulario.DFecDoc == default)
+        {
+            errorFechaDoc = "La fecha del documento es obligatoria.";
+            esValido = false;
+        }
+
+        // 6. Validar Asunto / Sumilla
+        if (string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
+        {
+            errorAsunto = "El asunto o sumilla es obligatorio.";
+            esValido = false;
+        }
+
+        // Refrescar la pantalla para mostrar los textos rojos si hay errores
+        StateHasChanged();
+
+        return esValido;
+    }
+
+    private void LimpiarErrorTipoDocTramite()
+    {
+        if (formulario.ICodTipoDoc > 0) errorTipoDocTramite = "";
+    }
+
+    private void LimpiarErrorNroDocTramite()
+    {
+        if (!string.IsNullOrWhiteSpace(formulario.VNroDoc)) errorNroDocTramite = "";
+    }
+
+    private void LimpiarErrorFolios()
+    {
+        if (!string.IsNullOrWhiteSpace(formulario.VNroPagFolios)) errorFolios = "";
+    }
+
+    private void LimpiarErrorFechaDoc()
+    {
+        if (formulario.DFecDoc != default) errorFechaDoc = "";
+    }
+
+    private void LimpiarErrorAsunto()
+    {
+        if (!string.IsNullOrWhiteSpace(formulario.VNombreAsunto)) errorAsunto = "";
+    }
     // ******************************************************************
     // DOCUMENTOS ADJUNTOS
     // ******************************************************************
-    private ArchivoAdjunto archivo = new(); // Ahora 'archivo' es de tu clase personalizada
+    private ArchivoAdjunto archivo = new();
     private string error = "";
-    private string? pdfPreviewUrl;
-
-    private bool mostrarUrl = false;
-    private void ToggleUrl() => mostrarUrl = !mostrarUrl;
-    private string urlIngresada = "";
+    private int inputKey = 0;
 
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {
-        var file = e.File;
-        if (file != null)
-        {
-            using var ms = new MemoryStream();
-            await file.OpenReadStream(50 * 1024 * 1024).CopyToAsync(ms);
+        var resultado = await ArchivoPrincipalService.ProcesarArchivoSeleccionadoAsync(e);
 
-            archivo = new ArchivoAdjunto
-            {
-                Nombre = file.Name,
-                Tipo = file.ContentType,
-                Tamano = $"{file.Size / 1024} KB",
-                Contenido = ms.ToArray(),
-                FileBrowser = file
-            };
+        if (resultado != null)
+        {
+            archivo = resultado;
+            error = string.Empty;
         }
+        else
+        {
+            RemoverArchivo();
+        }
+    }
+
+    private void RemoverArchivo()
+    {
+        archivo = new();
+        inputKey++;
+        StateHasChanged();
     }
 
     // ************ 
@@ -689,62 +1015,46 @@
     // ************
     private List<ArchivoAdjunto> archivos = new();
     private string errorArchivo = "";
+    private int inputAnexosKey = 0;
+    private string? previewUrl; // Variable que alimenta el iframe del modal general
 
     private async Task HandleFilesSelected(InputFileChangeEventArgs e)
     {
-        errorArchivo = "";
+        errorArchivo = string.Empty;
 
-        foreach (var file in e.GetMultipleFiles(10))
+        // Llama al servicio global que ya actualizamos previamente
+        var resultado = await ArchivoPrincipalService.ProcesarAnexosSeleccionadosAsync(e, archivos);
+
+        if (resultado != null)
         {
-            // 1. Validar límite de archivos
-            if (archivos.Count >= 10)
-            {
-                errorArchivo = "Ha alcanzado el límite máximo de 10 archivos.";
-                break;
-            }
+            archivos = resultado;
+        }
 
-            // 2. Validar duplicados por nombre
-            if (archivos.Any(a => a.Nombre == file.Name))
-            {
-                errorArchivo = $"El archivo '{file.Name}' ya ha sido agregado.";
-                continue;
-            }
+        inputAnexosKey++; // Resetea el control input multiple
+        StateHasChanged();
+    }
 
-            // 3. Validar tamaño
-            if (file.Size > 20 * 1024 * 1024)
-            {
-                errorArchivo = $"El archivo '{file.Name}' supera los 20MB.";
-                continue;
-            }
-
-            // 4. Validar formato
-            var extension = Path.GetExtension(file.Name).ToLower();
-            if (extension != ".pdf")
-            {
-                errorArchivo = $"El archivo '{file.Name}' no es un PDF válido.";
-                continue;
-            }
-
-            // Procesar archivo
-            using var ms = new MemoryStream();
-            await file.OpenReadStream(20 * 1024 * 1024).CopyToAsync(ms);
-
-            archivos.Add(new ArchivoAdjunto
-            {
-                Nombre = file.Name,
-                Tipo = extension,
-                Tamano = $"{file.Size / 1024} KB",
-                Contenido = ms.ToArray(), // Esto es lo que necesitas para subirlo
-                FileBrowser = file
-            });
+    private void VerPreviewAnexo(ArchivoAdjunto archi)
+    {
+        if (archi.Contenido != null && archi.Contenido.Length > 0)
+        {
+            previewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(archi.Contenido)}";
+            StateHasChanged();
         }
     }
 
+    private void EliminarArchivo(ArchivoAdjunto archi)
+    {
+        archivos.Remove(archi);
+        StateHasChanged();
+    }
 
-    private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
-    private string? previewUrl;
-    private void CerrarPreview() => previewUrl = null;
-    
+    private void CerrarPreview()
+    {
+        previewUrl = null;
+        StateHasChanged();
+    }
+
 
     private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
 
@@ -790,109 +1100,165 @@
     private bool aceptaTerminos = false;
     private bool aceptaDatosPersonales = false;
 
-    // Modal para Términos y Condiciones (Opción 9 UX)
-    private async Task MostrarTerminos()
-    {
-        await JS.InvokeVoidAsync("Swal.fire", new
-        {
-            title = "Condiciones del Servicio",
-            html = @"<div style='text-align: left; font-size: 0.88rem; line-height: 1.6; max-height: 350px; overflow-y: auto; padding-right: 4px; color: #334155;'>" +
-                   "<div style='background: #eff6ff; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; text-align: center; font-weight: 500;'>" +
-                   "📌 Por favor, revisa estos breves puntos antes de enviar tu solicitud." +
-                   "</div>" +
-                   "<div style='margin-bottom: 12px;'>" +
-                   "<b style='color: #0f172a; display: block;'>1. Validez oficial</b>" +
-                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Recepción virtual de documentos con total validez legal equivalente a la presencial.</p>" +
-                   "</div>" +
-                   "<div style='margin-bottom: 12px;'>" +
-                   "<b style='color: #0f172a; display: block;'>2. Responsabilidad de la información</b>" +
-                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Asumes plena responsabilidad administrativa, civil y penal por los datos adjuntos (Art. IV y Art. 32 del TUO de la Ley N° 27444).</p>" +
-                   "</div>" +
-                   "<div>" +
-                   "<b style='color: #0f172a; display: block;'>3. Notificaciones electrónicas</b>" +
-                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Autorizas el uso del correo electrónico registrado para el seguimiento de tu trámite.</p>" +
-                   "</div>" +
-                   "</div>",
-            confirmButtonText = "Entendido, estoy de acuerdo",
-            confirmButtonColor = "#2563eb",
-            width = "600px"
-        });
-    }
-
-    // Modal para Tratamiento de Datos Personales - Ley N° 29733 (Opción 9 UX)
-    private async Task MostrarPoliticaDatos()
-    {
-        await JS.InvokeVoidAsync("Swal.fire", new
-        {
-            title = "Compromiso con tus Datos Personales",
-            html = @"<div style='text-align: left; font-size: 0.88rem; line-height: 1.6; max-height: 350px; overflow-y: auto; padding-right: 4px; color: #334155;'>" +
-                   "<div style='background: #f0fdf4; color: #166534; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; text-align: center; font-weight: 500;'>" +
-                   "🛡️ Transparencia y seguridad en el manejo de tu información." +
-                   "</div>" +
-                   "<div style='margin-bottom: 12px;'>" +
-                   "<b style='color: #0f172a; display: block;'>1. Finalidad exclusiva</b>" +
-                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Los datos recabados serán tratados exclusivamente para gestionar, tramitar y dar seguimiento a tu solicitud.</p>" +
-                   "</div>" +
-                   "<div style='margin-bottom: 12px;'>" +
-                   "<b style='color: #0f172a; display: block;'>2. Confidencialidad y protección</b>" +
-                   "<p style='margin: 2px 0 0 0; color: #64748b;'>La institución se compromete a salvaguardar tu información aplicando estrictas medidas de seguridad (Ley N° 29733).</p>" +
-                   "</div>" +
-                   "<div>" +
-                   "<b style='color: #0f172a; display: block;'>3. Tus derechos ARCO</b>" +
-                   "<p style='margin: 2px 0 0 0; color: #64748b;'>Podrás ejercer tus derechos de Acceso, Rectificación, Cancelación y Oposición a través de los canales oficiales.</p>" +
-                   "</div>" +
-                   "</div>",
-            confirmButtonText = "Aceptar y continuar",
-            confirmButtonColor = "#2563eb",
-            width = "600px"
-        });
-    }
-
     async Task Finalizar()
     {
         // 1. Validaciones
         ValidarDocumento();
+        ValidarFormularioRemitente();
         ValidarCorreo();
-
-        // 2. Validación de campos obligatorios (*)
-        if (string.IsNullOrWhiteSpace(formulario.VDocPer) ||
-            string.IsNullOrWhiteSpace(formulario.VApellidoPaterno) ||
-            string.IsNullOrWhiteSpace(formulario.VApellidoMaterno) ||
-            string.IsNullOrWhiteSpace(formulario.VNombres) ||
-            string.IsNullOrWhiteSpace(formulario.VTelefono) ||
-            string.IsNullOrWhiteSpace(formulario.VEmail) ||
-            string.IsNullOrWhiteSpace(formulario.VDireccion) ||
-            string.IsNullOrWhiteSpace(departamentoSeleccionado) ||
-            string.IsNullOrWhiteSpace(provinciaSeleccionada) ||
-            string.IsNullOrWhiteSpace(formulario.VCodDistrito) ||
-            formulario.ICodTipoDoc == 0 ||
-            string.IsNullOrWhiteSpace(formulario.VNroDoc) ||
-            string.IsNullOrWhiteSpace(formulario.VNroPagFolios) ||
-            formulario.DFecDoc == default ||
-            string.IsNullOrWhiteSpace(formulario.VNombreAsunto))
-        {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Por favor, complete todos los campos obligatorios marcados con (*).", "warning");
-            return;
-        }
+        ValidarFormularioDocumentos();
 
         // 3. Validación de errores previos y verificación de correo
         if (!codigoVerificado || !string.IsNullOrEmpty(errorDocumento) || !string.IsNullOrEmpty(errorCorreo))
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Existen errores en los datos ingresados o el código de verificación no ha sido validado.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    🔍
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Validación Requerida</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Datos y Verificación</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                No se puede completar el proceso debido a inconsistencias en la información proporcionada o falta de validación de seguridad.
+                            </p>
+
+                            <!-- Tarjeta de Detalles del Error -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='font-size: 13px; color: #334155; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;'>
+                                    <span style='color: #dc2626;'>✖</span> Existen errores o campos pendientes en los datos ingresados.
+                                </div>
+                                <div style='font-size: 13px; color: #334155; display: flex; align-items: center; gap: 8px; border-top: 1px dashed #cbd5e1; padding-top: 10px;'>
+                                    <span style='color: #dc2626;'>✖</span> El código de verificación aún no ha sido validado con éxito.
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Por favor, revise los campos marcados y complete la verificación antes de continuar.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Revisar y corregir",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
             return;
         }
 
         // 4. Validación de documento principal obligatorio
         if (archivo == null || archivo.Contenido == null || archivo.Contenido.Length == 0)
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "El documento principal es obligatorio.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    📁
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Documento Obligatorio</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Validación de Requisitos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Para proceder con el registro en la Mesa de Partes Virtual, es un requisito indispensable adjuntar el documento principal del trámite.
+                            </p>
+
+                            <!-- Tarjeta de Alerta -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado actual:</span>
+                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Falta documento principal</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Por favor, seleccione y cargue su archivo principal antes de continuar.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
             return;
         }
 
         // 5. Validación obligatoria de AMBOS checkboxes independientes
         if (!aceptaTerminos || !aceptaDatosPersonales)
         {
-            await JS.InvokeVoidAsync("Swal.fire", "Atención", "Para continuar, es necesario que nos des tu conformidad con los Términos y Condiciones y el Tratamiento de Datos Personales.", "warning");
+            await JS.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #eff6ff; color: #1d4ed8; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(29, 78, 216, 0.1);'>
+                                    ⚖️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Conformidad Requerida</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Validación Legal y Términos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Para continuar con su trámite en la Mesa de Partes Virtual, es necesario que nos otorgue su conformidad con las normativas vigentes.
+                            </p>
+
+                            <!-- Tarjeta de Requisitos Legales -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='font-size: 13px; color: #334155; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;'>
+                                    <span style='color: #2563eb;'>✔</span> Términos y Condiciones de Uso
+                                </div>
+                                <div style='font-size: 13px; color: #334155; display: flex; align-items: center; gap: 8px;'>
+                                    <span style='color: #2563eb;'>✔</span> Tratamiento de Datos Personales (Ley N° 29733)
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #1d4ed8; background: #eff6ff; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Por favor, marque las casillas correspondientes antes de enviar su solicitud.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
             return;
         }
 

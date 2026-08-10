@@ -1,0 +1,147 @@
+﻿@inject IJSRuntime JS
+
+<div class="ux-field full" style="margin: 20px 0;">
+    <!-- Check 1: Términos y Condiciones -->
+    <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+        <input type="checkbox" id="chkTerminos" checked="@AceptaTerminos" @onchange="CambiarTerminos" style="margin-top: 4px; width: 18px; height: 18px;" />
+        <label for="chkTerminos" style="font-size: 0.9rem; line-height: 1.4; color: #333; cursor: pointer;">
+            Declaro bajo juramento que los datos consignados y la documentación adjunta son veraces y auténticos, sujetándome a las responsabilidades legales correspondientes. Asimismo, acepto los <a href="#" @onclick="MostrarTerminos" @onclick:preventDefault="true" style="color: #0d6efd; text-decoration: underline;">Términos y Condiciones</a> y autorizo la notificación electrónica al correo indicado conforme al TUO de la Ley N° 27444.
+        </label>
+    </div>
+
+    <!-- Check 2: Tratamiento de Datos Personales -->
+    <div style="display: flex; align-items: flex-start; gap: 10px;">
+        <input type="checkbox" id="chkDatos" checked="@AceptaDatosPersonales" @onchange="CambiarDatos" style="margin-top: 4px; width: 18px; height: 18px;" />
+        <label for="chkDatos" style="font-size: 0.9rem; line-height: 1.4; color: #333; cursor: pointer;">
+            Brindo mi consentimiento libre, previo, expreso e informado para el <a href="#" @onclick="MostrarPoliticaDatos" @onclick:preventDefault="true" style="color: #0d6efd; text-decoration: underline;">Tratamiento de mis Datos Personales</a> para los fines exclusivos del presente trámite, bajo la Ley N° 29733.
+        </label>
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool AceptaTerminos { get; set; }
+    [Parameter] public EventCallback<bool> AceptaTerminosChanged { get; set; }
+
+    [Parameter] public bool AceptaDatosPersonales { get; set; }
+    [Parameter] public EventCallback<bool> AceptaDatosPersonalesChanged { get; set; }
+
+    private async Task CambiarTerminos(ChangeEventArgs e)
+    {
+        if (e.Value is bool valor)
+        {
+            await AceptaTerminosChanged.InvokeAsync(valor);
+        }
+    }
+
+    private async Task CambiarDatos(ChangeEventArgs e)
+    {
+        if (e.Value is bool valor)
+        {
+            await AceptaDatosPersonalesChanged.InvokeAsync(valor);
+        }
+    }
+
+    private async Task MostrarTerminos()
+    {
+        await JS.InvokeVoidAsync("Swal.fire", new
+        {
+            html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <!-- Cabecera con Icono -->
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #eff6ff; color: #2563eb; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);'>
+                                📜
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Condiciones del Servicio</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                            </div>
+                        </div>
+
+                        <!-- Aviso superior -->
+                        <div style='background: #eff6ff; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; font-weight: 500; display: flex; align-items: center; gap: 8px;'>
+                            <span>📌</span>
+                            <span>Por favor, revisa estos breves puntos antes de enviar tu solicitud.</span>
+                        </div>
+
+                        <!-- Contenedor con Scroll para los puntos -->
+                        <div style='max-height: 280px; overflow-y: auto; padding-right: 4px; margin-bottom: 20px;'>
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 10px;'>
+                                <b style='color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px;'>1. Validez oficial</b>
+                                <p style='margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;'>Recepción virtual de documentos con total validez legal equivalente a la presencial.</p>
+                            </div>
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 10px;'>
+                                <b style='color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px;'>2. Responsabilidad de la información</b>
+                                <p style='margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;'>Asumes plena responsabilidad administrativa, civil y penal por los datos y documentos adjuntos.</p>
+                            </div>
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;'>
+                                <b style='color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px;'>3. Notificaciones electrónicas</b>
+                                <p style='margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;'>Autorizas el uso del correo electrónico registrado para el seguimiento y respuesta de tu trámite.</p>
+                            </div>
+                        </div>
+                    </div>
+                ",
+            showConfirmButton = true,
+            confirmButtonText = "Entendido, estoy de acuerdo",
+            confirmButtonColor = "#2563eb",
+            width = "600px",
+            backdrop = "rgba(15, 23, 42, 0.5)",
+            customClass = new
+            {
+                popup = "rounded-2xl shadow-xl border border-slate-100"
+            }
+        });
+    }
+
+    private async Task MostrarPoliticaDatos()
+    {
+        await JS.InvokeVoidAsync("Swal.fire", new
+        {
+            html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <!-- Cabecera con Icono -->
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #f0fdf4; color: #166534; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 101, 52, 0.1);'>
+                                🛡️
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Compromiso con tus Datos</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Protección de Datos Personales</p>
+                            </div>
+                        </div>
+
+                        <!-- Aviso superior -->
+                        <div style='background: #f0fdf4; color: #166534; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; font-weight: 500; display: flex; align-items: center; gap: 8px;'>
+                            <span>🔒</span>
+                            <span>Transparencia y seguridad en el manejo de tu información.</span>
+                        </div>
+
+                        <!-- Contenedor con Scroll para los puntos -->
+                        <div style='max-height: 280px; overflow-y: auto; padding-right: 4px; margin-bottom: 20px;'>
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 10px;'>
+                                <b style='color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px;'>1. Finalidad exclusiva</b>
+                                <p style='margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;'>Los datos recabados serán tratados exclusivamente para gestionar y dar seguimiento a tu solicitud.</p>
+                            </div>
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 10px;'>
+                                <b style='color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px;'>2. Confidencialidad y protección</b>
+                                <p style='margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;'>La institución se compromete a salvaguardar tu información conforme a la Ley N° 29733.</p>
+                            </div>
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;'>
+                                <b style='color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px;'>3. Tus derechos ARCO</b>
+                                <p style='margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;'>Podrás ejercer en todo momento tus derechos de Acceso, Rectificación, Cancelación y Oposición.</p>
+                            </div>
+                        </div>
+                    </div>
+                ",
+            showConfirmButton = true,
+            confirmButtonText = "Aceptar y continuar",
+            confirmButtonColor = "#2563eb",
+            width = "600px",
+            backdrop = "rgba(15, 23, 42, 0.5)",
+            customClass = new
+            {
+                popup = "rounded-2xl shadow-xl border border-slate-100"
+            }
+        });
+    }
+}

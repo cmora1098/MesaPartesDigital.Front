@@ -90,8 +90,8 @@ D:\Proyectos\NUEVA MESA DE PARTES\MesaPartesFront\obj\Debug\net8.0\refint\MesaPa
 D:\Proyectos\NUEVA MESA DE PARTES\MesaPartesFront\obj\Debug\net8.0\MesaPartesDigital.Front.pdb
 D:\Proyectos\NUEVA MESA DE PARTES\MesaPartesFront\obj\Debug\net8.0\MesaPartesDigital.Front.genruntimeconfig.cache
 D:\Proyectos\NUEVA MESA DE PARTES\MesaPartesFront\obj\Debug\net8.0\ref\MesaPartesDigital.Front.dll
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\appsettings.json
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\web.config
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\appsettings.json
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\MesaPartesDigital.Front.staticwebassets.runtime.json
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\MesaPartesDigital.Front.staticwebassets.endpoints.json
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\bin\Debug\net8.0\MesaPartesDigital.Front.exe

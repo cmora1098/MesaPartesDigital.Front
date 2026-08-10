@@ -2612,7 +2612,30 @@ textarea[b-z7qvur1np6] {
     .ux-modal-content[b-z7qvur1np6] {
         height: 90vh; /* El modal aprovecha más la pantalla vertical */
     }
-} 
+}
+
+.ux-actions[b-z7qvur1np6] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-z7qvur1np6] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-z7qvur1np6] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
 /* /Components/Pages/InicioNatural.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
@@ -3109,6 +3132,28 @@ textarea[b-py7tcbq0ce] {
     }
 }
 
+.ux-actions[b-py7tcbq0ce] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-py7tcbq0ce] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-py7tcbq0ce] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
 /* /Components/Pages/Login.razor.rz.scp.css */
 /* ==========================================================================
    DISEÑO NEOCLÁSICO MODERNO - MESA DE PARTES DIGITAL AGRO RURAL
@@ -4525,6 +4570,30 @@ textarea[b-wvaveewqvm] {
 }
 
 
+
+
+.ux-actions[b-wvaveewqvm] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.ux-button-secondary[b-wvaveewqvm] {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 15px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .ux-button-secondary:hover[b-wvaveewqvm] {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
 
 
 .ux-actions[b-wvaveewqvm] {
