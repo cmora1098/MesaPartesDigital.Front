@@ -433,14 +433,50 @@
         {
             new
             {
-                title = "¿Estás seguro?",
-                text = "¿Estás seguro de actualizar los datos de Expediente?",
-                icon = "question",
+                html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <!-- Cabecera con Icono -->
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                📁
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Información del Expediente</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                            ¿Estás seguro de actualizar los datos correspondientes a este expediente?
+                        </p>
+
+                        <!-- Tarjeta de Confirmación -->
+                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                            <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                <span style='color: #64748b;'>Acción del sistema:</span>
+                                <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Modificar expediente</span>
+                            </div>
+                        </div>
+
+                        <!-- Nota de ayuda -->
+                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                            <span>📌</span>
+                            <span>Esta acción guardará los cambios realizados de forma permanente.</span>
+                        </div>
+                    </div>
+                ",
                 showCancelButton = true,
+                showConfirmButton = true,
                 confirmButtonText = "Sí, actualizar",
                 cancelButtonText = "Cancelar",
-                confirmButtonColor = "#0c7c3b",
-                cancelButtonColor = "#d33"
+                confirmButtonColor = "#1e293b",
+                cancelButtonColor = "#64748b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
             }
         });
 
@@ -454,14 +490,100 @@
 
             if (response.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Actualizado!", "Los datos del expediente se actualizaron correctamente.", "success");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                        📁
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Expediente Actualizado!</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Los datos del expediente se actualizaron correctamente en el sistema.
+                                </p>
+
+                                <!-- Tarjeta de Éxito -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de la operación:</span>
+                                        <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>📌</span>
+                                    <span>Los cambios ya se encuentran guardados en el expediente.</span>
+                                </div>
+                            </div>
+                        ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Continuar",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
             else
             {
                 string errorDetails = await response.Content.ReadAsStringAsync();
                 // Imprime el error completo en la consola del navegador (F12)
                 Console.WriteLine($"[ERROR API] Código: {response.StatusCode} - Detalle: {errorDetails}");
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo actualizar el expediente.", "error");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                        📁❌
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Actualización</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Lo sentimos, no se pudo actualizar el expediente en este momento.
+                                </p>
+
+                                <!-- Tarjeta de Error -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de la operación:</span>
+                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>💡</span>
+                                    <span>Por favor, verifique los datos del expediente e intente nuevamente.</span>
+                                </div>
+                            </div>
+                        ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
         }
     }
@@ -473,19 +595,54 @@
 
     private async Task ActualizarDocumento()
     {
-        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]
-        {
-        new
-        {
-            title = "¿Estás seguro?",
-            text = "¿Deseas actualizar la información del documento?",
-            icon = "question",
-            showCancelButton = true,
-            confirmButtonText = "Sí, actualizar",
-            cancelButtonText = "Cancelar",
-            confirmButtonColor = "#0c7c3b",
-            cancelButtonColor = "#d33"
-        }
+        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]{
+            new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                    📁
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Información del Documento</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Está a punto de modificar la información registrada de este documento en el sistema.
+                            </p>
+
+                            <!-- Tarjeta de Confirmación -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Acción:</span>
+                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizar datos</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Verifique que la información sea correcta antes de confirmar.</span>
+                            </div>
+                        </div>
+                ",
+                showCancelButton = true,
+                showConfirmButton = true,
+                confirmButtonText = "Sí, actualizar",
+                cancelButtonText = "Cancelar",
+                confirmButtonColor = "#1e293b",
+                cancelButtonColor = "#64748b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            }
         });
 
         if (confirmResult.IsConfirmed)
@@ -532,19 +689,148 @@
                         tramiteOriginal.FoliosDocumento = tramite.FoliosDocumento;
                     }
 
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Actualizado!", "Los datos del documento se actualizaron correctamente.", "success");
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    {
+                        html = $@"
+                                <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                    <!-- Cabecera con Icono -->
+                                    <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                        <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                            ✨
+                                        </div>
+                                        <div>
+                                            <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
+                                            <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Descripción -->
+                                    <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                        Los datos del documento se han procesado y actualizado correctamente en el sistema.
+                                    </p>
+
+                                    <!-- Tarjeta de Éxito -->
+                                    <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                        <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                            <span style='color: #64748b;'>Estado de la operación:</span>
+                                            <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Guardado con éxito</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Nota de ayuda -->
+                                    <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                        <span>📌</span>
+                                        <span>Los cambios ya se encuentran reflejados en su trámite.</span>
+                                    </div>
+                                </div>
+                            ",
+                        showConfirmButton = true,
+                        confirmButtonText = "Continuar",
+                        confirmButtonColor = "#1e293b",
+                        backdrop = "rgba(15, 23, 42, 0.5)",
+                        customClass = new
+                        {
+                            popup = "rounded-2xl shadow-xl border border-slate-100"
+                        }
+                    });
                 }
                 else
                 {
                     string errorDetails = await response.Content.ReadAsStringAsync();
                     Console.WriteLine($"[ERROR API] {errorDetails}");
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo actualizar el documento.", "error");
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    {
+                        html = $@"
+                                <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                    <!-- Cabecera con Icono -->
+                                    <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                        <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                            ⚠️
+                                        </div>
+                                        <div>
+                                            <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Actualización</h3>
+                                            <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Descripción -->
+                                    <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                        Lo sentimos, no se pudo procesar la actualización del documento en este momento.
+                                    </p>
+
+                                    <!-- Tarjeta de Error -->
+                                    <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                        <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                            <span style='color: #64748b;'>Estado de la operación:</span>
+                                            <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Nota de ayuda -->
+                                    <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                        <span>💡</span>
+                                        <span>Por favor, verifique su conexión e intente nuevamente en unos minutos.</span>
+                                    </div>
+                                </div>
+                            ",
+                        showConfirmButton = true,
+                        confirmButtonText = "Entendido",
+                        confirmButtonColor = "#1e293b",
+                        backdrop = "rgba(15, 23, 42, 0.5)",
+                        customClass = new
+                        {
+                            popup = "rounded-2xl shadow-xl border border-slate-100"
+                        }
+                    });
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[Blazor Error] {ex.Message}");
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "Ocurrió un error de red al intentar actualizar.", "error");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                        ❌
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Conexión</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Ocurrió un error de red al intentar comunicarse con el servidor para procesar la actualización.
+                                </p>
+
+                                <!-- Tarjeta de Red -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de la red:</span>
+                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Sin comunicación</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>💡</span>
+                                    <span>Compruebe su acceso a internet y vuelva a intentarlo.</span>
+                                </div>
+                            </div>
+                        ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
         }
     }
@@ -616,7 +902,50 @@
         if (archivo?.FileBrowser == null)
         {
             error = "Por favor selecciona un archivo PDF antes de actualizar.";
-            await JSRuntime.InvokeVoidAsync("Swal.fire", "Atención", "Debe seleccionar un archivo.", "warning");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    📎
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Selección Requerida</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Archivos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Para continuar con el proceso, es necesario que seleccione un archivo válido para adjuntar.
+                            </p>
+
+                            <!-- Tarjeta de Alerta -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado actual:</span>
+                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Ningún archivo seleccionado</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Por favor, busque y elija su documento antes de continuar.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
             return;
         }
 
@@ -630,14 +959,100 @@
             bool esPdf = contentType == "application/pdf" || extension == ".pdf";
             if (!esPdf)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Formato no válido", "Solo se permite subir archivos en formato PDF.", "error");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                        📄
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Formato No Válido</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Validación de Archivos</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    El archivo que intenta subir no cumple con las especificaciones técnicas requeridas por el sistema.
+                                </p>
+
+                                <!-- Tarjeta de Formato Requerido -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Formato permitido:</span>
+                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Solo archivos PDF (.pdf)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>💡</span>
+                                    <span>Asegúrese de que el documento tenga la extensión correcta antes de adjuntarlo.</span>
+                                </div>
+                            </div>
+                        ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
                 return;
             }
 
             long maxFileSize = 52 * 1024 * 1024;
             if (archivo.FileBrowser.Size > maxFileSize)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo demasiado pesado", "No puedes subir archivos muy pesados.", "warning");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
+                                    ⚠️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Archivo Demasiado Pesado</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Capacidad</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                El documento que intenta adjuntar supera el tamaño máximo permitido por el sistema.
+                            </p>
+
+                            <!-- Tarjeta de Límite -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Restricción:</span>
+                                    <span style='font-weight: 600; color: #d97706; background: #fef3c7; padding: 2px 8px; border-radius: 6px;'>Excede el límite establecido</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Optimice, reduzca la resolución o comprima su archivo antes de volver a intentarlo.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
                 return;
             }
 
@@ -661,20 +1076,149 @@
                 tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
                 archivo = new();
 
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Actualizado!", "El documento principal se actualizó correctamente.", "success");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                    📄
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Documento Principal</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                El documento principal se ha procesado y actualizado correctamente en el sistema.
+                            </p>
+
+                            <!-- Tarjeta de Éxito -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado de la operación:</span>
+                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Los cambios ya se encuentran reflejados en su trámite.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Continuar",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"[ERROR API] {errorContent}");
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo actualizar el documento adjunto.", "error");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    📎
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Actualización</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Documento Adjunto</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Lo sentimos, no se pudo procesar la actualización del documento adjunto en este momento.
+                            </p>
+
+                            <!-- Tarjeta de Error -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado de la operación:</span>
+                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Por favor, verifique el archivo e intente nuevamente en unos minutos.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
         }
         catch (Exception ex)
         {
             // Atrapa cualquier error de red/stream y muestra un mensaje limpio evitando el texto técnico
             Console.WriteLine($"[Error oculto]: {ex.Message}");
-            await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo muy pesado", "No puedes subir archivos muy pesados.", "warning");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
+                                    ⚠️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Archivo Muy Pesado</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Capacidad</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                El archivo que intenta subir excede el peso límite establecido por el sistema.
+                            </p>
+
+                            <!-- Tarjeta de Límite -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Restricción:</span>
+                                    <span style='font-weight: 600; color: #d97706; background: #fef3c7; padding: 2px 8px; border-radius: 6px;'>Tamaño excedido</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Por favor, comprima su documento o seleccione uno más ligero antes de reintentar.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
         }
     }
 
@@ -801,12 +1345,50 @@
         // Confirmación con SweetAlert2
         var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new
         {
-            title = $"¿Estás seguro de eliminar el {nombreVisual}?",
-            text = "Esta acción dará de baja el documento del trámite.",
-            icon = "warning",
+            html = $@"
+                <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                    <!-- Cabecera con Icono -->
+                    <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                        <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                            🗑️
+                        </div>
+                        <div>
+                            <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¿Estás seguro de eliminar el {nombreVisual}?</h3>
+                            <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Documentos</p>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                        Esta acción dará de baja el documento del trámite de forma definitiva.
+                    </p>
+
+                    <!-- Tarjeta de Confirmación -->
+                    <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                        <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                            <span style='color: #64748b;'>Consecuencia:</span>
+                            <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Dar de baja</span>
+                        </div>
+                    </div>
+
+                    <!-- Nota de ayuda -->
+                    <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                        <span>📌</span>
+                        <span>Verifique bien antes de proceder con la eliminación.</span>
+                    </div>
+                </div>
+            ",
             showCancelButton = true,
+            showConfirmButton = true,
             confirmButtonText = "Sí, eliminar",
-            cancelButtonText = "Cancelar"
+            cancelButtonText = "Cancelar",
+            confirmButtonColor = "#dc2626",
+            cancelButtonColor = "#64748b",
+            backdrop = "rgba(15, 23, 42, 0.5)",
+            customClass = new
+            {
+                popup = "rounded-2xl shadow-xl border border-slate-100"
+            }
         });
 
         // Validamos si el usuario hizo clic en confirmar (dependiendo de cómo retorne tu SweetAlert)
@@ -827,7 +1409,50 @@
 
             if (response.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Eliminado!", "El anexo se eliminó correctamente.", "success");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                    🗑️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Eliminado!</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                El anexo se eliminó correctamente del trámite en el sistema.
+                            </p>
+
+                            <!-- Tarjeta de Éxito -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado de la operación:</span>
+                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Eliminado con éxito</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Los cambios ya se encuentran actualizados en su lista de archivos.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Continuar",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
 
                 // 🟢 1. Ocultamos el visor integrando limpiando la URL de vista previa
                 previewUrl = string.Empty;
@@ -840,12 +1465,97 @@
             }
             else
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudo procesar la eliminación en la base de datos.", "error");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    🗄️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Base de Datos</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Lo sentimos, no se pudo procesar la eliminación en la base de datos en este momento.
+                            </p>
+
+                            <!-- Tarjeta de Error -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado de la operación:</span>
+                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en servidor de BD</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Por favor, intente nuevamente en unos minutos o comuníquese con soporte técnico.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", "Error de red", $"Ocurrió un error: {ex.Message}", "error");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <!-- Cabecera con Icono -->
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                ❌
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
+                            Ocurrió un error al intentar procesar la solicitud de red. Detalle técnico:
+                        </p>
+
+                        <!-- Tarjeta con Detalle del Excepción -->
+                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                            <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
+                                {ex.Message}
+                            </div>
+                        </div>
+
+                        <!-- Nota de ayuda -->
+                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                            <span>💡</span>
+                            <span>Verifique su conexión a internet y vuelva a intentarlo.</span>
+                        </div>
+                    </div>
+                ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
         }
     }
 
@@ -861,7 +1571,50 @@
     {
         if (!archivosNuevos.Any())
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", "Aviso", "No hay nuevos anexos por guardar.", "info");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #eff6ff; color: #3b82f6; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);'>
+                                    ℹ️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Aviso Informativo</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                No se encontraron nuevos anexos pendientes para guardar en este trámite.
+                            </p>
+
+                            <!-- Tarjeta de Estado -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado actual:</span>
+                                    <span style='font-weight: 600; color: #3b82f6; background: #dbeafe; padding: 2px 8px; border-radius: 6px;'>Sin cambios nuevos</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #1d4ed8; background: #eff6ff; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Adjunte nuevos archivos si desea registrar elementos adicionales.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
             return;
         }
 
@@ -872,7 +1625,50 @@
 
             if (response.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Éxito!", "Los anexos se guardaron correctamente.", "success");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                    📎
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Anexos Guardados!</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Los anexos seleccionados se guardaron correctamente en el sistema.
+                            </p>
+
+                            <!-- Tarjeta de Éxito -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado de la operación:</span>
+                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Guardado con éxito</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                <span>📌</span>
+                                <span>Los archivos ya se encuentran adjuntos a su trámite.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Continuar",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
 
                 // Limpiamos la lista local de nuevos archivos
                 archivosNuevos.Clear();
@@ -884,12 +1680,97 @@
             }
             else
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudieron guardar los anexos en la base de datos.", "error");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    🗄️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Base de Datos</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                Lo sentimos, no se pudieron guardar los anexos en la base de datos en este momento.
+                            </p>
+
+                            <!-- Tarjeta de Error -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                    <span style='color: #64748b;'>Estado de la operación:</span>
+                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error al registrar anexos</span>
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Por favor, verifique los archivos e intente nuevamente en unos minutos.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", "Error de red", $"Ocurrió un error: {ex.Message}", "error");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <!-- Cabecera con Icono -->
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                ❌
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
+                            Ocurrió un error al intentar procesar la solicitud de red. Detalle técnico:
+                        </p>
+
+                        <!-- Tarjeta con Detalle del Excepción -->
+                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                            <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
+                                {ex.Message}
+                            </div>
+                        </div>
+
+                        <!-- Nota de ayuda -->
+                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                            <span>💡</span>
+                            <span>Verifique su conexión a internet y vuelva a intentarlo.</span>
+                        </div>
+                    </div>
+                ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
         }
     }
 
@@ -909,7 +1790,50 @@
                 if (!responseAnexos.IsSuccessStatusCode)
                 {
                     var errorContent = await responseAnexos.Content.ReadAsStringAsync();
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", "Error", "No se pudieron guardar los nuevos anexos.", "error");
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    {
+                        html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                        ❌
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error al Guardar</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Nuevos Anexos</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Lo sentimos, no se pudieron guardar los nuevos anexos en el sistema.
+                                </p>
+
+                                <!-- Tarjeta de Error -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de la operación:</span>
+                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el proceso</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>💡</span>
+                                    <span>Verifique los archivos seleccionados e intente nuevamente.</span>
+                                </div>
+                            </div>
+                        ",
+                        showConfirmButton = true,
+                        confirmButtonText = "Entendido",
+                        confirmButtonColor = "#1e293b",
+                        backdrop = "rgba(15, 23, 42, 0.5)",
+                        customClass = new
+                        {
+                            popup = "rounded-2xl shadow-xl border border-slate-100"
+                        }
+                    });
                     return;
                 }
             }
@@ -919,7 +1843,50 @@
 
             if (responseEstado.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "¡Éxito!", "Los cambios se guardaron y el trámite fue actualizado correctamente.", "success");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                        ✅
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Los cambios se guardaron y el trámite fue actualizado correctamente en el sistema.
+                                </p>
+
+                                <!-- Tarjeta de Éxito -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado del trámite:</span>
+                                        <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>📌</span>
+                                    <span>Todas sus modificaciones ya se encuentran registradas.</span>
+                                </div>
+                            </div>
+                        ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Continuar",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
 
                 archivosNuevos.Clear();
                 // Nav.NavigateTo("/Tramitar");
@@ -929,12 +1896,96 @@
             {
                 // LEER EL MENSAJE REAL QUE MANDA LA API
                 var errorServidor = await responseEstado.Content.ReadAsStringAsync();
-                await JSRuntime.InvokeVoidAsync("Swal.fire", "Aviso", $"No se pudo actualizar el estado: {errorServidor}", "warning");
+                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                {
+                    html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
+                                    ⚠️
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Aviso de Actualización</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Estados</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
+                                No se pudo actualizar el estado actual del trámite. Detalle de la respuesta:
+                            </p>
+
+                            <!-- Tarjeta con Detalle del Servidor -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='font-size: 13px; color: #d97706; font-family: monospace; word-break: break-all; background: #fef3c7; padding: 8px 12px; border-radius: 6px;'>
+                                    {errorServidor}
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Por favor, verifique la información e intente realizar la operación nuevamente.</span>
+                            </div>
+                        </div>
+                    ",
+                    showConfirmButton = true,
+                    confirmButtonText = "Entendido",
+                    confirmButtonColor = "#1e293b",
+                    backdrop = "rgba(15, 23, 42, 0.5)",
+                    customClass = new
+                    {
+                        popup = "rounded-2xl shadow-xl border border-slate-100"
+                    }
+                });
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", "Error de red", $"Ocurrió un error inesperado: {ex.Message}", "error");
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                            <!-- Cabecera con Icono -->
+                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                    ❌
+                                </div>
+                                <div>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
+                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
+                                Ocurrió un error inesperado al intentar procesar la solicitud. Detalle técnico:
+                            </p>
+
+                            <!-- Tarjeta con Detalle del Excepción -->
+                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
+                                    {ex.Message}
+                                </div>
+                            </div>
+
+                            <!-- Nota de ayuda -->
+                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                <span>💡</span>
+                                <span>Verifique su conexión a internet y vuelva a intentarlo más tarde.</span>
+                            </div>
+                        </div>
+                    ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
         }
     }
 }
