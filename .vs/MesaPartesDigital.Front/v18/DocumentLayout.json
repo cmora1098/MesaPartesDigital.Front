@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\tramiteperjuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramiteperjuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\tramitepernatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitepernatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\iniciojuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\iniciojuridica.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\inicionatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\inicionatural.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
@@ -19,12 +35,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TramitePerJuridica.razor",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\TramitePerJuridica.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\TramitePerJuridica.razor",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\TramitePerJuridica.razor",
+              "RelativeToolTip": "Components\\Pages\\TramitePerJuridica.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-21T21:52:56.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TramitePerNatural.razor",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\TramitePerNatural.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\TramitePerNatural.razor",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\TramitePerNatural.razor",
+              "RelativeToolTip": "Components\\Pages\\TramitePerNatural.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-21T21:52:49.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "InicioJuridica.razor",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\InicioJuridica.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\InicioJuridica.razor",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\InicioJuridica.razor",
+              "RelativeToolTip": "Components\\Pages\\InicioJuridica.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-21T21:52:34.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "InicioNatural.razor",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\InicioNatural.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\InicioNatural.razor",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\InicioNatural.razor",
+              "RelativeToolTip": "Components\\Pages\\InicioNatural.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-21T21:50:01.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Login.razor",
               "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\Login.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\Login.razor",
               "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\Login.razor",
               "RelativeToolTip": "Components\\Pages\\Login.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-08-11T15:45:32.509Z",
               "EditorCaption": ""
