@@ -2,87 +2,149 @@
 @inherits PageBase
 @rendermode InteractiveServer
 
-        <div class="ux-bg">
+<PageTitle>Mesa de Partes Virtual</PageTitle>
 
-            <div class="ux-container">
+<div class="ux-bg">
+    <div class="ux-container">
 
-                <!-- HERO -->
-                <div class="ux-hero">
-
-            <div class="ux-badge-top">Mesa de Partes Virtual</div>
-
-                    <!-- BLOQUE INFORMATIVO INSTITUCIONAL -->
-                    @* <p class="ux-info-text">
-                        Mesa de Parte Digital: Se pueden presentar documentos las veinticuatro (24) horas,
-                        los siete (7) días de la semana, en concordancia con lo señalado en el artículo único de la
-                        Ley N° 31465, que modifica el numeral 117.1 del artículo 117 de la Ley N° 27444,
-                        Ley del Procedimiento Administrativo General.
-                    </p> *@
-
-                    @* <h1>Ingresa tu tipo de usuario</h1> *@
-
-                    <p class="ux-description">
-                        Selecciona cómo deseas realizar tus trámites. Esto nos ayudará a personalizar tu experiencia.
-                    </p>
-
-            
-  
-                </div>
-
-                <!-- SELECTOR -->
-                <div class="ux-grid">
-
-                    <div class="ux-card @(tipoPersona == "natural" ? "active" : "")"
-                         @onclick="SeleccionarNatural">
-
-                        <div class="ux-icon-circle">👤</div>
-
-                        <h3>Persona Natural</h3>
-
-                        <p>Ciudadanos que realizan trámites personales o individuales.</p>
-
-                        @if (tipoPersona == "natural")
-                        {
-                            <div class="ux-selected">✔ Seleccionado</div>
-                        }
-
-                    </div>
-
-                    <div class="ux-card @(tipoPersona == "juridica" ? "active" : "")"
-                         @onclick="SeleccionarJuridica">
-
-                        <div class="ux-icon-circle">🏢</div>
-
-                        <h3>Persona Jurídica</h3>
-
-                        <p>Empresas, instituciones o entidades públicas/privadas.</p>
-
-                        @if (tipoPersona == "juridica")
-                        {
-                            <div class="ux-selected">✔ Seleccionado</div>
-                        }
-
-                    </div>
-
-                </div>
-
-                <!-- CTA -->
-                <div class="ux-actions">
-                    <button class="ux-button @(string.IsNullOrEmpty(tipoPersona) ? "disabled" : "")"
-                            @onclick="Continuar"
-                            disabled="@string.IsNullOrEmpty(tipoPersona)">
-                        Continuar →
-                    </button>
-                </div>
-
+        <!-- HERO -->
+        <section class="ux-hero" aria-labelledby="page-title">
+            <div class="ux-badge-top">
+                <span class="ux-badge-icon" aria-hidden="true">✓</span>
+                Mesa de Partes Virtual
             </div>
 
+            <h1 id="page-title">
+                Inicia tu trámite de forma
+                <span>simple y segura</span>
+            </h1>
+
+            <p class="ux-description">
+                Selecciona el tipo de usuario que corresponde para personalizar tu experiencia y continuar con tu trámite.
+            </p>
+
+            <div class="ux-benefits" aria-label="Beneficios del servicio">
+                <div class="ux-benefit">
+                    <span class="ux-benefit-icon" aria-hidden="true">◷</span>
+                    <span>Disponible las 24 horas</span>
+                </div>
+                <div class="ux-benefit">
+                    <span class="ux-benefit-icon" aria-hidden="true">⌁</span>
+                    <span>Proceso rápido y digital</span>
+                </div>
+                <div class="ux-benefit">
+                    <span class="ux-benefit-icon" aria-hidden="true">♧</span>
+                    <span>Información protegida</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SELECTOR -->
+        <section class="ux-selection" aria-labelledby="selection-title">
+            <div class="ux-section-heading">
+                <div>
+                    <span class="ux-step">PASO 1 DE 2</span>
+                    <h2 id="selection-title">¿Cómo realizarás tu trámite?</h2>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(tipoPersona))
+                {
+                    <span class="ux-selection-count">1 opción seleccionada</span>
+                }
+            </div>
+
+            <div class="ux-grid">
+                <!-- Tarjeta Persona Natural -->
+                <button type="button"
+                        class="ux-card @(tipoPersona == "natural" ? "active" : "")"
+                        @onclick="SeleccionarNatural"
+                        aria-pressed="@(tipoPersona == "natural")">
+
+                    <span class="ux-card-check" aria-hidden="true">✓</span>
+
+                    <div class="ux-icon-circle ux-icon-person">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="8" r="3.25" />
+                            <path d="M5.5 20c.7-3.55 2.85-5.25 6.5-5.25s5.8 1.7 6.5 5.25" />
+                        </svg>
+                    </div>
+
+                    <div class="ux-card-content">
+                        <h3>Persona natural</h3>
+                        <p>Para ciudadanos que realizan trámites personales o individuales.</p>
+                    </div>
+
+                    <span class="ux-card-arrow" aria-hidden="true">→</span>
+                </button>
+
+                <!-- Tarjeta Persona Jurídica -->
+                <button type="button"
+                        class="ux-card @(tipoPersona == "juridica" ? "active" : "")"
+                        @onclick="SeleccionarJuridica"
+                        aria-pressed="@(tipoPersona == "juridica")">
+
+                    <span class="ux-card-check" aria-hidden="true">✓</span>
+
+                    <div class="ux-icon-circle ux-icon-company">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4.5 21V5.25L14 3v18M14 8h5.5v13M2.5 21h19" />
+                            <path d="M8 7.5h2M8 11h2M8 14.5h2M16.5 11h1.5M16.5 14.5h1.5" />
+                        </svg>
+                    </div>
+
+                    <div class="ux-card-content">
+                        <h3>Persona jurídica</h3>
+                        <p>Para empresas, instituciones y entidades públicas o privadas.</p>
+                    </div>
+
+                    <span class="ux-card-arrow" aria-hidden="true">→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- CTA & HELPER -->
+        <div class="ux-action-area">
+            @if (string.IsNullOrWhiteSpace(tipoPersona))
+            {
+                <p class="ux-helper">Selecciona una opción para continuar.</p>
+            }
+            else
+            {
+                <p class="ux-helper ux-helper-ready">
+                    Has seleccionado: <strong>@NombreTipoPersona</strong>
+                </p>
+            }
+
+            <button type="button"
+                    class="ux-button @(string.IsNullOrEmpty(tipoPersona) ? "disabled" : "")"
+                    @onclick="Continuar"
+                    disabled="@string.IsNullOrEmpty(tipoPersona)">
+                Continuar
+                <span aria-hidden="true">→</span>
+            </button>
         </div>
+
+        <!-- FOOTER -->
+        <footer class="ux-footer">
+            <span class="ux-lock" aria-hidden="true">▣</span>
+            Tus datos serán tratados de forma segura y confidencial.
+        </footer>
+
+    </div>
+</div>
+
 @code {
-   private string tipoPersona = string.Empty;
+    private string tipoPersona = string.Empty;
+
+    private string NombreTipoPersona =>
+        tipoPersona switch
+        {
+            "natural" => "Persona natural",
+            "juridica" => "Persona jurídica",
+            _ => string.Empty
+        };
 
     private void SeleccionarNatural() => tipoPersona = "natural";
-
     private void SeleccionarJuridica() => tipoPersona = "juridica";
 
     private void Continuar()

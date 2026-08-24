@@ -42,9 +42,9 @@
                 <div class="ux-field">
                     <label>Tipo de Documento *</label>
                     <select @bind="formulario.ICodTipoDocPer" @bind:after="OnTipoDocumentoChange">
-                        <option value="0">-- SELECCIONE --</option>
+                        <option value="0" disabled>-- Seleccione Tipo de Documento --</option>
                         <option value="1">DNI</option>
-                        <option value="3">CE (Carnet de Extranjería)</option>
+                        <option value="3">Carnet de Extranjería(CE)</option>
                     </select>
                     @if (!string.IsNullOrEmpty(errorTipoDoc))
                     {
@@ -584,6 +584,7 @@
         catch (Exception ex)
         {
             Console.WriteLine($"[ValidarDatos] 🚨 ERROR DESCONOCIDO: {ex.Message}");
+            LimpiarFormularioPersona("Documento no registrado. Complete sus datos manualmente.");
             errorDocumento = "Documento no registrado. Complete sus datos manualmente.";
             bloquearDatos = false;
             formulario.VApellidoPaterno = "";
@@ -603,6 +604,7 @@
         formulario.VNombres = "";
         formulario.ICodPer = 0;
         bloquearDatos = false;
+        // Opcional: Aseguramos que el tipo de documento mantenga su valor actual (ej. 1 o 3) y no se resetee
     }
 
     private string errorTipoDoc = "";

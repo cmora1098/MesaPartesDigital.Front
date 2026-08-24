@@ -9,28 +9,28 @@
 
 body[b-5icodrumzi] {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: #f8fafc; /* Gris blanquecino limpio y corporativo */
-    color: #0f172a;
+    background: radial-gradient(circle at 8% 12%, rgba(22, 134, 91, .10), transparent 26rem), radial-gradient(circle at 92% 88%, rgba(11, 40, 68, .08), transparent 25rem), #f5f8fb;
+    color: #16283c;
 }
 
 /* ==========================================================================
-   2. ESTRUCTURA Y CONTENEDORES (Alineación Estricta a la Izquierda)
+   2. ESTRUCTURA Y CONTENEDORES
    ========================================================================== */
 .ux-bg[b-5icodrumzi] {
-/*    min-height: 100vh;*/
+    min-height: auto;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
-    background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
+    padding: clamp(1.25rem, 3vw, 2.25rem) 20px 1.5rem;
 }
 
 .ux-container[b-5icodrumzi] {
     width: 100%;
-    max-width: 820px;
+    max-width: 960px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
     text-align: left;
 }
 
@@ -38,256 +38,354 @@ body[b-5icodrumzi] {
    3. HERO / CABECERA
    ========================================================================== */
 .ux-hero[b-5icodrumzi] {
-    text-align: left;
+    max-width: 670px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .ux-badge-top[b-5icodrumzi] {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #64748b;
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: .42rem;
+    padding: .38rem .8rem;
+    border-radius: 999px;
+    background: #e8f6ef;
+    color: #0d6945;
+    font-size: .65rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: .065em;
     margin-bottom: 14px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    border: 1px solid #b9dfc9;
+}
+
+.ux-badge-icon[b-5icodrumzi] {
+    display: grid;
+    width: 16px;
+    height: 16px;
+    color: #fff;
+    border-radius: 50%;
+    background: #16865b;
+    font-size: .6rem;
+    place-items: center;
 }
 
 .ux-hero h1[b-5icodrumzi] {
-    font-size: 32px;
+    font-size: clamp(1.5rem, 3.2vw, 2.3rem);
     font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -0.5px;
+    color: #0b2844;
+    letter-spacing: -.045em;
+    line-height: 1.05;
+    margin-bottom: .4rem;
 }
+
+    .ux-hero h1 span[b-5icodrumzi] {
+        display: block;
+        color: #16865b;
+    }
 
 .ux-description[b-5icodrumzi] {
-    font-size: 15px;
-    color: #475569;
-    line-height: 1.6;
-    margin-top: 6px;
+    max-width: 520px;
+    margin: 0 auto;
+    font-size: .85rem;
+    color: #607184;
+    line-height: 1.4;
+}
+
+.ux-benefits[b-5icodrumzi] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .35rem 1rem;
+    margin-top: .75rem;
+}
+
+.ux-benefit[b-5icodrumzi] {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    color: #728296;
+    font-size: .66rem;
+    font-weight: 500;
+}
+
+.ux-benefit-icon[b-5icodrumzi] {
+    color: #16865b;
+    font-size: .9rem;
+    font-weight: 700;
 }
 
 /* ==========================================================================
-   4. REJILLA DE TARJETAS (Grid de 2 Columnas)
+   4. SECCIÓN Y REJILLA DE TARJETAS
    ========================================================================== */
+.ux-selection[b-5icodrumzi] {
+    margin-top: 1rem;
+}
+
+.ux-section-heading[b-5icodrumzi] {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .65rem;
+}
+
+.ux-step[b-5icodrumzi] {
+    color: #16865b;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+}
+
+.ux-section-heading h2[b-5icodrumzi] {
+    margin: .15rem 0 0;
+    color: #0b2844;
+    font-size: .98rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+}
+
+.ux-selection-count[b-5icodrumzi] {
+    color: #16865b;
+    font-size: .68rem;
+    font-weight: 600;
+}
+
 .ux-grid[b-5icodrumzi] {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.15rem;
 }
 
 /* ==========================================================================
-   5. TARJETAS PREMIUM DE ALTA DEFINICIÓN
+   5. TARJETAS INTERACTIVAS
    ========================================================================== */
 .ux-card[b-5icodrumzi] {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 32px 24px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
     position: relative;
-    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    min-height: 257px;
+    padding: 1.5rem 1.35rem;
+    color: inherit;
+    text-align: left;
+    border: 1px solid #d9e2ec;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 9px 24px rgba(18, 51, 82, .05);
+    cursor: pointer;
+    font: inherit;
+    outline: none;
+    overflow: hidden;
+    transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease, background-color .22s ease;
 }
 
     .ux-card:hover[b-5icodrumzi] {
-        border-color: #cbd5e1;
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.06);
+        border-color: #9ad7ba;
+        box-shadow: 0 16px 34px rgba(22, 100, 70, .12);
+        transform: translateY(-3px);
     }
 
-    /* --------------------------------------------------------------------------
-   ESTADOS ACTIVOS CON BORDES TECNOLÓGICOS Y GLOW SUTIL
-   -------------------------------------------------------------------------- */
-
-    /* Perfil 1: InicioNatural (Verde Esmeralda Institucional) */
-    .ux-card:nth-child(1).active[b-5icodrumzi] {
-        border-color: #0c7c3b;
-        border-width: 2px;
-        background: #ffffff;
-        box-shadow: 0 10px 30px -10px rgba(12, 124, 59, 0.15);
+    .ux-card.active[b-5icodrumzi] {
+        border: 2px solid #16865b;
+        background: linear-gradient(135deg, #ffffff 55%, #f0faf4);
+        box-shadow: 0 16px 34px rgba(22, 134, 91, .14);
     }
 
-        .ux-card:nth-child(1).active .ux-icon-circle[b-5icodrumzi] {
-            background: #e6f4ea;
-            color: #0c7c3b;
-        }
+.ux-card-check[b-5icodrumzi] {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    border-radius: 50%;
+    background: #16865b;
+    font-size: .72rem;
+    opacity: 0;
+    place-items: center;
+    transform: scale(.7);
+    transition: opacity .2s ease, transform .2s ease;
+}
 
-        .ux-card:nth-child(1).active .ux-selected[b-5icodrumzi] {
-            color: #0c7c3b;
-            font-weight: 700;
-        }
+.ux-card.active .ux-card-check[b-5icodrumzi] {
+    opacity: 1;
+    transform: scale(1);
+}
 
-    /* Perfil 2: InicioJuridica (Azul Corporativo Ejecutivo) */
-    .ux-card:nth-child(2).active[b-5icodrumzi] {
-        border-color: #1e3a8a;
-        border-width: 2px;
-        background: #ffffff;
-        box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.15);
-    }
-
-        .ux-card:nth-child(2).active .ux-icon-circle[b-5icodrumzi] {
-            background: #eff6ff;
-            color: #1e3a8a;
-        }
-
-        .ux-card:nth-child(2).active .ux-selected[b-5icodrumzi] {
-            color: #1e3a8a;
-            font-weight: 700;
-        }
-
-/* ==========================================================================
-   6. ELEMENTOS INTERNOS DE LA TARJETA
-   ========================================================================== */
 .ux-icon-circle[b-5icodrumzi] {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    border-radius: 12px;
-    background: #f8fafc;
-    color: #64748b;
+    display: grid;
+    flex: 0 0 auto;
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    place-items: center;
     transition: all 0.2s ease;
 }
 
+.ux-icon-person[b-5icodrumzi] {
+    color: #16865b;
+    background: #e8f6ef;
+}
+
+.ux-icon-company[b-5icodrumzi] {
+    color: #297a55;
+    background: #edf8f1;
+}
+
+.ux-icon-circle svg[b-5icodrumzi] {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+}
+
+.ux-card-content[b-5icodrumzi] {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: .35rem;
+    min-width: 0;
+}
+
 .ux-card h3[b-5icodrumzi] {
-    font-size: 19px;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 8px;
+    color: #0b2844;
 }
 
 .ux-card p[b-5icodrumzi] {
-    font-size: 14px;
-    color: #64748b;
-    line-height: 1.5;
-    flex-grow: 1;
-    margin-bottom: 24px;
+    font-size: .82rem;
+    color: #607184;
+    line-height: 1.4;
+    margin: 0;
 }
 
-/* Marcador inferior de selección */
-.ux-selected[b-5icodrumzi] {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #94a3b8;
-    border-top: 1px solid #f1f5f9;
-    padding-top: 14px;
-    margin-top: auto;
+.ux-card-arrow[b-5icodrumzi] {
+    align-self: flex-end;
+    color: #9aaaba;
+    font-size: 1.45rem;
+    transition: color .2s ease, transform .2s ease;
+}
+
+.ux-card:hover .ux-card-arrow[b-5icodrumzi],
+.ux-card.active .ux-card-arrow[b-5icodrumzi] {
+    color: #16865b;
+    transform: translateX(3px);
 }
 
 /* ==========================================================================
-   7. EL BOTÓN "SIGUIENTE" PREMIUM (Gradiente Cruzado Institucional)
+   6. ZONA DE ACCIONES Y BOTÓN PRINCIPAL
    ========================================================================== */
-.ux-actions[b-5icodrumzi] {
+.ux-action-area[b-5icodrumzi] {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: .5rem;
+}
+
+.ux-helper[b-5icodrumzi] {
+    margin: 0;
+    color: #7b8998;
+    font-size: .75rem;
+}
+
+.ux-helper-ready[b-5icodrumzi] {
+    color: #16865b;
+    font-weight: 400; /* Asegura que no tenga negrita */
 }
 
 .ux-button[b-5icodrumzi] {
-    background: linear-gradient(135deg, #1e3a8a 0%, #0c7c3b 100%); /* Fusión perfecta Azul/Verde */
+    background: #16865b;
     color: #ffffff;
     border: none;
-    padding: 15px 48px;
-    font-size: 14.5px;
+    padding: .76rem 1.5rem;
+    font-size: .85rem;
     font-weight: 700;
-    border-radius: 10px; /* Bordes ligeramente más modernos */
+    border-radius: 10px;
     cursor: pointer;
-    min-width: 220px;
-    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.2);
+    min-width: 180px;
+    box-shadow: 0 8px 18px rgba(22, 134, 91, .22);
     transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: .5rem;
 }
 
     .ux-button:hover:not(.disabled)[b-5icodrumzi] {
+        background: #0d6945;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(12, 124, 59, 0.3);
-        filter: brightness(1.08); /* Aumenta sutilmente el brillo al pasar el mouse */
+        box-shadow: 0 11px 23px rgba(22, 134, 91, .3);
     }
 
     .ux-button:active:not(.disabled)[b-5icodrumzi] {
         transform: translateY(-1px);
-        filter: brightness(1.02);
     }
 
     .ux-button.disabled[b-5icodrumzi] {
-        background: #e2e8f0;
-        color: #94a3b8;
+        background: #e4eae6;
+        color: #a7b4c0;
         cursor: not-allowed;
         box-shadow: none;
-        filter: none;
     }
 
 /* ==========================================================================
-   8. TEXTO LEGAL INSTITUCIONAL
+   7. FOOTER INSTITUCIONAL
    ========================================================================== */
-.ux-info-text[b-5icodrumzi] {
-    font-size: 13px;
-    color: #64748b;
-    line-height: 1.6;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 24px;
+.ux-footer[b-5icodrumzi] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    margin-top: .5rem;
+    color: #8a99a8;
+    font-size: .66rem;
 }
 
-.ux-manual-link[b-5icodrumzi] {
-    display: inline-block;
-    font-size: 13px;
-    color: #0c7c3b;
-    font-weight: 600;
-    text-decoration: none;
-    margin-top: 8px;
+.ux-lock[b-5icodrumzi] {
+    color: #16865b;
 }
-
-    .ux-manual-link:hover[b-5icodrumzi] {
-        text-decoration: underline;
-        color: #1e3a8a;
-    }
 
 /* ==========================================================================
-   9. MEDIA QUERIES (Responsivo Adaptable)
+   8. MEDIA QUERIES (Responsivo Adaptable)
    ========================================================================== */
 @media (max-width: 768px) {
     .ux-bg[b-5icodrumzi] {
-        padding: 30px 16px;
+        padding: 20px 16px;
     }
 
     .ux-grid[b-5icodrumzi] {
-        grid-template-columns: 1fr; /* Colapsa a formato lista en tablets y celulares */
+        grid-template-columns: 1fr;
         gap: 16px;
     }
 
     .ux-card[b-5icodrumzi] {
-        padding: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .ux-bg[b-5icodrumzi] {
-        padding: 20px 12px;
-        align-items: flex-start;
+        padding: 1.25rem;
     }
 
-    .ux-header h1[b-5icodrumzi] {
-        font-size: 26px;
+    .ux-action-area[b-5icodrumzi] {
+        align-items: stretch;
+        flex-direction: column;
     }
 
-    /* Botón Siguiente full-width en smartphones para comodidad del pulgar */
-    .ux-button[b-5icodrumzi],
-    .ux-actions .ux-button[b-5icodrumzi] {
+    .ux-button[b-5icodrumzi] {
         width: 100%;
         text-align: center;
+    }
+
+    .ux-helper[b-5icodrumzi] {
+        text-align: center;
+    }
+
+    .ux-section-heading[b-5icodrumzi] {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: .35rem;
     }
 }
