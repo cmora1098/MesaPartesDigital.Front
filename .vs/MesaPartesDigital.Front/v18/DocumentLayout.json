@@ -3,32 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\layout\\navbar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\navbar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\editartramite.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\editartramite.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\layout\\header.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\header.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\layout\\header.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\header.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\layout\\iniciomainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\layout\\iniciomainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|c:\\users\\cmora\\source\\repos\\mesapartesdigital.front\\components\\pages\\tramitar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56BAFBF5-9842-48E5-8DE5-A6FE14AD087F}|MesaPartesDigital.Front.csproj|solutionrelative:components\\pages\\tramitar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,97 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Navbar.razor.css",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\Navbar.razor.css",
-              "RelativeDocumentMoniker": "Components\\Layout\\Navbar.razor.css",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\Navbar.razor.css",
-              "RelativeToolTip": "Components\\Layout\\Navbar.razor.css",
-              "ViewState": "AgIAACEAAAAAAAAAAAAcwD8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-08-25T13:52:31.454Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Header.razor.css",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\Header.razor.css",
-              "RelativeDocumentMoniker": "Components\\Layout\\Header.razor.css",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\Header.razor.css",
-              "RelativeToolTip": "Components\\Layout\\Header.razor.css",
-              "ViewState": "AgIAANEAAAAAAAAAAAAcwOsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-08-25T13:51:09.21Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainLayout.razor.css",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\MainLayout.razor.css",
-              "RelativeDocumentMoniker": "Components\\Layout\\MainLayout.razor.css",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\MainLayout.razor.css",
-              "RelativeToolTip": "Components\\Layout\\MainLayout.razor.css",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-08-25T13:50:56.723Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainLayout.razor",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\MainLayout.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\MainLayout.razor",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\MainLayout.razor",
-              "RelativeToolTip": "Components\\Layout\\MainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAlAAAAAAAAAA==",
+              "Title": "Tramitar.razor",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\Tramitar.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\Tramitar.razor",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\Tramitar.razor",
+              "RelativeToolTip": "Components\\Pages\\Tramitar.razor",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAEsAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-25T13:50:38.862Z",
+              "WhenOpened": "2026-08-25T19:27:32.416Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "InicioMainLayout.razor",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\InicioMainLayout.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\InicioMainLayout.razor",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\InicioMainLayout.razor",
-              "RelativeToolTip": "Components\\Layout\\InicioMainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "EditarTramite.razor",
+              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\EditarTramite.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\EditarTramite.razor",
+              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Pages\\EditarTramite.razor*",
+              "RelativeToolTip": "Components\\Pages\\EditarTramite.razor*",
+              "ViewState": "AgIAAGEBAAAAAAAAAAAowH8BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-25T13:50:34.293Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "App.razor",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\App.razor",
-              "RelativeDocumentMoniker": "Components\\App.razor",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\App.razor",
-              "RelativeToolTip": "Components\\App.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-25T13:47:09.044Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Header.razor",
-              "DocumentMoniker": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\Header.razor",
-              "RelativeDocumentMoniker": "Components\\Layout\\Header.razor",
-              "ToolTip": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\Components\\Layout\\Header.razor",
-              "RelativeToolTip": "Components\\Layout\\Header.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-25T13:41:25.278Z",
+              "WhenOpened": "2026-08-25T18:00:54.377Z",
               "EditorCaption": ""
             }
           ]

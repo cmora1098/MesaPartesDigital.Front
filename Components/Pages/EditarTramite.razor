@@ -143,50 +143,68 @@
             <!-- Documento Adjunto -->
             <div class="ux-card-form">
                 <h2>Documento Adjunto</h2>
+                <p class="text-muted mb-3" style="font-size: 0.9rem;">Revise el documento actual o seleccione uno nuevo para reemplazarlo</p>
+
+                <!-- GUÍA VISUAL PASO A PASO -->
+                <div class="alert alert-primary bg-primary-subtle border-0 p-3.5 rounded-3 mb-4" style="font-size: 0.9rem; line-height: 1.6;">
+                    <div class="fw-bold text-primary mb-2 d-flex align-items-center gap-2" style="font-size: 1rem;">
+                        <span>💡</span> <span>¿Cómo cambiar su documento?</span>
+                    </div>
+                    <ol class="mb-0 ps-3 text-secondary" style="font-weight: 500;">
+                        <li class="mb-1"><strong>Ver documento:</strong> Revise el archivo registrado abajo o ábralo en pantalla completa.</li>
+                        <li class="mb-1"><strong>Reemplazar:</strong> Si desea cambiarlo, haga clic en <strong>"📁 Seleccionar Nuevo PDF"</strong>.</li>
+                        <li><strong>Guardar:</strong> Pulse el botón inferior <strong>"Actualizar Documento Adjunto"</strong> para confirmar.</li>
+                    </ol>
+                </div>
+
                 <div class="form-grid-t">
-                    <div class="form-group-t span-two upload-container">
-                        <label for="fileUpload" class="ux-button-small file-label-btn">
+                    <div class="form-group-t span-two upload-container text-center p-4 rounded-4 border-2 border-dashed bg-light" style="border-color: #cbd5e1 !important;">
+                        <label for="fileUpload" class="ux-button-small file-label-btn d-inline-flex align-items-center gap-2 mb-2" style="cursor: pointer; font-size: 1rem;">
                             📁 Seleccionar Nuevo PDF
                         </label>
                         <InputFile OnChange="OnFileSelected" accept=".pdf" id="fileUpload" class="hidden-input" style="display: none;" />
 
-                        <span class="ux-file-hint">
-                            (Peso máximo: 50MB. Solo formato PDF)
+                        <span class="ux-file-hint text-muted d-block" style="font-size: 0.85rem;">
+                            (Peso máximo: <strong>50MB</strong>. Solo formato <strong>PDF</strong>)
                         </span>
                     </div>
 
                     @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
                     {
-                        <div class="form-group-t span-two file-selected-alert">
-                            <span>✅ <strong>@archivo.Nombre</strong> (Nuevo archivo seleccionado)</span>
-                            <button type="button" class="btn-quitar-archivo" @onclick="() => archivo = null">✕ Quitar</button>
+                        <div class="form-group-t span-two">
+                            <div class="file-selected-alert d-flex justify-content-between align-items-center p-3 rounded-3 bg-success-subtle text-success border border-success-subtle mb-3">
+                                <span>✅ <strong>@archivo.Nombre</strong> (Nuevo archivo seleccionado)</span>
+                                <button type="button" class="btn-quitar-archivo btn btn-sm btn-outline-danger fw-bold" @onclick="() => archivo = null">✕ Quitar</button>
+                            </div>
                         </div>
 
-                        <div class="form-group-t span-two ux-pdf-preview">
-                            <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")" style="width: 100%; height: 400px; border: 1px solid #ccc;"></iframe>
+                        <div class="form-group-t span-two">
+                            <div class="fw-bold text-secondary mb-2" style="font-size: 0.95rem;">👁️ Vista previa del nuevo archivo:</div>
+                            <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-dark" style="height: 450px; border-color: #cbd5e1 !important;">
+                                <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")" style="width: 100%; height: 100%; border: none;"></iframe>
+                            </div>
                         </div>
                     }
                     else if (!string.IsNullOrEmpty(tramite?.RutaDocumento))
                     {
                         <div class="form-group-t span-two">
-                            <div class="ux-file-info" style="margin-bottom: 10px;">
-                                📂 <span>Documento actual registrado en el sistema</span>
-                            </div>
-
-                            <div style="margin-bottom: 15px;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="ux-file-info fw-semibold text-secondary d-flex align-items-center gap-2" style="margin-bottom: 0;">
+                                    📂 <span>Documento actual registrado en el sistema</span>
+                                </div>
                                 <a href="@GetApiUrl(tramite.iCodAsunto)"
-                                   target="_blank" class="ux-button-small" style="text-decoration: none; display: inline-block; text-align: center;">
-                                    🔍 Ver Documento Actual en Pantalla Completa
+                                   target="_blank" class="ux-button-small text-decoration-none d-inline-flex align-items-center gap-1">
+                                    🔍 Ver en Pantalla Completa
                                 </a>
                             </div>
 
-                            <div class="ux-pdf-preview" style="width: 100%; height: 500px; border: 1px solid #ccc; background: #f9f9f9;">
+                            <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-light" style="width: 100%; height: 500px; border: 1px solid #ccc; background: #f9f9f9;">
                                 <object data="@GetApiUrl(tramite.iCodAsunto)"
                                         type="application/pdf"
                                         width="100%"
                                         height="100%">
                                     <div style="padding: 20px; text-align: center;">
-                                        <p>Tu navegador no puede mostrar el PDF directamente.</p>
+                                        <p class="text-muted">Su navegador no puede mostrar el PDF directamente.</p>
                                         <a href="@GetApiUrl(tramite.iCodAsunto)" target="_blank" class="ux-button-small">
                                             Descargar / Ver PDF
                                         </a>
@@ -199,7 +217,9 @@
                     @if (!string.IsNullOrEmpty(error))
                     {
                         <div class="form-group-t span-two">
-                            <p class="ux-error" style="color: red;">@error</p>
+                            <div class="alert alert-danger bg-danger-subtle text-danger border-0 p-3 rounded-3" style="font-size: 0.9rem;">
+                                <strong>⚠️ Atención:</strong> @error
+                            </div>
                         </div>
                     }
                 </div>
@@ -215,33 +235,49 @@
             <div class="ux-card-form">
                 <h2>Anexos del Trámite</h2>
 
-                <div class="form-grid-t" style="margin-bottom: 20px;">
-                    <InputFile id="fileUploadMulti"  
-                               multiple class="hidden-input"
-                               accept=".pdf"
-                               OnChange="HandleFilesSelected" />
+                <!-- LEYENDA Y GUÍA RÁPIDA -->
+                <div class="alert alert-success bg-success-subtle border-0 p-3.5 rounded-3 mb-3" style="font-size: 0.9rem; line-height: 1.5;">
+                    <div class="fw-bold text-success mb-1" style="font-size: 0.95rem;">💡 Leyenda y Guía de Anexos:</div>
+                    <ul class="mb-0 ps-3 text-secondary" style="font-weight: 500;">
+                        <li><strong>🔍 Ver:</strong> Abre el documento PDF en una ventana flotante para revisarlo.</li>
+                        <li><strong>✕ Eliminar / Quitar:</strong> Retira el archivo del expediente o de la lista de pendientes.</li>
+                    </ul>
+                </div>
 
-                    @if (!string.IsNullOrEmpty(errorArchivo))
-                    {
-                        <div class="ux-error" style="color: red; margin: 10px 0;">
-                            <strong>¡Atención!</strong> @errorArchivo
+                <!-- ZONA DE CARGA ESTILO TARJETA -->
+                <div class="form-grid-t" style="margin-bottom: 25px;">
+                    <div class="form-group-t span-two text-center p-4 rounded-4 border bg-light" style="border-color: #cbd5e1 !important;">
+                        <label for="fileUploadMulti" class="ux-button-small file-label-btn d-inline-flex align-items-center gap-2 mb-2" style="cursor: pointer; font-size: 1rem;">
+                            📁 Seleccionar Nuevos Archivos PDF
+                        </label>
+                        <InputFile id="fileUploadMulti"
+                                   multiple class="hidden-input"
+                                   accept=".pdf"
+                                   OnChange="HandleFilesSelected"
+                                   style="display: none;" />
+
+                        <div class="ux-file-hint text-muted d-block" style="font-size: 0.85rem;">
+                            (Peso máximo por archivo: <strong>20MB</strong> | Formato: <strong>PDF</strong> | Máximo: <strong>10 anexos</strong>)
                         </div>
-                    }
 
-                    <p class="ux-file-hint">
-                        (Peso máximo de cada archivo: 20MB) (Formato permitido: <strong>PDF</strong>) (Número máximo de anexos: 10)
-                    </p>
+                        @if (!string.IsNullOrEmpty(errorArchivo))
+                        {
+                            <div class="ux-error mt-2" style="color: #dc3545; font-size: 0.9rem;">
+                                <strong>⚠️ ¡Atención!</strong> @errorArchivo
+                            </div>
+                        }
+                    </div>
                 </div>
 
                 <!-- TABLA 1: ANEXOS REGISTRADOS -->
                 <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Documentos Ya Registrados</h3>
-                <div class="ux-table-wrapper" style="margin-bottom: 25px;">
-                    <table class="ux-table">
+                <div class="ux-table-wrapper" style="margin-bottom: 25px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <table class="ux-table" style="width: 100%; border-collapse: collapse;">
                         <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Tipo</th>
-                                <th>Acciones</th>
+                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Nombre</th>
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Tipo</th>
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -251,16 +287,18 @@
                                 @foreach (var anexo in listaAnexosRegistrados)
                                 {
                                     var nombreVisual = $"Anexo {indexReg++}";
-                                    <tr>
-                                        <td>@nombreVisual</td>
-                                        <td>PDF (Registrado)</td>
-                                        <td>
-                                            <div class="table-actions-group">
+                                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                                        <td style="padding: 12px 16px; font-weight: 500; color: #1e293b;">@nombreVisual</td>
+                                        <td style="padding: 12px 16px;">
+                                            <span style="background-color: #ecfdf5; color: #059669; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">PDF (Registrado)</span>
+                                        </td>
+                                        <td style="padding: 12px 16px; text-align: right;">
+                                            <div class="table-actions-group" style="display: inline-flex; gap: 8px;">
                                                 <button class="ux-button-small" @onclick="() => VerDocumento(anexo)">
-                                                    Ver
+                                                    🔍 Ver
                                                 </button>
                                                 <button class="btn-delete" @onclick="() => EliminarAnexoRegistrado(anexo.iCodDoc, nombreVisual)">
-                                                    Eliminar
+                                                    ✕ Eliminar
                                                 </button>
                                             </div>
                                         </td>
@@ -270,7 +308,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="3" class="ux-empty">No hay documentos registrados en la base de datos.</td>
+                                    <td colspan="3" class="ux-empty" style="padding: 24px; text-align: center; color: #64748b; font-style: italic;">No hay documentos registrados en la base de datos.</td>
                                 </tr>
                             }
                         </tbody>
@@ -279,14 +317,14 @@
 
                 <!-- TABLA 2: NUEVOS ANEXOS A SUBIR -->
                 <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Nuevos Anexos por Subir</h3>
-                <div class="ux-table-wrapper">
-                    <table class="ux-table">
+                <div class="ux-table-wrapper" style="border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <table class="ux-table" style="width: 100%; border-collapse: collapse;">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre de Archivo</th>
-                                <th>Tipo</th>
-                                <th>Acciones</th>
+                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; width: 60px;">#</th>
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Nombre de Archivo</th>
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Tipo</th>
+                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -295,13 +333,16 @@
                                 int indexNuevo = 1;
                                 @foreach (var archi in archivosNuevos)
                                 {
-                                    <tr>
-                                        <td>@indexNuevo</td>
-                                        <td>@archi.Nombre (Nuevo)</td>
-                                        <td>PDF</td>
-                                        <td>
+                                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                                        <td style="padding: 12px 16px; color: #64748b;">@indexNuevo</td>
+                                        <td style="padding: 12px 16px; font-weight: 500; color: #1e293b;">
+                                            @archi.Nombre
+                                            <span style="background-color: #eff6ff; color: #1d4ed8; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px;">Nuevo</span>
+                                        </td>
+                                        <td style="padding: 12px 16px; color: #64748b;">PDF</td>
+                                        <td style="padding: 12px 16px; text-align: right;">
                                             <button class="btn-delete" @onclick="() => EliminarArchivoLocal(archi)">
-                                                Quitar
+                                                ✕ Quitar
                                             </button>
                                         </td>
                                     </tr>
@@ -311,19 +352,47 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="4" class="ux-empty">No hay nuevos archivos seleccionados.</td>
+                                    <td colspan="4" class="ux-empty" style="padding: 24px; text-align: center; color: #64748b; font-style: italic;">No hay nuevos archivos seleccionados.</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
 
-                <!-- VISOR INTEGRADO -->
+                <!-- MODAL / VENTANA EMERGENTE INTELIGENTE PARA EL VISOR DE PDF -->
                 @if (!string.IsNullOrEmpty(previewUrl))
                 {
-                    <div style="margin-top: 20px;">
-                        <div class="ux-iframe-wrapper" style="border: 1px solid #dcdcdc; border-radius: 6px; overflow: hidden; background: #2f2f2f; height: 600px;">
-                            <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(3px);">
+                        <div style="background: white; width: 90%; max-width: 900px; height: 85vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+
+                            <!-- Cabecera del Modal -->
+                            <div style="padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                                <h4 style="margin: 0; font-size: 1.1rem; color: #1e293b; font-weight: 600;">👁️ Vista Previa del Documento</h4>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <a href="@previewUrl" target="_blank" class="ux-button-small" style="font-size: 0.85rem; padding: 6px 12px; text-decoration: none;">
+                                        🔗 Abrir en pestaña completa
+                                    </a>
+                                    <button type="button" @onclick="() => previewUrl = string.Empty" style="background: #e2e8f0; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569;">✕</button>
+                                </div>
+                            </div>
+
+                            <!-- Contenido del Modal -->
+                            <div style="flex: 1; background: #f8fafc; position: relative;">
+                                @if (previewUrl.Contains("mensaje") || previewUrl.Contains("no se encuentra"))
+                                {
+                                    <!-- Alerta si el servidor responde que no existe el archivo -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 30px; text-align: center;">
+                                        <div style="font-size: 3rem; margin-bottom: 10px;">⚠️</div>
+                                        <h3 style="color: #b91c1c; margin-bottom: 8px;">El archivo físico no se encuentra disponible</h3>
+                                        <p style="color: #64748b; max-width: 400px; font-size: 0.95rem;">Lo sentimos, el documento solicitado no está disponible temporalmente en el servidor o la ruta es inválida.</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
+                                }
+                            </div>
+
                         </div>
                     </div>
                 }

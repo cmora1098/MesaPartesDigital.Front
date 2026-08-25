@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MesaPartesDigital.Front")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30d5b7f04bc79833e228a7906d39f090fc4f81ec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9cf55459b45ce9778f4b9dfa91441ef55bd2f49")]
 [assembly: System.Reflection.AssemblyProductAttribute("MesaPartesDigital.Front")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MesaPartesDigital.Front")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
