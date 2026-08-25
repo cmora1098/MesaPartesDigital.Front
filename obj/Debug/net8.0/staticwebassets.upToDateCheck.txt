@@ -1,7 +1,9 @@
 wwwroot\app.css
+wwwroot\Content\pdf\Manual_Usuario_MP_v2.pdf
 wwwroot\css\footer.css
 wwwroot\css\header.css
 wwwroot\css\site.css
+wwwroot\favicon.ico.png
 wwwroot\favicon.png
 wwwroot\img\logomax_agrorural.png
 wwwroot\img\logo_agrorural.png

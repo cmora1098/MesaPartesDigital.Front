@@ -33,10 +33,9 @@
 }
 
 .gov-ministry {
-    font-size: 0.75rem;
-    color: #64748b;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-size: 12px;
+    color: #0c7c3b;
+    font-weight: 500;
 }
 
 .gov-system {
