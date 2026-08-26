@@ -45,6 +45,23 @@ else
                     <span class="badge-count">@tramitesFiltrados.Count registrados</span>
                 </div>
 
+                <!-- LEYENDA / GUÍA DE ACCIONES -->
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 15px; font-size: 13px; align-items: center; color: #475569;">
+                    <span style="font-weight: 600; color: #1e293b;">Leyenda de Acciones:</span>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <button class="btn btn-outline-success btn-sm py-0 px-2" style="font-size: 11px; pointer-events: none;"><i class="bi bi-paperclip"></i></button>
+                        <span>Ver adjuntos</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <button class="btn btn-outline-primary btn-sm py-0 px-2" style="font-size: 11px; pointer-events: none;"><i class="bi bi-eye"></i></button>
+                        <span>Detalle/Vista previa</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <button class="btn btn-sm py-0 px-2 fw-semibold" style="background-color: #ffc107; border-color: #ffc107; color: #212529; font-size: 11px; pointer-events: none;"><i class="bi bi-pencil-square"></i></button>
+                        <span>Solo en estado Observado</span>
+                    </div>
+                </div>
+
                 <div class="filtros-container">
                     <div class="filtro-item">
                         <input type="text" @bind="filtroCodigo" placeholder="Buscar por código..." />
@@ -84,21 +101,24 @@ else
                                     <td class="txt-date">@item.FechaSubsanacion</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <!-- Botón Documentos (Verde Institucional) -->
-                                            <button class="btn btn-outline-success btn-sm d-flex align-items-center gap-1 shadow-sm" @onclick="() => DocumentosAdjuntos(item.iCodAsunto)" title="Ver documentos adjuntos">
+                                            <!-- Botón Documentos Adjuntos -->
+                                            <button class="btn btn-outline-success btn-sm shadow-sm" @onclick="() => DocumentosAdjuntos(item.iCodAsunto)" title="Ver documentos adjuntos">
                                                 <i class="bi bi-paperclip"></i>
-                                                <span>Documentos</span>
+                                            </button>
+
+                                             <!-- Botón Ver Detalle / Vista Previa (Disponible para todos) -->
+                                            <button class="btn btn-outline-primary btn-sm shadow-sm" @onclick='() => Ir($"/VerTramite/{item.iCodAsunto}")' title="Ver detalle o vista previa del trámite enviado">
+                                                <i class="bi bi-eye"></i>
                                             </button>
 
                                             @if (item.Estado.Equals("Observado", StringComparison.OrdinalIgnoreCase))
                                             {
-                                                <!-- Botón Editar (Amarillo ámbar elegante o estilo outline con fondo suave) -->
-                                                <button class="btn btn-sm d-flex align-items-center gap-1 shadow-sm fw-semibold"
+                                                <!-- Botón Editar (Solo aparece si está Observado) -->
+                                                <button class="btn btn-sm shadow-sm fw-semibold"
                                                         style="background-color: #ffc107; border-color: #ffc107; color: #212529;"
                                                         @onclick="() => EditarTramite(item.iCodAsunto)"
-                                                        title="Editar trámite">
+                                                        title="Editar trámite observado">
                                                     <i class="bi bi-pencil-square"></i>
-                                                    <span>Editar</span>
                                                 </button>
                                             }
                                         </div>
@@ -251,7 +271,6 @@ else
                                                         <div class="fs-4 text-secondary">📎</div>
                                                         <div class="flex-grow-1 text-truncate">
                                                             <h6 class="fw-bold text-dark mb-0 fs-6 text-truncate" style="max-width: 140px;" title="@anexo.Nombre">@nombreL</h6>
-                                                            @* <small class="text-muted text-truncate d-block" style="font-size: 0.8rem; max-width: 140px;">@anexo.Nombre</small> *@
                                                         </div>
                                                         @if (activoL)
                                                         {
@@ -270,7 +289,7 @@ else
                                 <div class="card border shadow-sm rounded-4 bg-white h-100 d-flex flex-column" style="border-color: #e2e8f0 !important;">
                                     <div class="d-flex justify-content-between align-items-center px-4 py-3 bg-white border-bottom">
                                         <span class="text-secondary small fw-semibold">Visualizando: <span class="text-success fw-bold">@tituloDocumentoActual</span></span>
-                                        @if (!string.IsNullOrEmpty(urlDocumentoActual))
+                                        @if (!string.IsNullOrEmpty(urlDocumentoActual) && !archivoNoDisponible)
                                         {
                                             <a href="@urlDocumentoActual" target="_blank" class="btn btn-sm btn-outline-success fw-semibold px-3 py-1.5 d-flex align-items-center gap-1.5 rounded-2">
                                                 <span>🔍</span> Pantalla Completa
@@ -278,14 +297,34 @@ else
                                         }
                                     </div>
 
-                                    <div class="bg-light position-relative flex-grow-1" style="min-height: 480px;">
+                                    <div class="bg-light position-relative flex-grow-1 d-flex flex-column" style="min-height: 480px;">
                                         @if (!string.IsNullOrEmpty(urlDocumentoActual))
                                         {
-                                            <iframe src="@urlDocumentoActual" style="width: 100%; height: 100%; border: none; background: #ffffff;"></iframe>
+                                            @if (archivoNoDisponible)
+                                            {
+                                                <!-- NUEVO DISEÑO: DOCUMENTO NO ENCONTRADO Y SOPORTE -->
+                                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto">
+                                                    <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
+                                                        ⚠️
+                                                    </div>
+                                                    <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
+                                                    <p class="text-muted mb-4" style="max-width: 400px; font-size: 0.92rem; line-height: 1.5;">
+                                                        El archivo físico no se encuentra disponible en el servidor. Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
+                                                    </p>
+                                                    <div class="p-3 rounded-3 bg-white border shadow-sm d-inline-flex align-items-center gap-2 text-secondary" style="font-size: 0.85rem; border-color: #e2e8f0 !important;">
+                                                        <span>📞</span> Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <iframe src="@urlDocumentoActual" style="width: 100%; height: 100%; border: none; background: #ffffff; flex-grow: 1;"></iframe>
+                                            }
                                         }
                                         else
                                         {
-                                            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted p-5 text-center">
+                                            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted p-5 text-center my-auto">
+                                                <div class="fs-1 mb-2 text-secondary opacity-50">📂</div>
                                                 <p class="mb-0">Elige un documento de la lista izquierda para visualizarlo en este espacio.</p>
                                             </div>
                                         }
@@ -307,7 +346,8 @@ else
             </div>
         </div>
     }
-}
+
+ }
 
 @code {
     private bool cargando = true;
@@ -453,25 +493,56 @@ else
         listaAnexosModal.Clear();
     }
 
-    private void SeleccionarDocumentoPrincipal()
+    private bool archivoNoDisponible = false;
+
+    private async Task VerificarYAsignarUrl(string url)
+    {
+        try
+        {
+            // Opcional: Verificamos mediante HttpClient si la ruta devuelve el JSON de error
+            var respuesta = await Http.GetStringAsync(url);
+            if (respuesta.Contains("El archivo físico no se encuentra disponible"))
+            {
+                archivoNoDisponible = true;
+                urlDocumentoActual = url; // Lo guardamos para que el botón de pantalla completa o soporte sepa qué documento falló
+            }
+            else
+            {
+                archivoNoDisponible = false;
+                urlDocumentoActual = url;
+            }
+        }
+        catch
+        {
+            // Si ocurre algún problema de red o excepción al consultar
+            archivoNoDisponible = true;
+            urlDocumentoActual = url;
+        }
+        StateHasChanged();
+    }
+
+    private async Task SeleccionarDocumentoPrincipal()
     {
         var baseUrl = Http.BaseAddress?.ToString() ?? "https://localhost:7100/";
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
 
-        urlDocumentoActual = $"{baseUrl}api/documentos/ver-archivo/{idAsuntoSeleccionado}";
+        var url = $"{baseUrl}api/documentos/ver-archivo/{idAsuntoSeleccionado}";
         tituloDocumentoActual = "Documento Principal";
         tipoVisualizacion = "Principal";
-        StateHasChanged();
+
+        await VerificarYAsignarUrl(url);
     }
 
-    private void SeleccionarAnexoModal(AnexoDto anexo)
+    private async Task SeleccionarAnexoModal(AnexoDto anexo)
     {
         var baseUrl = Http.BaseAddress?.ToString() ?? "https://localhost:7100/";
-        if (!baseUrl.EndsWith("/")) baseUrl += "/";
+        if (!baseUrl.EndsWith("/")) baseUrl += "/";  
 
-        urlDocumentoActual = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
+        var url = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
         tituloDocumentoActual = $"Anexo (ID: {anexo.iCodDoc})";
         tipoVisualizacion = $"Anexo_{anexo.iCodDoc}";
-        StateHasChanged();
+
+        await VerificarYAsignarUrl(url);
     }
-}
+
+ }

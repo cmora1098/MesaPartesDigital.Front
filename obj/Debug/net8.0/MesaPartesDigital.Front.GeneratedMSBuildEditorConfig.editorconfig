@@ -106,3 +106,7 @@ build_metadata.AdditionalFiles.CssScope = b-wvaveewqvm
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRlUGVyTmF0dXJhbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-d90ul4yit0
+
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/VerTramite.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xWZXJUcmFtaXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-u2oh8z766t

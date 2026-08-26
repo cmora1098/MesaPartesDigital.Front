@@ -97,7 +97,7 @@
                 <h2>Información del Documento</h2>
                 <div class="form-grid-t">
                     <div class="form-group-t span-two">
-                        <label>Asunto / Expediente</label>
+                        <label>Asunto / Sumilla *</label>
                         <textarea class="form-control-t"
                                   maxlength="255"
                                   @bind="tramite.AsuntoTramite"
@@ -203,11 +203,23 @@
                                         type="application/pdf"
                                         width="100%"
                                         height="100%">
-                                    <div style="padding: 20px; text-align: center;">
-                                        <p class="text-muted">Su navegador no puede mostrar el PDF directamente.</p>
-                                        <a href="@GetApiUrl(tramite.iCodAsunto)" target="_blank" class="ux-button-small">
-                                            Descargar / Ver PDF
-                                        </a>
+                                    <!-- DISEÑO INSTITUCIONAL DE ERROR EN OBJETO PRINCIPAL -->
+                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto bg-white">
+                                        <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
+                                            ⚠️
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
+                                        <p class="text-muted mb-4" style="max-width: 400px; font-size: 0.92rem; line-height: 1.5;">
+                                            El archivo físico no se encuentra disponible en el servidor. Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
+                                        </p>
+                                        <div class="p-3 rounded-3 bg-light border shadow-sm d-inline-flex align-items-center gap-2 text-secondary mb-3" style="font-size: 0.85rem; border-color: #e2e8f0 !important;">
+                                            <span>📞</span> Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
+                                        </div>
+                                        @* <div>
+                                            <a href="@GetApiUrl(tramite.iCodAsunto)" target="_blank" class="ux-button-small">
+                                                Descargar / Ver PDF
+                                            </a>
+                                        </div> *@
                                     </div>
                                 </object>
                             </div>
@@ -362,41 +374,51 @@
                 <!-- MODAL / VENTANA EMERGENTE INTELIGENTE PARA EL VISOR DE PDF -->
                 @if (!string.IsNullOrEmpty(previewUrl))
                 {
-                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(3px);">
-                        <div style="background: white; width: 90%; max-width: 900px; height: 85vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px);">
+                        <div style="background: white; width: 90%; max-width: 900px; height: 85vh; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
 
                             <!-- Cabecera del Modal -->
-                            <div style="padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                            <div style="padding: 16px 24px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
                                 <h4 style="margin: 0; font-size: 1.1rem; color: #1e293b; font-weight: 600;">👁️ Vista Previa del Documento</h4>
                                 <div style="display: flex; gap: 10px; align-items: center;">
-                                    <a href="@previewUrl" target="_blank" class="ux-button-small" style="font-size: 0.85rem; padding: 6px 12px; text-decoration: none;">
-                                        🔗 Abrir en pestaña completa
-                                    </a>
-                                    <button type="button" @onclick="() => previewUrl = string.Empty" style="background: #e2e8f0; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569;">✕</button>
+                                    @if (!mostrarErrorModal)
+                                    {
+                                        <a href="@previewUrl" target="_blank" class="ux-button-small" style="font-size: 0.85rem; padding: 6px 12px; text-decoration: none;">
+                                            🔗 Abrir en pestaña completa
+                                        </a>
+                                    }
+                                    <button type="button" @onclick="() => { previewUrl = string.Empty; mostrarErrorModal = false; }" style="background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569;">✕</button>
                                 </div>
                             </div>
 
                             <!-- Contenido del Modal -->
-                            <div style="flex: 1; background: #f8fafc; position: relative;">
-                                @if (previewUrl.Contains("mensaje") || previewUrl.Contains("no se encuentra"))
+                            <div style="flex: 1; background: #f8fafc; position: relative; display: flex; flex-direction: column;">
+                                @if (mostrarErrorModal)
                                 {
-                                    <!-- Alerta si el servidor responde que no existe el archivo -->
-                                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 30px; text-align: center;">
-                                        <div style="font-size: 3rem; margin-bottom: 10px;">⚠️</div>
-                                        <h3 style="color: #b91c1c; margin-bottom: 8px;">El archivo físico no se encuentra disponible</h3>
-                                        <p style="color: #64748b; max-width: 400px; font-size: 0.95rem;">Lo sentimos, el documento solicitado no está disponible temporalmente en el servidor o la ruta es inválida.</p>
+                                    <!-- DISEÑO INSTITUCIONAL DE ERROR EN MODAL (idéntico a tu segunda imagen) -->
+                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto bg-white">
+                                        <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
+                                            ⚠️
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
+                                        <p class="text-muted mb-4" style="max-width: 400px; font-size: 0.92rem; line-height: 1.5;">
+                                            El archivo físico no se encuentra disponible en el servidor. Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
+                                        </p>
+                                        <div class="p-3 rounded-3 bg-light border shadow-sm d-inline-flex align-items-center gap-2 text-secondary" style="font-size: 0.85rem; border-color: #e2e8f0 !important;">
+                                            <span>📞</span> Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
+                                        </div>
                                     </div>
                                 }
                                 else
                                 {
-                                    <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
+                                    <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none; flex-grow: 1;"></iframe>
                                 }
                             </div>
 
                         </div>
                     </div>
                 }
-
+                
                 <div class="ux-actions-section" style="margin-top: 20px;">
                     <button class="ux-button-small" @onclick="ActualizarDocumentoAnexos">
                         Subir Nuevos Anexos
@@ -666,12 +688,79 @@
 
     private async Task ActualizarDocumento()
     {
+        // 1. VALIDACIÓN GENERAL DE CAMPOS OBLIGATORIOS (*)
+        string mensajeError = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(tramite?.AsuntoTramite))
+        {
+            mensajeError = "El campo <strong>Asunto / Sumilla</strong> es obligatorio y no puede estar vacío.";
+        }
+        else if (tramite.iCodTipoDoc <= 0)
+        {
+            mensajeError = "Debe seleccionar un <strong>Tipo de Documento</strong> válido.";
+        }
+        else if (string.IsNullOrWhiteSpace(tramite.NroDocumento))
+        {
+            mensajeError = "El campo <strong>Nro Documento</strong> es obligatorio.";
+        }
+        else if (!int.TryParse(tramite.FoliosDocumento, out int foliosNum) || foliosNum <= 0)
+        {
+            mensajeError = "El campo <strong>Folio</strong> debe ser un número válido mayor a 0.";
+        }
+        else if (tramite.FechaDocumento == default || tramite.FechaDocumento == DateTime.MinValue)
+        {
+            mensajeError = "Debe ingresar una <strong>Fecha del Documento</strong> válida.";
+        }
+
+        // Si hay algún error de validación, mostramos la alerta y detenemos el proceso
+        if (!string.IsNullOrEmpty(mensajeError))
+        {
+            await JSRuntime.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                ⚠️
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Campos Obligatorios Incompletos</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                            </div>
+                        </div>
+                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                            {mensajeError}
+                        </p>
+                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                            <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                <span style='color: #64748b;'>Validación:</span>
+                                <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Dato requerido faltante</span>
+                            </div>
+                        </div>
+                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                            <span>💡</span>
+                            <span>Complete todos los campos marcados con asterisco (*) antes de continuar.</span>
+                        </div>
+                    </div>
+                ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
+            return;
+        }
+
+        // 2. DIÁLOGO DE CONFIRMACIÓN SI TODO ESTÁ CORRECTO
         var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]{
             new
             {
                 html = $@"
                         <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
                             <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
                                 <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
                                     📁
@@ -681,21 +770,15 @@
                                     <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
                                 </div>
                             </div>
-
-                            <!-- Descripción -->
                             <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
                                 Está a punto de modificar la información registrada de este documento en el sistema.
                             </p>
-
-                            <!-- Tarjeta de Confirmación -->
                             <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
                                 <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
                                     <span style='color: #64748b;'>Acción:</span>
                                     <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizar datos</span>
                                 </div>
                             </div>
-
-                            <!-- Nota de ayuda -->
                             <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
                                 <span>📌</span>
                                 <span>Verifique que la información sea correcta antes de confirmar.</span>
@@ -720,7 +803,7 @@
         {
             try
             {
-                // 1. DETECTAR QUÉ CAMPOS FUERON MODIFICADOS
+                // 3. DETECTAR QUÉ CAMPOS FUERON MODIFICADOS
                 tramite.CambiosRealizados = new List<string>();
 
                 if (tramiteOriginal != null && tramite != null)
@@ -744,12 +827,11 @@
                         tramite.CambiosRealizados.Add("El Número de Páginas / Folios fue modificado.");
                 }
 
-                // 2. ENVIAR EL OBJETO COMPLETO A LA API
+                // 4. ENVIAR EL OBJETO COMPLETO A LA API
                 var response = await Http.PutAsJsonAsync("api/documentos/actualizar-datos-documento", tramite);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // Actualizar el respaldo original local para futuras ediciones en la misma sesión
                     if (tramite != null && tramiteOriginal != null)
                     {
                         tramiteOriginal.AsuntoTramite = tramite.AsuntoTramite;
@@ -764,7 +846,6 @@
                     {
                         html = $@"
                                 <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                    <!-- Cabecera con Icono -->
                                     <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
                                         <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
                                             ✨
@@ -774,27 +855,21 @@
                                             <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
                                         </div>
                                     </div>
-
-                                    <!-- Descripción -->
                                     <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
                                         Los datos del documento se han procesado y actualizado correctamente en el sistema.
                                     </p>
-
-                                    <!-- Tarjeta de Éxito -->
                                     <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
                                         <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
                                             <span style='color: #64748b;'>Estado de la operación:</span>
                                             <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Guardado con éxito</span>
                                         </div>
                                     </div>
-
-                                    <!-- Nota de ayuda -->
                                     <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
                                         <span>📌</span>
                                         <span>Los cambios ya se encuentran reflejados en su trámite.</span>
                                     </div>
                                 </div>
-                            ",
+                        ",
                         showConfirmButton = true,
                         confirmButtonText = "Continuar",
                         confirmButtonColor = "#1e293b",
@@ -813,7 +888,6 @@
                     {
                         html = $@"
                                 <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                    <!-- Cabecera con Icono -->
                                     <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
                                         <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
                                             ⚠️
@@ -823,27 +897,21 @@
                                             <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
                                         </div>
                                     </div>
-
-                                    <!-- Descripción -->
                                     <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
                                         Lo sentimos, no se pudo procesar la actualización del documento en este momento.
                                     </p>
-
-                                    <!-- Tarjeta de Error -->
                                     <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
                                         <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
                                             <span style='color: #64748b;'>Estado de la operación:</span>
                                             <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
                                         </div>
                                     </div>
-
-                                    <!-- Nota de ayuda -->
                                     <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
                                         <span>💡</span>
                                         <span>Por favor, verifique su conexión e intente nuevamente en unos minutos.</span>
                                     </div>
                                 </div>
-                            ",
+                        ",
                         showConfirmButton = true,
                         confirmButtonText = "Entendido",
                         confirmButtonColor = "#1e293b",
@@ -862,7 +930,6 @@
                 {
                     html = $@"
                             <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
                                 <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
                                     <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
                                         ❌
@@ -872,27 +939,21 @@
                                         <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
                                     </div>
                                 </div>
-
-                                <!-- Descripción -->
                                 <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
                                     Ocurrió un error de red al intentar comunicarse con el servidor para procesar la actualización.
                                 </p>
-
-                                <!-- Tarjeta de Red -->
                                 <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
                                     <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
                                         <span style='color: #64748b;'>Estado de la red:</span>
                                         <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Sin comunicación</span>
                                     </div>
                                 </div>
-
-                                <!-- Nota de ayuda -->
                                 <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
                                     <span>💡</span>
                                     <span>Compruebe su acceso a internet y vuelva a intentarlo.</span>
                                 </div>
                             </div>
-                        ",
+                    ",
                     showConfirmButton = true,
                     confirmButtonText = "Entendido",
                     confirmButtonColor = "#1e293b",
@@ -917,13 +978,9 @@
     private bool mostrarUrl = false;
     private void ToggleUrl() => mostrarUrl = !mostrarUrl;
     private string urlIngresada = "";
-
-    // Método que genera la URL absoluta automáticamente tanto en Localhost como en Producción
-    // private string GetApiUrl(int id) => $"{Nav.BaseUri}api/documentos/ver-archivo/{id}";
-
+     
     private string GetApiUrl(int id)
     {
-        // Leemos la sección exacta ApiSettings -> BaseUrl
         var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
 
         if (!baseUrl.EndsWith("/"))
@@ -931,8 +988,6 @@
 
         return $"{baseUrl}api/documentos/ver-archivo/{id}";
     }
-
-    // private string GetApiUrl(int id) => $"https:localhost:7100/api/documentos/ver-archivo/{id}";
 
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {
@@ -1397,19 +1452,40 @@
     private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
     private string? previewUrl;
     private void CerrarPreview() => previewUrl = null;
-
-    private void VerDocumento(AnexoDto anexo)
+    private bool mostrarErrorModal = false; // Nueva bandera para controlar el diseño de error en el modal
+ 
+    private async Task VerDocumento(AnexoDto anexo)
     {
-        // Si anexo.Ruta ya tiene la ruta física completa (ej: C:\MesaDePartesLocal\REGDOC\archivo.pdf),
-        // puedes mapearla directamente a través de tu controlador pasando el iCodDoc
-        // o apuntando a un endpoint que lea el archivo directamente por su ruta o ID.
         var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
+        if (!baseUrl.EndsWith("/")) baseUrl += "/";
 
-        if (!baseUrl.EndsWith("/"))
-            baseUrl += "/";
+        var url = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
 
-        previewUrl = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
-    }
+        try
+        {
+            // Hacemos una petición previa para comprobar si el endpoint devuelve error JSON o el PDF real
+            var response = await Http.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Si existe y es correcto, abrimos el modal con la URL del visor
+                mostrarErrorModal = false;
+                previewUrl = url;
+            }
+            else
+            {
+                // Si el servidor responde con 404 u otro error (ej. JSON de archivo no encontrado)
+                mostrarErrorModal = true;
+                previewUrl = "ERROR_FILE_NOT_FOUND"; // Activador del modal de error
+            }
+        }
+        catch (Exception)
+        {
+            // Si hay un fallo de red o excepción general
+            mostrarErrorModal = true;
+            previewUrl = "ERROR_FILE_NOT_FOUND";
+        }
+    } 
 
     private async Task EliminarAnexoRegistrado(int iCodDoc, string nombreVisual)
     {
