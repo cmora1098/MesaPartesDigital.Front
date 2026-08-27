@@ -322,11 +322,19 @@
         <div class="ux-card-form">
             <h2>Documento adjunto</h2>
 
-            <!-- InputFile condicionado: si no hay archivo válido, se muestra el selector -->
-            @if (archivo.Contenido == null || archivo.Contenido.Length == 0)
+            <!-- El InputFile NUNCA se destruye del DOM, solo se oculta con CSS si ya hay archivo o está cargando -->
+            <div class="ux-upload-area" style="display: @((archivo.Contenido == null || archivo.Contenido.Length == 0) && !cargando ? "block" : "none");">
+                <InputFile @key="inputKey" OnChange="OnFileSelected" accept=".pdf" class="form-control" />
+            </div>
+
+            <!-- Indicador de carga condicional seguro -->
+            @if (cargando)
             {
-                <div class="ux-upload-area">
-                    <InputFile @key="inputKey" OnChange="OnFileSelected" accept=".pdf" class="form-control" />
+                <div class="ux-loading-container" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: #f5f5f5; border-radius: 8px; margin-top: 10px;">
+                    <div class="spinner-border text-primary" role="status" style="width: 1.5rem; height: 1.5rem;">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <span style="font-weight: 500; color: #555;">Procesando archivo adjunto...</span>
                 </div>
             }
 
@@ -334,7 +342,7 @@
                 (Peso máximo: 50MB. Solo se permite archivos en formato PDF)
             </p>
 
-            <!-- La tarjeta verde y el visor solo se pintan si el archivo pasó todas las validaciones -->
+            <!-- Tarjeta de éxito y visor PDF -->
             @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
             {
                 <div class="ux-file-info-container" style="display: flex; justify-content: space-between; align-items: center; background: #e8f5e9; padding: 10px; border-radius: 8px;">
@@ -346,12 +354,12 @@
                     </button>
                 </div>
 
-                <div class="ux-pdf-preview" style="margin-top: 15px; height: 400px; border: 1px solid #ddd;">
-                    <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")" width="100%" height="100%"></iframe>
+                <div class="ux-pdf-preview" style="margin-top: 15px; height: 400px; border: 1px solid #ddd; display: @(cargando ? "none" : "block");">
+                    <iframe src="@localPreviewUrl" width="100%" height="100%"></iframe>
                 </div>
             }
         </div>
-
+        
         <div class="ux-card-form">
             <h2>Anexos</h2>
 
@@ -998,33 +1006,78 @@
     {
         if (!string.IsNullOrWhiteSpace(formulario.VNombreAsunto)) errorAsunto = "";
     }
+
     // ******************************************************************
     // DOCUMENTOS ADJUNTOS
-    // ******************************************************************
+    // ****************************************************************** 
     private ArchivoAdjunto archivo = new();
     private string error = "";
     private int inputKey = 0;
+    private string? localPreviewUrl;
+    private bool cargando = false;
 
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {
-        var resultado = await ArchivoPrincipalService.ProcesarArchivoSeleccionadoAsync(e);
+        try
+        {
+            // Activamos la carga antes de ejecutar el servicio y la lectura pesada
+            cargando = true;
+            StateHasChanged();
 
-        if (resultado != null)
-        {
-            archivo = resultado;
-            error = string.Empty;
+            var resultado = await ArchivoPrincipalService.ProcesarArchivoSeleccionadoAsync(e);
+
+            if (resultado != null)
+            {
+                archivo = resultado;
+                error = string.Empty;
+
+                // Generamos la URL local para el visor de PDF sin saturar SignalR
+                long maxAllowedSize = 50 * 1024 * 1024;
+                using var dotNetStream = new DotNetStreamReference(e.File.OpenReadStream(maxAllowedSize));
+                localPreviewUrl = await JS.InvokeAsync<string>("blazorCreateObjectURL", dotNetStream);
+            }
+            else
+            {
+                RemoverArchivo();
+            }
         }
-        else
+        catch (Exception ex)
         {
+            Console.WriteLine($"[Error al seleccionar archivo]: {ex.Message}");
             RemoverArchivo();
+        }
+        finally
+        {
+            cargando = false;
+            StateHasChanged();
         }
     }
 
     private void RemoverArchivo()
     {
+        // Liberamos la URL del objeto en memoria del navegador si existe para evitar fugas
+        if (!string.IsNullOrEmpty(localPreviewUrl))
+        {
+            _ = JS.InvokeVoidAsync("URL.revokeObjectURL", localPreviewUrl);
+        }
+
         archivo = new();
+        localPreviewUrl = null;
         inputKey++;
         StateHasChanged();
+    }
+
+    private string FormatearTamano(long bytes)
+    {
+        string[] sufijos = { "B", "KB", "MB", "GB" };
+        int i = 0;
+        double dblSByte = bytes;
+        while (dblSByte >= 1024 && i < sufijos.Length - 1)
+        {
+            dblSByte /= 1024;
+            i++;
+        }
+        return $"{dblSByte:0.##} {sufijos[i]}";
     }
 
     // ************ 

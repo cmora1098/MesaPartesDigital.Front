@@ -28,6 +28,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="_framework/blazor.web.js"></script>
+    <script>
+            window.blazorCreateObjectURL = async function(streamReference) {
+                const arrayBuffer = await streamReference.arrayBuffer();
+                const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+                return URL.createObjectURL(blob);
+            };
+    </script>
 </body>
 
 </html>

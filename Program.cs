@@ -2,9 +2,20 @@ using MesaPartesDigital.Components;
 using MesaPartesDigital.Models;
 using MesaPartesDigital.Services;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-
+using Microsoft.AspNetCore.Http.Features;
 var builder = WebApplication.CreateBuilder(args);
 
+#region Configuración Kestrel (Límite para subida de archivos HTTP)
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    // Límite de tamaño para el cuerpo de las peticiones HTTP (50 MB)
+    serverOptions.Limits.MaxRequestBodySize = 50 * 1024 * 1024;
+
+    // Evita que conexiones lentas corten la subida del archivo a mitad de camino
+    serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+    serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(2);
+});
+#endregion
 
 #region Configuración
 var basePath = builder.Configuration["Application:BasePath"];
@@ -24,31 +35,35 @@ builder.Services.AddSingleton(new ApplicationSettings
 });
 
 
-var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"]
-                 ?? throw new InvalidOperationException(
-                     "No se configuró ApiSettings:BaseUrl.");
-
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"] ?? 
+                    throw new InvalidOperationException("No se configuró ApiSettings:BaseUrl.");
 #endregion
 
-
 #region Servicios
+builder.Services
+                .AddRazorComponents()
+                    .AddInteractiveServerComponents()
+                        .AddHubOptions(options =>
+                        {
+                            // Ampliar el límite de tamaño de mensaje en SignalR para archivos pesados (50 MB)
+                            options.MaximumReceiveMessageSize = 50 * 1024 * 1024;
+                            options.EnableDetailedErrors = true;
+                        });
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50 MB
+});
 
 builder.Services
-    .AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-
-builder.Services
-    .AddAuthentication("Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.LoginPath = "/login";
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
-    });
-
+                .AddAuthentication("Cookies")
+                    .AddCookie("Cookies", options =>
+                    {
+                        options.LoginPath = "/login";
+                        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                    });
 
 builder.Services.AddAuthorization();
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMemoryCache();
 
@@ -62,16 +77,12 @@ builder.Services.AddHttpClient("MesaPartesApi", client =>
     client.BaseAddress = new Uri(apiBaseUrl);
 });
 
-
 builder.Services.AddScoped(sp =>
-    sp.GetRequiredService<IHttpClientFactory>()
-      .CreateClient("MesaPartesApi"));
-
+                                sp.GetRequiredService<IHttpClientFactory>()
+                                  .CreateClient("MesaPartesApi"));
 #endregion
 
-
 var app = builder.Build();
-
 
 #region Middleware
 
@@ -89,22 +100,13 @@ if (!app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.UseAntiforgery();
-
 #endregion
 
-
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
-
+                             .AddInteractiveServerRenderMode();
 app.Run();
