@@ -183,3 +183,4 @@ C:\Users\User\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\MesaPartesDi
 C:\Users\User\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\MesaPartesDigital.Front.genruntimeconfig.cache
 C:\Users\User\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\ref\MesaPartesDigital.Front.dll
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\scopedcss\Components\Pages\VerTramite.razor.rz.scp.css
+C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\scopedcss\Components\Pages\RecuperarClave.razor.rz.scp.css

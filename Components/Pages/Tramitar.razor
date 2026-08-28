@@ -289,7 +289,7 @@ else
                                 <div class="card border shadow-sm rounded-4 bg-white h-100 d-flex flex-column" style="border-color: #e2e8f0 !important;">
                                     <div class="d-flex justify-content-between align-items-center px-4 py-3 bg-white border-bottom">
                                         <span class="text-secondary small fw-semibold">Visualizando: <span class="text-success fw-bold">@tituloDocumentoActual</span></span>
-                                        @if (!string.IsNullOrEmpty(urlDocumentoActual) && !archivoNoDisponible)
+                                        @if (!string.IsNullOrEmpty(urlDocumentoActual) && !archivoNoDisponible && !estaCargandoArchivo)
                                         {
                                             <a href="@urlDocumentoActual" target="_blank" class="btn btn-sm btn-outline-success fw-semibold px-3 py-1.5 d-flex align-items-center gap-1.5 rounded-2">
                                                 <span>🔍</span> Pantalla Completa
@@ -298,12 +298,21 @@ else
                                     </div>
 
                                     <div class="bg-light position-relative flex-grow-1 d-flex flex-column" style="min-height: 480px;">
-                                        @if (!string.IsNullOrEmpty(urlDocumentoActual))
+                                        @if (estaCargandoArchivo)
+                                        {
+                                            <!-- SPINNER DE CARGA INTEGRADO EN EL VISOR -->
+                                            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto flex-grow-1">
+                                                <div class="spinner-border text-success mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+                                                <h6 class="fw-bold text-dark">Cargando documento adjunto...</h6>
+                                                <p class="text-muted small">Por favor espere unos segundos mientras se procesa el archivo.</p>
+                                            </div>
+                                        }
+                                        else if (!string.IsNullOrEmpty(urlDocumentoActual))
                                         {
                                             @if (archivoNoDisponible)
                                             {
-                                                <!-- NUEVO DISEÑO: DOCUMENTO NO ENCONTRADO Y SOPORTE -->
-                                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto">
+                                                <!-- DOCUMENTO NO ENCONTRADO -->
+                                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto flex-grow-1">
                                                     <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
                                                         ⚠️
                                                     </div>
@@ -323,7 +332,7 @@ else
                                         }
                                         else
                                         {
-                                            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted p-5 text-center my-auto">
+                                            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted p-5 text-center my-auto flex-grow-1">
                                                 <div class="fs-1 mb-2 text-secondary opacity-50">📂</div>
                                                 <p class="mb-0">Elige un documento de la lista izquierda para visualizarlo en este espacio.</p>
                                             </div>
@@ -347,6 +356,14 @@ else
         </div>
     }
 
+    @if (estaCargandoArchivo)
+    {
+        <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto">
+            <div class="spinner-border text-success mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+            <h6 class="fw-bold text-dark">Cargando documento adjunto...</h6>
+            <p class="text-muted small">Por favor espere unos segundos mientras se procesa el archivo.</p>
+        </div>
+    }
  }
 
 @code {
@@ -460,24 +477,21 @@ else
     private string urlDocumentoActual = "";
     private string tituloDocumentoActual = "";
     private List<AnexoDto> listaAnexosModal = new();
+    private string? objectUrlActual = null;
+    private bool estaCargandoArchivo = false;
 
     private async Task DocumentosAdjuntos(int idAsunto)
     {
         try
         {
             idAsuntoSeleccionado = idAsunto;
-
             listaAnexosModal = await Http.GetFromJsonAsync<List<AnexoDto>>($"api/documentos/listar-anexos/{idAsunto}") ?? new();
 
-            var baseUrl = Http.BaseAddress?.ToString() ?? "https://localhost:7100/";
-            if (!baseUrl.EndsWith("/")) baseUrl += "/";
-
-            urlDocumentoActual = $"{baseUrl}api/documentos/ver-archivo/{idAsunto}";
             tituloDocumentoActual = "Documento Principal";
             tipoVisualizacion = "Principal";
-
             mostrarModalDocumentos = true;
-            StateHasChanged();
+
+            await CargarArchivoComoBlob($"api/documentos/ver-archivo/{idAsunto}");
         }
         catch (Exception ex)
         {
@@ -485,8 +499,72 @@ else
         }
     }
 
-    private void CerrarModalDocumentos()
+    private async Task SeleccionarDocumentoPrincipal()
     {
+        tituloDocumentoActual = "Documento Principal";
+        tipoVisualizacion = "Principal";
+        await CargarArchivoComoBlob($"api/documentos/ver-archivo/{idAsuntoSeleccionado}");
+    }
+
+    private async Task SeleccionarAnexoModal(AnexoDto anexo)
+    {
+        // tituloDocumentoActual = $"Anexo ({anexo.Nombre})";
+        tituloDocumentoActual = $"Anexo";
+        tipoVisualizacion = $"Anexo_{anexo.iCodDoc}";
+        await CargarArchivoComoBlob($"api/documentos/ver-archivo-anexo/{anexo.iCodDoc}");
+    }
+
+    private async Task CargarArchivoComoBlob(string endpointApi)
+    {
+        try
+        {
+            estaCargandoArchivo = true;
+            archivoNoDisponible = false;
+            StateHasChanged();
+
+            var response = await Http.GetAsync(endpointApi);
+            if (!response.IsSuccessStatusCode)
+            {
+                archivoNoDisponible = true;
+                urlDocumentoActual = string.Empty;
+                return;
+            }
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+
+            if (!string.IsNullOrEmpty(objectUrlActual))
+            {
+                await JS.InvokeVoidAsync("URL.revokeObjectURL", objectUrlActual);
+            }
+
+            using var streamRef = new DotNetStreamReference(stream: responseStream);
+            objectUrlActual = await JS.InvokeAsync<string>("blazorCreateObjectURL", streamRef);
+            urlDocumentoActual = objectUrlActual;
+        }
+        catch
+        {
+            archivoNoDisponible = true;
+            urlDocumentoActual = string.Empty;
+        }
+        finally
+        {
+            estaCargandoArchivo = false;
+            StateHasChanged();
+        }
+    }
+
+    private async void CerrarModalDocumentos()
+    {
+        if (!string.IsNullOrEmpty(objectUrlActual))
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("URL.revokeObjectURL", objectUrlActual);
+            }
+            catch { /* Ignorar si ya fue liberado */ }
+            objectUrlActual = null;
+        }
+
         mostrarModalDocumentos = false;
         urlDocumentoActual = "";
         tipoVisualizacion = "";
@@ -521,28 +599,5 @@ else
         StateHasChanged();
     }
 
-    private async Task SeleccionarDocumentoPrincipal()
-    {
-        var baseUrl = Http.BaseAddress?.ToString() ?? "https://localhost:7100/";
-        if (!baseUrl.EndsWith("/")) baseUrl += "/";
-
-        var url = $"{baseUrl}api/documentos/ver-archivo/{idAsuntoSeleccionado}";
-        tituloDocumentoActual = "Documento Principal";
-        tipoVisualizacion = "Principal";
-
-        await VerificarYAsignarUrl(url);
-    }
-
-    private async Task SeleccionarAnexoModal(AnexoDto anexo)
-    {
-        var baseUrl = Http.BaseAddress?.ToString() ?? "https://localhost:7100/";
-        if (!baseUrl.EndsWith("/")) baseUrl += "/";  
-
-        var url = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
-        tituloDocumentoActual = $"Anexo (ID: {anexo.iCodDoc})";
-        tipoVisualizacion = $"Anexo_{anexo.iCodDoc}";
-
-        await VerificarYAsignarUrl(url);
-    }
-
- }
+   
+}

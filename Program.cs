@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     // Límite de tamaño para el cuerpo de las peticiones HTTP (50 MB)
-    serverOptions.Limits.MaxRequestBodySize = 50 * 1024 * 1024;
+    serverOptions.Limits.MaxRequestBodySize = 60L * 1024 * 1024;
 
     // Evita que conexiones lentas corten la subida del archivo a mitad de camino
     serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
@@ -35,7 +35,7 @@ builder.Services.AddSingleton(new ApplicationSettings
 });
 
 
-var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"] ?? 
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"] ??
                     throw new InvalidOperationException("No se configuró ApiSettings:BaseUrl.");
 #endregion
 
@@ -46,13 +46,13 @@ builder.Services
                         .AddHubOptions(options =>
                         {
                             // Ampliar el límite de tamaño de mensaje en SignalR para archivos pesados (50 MB)
-                            options.MaximumReceiveMessageSize = 50 * 1024 * 1024;
+                            options.MaximumReceiveMessageSize = 60L * 1024 * 1024;
                             options.EnableDetailedErrors = true;
                         });
 
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50 MB
+    options.MultipartBodyLengthLimit = 60L * 1024 * 1024; // margen de transporte; la validación funcional sigue en 50 MB
 });
 
 builder.Services
@@ -75,6 +75,7 @@ builder.Services.AddScoped<DocumentoAdjuntoServices>();
 builder.Services.AddHttpClient("MesaPartesApi", client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
+    client.Timeout = TimeSpan.FromMinutes(5);
 });
 
 builder.Services.AddScoped(sp =>

@@ -82,7 +82,7 @@
                                 <option value="@doc.iCodTipoDoc">@doc.vNombreTipoDoc</option>
                             }
                         </select>
-                    </div> 
+                    </div>
                     <div class="form-group-t">
                         <label>Nro Documento</label>
                         <input @bind="tramite.NroDocumento" disabled />
@@ -269,36 +269,92 @@
 
         try
         {
-            var response = await Http.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                if (content.Contains("El archivo físico no se encuentra disponible"))
-                {
-                    archivoNoDisponible = true;
-                }
-                else
-                {
-                    archivoNoDisponible = false;
-                }
-            }
-            else
-            {
-                archivoNoDisponible = true;
-            }
-        }
-        catch
-        {
-            archivoNoDisponible = true;
-        }
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Click Ver anexo. iCodDoc={anexo.iCodDoc}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] GET {url}");
 
-        previewUrl = url;
+            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
+            {
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
+                previewUrl = null;
+            }
+
+            using var response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+            var contentType = response.Content.Headers.ContentType?.MediaType ?? "(sin Content-Type)";
+            var contentLength = response.Content.Headers.ContentLength;
+
+            await JSRuntime.InvokeVoidAsync(
+                "console.log",
+                $"[MPV VERTRAMITE] Respuesta HTTP {(int)response.StatusCode} {response.StatusCode} | Content-Type: {contentType} | Content-Length: {contentLength?.ToString() ?? "desconocido"}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var detalle = await response.Content.ReadAsStringAsync();
+                await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] API devolvió error: {detalle}");
+                archivoNoDisponible = true;
+                previewUrl = "ERROR_FILE_NOT_FOUND";
+                return;
+            }
+
+            var bytes = await response.Content.ReadAsByteArrayAsync();
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Bytes recibidos: {bytes.Length}");
+
+            if (bytes.Length == 0)
+                throw new InvalidOperationException("La API respondió correctamente pero devolvió un archivo vacío.");
+
+            bool firmaPdf = bytes.Length >= 5 &&
+                            bytes[0] == (byte)'%' &&
+                            bytes[1] == (byte)'P' &&
+                            bytes[2] == (byte)'D' &&
+                            bytes[3] == (byte)'F' &&
+                            bytes[4] == (byte)'-';
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Firma PDF válida: {firmaPdf}");
+
+            if (!firmaPdf)
+            {
+                var texto = System.Text.Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 500));
+                await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] La respuesta no parece PDF. Inicio de respuesta: {texto}");
+                archivoNoDisponible = true;
+                previewUrl = "ERROR_FILE_NOT_FOUND";
+                return;
+            }
+
+            using var memoryStream = new MemoryStream(bytes, writable: false);
+            using var streamRef = new DotNetStreamReference(memoryStream);
+
+            previewUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
+            archivoNoDisponible = false;
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Blob creado correctamente: {previewUrl}");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] ERROR VerDocumento: {ex}");
+            archivoNoDisponible = true;
+            previewUrl = "ERROR_FILE_NOT_FOUND";
+        }
     }
 
-    private void CerrarPreview()
+    private async Task CerrarPreview()
     {
-        previewUrl = string.Empty;
-        archivoNoDisponible = false;
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Liberando Blob: {previewUrl}");
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV VERTRAMITE] No se pudo liberar Blob: {ex.Message}");
+        }
+        finally
+        {
+            previewUrl = string.Empty;
+            archivoNoDisponible = false;
+        }
     }
 
     private void Regresar()

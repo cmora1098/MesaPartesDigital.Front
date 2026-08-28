@@ -359,3 +359,37 @@
         font-size: 16px; /* Previene zoom automático en iOS/Android */
     }
 }
+
+/* ==========================================================================
+   PIE DE ACCIONES (RECUPERAR CONTRASEÑA) - PATRÓN UNIFICADO
+   ========================================================================== */
+.neo-actions-footer[b-m5l9vkyir2] {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+    width: 100%;
+}
+
+.neo-link-btn[b-m5l9vkyir2] {
+    width: 100%;
+    background: transparent;
+    color: #16a34a;
+    padding: 12px;
+    border: 1.5px dashed #bbf7d0;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .neo-link-btn:hover[b-m5l9vkyir2] {
+        background: #f0fdf4;
+        border-color: #16a34a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);
+    }

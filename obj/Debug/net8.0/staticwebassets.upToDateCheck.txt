@@ -7,6 +7,7 @@ wwwroot\favicon.ico.png
 wwwroot\favicon.png
 wwwroot\img\logomax_agrorural.png
 wwwroot\img\logo_agrorural.png
+wwwroot\js\mpv-pdf.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css

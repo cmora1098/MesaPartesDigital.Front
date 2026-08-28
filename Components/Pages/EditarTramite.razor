@@ -174,14 +174,14 @@
                         <div class="form-group-t span-two">
                             <div class="file-selected-alert d-flex justify-content-between align-items-center p-3 rounded-3 bg-success-subtle text-success border border-success-subtle mb-3">
                                 <span>✅ <strong>@archivo.Nombre</strong> (Nuevo archivo seleccionado)</span>
-                                <button type="button" class="btn-quitar-archivo btn btn-sm btn-outline-danger fw-bold" @onclick="() => archivo = null">✕ Quitar</button>
+                                <button type="button" class="btn-quitar-archivo btn btn-sm btn-outline-danger fw-bold" @onclick="RemoverArchivoNuevo">✕ Quitar</button>
                             </div>
                         </div>
 
                         <div class="form-group-t span-two">
                             <div class="fw-bold text-secondary mb-2" style="font-size: 0.95rem;">👁️ Vista previa del nuevo archivo:</div>
                             <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-dark" style="height: 450px; border-color: #cbd5e1 !important;">
-                                <iframe src="@($"data:application/pdf;base64,{Convert.ToBase64String(archivo.Contenido)}")" style="width: 100%; height: 100%; border: none;"></iframe>
+                                <iframe src="@pdfPreviewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
                             </div>
                         </div>
                     }
@@ -192,17 +192,29 @@
                                 <div class="ux-file-info fw-semibold text-secondary d-flex align-items-center gap-2" style="margin-bottom: 0;">
                                     📂 <span>Documento actual registrado en el sistema</span>
                                 </div>
-                                <a href="@GetApiUrl(tramite.iCodAsunto)"
-                                   target="_blank" class="ux-button-small text-decoration-none d-inline-flex align-items-center gap-1">
-                                    🔍 Ver en Pantalla Completa
-                                </a>
+                                @if (!string.IsNullOrEmpty(pdfActualBlobUrl))
+                                {
+                                    <a href="@pdfActualBlobUrl"
+                                       target="_blank" class="ux-button-small text-decoration-none d-inline-flex align-items-center gap-1">
+                                        🔍 Ver en Pantalla Completa
+                                    </a>
+                                }
                             </div>
 
                             <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-light" style="width: 100%; height: 500px; border: 1px solid #ccc; background: #f9f9f9;">
-                                <object data="@GetApiUrl(tramite.iCodAsunto)"
-                                        type="application/pdf"
-                                        width="100%"
-                                        height="100%">
+                                @if (cargandoPdfActual)
+                                {
+                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 bg-white">
+                                        <div class="spinner-border text-primary mb-2" role="status"></div>
+                                        <span class="text-muted" style="font-size: 0.9rem;">Cargando documento actual...</span>
+                                    </div>
+                                }
+                                else if (!string.IsNullOrEmpty(pdfActualBlobUrl))
+                                {
+                                    <iframe src="@pdfActualBlobUrl" style="width: 100%; height: 100%; border: none;"></iframe>
+                                }
+                                else
+                                {
                                     <!-- DISEÑO INSTITUCIONAL DE ERROR EN OBJETO PRINCIPAL -->
                                     <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto bg-white">
                                         <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
@@ -215,17 +227,11 @@
                                         <div class="p-3 rounded-3 bg-light border shadow-sm d-inline-flex align-items-center gap-2 text-secondary mb-3" style="font-size: 0.85rem; border-color: #e2e8f0 !important;">
                                             <span>📞</span> Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
                                         </div>
-                                        @* <div>
-                                            <a href="@GetApiUrl(tramite.iCodAsunto)" target="_blank" class="ux-button-small">
-                                                Descargar / Ver PDF
-                                            </a>
-                                        </div> *@
                                     </div>
-                                </object>
+                                }
                             </div>
                         </div>
                     }
-
                     @if (!string.IsNullOrEmpty(error))
                     {
                         <div class="form-group-t span-two">
@@ -353,6 +359,9 @@
                                         </td>
                                         <td style="padding: 12px 16px; color: #64748b;">PDF</td>
                                         <td style="padding: 12px 16px; text-align: right;">
+                                            <button class="ux-button-small" @onclick="() => VerPreviewAnexoLocal(archi)" style="margin-right: 6px;">
+                                                🔍 Ver
+                                            </button>
                                             <button class="btn-delete" @onclick="() => EliminarArchivoLocal(archi)">
                                                 ✕ Quitar
                                             </button>
@@ -387,7 +396,7 @@
                                             🔗 Abrir en pestaña completa
                                         </a>
                                     }
-                                    <button type="button" @onclick="() => { previewUrl = string.Empty; mostrarErrorModal = false; }" style="background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569;">✕</button>
+                                    <button type="button" @onclick="CerrarPreview" style="background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569;">✕</button>
                                 </div>
                             </div>
 
@@ -969,8 +978,7 @@
 
     // ******************
     // DOCUMENTOS ADJUNTO
-    // ******************
-
+    // ****************** 
     private ArchivoAdjunto archivo = new();
     private string error = "";
     private string? pdfPreviewUrl;
@@ -978,6 +986,9 @@
     private bool mostrarUrl = false;
     private void ToggleUrl() => mostrarUrl = !mostrarUrl;
     private string urlIngresada = "";
+
+    private string? pdfActualBlobUrl;
+    private bool cargandoPdfActual = false;
      
     private string GetApiUrl(int id)
     {
@@ -989,37 +1000,125 @@
         return $"{baseUrl}api/documentos/ver-archivo/{id}";
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        if (tramite != null && !string.IsNullOrEmpty(tramite.RutaDocumento) && string.IsNullOrEmpty(pdfActualBlobUrl))
+        {
+            await CargarDocumentoActualComoBlob();
+        }
+    }
+
+    private async Task CargarDocumentoActualComoBlob()
+    {
+        try
+        {
+            cargandoPdfActual = true;
+            var urlEndpoint = GetApiUrl(tramite.iCodAsunto);
+        
+            // Descargamos los bytes del archivo actual desde la API
+            var bytesPdf = await Http.GetByteArrayAsync(urlEndpoint);
+
+            if (bytesPdf != null && bytesPdf.Length > 0)
+            {
+                using var stream = new MemoryStream(bytesPdf);
+                using var streamRef = new DotNetStreamReference(stream);
+            
+                // Reutilizamos la función de JS para crear el Blob URL
+                pdfActualBlobUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
+            }
+        }
+        catch (Exception ex)
+        {
+            error = "No se pudo cargar la vista previa del documento actual.";
+            Console.WriteLine($"[Error Blob Actual]: {ex.Message}");
+        }
+        finally
+        {
+            cargandoPdfActual = false;
+            StateHasChanged();
+        }
+    }
+
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {
-        error = "";
+        error = string.Empty;
         var file = e.File;
-        if (file != null)
+
+        try
         {
-            if (!file.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
+            await JSRuntime.InvokeVoidAsync("console.log", "[MPV EDITAR] OnFileSelected iniciado.");
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR] Archivo principal seleccionado: {file.Name} - {file.Size} bytes");
+
+            if (!file.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
             {
                 error = "Solo se permiten archivos en formato PDF.";
+                await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV EDITAR] Archivo rechazado por extensión: {file.Name}");
                 return;
             }
 
-            try
+            const long maxFileSize = 50L * 1024 * 1024;
+            if (file.Size > maxFileSize)
             {
-                using var ms = new MemoryStream();
-                await file.OpenReadStream(50 * 1024 * 1024).CopyToAsync(ms);
+                error = "El archivo supera el límite máximo de 50 MB.";
+                await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV EDITAR] Archivo supera 50 MB: {file.Size} bytes");
+                return;
+            }
 
-                archivo = new ArchivoAdjunto
-                {
-                    Nombre = file.Name,
-                    Tipo = file.ContentType,
-                    Tamano = $"{file.Size / 1024} KB",
-                    Contenido = ms.ToArray(),
-                    FileBrowser = file
-                };
-            }
-            catch (Exception ex)
+            await using var stream = file.OpenReadStream(maxFileSize);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR] Lectura finalizada. Esperado={file.Size}, Recibido={ms.Length} bytes");
+
+            if (ms.Length <= 0 || ms.Length != file.Size)
+                throw new IOException($"Carga incompleta. Esperado: {file.Size} bytes; recibido: {ms.Length} bytes.");
+
+            archivo = new ArchivoAdjunto
             {
-                error = "Error al leer el archivo seleccionado.";
-                Console.WriteLine(ex.Message);
+                // Nombre = file.Name,
+                Nombre = "DocumentoPrincipalSubsanado.pdf",
+                Tipo = file.ContentType,
+                Tamano = $"{file.Size / 1024} KB",
+                Contenido = ms.ToArray(),
+                FileBrowser = file
+            };
+
+            if (!string.IsNullOrWhiteSpace(pdfPreviewUrl))
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", pdfPreviewUrl);
+
+            using var previewStream = new MemoryStream(archivo.Contenido, writable: false);
+            using var streamRef = new DotNetStreamReference(previewStream);
+            pdfPreviewUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR] Preview principal creado: {pdfPreviewUrl}");
+        }
+        catch (Exception ex)
+        {
+            error = $"Error al leer el archivo seleccionado: {ex.Message}";
+            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR] ERROR OnFileSelected: {ex}");
+        }
+        finally
+        {
+            StateHasChanged();
+            await JSRuntime.InvokeVoidAsync("console.log", "[MPV EDITAR] OnFileSelected finalizado.");
+        }
+    }
+
+    private async Task RemoverArchivoNuevo()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(pdfPreviewUrl))
+            {
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", pdfPreviewUrl);
+                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR] Preview principal liberado: {pdfPreviewUrl}");
             }
+        }
+        finally
+        {
+            pdfPreviewUrl = null;
+            archivo = new ArchivoAdjunto();
+            StateHasChanged();
         }
     }
 
@@ -1199,44 +1298,70 @@
             if (response.IsSuccessStatusCode)
             {
                 error = string.Empty;
-                tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
+
+                // 1. Opcional: Si el navegador guardó el blob anterior en memoria, lo revocamos si existe
+                if (!string.IsNullOrWhiteSpace(pdfActualBlobUrl))
+                {
+                    try { await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", pdfActualBlobUrl); } catch { }
+                    pdfActualBlobUrl = null;
+                }
+
+                // 2. Limpiamos también el preview del archivo nuevo seleccionado
+                if (!string.IsNullOrWhiteSpace(pdfPreviewUrl))
+                {
+                    try { await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", pdfPreviewUrl); } catch { }
+                    pdfPreviewUrl = null;
+                }
+
                 archivo = new();
+
+                // 3. Volvemos a consultar los datos del trámite actualizado
+                tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
+
+                // 4. Volvemos a descargar y generar el Blob actualizado del PDF con el timestamp nuevo
+                if (tramite != null)
+                {
+                    await CargarDocumentoActualComoBlob();
+                }
+
+                // 5. Forzar actualización de la interfaz de manera explícita
+                StateHasChanged();
 
                 await JSRuntime.InvokeVoidAsync("Swal.fire", new
                 {
                     html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                    📄
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Documento Principal</p>
-                                </div>
-                            </div>
+                     <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                         <!-- Cabecera con Icono -->
+                         <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                             <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                 📄
+                             </div>
+                             <div>
+                                 <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
+                                 <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Documento Principal</p>
+                             </div>
+                         </div>
 
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                El documento principal se ha procesado y actualizado correctamente en el sistema.
-                            </p>
+                         <!-- Descripción -->
+                         <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                             El documento principal se ha procesado y actualizado correctamente en el sistema.
+                         </p>
 
-                            <!-- Tarjeta de Éxito -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado de la operación:</span>
-                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
-                                </div>
-                            </div>
+                         <!-- Tarjeta de Éxito -->
+                         <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                             <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                 <span style='color: #64748b;'>Estado de la operación:</span>
+                                 <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
+                             </div>
+                         </div>
 
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                <span>📌</span>
-                                <span>Los cambios ya se encuentran reflejados en su trámite.</span>
-                            </div>
-                        </div>
-                    ",
+                         <!-- Nota de ayuda -->
+                         <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                             <span>📌</span>
+                             <span>Los cambios ya se encuentran reflejados en su trámite.</span>
+                         </div>
+                     </div>
+                 ",
                     showConfirmButton = true,
                     confirmButtonText = "Continuar",
                     confirmButtonColor = "#1e293b",
@@ -1360,257 +1485,359 @@
     private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
     private List<ArchivoAdjunto> archivos = new();
     private string errorArchivo = "";
-
-    // private async Task HandleFilesSelected(InputFileChangeEventArgs e)
-    // {
-    //     errorArchivo = "";
-
-    //     foreach (var file in e.GetMultipleFiles(10))
-    //     {
-    //         if (archivos.Count >= 10)
-    //         {
-    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Límite alcanzado", "Ha alcanzado el límite máximo de 10 archivos.", "warning");
-    //             break;
-    //         }
-
-    //         if (archivos.Any(a => a.Nombre == file.Name))
-    //         {
-    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo duplicado", $"El archivo '{file.Name}' ya ha sido agregado.", "warning");
-    //             continue;
-    //         }
-             
-    //         long maxFileSize = 20 * 1024 * 1024;
-    //         if (file.Size > maxFileSize)
-    //         {
-    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo muy pesado", $"El archivo '{file.Name}' supera los 20MB permitidos.", "warning");
-    //             continue;
-    //         }
-
-    //         var extension = Path.GetExtension(file.Name).ToLower();
-    //         if (extension != ".pdf")
-    //         {
-    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Formato no válido", $"El archivo '{file.Name}' no es un PDF válido.", "error");
-    //             continue;
-    //         }
-
-    //         try
-    //         {
-    //             using var ms = new MemoryStream();
-    //             using var stream = file.OpenReadStream(maxAllowedSize: maxFileSize);
-    //             await stream.CopyToAsync(ms);
-
-    //             archivos.Add(new ArchivoAdjunto
-    //             {
-    //                 Nombre = file.Name,
-    //                 Tipo = extension,
-    //                 Tamano = $"{Math.Round((double)file.Size / (1024 * 1024), 2)} MB",
-    //                 Contenido = ms.ToArray(),
-    //                 FileBrowser = file
-    //             });
-    //         }
-    //         catch (Exception)
-    //         {
-    //             await JSRuntime.InvokeVoidAsync("Swal.fire", "Archivo muy pesado", "No puedes subir archivos muy pesados.", "warning");
-    //         }
-    //     }
-    // }
-
+     
     private async Task HandleFilesSelected(InputFileChangeEventArgs e)
     {
         errorArchivo = string.Empty;
-        var archivosSeleccionados = e.GetMultipleFiles(10); // Límite máximo de anexos
 
-        foreach (var file in archivosSeleccionados)
+        try
         {
-            if (file.Size > 20 * 1024 * 1024) // 20MB por archivo
+            var archivosSeleccionados = e.GetMultipleFiles(10);
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXOS] Seleccionados: {archivosSeleccionados.Count}");
+
+            foreach (var file in archivosSeleccionados)
             {
-                errorArchivo = $"El archivo {file.Name} supera el límite de 20MB.";
-                continue;
+                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXOS] Procesando: {file.Name} - {file.Size} bytes");
+
+                if (file.Size > 20L * 1024 * 1024)
+                {
+                    errorArchivo = $"El archivo {file.Name} supera el límite de 20MB.";
+                    await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV EDITAR ANEXOS] Supera 20 MB: {file.Name}");
+                    continue;
+                }
+
+                if (!file.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                {
+                    errorArchivo = $"El archivo {file.Name} no es PDF.";
+                    await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV EDITAR ANEXOS] Extensión rechazada: {file.Name}");
+                    continue;
+                }
+
+                await using var stream = file.OpenReadStream(20L * 1024 * 1024);
+                using var ms = new MemoryStream();
+                await stream.CopyToAsync(ms);
+
+                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXOS] Lectura: {file.Name} | esperado={file.Size} | recibido={ms.Length}");
+
+                if (ms.Length <= 0 || ms.Length != file.Size)
+                {
+                    errorArchivo = $"El archivo {file.Name} no se cargó completamente.";
+                    await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXOS] Carga incompleta: {file.Name}");
+                    continue;
+                }
+
+                archivosNuevos.Add(new ArchivoAdjunto
+                {
+                    Nombre = file.Name,
+                    Tipo = file.ContentType,
+                    Tamano = $"{file.Size / 1024} KB",
+                    Contenido = ms.ToArray()
+                });
+
+                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXOS] Agregado correctamente: {file.Name}");
             }
-
-            if (!file.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-            {
-                errorArchivo = "Solo se permiten archivos en formato PDF.";
-                continue;
-            }
-
-            using var stream = file.OpenReadStream(20 * 1024 * 1024);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-
-            archivosNuevos.Add(new ArchivoAdjunto
-            {
-                Nombre = file.Name,
-                Tipo = file.ContentType,
-                Tamano = $"{file.Size / 1024} KB",
-                Contenido = ms.ToArray() // Convertido a byte[] listo para viajar por JSON
-            });
         }
+        catch (Exception ex)
+        {
+            errorArchivo = $"Error procesando anexos: {ex.Message}";
+            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXOS] ERROR HandleFilesSelected: {ex}");
+        }
+
         StateHasChanged();
     }
 
     private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
     private string? previewUrl;
-    private void CerrarPreview() => previewUrl = null;
-    private bool mostrarErrorModal = false; // Nueva bandera para controlar el diseño de error en el modal
- 
+    private async Task CerrarPreview()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR] Liberando preview: {previewUrl}");
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV EDITAR] No se pudo liberar preview: {ex.Message}");
+        }
+        finally
+        {
+            previewUrl = null;
+            mostrarErrorModal = false;
+            StateHasChanged();
+        }
+    }
+
+    private bool mostrarErrorModal = false;
+
+    private async Task VerPreviewAnexoLocal(ArchivoAdjunto archi)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO LOCAL] Click Ver: {archi?.Nombre ?? "(sin nombre)"}");
+
+            if (archi?.Contenido == null || archi.Contenido.Length == 0)
+                throw new InvalidOperationException("El anexo no contiene bytes en memoria.");
+
+            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
+
+            using var memoryStream = new MemoryStream(archi.Contenido, writable: false);
+            using var streamRef = new DotNetStreamReference(memoryStream);
+
+            previewUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
+            mostrarErrorModal = false;
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO LOCAL] Blob creado: {previewUrl} | bytes={archi.Contenido.Length}");
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO LOCAL] ERROR: {ex}");
+            mostrarErrorModal = true;
+            previewUrl = "ERROR_FILE_NOT_FOUND";
+        }
+    }
+
     private async Task VerDocumento(AnexoDto anexo)
     {
         var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
-
         var url = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
 
         try
         {
-            // Hacemos una petición previa para comprobar si el endpoint devuelve error JSON o el PDF real
-            var response = await Http.GetAsync(url);
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO REG] Click Ver. iCodDoc={anexo.iCodDoc}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO REG] GET {url}");
 
-            if (response.IsSuccessStatusCode)
+            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
+                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
+
+            using var response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            var contentType = response.Content.Headers.ContentType?.MediaType ?? "(sin Content-Type)";
+            var contentLength = response.Content.Headers.ContentLength;
+
+            await JSRuntime.InvokeVoidAsync("console.log",
+                $"[MPV EDITAR ANEXO REG] HTTP {(int)response.StatusCode} {response.StatusCode} | Content-Type={contentType} | Content-Length={contentLength?.ToString() ?? "desconocido"}");
+
+            if (!response.IsSuccessStatusCode)
             {
-                // Si existe y es correcto, abrimos el modal con la URL del visor
-                mostrarErrorModal = false;
-                previewUrl = url;
-            }
-            else
-            {
-                // Si el servidor responde con 404 u otro error (ej. JSON de archivo no encontrado)
+                var detalle = await response.Content.ReadAsStringAsync();
+                await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO REG] Error API: {detalle}");
                 mostrarErrorModal = true;
-                previewUrl = "ERROR_FILE_NOT_FOUND"; // Activador del modal de error
+                previewUrl = "ERROR_FILE_NOT_FOUND";
+                return;
             }
+
+            var bytes = await response.Content.ReadAsByteArrayAsync();
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO REG] Bytes recibidos: {bytes.Length}");
+
+            bool firmaPdf = bytes.Length >= 5 &&
+                            bytes[0] == (byte)'%' && bytes[1] == (byte)'P' &&
+                            bytes[2] == (byte)'D' && bytes[3] == (byte)'F' &&
+                            bytes[4] == (byte)'-';
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO REG] Firma PDF válida: {firmaPdf}");
+
+            if (!firmaPdf)
+            {
+                var texto = System.Text.Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 500));
+                await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO REG] Respuesta no PDF: {texto}");
+                mostrarErrorModal = true;
+                previewUrl = "ERROR_FILE_NOT_FOUND";
+                return;
+            }
+
+            using var memoryStream = new MemoryStream(bytes, writable: false);
+            using var streamRef = new DotNetStreamReference(memoryStream);
+            previewUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
+            mostrarErrorModal = false;
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV EDITAR ANEXO REG] Blob creado: {previewUrl}");
+            StateHasChanged();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // Si hay un fallo de red o excepción general
+            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO REG] ERROR VerDocumento: {ex}");
             mostrarErrorModal = true;
             previewUrl = "ERROR_FILE_NOT_FOUND";
         }
-    } 
+    }
 
     private async Task EliminarAnexoRegistrado(int iCodDoc, string nombreVisual)
-    {
-        // Confirmación con SweetAlert2
-        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new
         {
-            html = $@"
-                <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                    <!-- Cabecera con Icono -->
-                    <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                        <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                            🗑️
-                        </div>
-                        <div>
-                            <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¿Estás seguro de eliminar el {nombreVisual}?</h3>
-                            <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Documentos</p>
-                        </div>
-                    </div>
-
-                    <!-- Descripción -->
-                    <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                        Esta acción dará de baja el documento del trámite de forma definitiva.
-                    </p>
-
-                    <!-- Tarjeta de Confirmación -->
-                    <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                        <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                            <span style='color: #64748b;'>Consecuencia:</span>
-                            <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Dar de baja</span>
-                        </div>
-                    </div>
-
-                    <!-- Nota de ayuda -->
-                    <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                        <span>📌</span>
-                        <span>Verifique bien antes de proceder con la eliminación.</span>
-                    </div>
-                </div>
-            ",
-            showCancelButton = true,
-            showConfirmButton = true,
-            confirmButtonText = "Sí, eliminar",
-            cancelButtonText = "Cancelar",
-            confirmButtonColor = "#dc2626",
-            cancelButtonColor = "#64748b",
-            backdrop = "rgba(15, 23, 42, 0.5)",
-            customClass = new
+            // Confirmación con SweetAlert2
+            var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new
             {
-                popup = "rounded-2xl shadow-xl border border-slate-100"
-            }
-        });
+                html = $@"
+                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                        <!-- Cabecera con Icono -->
+                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                🗑️
+                            </div>
+                            <div>
+                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¿Estás seguro de eliminar el {nombreVisual}?</h3>
+                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Documentos</p>
+                            </div>
+                        </div>
 
-        // Validamos si el usuario hizo clic en confirmar (dependiendo de cómo retorne tu SweetAlert)
-        // Si usas la estructura estándar de SweetAlert2 en Blazor, validamos la propiedad IsConfirmed o el valor booleano:
-        bool confirmado = false;
+                        <!-- Descripción -->
+                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                            Esta acción dará de baja el documento del trámite de forma definitiva.
+                        </p>
 
-        if (confirmResult != null)
-        {
-            // Si confirmResult viene como objeto dinámico o clase de resultado:
-            confirmado = confirmResult.IsConfirmed; // O si es directo boolean según tu librería JSInterop
-        }
+                        <!-- Tarjeta de Confirmación -->
+                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                            <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                <span style='color: #64748b;'>Consecuencia:</span>
+                                <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Dar de baja</span>
+                            </div>
+                        </div>
 
-        if (!confirmado) return; // Si canceló, no hacemos nada
-
-        try
-        {
-            var response = await Http.DeleteAsync($"api/documentos/eliminar-anexo/{iCodDoc}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                        <!-- Nota de ayuda -->
+                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                            <span>📌</span>
+                            <span>Verifique bien antes de proceder con la eliminación.</span>
+                        </div>
+                    </div>
+                ",
+                showCancelButton = true,
+                showConfirmButton = true,
+                confirmButtonText = "Sí, eliminar",
+                cancelButtonText = "Cancelar",
+                confirmButtonColor = "#dc2626",
+                cancelButtonColor = "#64748b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
                 {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                    🗑️
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Eliminado!</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
-                                </div>
-                            </div>
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
 
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                El anexo se eliminó correctamente del trámite en el sistema.
-                            </p>
+            // Validamos si el usuario hizo clic en confirmar (dependiendo de cómo retorne tu SweetAlert)
+            // Si usas la estructura estándar de SweetAlert2 en Blazor, validamos la propiedad IsConfirmed o el valor booleano:
+            bool confirmado = false;
 
-                            <!-- Tarjeta de Éxito -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado de la operación:</span>
-                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Eliminado con éxito</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                <span>📌</span>
-                                <span>Los cambios ya se encuentran actualizados en su lista de archivos.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Continuar",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
-
-                // 🟢 1. Ocultamos el visor integrando limpiando la URL de vista previa
-                previewUrl = string.Empty;
-
-                // 2. Recargamos la lista automáticamente para que desaparezca de la tabla
-                await CargarAnexos();
-
-                // 3. Forzamos a Blazor a redibujar el componente
-                StateHasChanged();
+            if (confirmResult != null)
+            {
+                // Si confirmResult viene como objeto dinámico o clase de resultado:
+                confirmado = confirmResult.IsConfirmed; // O si es directo boolean según tu librería JSInterop
             }
-            else
+
+            if (!confirmado) return; // Si canceló, no hacemos nada
+
+            try
+            {
+                var response = await Http.DeleteAsync($"api/documentos/eliminar-anexo/{iCodDoc}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    {
+                        html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
+                                        🗑️
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Eliminado!</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    El anexo se eliminó correctamente del trámite en el sistema.
+                                </p>
+
+                                <!-- Tarjeta de Éxito -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de la operación:</span>
+                                        <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Eliminado con éxito</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>📌</span>
+                                    <span>Los cambios ya se encuentran actualizados en su lista de archivos.</span>
+                                </div>
+                            </div>
+                        ",
+                        showConfirmButton = true,
+                        confirmButtonText = "Continuar",
+                        confirmButtonColor = "#1e293b",
+                        backdrop = "rgba(15, 23, 42, 0.5)",
+                        customClass = new
+                        {
+                            popup = "rounded-2xl shadow-xl border border-slate-100"
+                        }
+                    });
+
+                    // 🟢 1. Ocultamos el visor integrando limpiando la URL de vista previa
+                    previewUrl = string.Empty;
+
+                    // 2. Recargamos la lista automáticamente para que desaparezca de la tabla
+                    await CargarAnexos();
+
+                    // 3. Forzamos a Blazor a redibujar el componente
+                    StateHasChanged();
+                }
+                else
+                {
+                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    {
+                        html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
+                                        🗄️
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Base de Datos</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Lo sentimos, no se pudo procesar la eliminación en la base de datos en este momento.
+                                </p>
+
+                                <!-- Tarjeta de Error -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de la operación:</span>
+                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en servidor de BD</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>💡</span>
+                                    <span>Por favor, intente nuevamente en unos minutos o comuníquese con soporte técnico.</span>
+                                </div>
+                            </div>
+                        ",
+                        showConfirmButton = true,
+                        confirmButtonText = "Entendido",
+                        confirmButtonColor = "#1e293b",
+                        backdrop = "rgba(15, 23, 42, 0.5)",
+                        customClass = new
+                        {
+                            popup = "rounded-2xl shadow-xl border border-slate-100"
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
             {
                 await JSRuntime.InvokeVoidAsync("Swal.fire", new
                 {
@@ -1619,31 +1846,30 @@
                             <!-- Cabecera con Icono -->
                             <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
                                 <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                    🗄️
+                                    ❌
                                 </div>
                                 <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Base de Datos</h3>
+                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
                                     <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
                                 </div>
                             </div>
 
                             <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                Lo sentimos, no se pudo procesar la eliminación en la base de datos en este momento.
+                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
+                                Ocurrió un error al intentar procesar la solicitud de red. Detalle técnico:
                             </p>
 
-                            <!-- Tarjeta de Error -->
+                            <!-- Tarjeta con Detalle del Excepción -->
                             <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado de la operación:</span>
-                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en servidor de BD</span>
+                                <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
+                                    {ex.Message}
                                 </div>
                             </div>
 
                             <!-- Nota de ayuda -->
                             <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
                                 <span>💡</span>
-                                <span>Por favor, intente nuevamente en unos minutos o comuníquese con soporte técnico.</span>
+                                <span>Verifique su conexión a internet y vuelva a intentarlo.</span>
                             </div>
                         </div>
                     ",
@@ -1658,53 +1884,6 @@
                 });
             }
         }
-        catch (Exception ex)
-        {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                        <!-- Cabecera con Icono -->
-                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                ❌
-                            </div>
-                            <div>
-                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
-                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                            </div>
-                        </div>
-
-                        <!-- Descripción -->
-                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
-                            Ocurrió un error al intentar procesar la solicitud de red. Detalle técnico:
-                        </p>
-
-                        <!-- Tarjeta con Detalle del Excepción -->
-                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                            <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
-                                {ex.Message}
-                            </div>
-                        </div>
-
-                        <!-- Nota de ayuda -->
-                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                            <span>💡</span>
-                            <span>Verifique su conexión a internet y vuelva a intentarlo.</span>
-                        </div>
-                    </div>
-                ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
-        }
-    }
 
     private List<ArchivoAdjunto> archivosNuevos = new();
    
@@ -1920,6 +2099,7 @@
             });
         }
     }
+
 
     // ******************
     // Actualizar Cambios

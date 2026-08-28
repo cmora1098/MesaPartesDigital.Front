@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="ux-card-form">
             <h2>II. DATOS DEL REPRESENTANTE LEGAL</h2>
 
@@ -295,12 +295,12 @@
                 </div>
 
             </div>
-    
+
         </div>
 
         <div class="ux-card-form">
             <h2>III. DATOS DEL DOCUMENTO</h2>
-            <div class="ux-grid-form">                
+            <div class="ux-grid-form">
                 <div class="ux-field">
                     <label>Tipo de Documento *</label>
                     <select @bind="formulario.ICodTipoDoc" @bind:after="LimpiarErrorTipoDocTramite">
@@ -403,14 +403,25 @@
         <div class="ux-card-form">
             <h2>Anexos</h2>
 
-            <!-- InputFile múltiple con el diseño unificado -->
-            <div class="ux-upload-area">
+            <!-- El InputFile NUNCA se destruye del DOM, solo se oculta con CSS si está cargando -->
+            <div class="ux-upload-area" style="display: @(!cargandoAnexos ? "block" : "none");">
                 <InputFile @key="inputAnexosKey"
                            multiple
                            accept=".pdf"
                            class="form-control"
                            OnChange="HandleFilesSelected" />
             </div>
+
+            <!-- Indicador de carga condicional idéntico al de Documento Adjunto -->
+            @if (cargandoAnexos)
+            {
+                <div class="ux-loading-container" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: #f5f5f5; border-radius: 8px; margin-top: 10px;">
+                    <div class="spinner-border text-primary" role="status" style="width: 1.5rem; height: 1.5rem;">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <span style="font-weight: 500; color: #555;">Procesando anexos seleccionados...</span>
+                </div>
+            }
 
             @if (!string.IsNullOrEmpty(errorArchivo))
             {
@@ -466,8 +477,6 @@
             </div>
 
             <hr class="ux-divider" />
-
-
 
             <div class="ux-nota">
                 <strong>Nota:</strong><br />
@@ -530,9 +539,9 @@
         }
     }
 
-    // ********************** 
+    // **********************
     // I. DATOS DE LA EMPRESA
-    // ********************** 
+    // **********************
     private bool isProcessing = false;
     private bool bloqueadoRazonSocial = true;
     private string rucErrorMsg;
@@ -1046,9 +1055,9 @@
         }
     }
 
-    // ************************ 
+    // ************************
     // III. DATOS DEL DOCUMENTO
-    // ************************ 
+    // ************************
     private List<TipoDocumento> listaTiposDocumento = new();
 
     private string errorTipoDocTramite = "";
@@ -1147,45 +1156,119 @@
     {
         try
         {
-            // Activamos la carga antes de ejecutar el servicio y la lectura pesada
             cargando = true;
             StateHasChanged();
 
-            var resultado = await ArchivoPrincipalService.ProcesarArchivoSeleccionadoAsync(e);
+            await JS.InvokeVoidAsync(
+                "console.log",
+                "[MPV] OnFileSelected iniciado.");
 
-            if (resultado != null)
-            {
-                archivo = resultado;
-                error = string.Empty;
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV] Archivo seleccionado: {e.File.Name} - {e.File.Size} bytes");
 
-                // Generamos la URL local para el visor de PDF sin saturar SignalR
-                long maxAllowedSize = 50 * 1024 * 1024;
-                using var dotNetStream = new DotNetStreamReference(e.File.OpenReadStream(maxAllowedSize));
-                localPreviewUrl = await JS.InvokeAsync<string>("blazorCreateObjectURL", dotNetStream);
-            }
-            else
+            var resultado = await ArchivoPrincipalService
+                .ProcesarArchivoSeleccionadoAsync(e);
+
+            if (resultado == null)
             {
+                await JS.InvokeVoidAsync(
+                    "console.warn",
+                    "[MPV] ProcesarArchivoSeleccionadoAsync devolvió NULL.");
+
                 RemoverArchivo();
+                return;
             }
+
+            archivo = resultado;
+            error = string.Empty;
+
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV] Archivo leído correctamente: {archivo.Contenido?.Length ?? 0} bytes");
+
+            if (archivo.Contenido == null || archivo.Contenido.Length == 0)
+            {
+                throw new InvalidOperationException(
+                    "El archivo fue procesado, pero no contiene bytes para generar la vista previa.");
+            }
+
+            // Liberar la vista previa anterior, si existiera.
+            if (!string.IsNullOrWhiteSpace(localPreviewUrl))
+            {
+                await JS.InvokeVoidAsync(
+                    "mpvPdf.revoke",
+                    localPreviewUrl);
+
+                localPreviewUrl = null;
+            }
+
+            // IMPORTANTE:
+            // No volvemos a abrir e.File. Utilizamos los bytes ya leídos
+            // y validados por DocumentoAdjuntoServices.
+            using var memoryStream = new MemoryStream(
+                archivo.Contenido,
+                writable: false);
+
+            using var streamRef = new DotNetStreamReference(memoryStream);
+
+            localPreviewUrl = await JS.InvokeAsync<string>(
+                "mpvPdf.create",
+                streamRef);
+
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV] Preview creado correctamente: {localPreviewUrl}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[Error al seleccionar archivo]: {ex.Message}");
+            Console.WriteLine($"[Error OnFileSelected]: {ex}");
+
+            try
+            {
+                await JS.InvokeVoidAsync(
+                    "console.error",
+                    $"[MPV] ERROR OnFileSelected: {ex}");
+            }
+            catch
+            {
+                // Si el circuito JS ya está desconectado, no ocultar la excepción original.
+            }
+
+            await JS.InvokeVoidAsync(
+                "Swal.fire",
+                "Error al cargar archivo",
+                $"No se pudo procesar el documento seleccionado. Detalle: {ex.Message}",
+                "error");
+
             RemoverArchivo();
         }
         finally
         {
             cargando = false;
             StateHasChanged();
+
+            try
+            {
+                await JS.InvokeVoidAsync(
+                    "console.log",
+                    "[MPV] OnFileSelected finalizado.");
+            }
+            catch
+            {
+                // El circuito puede haberse cerrado durante una carga fallida.
+            }
         }
     }
 
     private void RemoverArchivo()
     {
-        // Liberamos la URL del objeto en memoria del navegador si existe para evitar fugas
-        if (!string.IsNullOrEmpty(localPreviewUrl))
+        // Liberar el Blob URL del navegador si existe.
+        if (!string.IsNullOrWhiteSpace(localPreviewUrl))
         {
-            _ = JS.InvokeVoidAsync("URL.revokeObjectURL", localPreviewUrl);
+            _ = JS.InvokeVoidAsync(
+                "mpvPdf.revoke",
+                localPreviewUrl);
         }
 
         archivo = new();
@@ -1214,29 +1297,175 @@
     private string errorArchivo = "";
     private int inputAnexosKey = 0;
     private string? previewUrl; // Variable que alimenta el iframe del modal general
+    private bool cargandoAnexos = false;
 
     private async Task HandleFilesSelected(InputFileChangeEventArgs e)
     {
         errorArchivo = string.Empty;
-
-        // Llama al servicio global que ya actualizamos previamente
-        var resultado = await ArchivoPrincipalService.ProcesarAnexosSeleccionadosAsync(e, archivos);
-
-        if (resultado != null)
-        {
-            archivos = resultado;
-        }
-
-        inputAnexosKey++; // Resetea el control input multiple
+        cargandoAnexos = true;
         StateHasChanged();
+
+        try
+        {
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV] HandleFilesSelected iniciado. Archivos recibidos por el evento: {e.FileCount}");
+
+            var resultado = await ArchivoPrincipalService
+                .ProcesarAnexosSeleccionadosAsync(e, archivos);
+
+            if (resultado != null)
+            {
+                archivos = resultado;
+
+                await JS.InvokeVoidAsync(
+                    "console.log",
+                    $"[MPV] Anexos procesados correctamente. Total actual: {archivos.Count}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Error HandleFilesSelected]: {ex}");
+            errorArchivo = ex.Message;
+
+            try
+            {
+                await JS.InvokeVoidAsync(
+                    "console.error",
+                    $"[MPV] ERROR HandleFilesSelected: {ex}");
+            }
+            catch
+            {
+            }
+
+            await JS.InvokeVoidAsync(
+                "Swal.fire",
+                "Error al cargar anexos",
+                $"No se pudieron procesar los anexos seleccionados. Detalle: {ex.Message}",
+                "error");
+        }
+        finally
+        {
+            cargandoAnexos = false; // <-- Desactiva el indicador de carga
+            inputAnexosKey++;
+            StateHasChanged();
+
+            try
+            {
+                await JS.InvokeVoidAsync(
+                    "console.log",
+                    "[MPV] HandleFilesSelected finalizado.");
+            }
+            catch
+            {
+            }
+        }
     }
 
-    private void VerPreviewAnexo(ArchivoAdjunto archi)
+    private async Task VerPreviewAnexo(ArchivoAdjunto archi)
     {
-        if (archi.Contenido != null && archi.Contenido.Length > 0)
+        try
         {
-            previewUrl = $"data:application/pdf;base64,{Convert.ToBase64String(archi.Contenido)}";
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV ANEXO] Click en Ver. Archivo: {archi?.Nombre ?? "(sin nombre)"}");
+
+            if (archi == null)
+            {
+                await JS.InvokeVoidAsync(
+                    "console.error",
+                    "[MPV ANEXO] El objeto ArchivoAdjunto es NULL.");
+
+                await JS.InvokeVoidAsync(
+                    "Swal.fire",
+                    "Error",
+                    "No se pudo obtener la información del anexo seleccionado.",
+                    "error");
+
+                return;
+            }
+
+            if (archi.Contenido == null || archi.Contenido.Length == 0)
+            {
+                await JS.InvokeVoidAsync(
+                    "console.error",
+                    $"[MPV ANEXO] El anexo '{archi.Nombre}' no contiene bytes para mostrar.");
+
+                await JS.InvokeVoidAsync(
+                    "Swal.fire",
+                    "Archivo no disponible",
+                    $"El anexo '{archi.Nombre}' no contiene información para mostrar.",
+                    "error");
+
+                return;
+            }
+
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV ANEXO] Contenido disponible: {archi.Contenido.Length} bytes. Tipo: {archi.Tipo ?? "(sin tipo)"}");
+
+            // Liberar un preview anterior antes de crear uno nuevo.
+            if (!string.IsNullOrWhiteSpace(previewUrl))
+            {
+                await JS.InvokeVoidAsync(
+                    "console.log",
+                    $"[MPV ANEXO] Liberando preview anterior: {previewUrl}");
+
+                await JS.InvokeVoidAsync(
+                    "mpvPdf.revoke",
+                    previewUrl);
+
+                previewUrl = null;
+            }
+
+            // Usamos los bytes que ya fueron cargados en memoria.
+            // No volvemos a abrir InputFile ni usamos Base64 en el iframe.
+            using var memoryStream = new MemoryStream(
+                archi.Contenido,
+                writable: false);
+
+            using var streamRef = new DotNetStreamReference(memoryStream);
+
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV ANEXO] Enviando {archi.Contenido.Length} bytes a JavaScript para crear Blob...");
+
+            previewUrl = await JS.InvokeAsync<string>(
+                "mpvPdf.create",
+                streamRef);
+
+            if (string.IsNullOrWhiteSpace(previewUrl))
+            {
+                throw new InvalidOperationException(
+                    "JavaScript no devolvió una URL válida para el preview del anexo.");
+            }
+
+            await JS.InvokeVoidAsync(
+                "console.log",
+                $"[MPV ANEXO] Preview creado correctamente: {previewUrl}");
+
             StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(
+                $"[Error VerPreviewAnexo] Archivo: {archi?.Nombre} | {ex}");
+
+            try
+            {
+                await JS.InvokeVoidAsync(
+                    "console.error",
+                    $"[MPV ANEXO] ERROR VerPreviewAnexo: {ex}");
+            }
+            catch
+            {
+            }
+
+            await JS.InvokeVoidAsync(
+                "Swal.fire",
+                "Error al visualizar anexo",
+                $"No se pudo mostrar el archivo '{archi?.Nombre}'. Detalle: {ex.Message}",
+                "error");
         }
     }
 
@@ -1246,10 +1475,38 @@
         StateHasChanged();
     }
 
-    private void CerrarPreview()
+    private async Task CerrarPreview()
     {
-        previewUrl = null;
-        StateHasChanged();
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(previewUrl))
+            {
+                await JS.InvokeVoidAsync(
+                    "console.log",
+                    $"[MPV ANEXO] Cerrando preview: {previewUrl}");
+
+                await JS.InvokeVoidAsync(
+                    "mpvPdf.revoke",
+                    previewUrl);
+            }
+        }
+        catch (Exception ex)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync(
+                    "console.warn",
+                    $"[MPV ANEXO] No se pudo liberar el Blob del preview: {ex.Message}");
+            }
+            catch
+            {
+            }
+        }
+        finally
+        {
+            previewUrl = null;
+            StateHasChanged();
+        }
     }
 
 
@@ -1279,7 +1536,7 @@
         var result = await JS.InvokeAsync<object>("Swal.fire", new
         {
             html = mensajeSwal,
-            icon = "success",  
+            icon = "success",
             confirmButtonText = "Finalizar y Volver",
             confirmButtonColor = "#35af72",
             allowOutsideClick = false,
@@ -1295,17 +1552,56 @@
     // Método auxiliar para evitar duplicar código de subida
     private async Task<string> SubirArchivo(string nombre, byte[] contenido)
     {
+        if (string.IsNullOrWhiteSpace(nombre))
+            throw new InvalidOperationException("El archivo no tiene un nombre válido.");
+
+        if (contenido == null || contenido.Length == 0)
+            throw new InvalidOperationException($"El archivo '{nombre}' no contiene información.");
+
         using var content = new MultipartFormDataContent();
         using var fileContent = new ByteArrayContent(contenido);
 
-        // El nombre del campo "archivo" debe coincidir con lo que espera tu API
+        fileContent.Headers.ContentType =
+            new System.Net.Http.Headers.MediaTypeHeaderValue("application/pdf");
+
         content.Add(fileContent, "archivo", nombre);
 
-        var response = await Http.PostAsync("api/archivos/subir", content);
-        if (!response.IsSuccessStatusCode) throw new Exception($"Error al subir {nombre}");
+        using var response = await Http.PostAsync("api/archivos/subir", content);
+        var responseText = await response.Content.ReadAsStringAsync();
 
-        var res = await response.Content.ReadFromJsonAsync<RespuestaRuta>();
-        return res!.ruta;
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(
+                $"No se pudo subir '{nombre}'. " +
+                $"HTTP {(int)response.StatusCode} ({response.StatusCode}). " +
+                $"Respuesta API: {responseText}");
+        }
+
+        RespuestaRuta? resultado;
+
+        try
+        {
+            resultado = System.Text.Json.JsonSerializer.Deserialize<RespuestaRuta>(
+                responseText,
+                new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+        }
+        catch (System.Text.Json.JsonException ex)
+        {
+            throw new Exception(
+                $"La API respondió correctamente al subir '{nombre}', " +
+                "pero la respuesta no tiene el formato esperado.", ex);
+        }
+
+        if (resultado == null || string.IsNullOrWhiteSpace(resultado.ruta))
+        {
+            throw new Exception(
+                $"La API indicó éxito, pero no devolvió una ruta para '{nombre}'.");
+        }
+
+        return resultado.ruta;
     }
 
     private bool aceptaTerminos = false;
@@ -1314,9 +1610,9 @@
     async Task Finalizar()
     {
         // 1. Validaciones básicas de formato y datos de empresa
-         ValidarEmpresa();
-         ValidarDocumento();
-         ValidarCorreo();
+        ValidarEmpresa();
+        ValidarDocumento();
+        ValidarCorreo();
         ValidarFormularioRemitente();
         ValidarFormularioDocumentos();
 

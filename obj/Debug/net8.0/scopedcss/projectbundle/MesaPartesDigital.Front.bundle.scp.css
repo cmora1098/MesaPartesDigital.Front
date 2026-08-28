@@ -3610,6 +3610,98 @@ textarea[b-py7tcbq0ce] {
         font-size: 16px; /* Previene zoom automático en iOS/Android */
     }
 }
+
+/* ==========================================================================
+   PIE DE ACCIONES (RECUPERAR CONTRASEÑA) - PATRÓN UNIFICADO
+   ========================================================================== */
+.neo-actions-footer[b-m5l9vkyir2] {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+    width: 100%;
+}
+
+.neo-link-btn[b-m5l9vkyir2] {
+    width: 100%;
+    background: transparent;
+    color: #16a34a;
+    padding: 12px;
+    border: 1.5px dashed #bbf7d0;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .neo-link-btn:hover[b-m5l9vkyir2] {
+        background: #f0fdf4;
+        border-color: #16a34a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);
+    }
+/* /Components/Pages/RecuperarClave.razor.rz.scp.css */
+.neo-link-btn[b-t1n6j195gw] {
+    width: 100%;
+    background: transparent;
+    color: #16a34a;
+    padding: 12px;
+    border: 1.5px dashed #bbf7d0;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 6px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+    .neo-link-btn:hover[b-t1n6j195gw] {
+        background: #f0fdf4;
+        border-color: #16a34a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);
+    }
+
+.neo-spinner[b-t1n6j195gw] {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(22, 163, 74, 0.3);
+    border-radius: 50%;
+    border-top-color: #16a34a;
+    animation: spin-b-t1n6j195gw 0.7s linear infinite;
+}
+
+@keyframes spin-b-t1n6j195gw {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.neo-alert-msg[b-t1n6j195gw] {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.83rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 12px;
+    line-height: 1.4;
+}
+
+.msg-error[b-t1n6j195gw] {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
 /* /Components/Pages/Tramitar.razor.rz.scp.css */
  
 /* ==========================================================================

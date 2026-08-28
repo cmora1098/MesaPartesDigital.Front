@@ -95,6 +95,10 @@ build_metadata.AdditionalFiles.CssScope = b-py7tcbq0ce
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-m5l9vkyir2
 
+[C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/RecuperarClave.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWN1cGVyYXJDbGF2ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-t1n6j195gw
+
 [C:/Users/cmora/source/repos/MesaPartesDigital.Front/Components/Pages/Tramitar.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUcmFtaXRhci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-52twrfpcoc
