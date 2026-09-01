@@ -1,13 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage SessionStorage
-@inherits MesaPartesDigital.Components.Base.PageBase 
+@inherits MesaPartesDigital.Components.Base.PageBase
 @inject Services.SessionService SessionService
 @inject IJSRuntime JS
 @inject NavigationManager Nav
 @implements IDisposable
 
-@using System.Timers 
- <header class="topbar">
+@using System.Timers
+
+<header class="topbar">
     <div class="gov-left">
         <img src="img/logo_agrorural.png" class="gov-logo" alt="Logo AgroRural" />
         <div class="gov-divider" aria-hidden="true"></div>
@@ -53,30 +54,60 @@
 
 @code {
     private Timer? timerInactividad;
-    private int segundosRestantes = 600;
+    private int segundosRestantes = 900; // 900 - 15 minutos iniciales
+    private int segundosParaCierreForzoso = 60; // 1 minuto de tolerancia con el modal abierto
     private bool mostrarModalExtension = false;
 
     protected override void OnInitialized()
     {
-        // Iniciamos el temporizador global
+        SessionService.OnSessionChanged += StateHasChanged;
+
         timerInactividad = new Timer(1000);
         timerInactividad.Elapsed += VerificarInactividad;
         timerInactividad.AutoReset = true;
         timerInactividad.Enabled = true;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SessionService.InitializeAsync();
+            StateHasChanged();
+        }
+    }
+
     private void VerificarInactividad(object? sender, ElapsedEventArgs e)
     {
-        InvokeAsync(() =>
+        InvokeAsync(async () =>
         {
-            if (segundosRestantes > 0)
+            if (!mostrarModalExtension)
             {
-                segundosRestantes--;
+                // Flujo normal: cuenta regresiva de inactividad (15 min)
+                if (segundosRestantes > 0)
+                {
+                    segundosRestantes--;
+                }
+                else
+                {
+                    mostrarModalExtension = true;
+                    segundosParaCierreForzoso = 60; // Reiniciamos el plazo de tolerancia del modal (1 minuto)
+                }
             }
             else
             {
-                mostrarModalExtension = true;
-                timerInactividad?.Stop();
+                // El modal está abierto: cuenta regresiva de tolerancia antes de echarlo
+                if (segundosParaCierreForzoso > 0)
+                {
+                    segundosParaCierreForzoso--;
+                }
+                else
+                {
+                    // ¡Se acabó el tiempo de tolerancia! Cerramos sesión por completo
+                    timerInactividad?.Stop();
+                    await CerrarSesion();
+                    return;
+                }
             }
             StateHasChanged();
         });
@@ -84,26 +115,29 @@
 
     private void ExtenderSesion()
     {
-        segundosRestantes = 600;
+        segundosRestantes = 900; // Reseteamos a 15 minutos
+        segundosParaCierreForzoso = 60;
         mostrarModalExtension = false;
-        timerInactividad?.Start();
     }
 
     private void ResetearTiempo()
     {
-        // Solo reiniciamos si no estamos en el modal
         if (!mostrarModalExtension)
         {
-            segundosRestantes = 600;
+            segundosRestantes = 900; // Reseteamos al hacer clic en la aplicación
         }
     }
 
     private async Task CerrarSesion()
     {
-        // Limpiamos todo
-        await SessionStorage.DeleteAsync("user_session");
+        timerInactividad?.Stop();
+        await SessionService.ClearSessionAsync();
         Ir("/", true);
     }
 
-    public void Dispose() => timerInactividad?.Dispose();
+    public void Dispose()
+    {
+        SessionService.OnSessionChanged -= StateHasChanged;
+        timerInactividad?.Dispose();
+    }
 }

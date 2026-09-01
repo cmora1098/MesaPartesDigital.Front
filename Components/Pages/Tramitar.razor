@@ -45,20 +45,48 @@ else
                     <span class="badge-count">@tramitesFiltrados.Count registrados</span>
                 </div>
 
-                <!-- LEYENDA / GUÍA DE ACCIONES -->
-                <div style="display: flex; flex-wrap: wrap; gap: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 15px; font-size: 13px; align-items: center; color: #475569;">
-                    <span style="font-weight: 600; color: #1e293b;">Leyenda de Acciones:</span>
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                        <button class="btn btn-outline-success btn-sm py-0 px-2" style="font-size: 11px; pointer-events: none;"><i class="bi bi-paperclip"></i></button>
-                        <span>Ver adjuntos</span>
+                <!-- PANEL DE GUÍA Y LEYENDAS UNIFICADO -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px; font-size: 13px; color: #475569;">
+
+                    <!-- Fila 1: Acciones -->
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+                        <span style="font-weight: 600; color: #1e293b; min-width: 140px;"><i class="bi bi-tools me-1"></i> Acciones:</span>
+
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <button class="btn btn-outline-success btn-sm py-0 px-2" style="font-size: 11px; pointer-events: none;"><i class="bi bi-paperclip"></i></button>
+                            <span style="font-size: 12px;">Ver adjuntos</span>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <button class="btn btn-outline-primary btn-sm py-0 px-2" style="font-size: 11px; pointer-events: none;"><i class="bi bi-eye"></i></button>
+                            <span style="font-size: 12px;">Detalle</span>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <button class="btn btn-sm py-0 px-2 fw-semibold" style="background-color: #ffc107; border-color: #ffc107; color: #212529; font-size: 11px; pointer-events: none;"><i class="bi bi-pencil-square"></i></button>
+                            <span style="font-size: 12px;">Editar (Solo Observados)</span>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                        <button class="btn btn-outline-primary btn-sm py-0 px-2" style="font-size: 11px; pointer-events: none;"><i class="bi bi-eye"></i></button>
-                        <span>Detalle/Vista previa</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                        <button class="btn btn-sm py-0 px-2 fw-semibold" style="background-color: #ffc107; border-color: #ffc107; color: #212529; font-size: 11px; pointer-events: none;"><i class="bi bi-pencil-square"></i></button>
-                        <span>Solo en estado Observado</span>
+
+                    <!-- Fila 2: Estados -->
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+                        <span style="font-weight: 600; color: #1e293b; min-width: 140px;"><i class="bi bi-shield-check me-1"></i> Estados:</span>
+
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="estado enviado" style="padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background-color: #fef3c7; color: #d97706;">Enviado</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="estado proceso" style="padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background-color: #e0f2fe; color: #0284c7;">Pendiente</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="estado finalizado" style="padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background-color: #dcfce7; color: #16a34a;">Finalizado</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="estado archivado" style="padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background-color: #f1f5f9; color: #475569;">Archivado</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="estado observado" style="padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background-color: #fee2e2; color: #dc2626;">Observado</span>
+                        </div>
                     </div>
                 </div>
 
@@ -101,23 +129,15 @@ else
                                     <td class="txt-date">@item.FechaSubsanacion</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <!-- Botón Documentos Adjuntos -->
                                             <button class="btn btn-outline-success btn-sm shadow-sm" @onclick="() => DocumentosAdjuntos(item.iCodAsunto)" title="Ver documentos adjuntos">
                                                 <i class="bi bi-paperclip"></i>
                                             </button>
-
-                                             <!-- Botón Ver Detalle / Vista Previa (Disponible para todos) -->
-                                            <button class="btn btn-outline-primary btn-sm shadow-sm" @onclick='() => Ir($"/VerTramite/{item.iCodAsunto}")' title="Ver detalle o vista previa del trámite enviado">
+                                            <button class="btn btn-outline-primary btn-sm shadow-sm" @onclick='() => Ir($"/VerTramite/{item.iCodAsunto}")' title="Ver detalle o vista previa">
                                                 <i class="bi bi-eye"></i>
                                             </button>
-
                                             @if (item.Estado.Equals("Observado", StringComparison.OrdinalIgnoreCase))
                                             {
-                                                <!-- Botón Editar (Solo aparece si está Observado) -->
-                                                <button class="btn btn-sm shadow-sm fw-semibold"
-                                                        style="background-color: #ffc107; border-color: #ffc107; color: #212529;"
-                                                        @onclick="() => EditarTramite(item.iCodAsunto)"
-                                                        title="Editar trámite observado">
+                                                <button class="btn btn-sm shadow-sm fw-semibold" style="background-color: #ffc107; border-color: #ffc107; color: #212529;" @onclick="() => EditarTramite(item.iCodAsunto)" title="Editar trámite observado">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </button>
                                             }
@@ -135,6 +155,7 @@ else
                     <button class="btn btn-sm btn-secondary" disabled="@(paginaActual >= totalPaginas)" @onclick="() => CambiarPagina(paginaActual + 1)">Siguiente</button>
                 </div>
             </section>
+
         }
         else if (pasoActual == "selector")
         {
@@ -366,7 +387,8 @@ else
     }
  }
 
-@code {
+
+@* @code {
     private bool cargando = true;
     private UserSession Session = new UserSession();
 
@@ -600,4 +622,203 @@ else
     }
 
    
+} *@
+
+@code {
+    private bool cargando = true;
+    private bool esAutorizado = false;
+    private string pasoActual = "historial";
+    private string tipoPersona = string.Empty;
+    private string filtroCodigo = "";
+    private string filtroEstado = "todos";
+
+    private int paginaActual = 1;
+    private int elementosPorPagina = 5;
+    private int totalPaginas => (int)Math.Ceiling((double)tramitesFiltrados.Count / elementosPorPagina);
+
+    private List<TramiteDto> todosLosTramites = new();
+    private List<TramiteDto> tramitesFiltrados = new();
+
+    private bool mostrarModalDocumentos = false;
+    private int idAsuntoSeleccionado = 0;
+    private string tipoVisualizacion = "";
+    private string urlDocumentoActual = "";
+    private string tituloDocumentoActual = "";
+    private List<AnexoDto> listaAnexosModal = new();
+    private string? objectUrlActual = null;
+    private bool estaCargandoArchivo = false;
+    private bool archivoNoDisponible = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                // Aseguramos que el servicio global esté inicializado desde el navegador
+                await SessionService.InitializeAsync();
+
+                if (SessionService.UserSession == null)
+                {
+                    Ir($"/login", true);
+                    return;
+                }
+
+                var userId = SessionService.UserSession.ICodPer;
+
+                if (userId > 0 && todosLosTramites.Count == 0)
+                {
+                    try
+                    {
+                        var lista = await Http.GetFromJsonAsync<List<TramiteDto>>($"api/documentos/historial/{userId}");
+
+                        if (lista != null)
+                        {
+                            todosLosTramites = lista;
+                            tramitesFiltrados = todosLosTramites;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error al obtener historial: {ex.Message}");
+                    }
+                }
+
+                esAutorizado = true;
+                cargando = false;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error crítico en carga: {ex.Message}");
+                Ir($"/login", true);
+            }
+        }
+    }
+
+    private void CambiarPaso(string nuevoPaso) => pasoActual = nuevoPaso;
+    private void SeleccionarNatural() => tipoPersona = "TPersonaNatural";
+    private void SeleccionarJuridica() => tipoPersona = "TPersonaJuridica";
+
+    private void Continuar()
+    {
+        if (!string.IsNullOrWhiteSpace(tipoPersona))
+            Ir($"/Tramitar/{tipoPersona}");
+    }
+
+    private IEnumerable<TramiteDto> GetTramitesPaginados() =>
+        tramitesFiltrados.Skip((paginaActual - 1) * elementosPorPagina).Take(elementosPorPagina);
+
+    private void CambiarPagina(int nuevaPagina)
+    {
+        if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas)
+        {
+            paginaActual = nuevaPagina;
+        }
+    }
+
+    private void AplicarFiltros()
+    {
+        tramitesFiltrados = todosLosTramites.Where(t =>
+            (string.IsNullOrEmpty(filtroCodigo) || t.Codigo.Contains(filtroCodigo, StringComparison.OrdinalIgnoreCase)) &&
+            (filtroEstado == "todos" || t.Estado.Equals(filtroEstado, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+
+        paginaActual = 1;
+    }
+
+    private void EditarTramite(int idAsunto)
+    {
+        Ir($"/EditarTramite/{idAsunto}");
+    }
+
+    private async Task DocumentosAdjuntos(int idAsunto)
+    {
+        try
+        {
+            idAsuntoSeleccionado = idAsunto;
+            listaAnexosModal = await Http.GetFromJsonAsync<List<AnexoDto>>($"api/documentos/listar-anexos/{idAsunto}") ?? new();
+
+            tituloDocumentoActual = "Documento Principal";
+            tipoVisualizacion = "Principal";
+            mostrarModalDocumentos = true;
+
+            await CargarArchivoComoBlob($"api/documentos/ver-archivo/{idAsunto}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al abrir documentos adjuntos: {ex.Message}");
+        }
+    }
+
+    private async Task SeleccionarDocumentoPrincipal()
+    {
+        tituloDocumentoActual = "Documento Principal";
+        tipoVisualizacion = "Principal";
+        await CargarArchivoComoBlob($"api/documentos/ver-archivo/{idAsuntoSeleccionado}");
+    }
+
+    private async Task SeleccionarAnexoModal(AnexoDto anexo)
+    {
+        tituloDocumentoActual = "Anexo";
+        tipoVisualizacion = $"Anexo_{anexo.iCodDoc}";
+        await CargarArchivoComoBlob($"api/documentos/ver-archivo-anexo/{anexo.iCodDoc}");
+    }
+
+    private async Task CargarArchivoComoBlob(string endpointApi)
+    {
+        try
+        {
+            estaCargandoArchivo = true;
+            archivoNoDisponible = false;
+            StateHasChanged();
+
+            var response = await Http.GetAsync(endpointApi);
+            if (!response.IsSuccessStatusCode)
+            {
+                archivoNoDisponible = true;
+                urlDocumentoActual = string.Empty;
+                return;
+            }
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+
+            if (!string.IsNullOrEmpty(objectUrlActual))
+            {
+                await JS.InvokeVoidAsync("URL.revokeObjectURL", objectUrlActual);
+            }
+
+            using var streamRef = new DotNetStreamReference(stream: responseStream);
+            objectUrlActual = await JS.InvokeAsync<string>("blazorCreateObjectURL", streamRef);
+            urlDocumentoActual = objectUrlActual;
+        }
+        catch
+        {
+            archivoNoDisponible = true;
+            urlDocumentoActual = string.Empty;
+        }
+        finally
+        {
+            estaCargandoArchivo = false;
+            StateHasChanged();
+        }
+    }
+
+    private async void CerrarModalDocumentos()
+    {
+        if (!string.IsNullOrEmpty(objectUrlActual))
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("URL.revokeObjectURL", objectUrlActual);
+            }
+            catch { }
+            objectUrlActual = null;
+        }
+
+        mostrarModalDocumentos = false;
+        urlDocumentoActual = "";
+        tipoVisualizacion = "";
+        listaAnexosModal.Clear();
+    }
 }

@@ -129,7 +129,6 @@ C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\staticwebas
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\swae.build.ex.cache
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\MesaPartesDigital.Front.dll
 C:\Users\cmora\source\repos\MesaPartesDigital.Front\obj\Debug\net8.0\refint\MesaPartesDigital.Front.dll

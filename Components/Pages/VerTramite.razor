@@ -102,128 +102,121 @@
                 </div>
             </div>
 
-            <!-- Documento Adjunto (Solo Visualización) -->
+            <!-- Módulo Unificado de Visualización de Documentos -->
             <div class="ux-card-form">
-                <h2>Documento Adjunto</h2>
-                <p class="text-muted mb-3" style="font-size: 0.9rem;">Visualice el documento principal registrado en el sistema</p>
+                <h2>Gestión de Documentos Adjuntos</h2>
 
-                <div class="form-grid-t">
-                    @if (!string.IsNullOrEmpty(tramite?.RutaDocumento))
-                    {
-                        <div class="form-group-t span-two">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="ux-file-info fw-semibold text-secondary d-flex align-items-center gap-2" style="margin-bottom: 0;">
-                                    📂 <span>Documento registrado en el sistema</span>
-                                </div>
-                                <a href="@GetApiUrl(tramite.iCodAsunto)" target="_blank" class="ux-button-small text-decoration-none d-inline-flex align-items-center gap-1">
-                                    🔍 Ver en Pantalla Completa
-                                </a>
-                            </div>
-
-                            <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-light" style="width: 100%; height: 500px; border: 1px solid #ccc;">
-                                <object data="@GetApiUrl(tramite.iCodAsunto)" type="application/pdf" width="100%" height="100%">
-                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto bg-white">
-                                        <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
-                                            ⚠️
-                                        </div>
-                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
-                                        <p class="text-muted mb-4" style="max-width: 420px; font-size: 0.92rem; line-height: 1.5;">
-                                            El archivo físico no se encuentra disponible en el servidor.<br />
-                                            Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
-                                        </p>
-                                        <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-3 bg-light border shadow-sm" style="font-size: 0.9rem; color: #1e293b;">
-                                            <span style="font-size: 1.1rem;">📞</span>
-                                            <span>Soporte Técnico:</span>
-                                            <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
-                                        </div>
-                                    </div>
-                                </object>
-                            </div>
-                        </div>
-                    }
+                <div class="doc-header-section">
+                    <p class="text-muted mb-0">Navegación rápida y visualización de archivos asociados al trámite</p>
                 </div>
-            </div>
 
-            <!-- Anexos del Trámite (Solo Visualización) -->
-            <div class="ux-card-form">
-                <h2>Anexos del Trámite</h2>
+                <!-- GUÍA VISUAL -->
+                <div class="doc-guide-alert">
+                    <div class="doc-guide-title">
+                        <span>💡</span> <span>Guía de uso:</span>
+                    </div>
+                    <ul class="doc-guide-list">
+                        <li>Haga clic en cualquier tarjeta lateral para cargar el archivo en el visor principal.</li>
+                        <li>El estado <span class="doc-badge-active-tag">Activo</span> indica el documento que está visualizando ahora mismo.</li>
+                    </ul>
+                </div>
 
-                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Documentos Registrados</h3>
-                <div class="ux-table-wrapper" style="margin-bottom: 25px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
-                    <table class="ux-table" style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Nombre</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Tipo</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; text-align: right;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (listaAnexosRegistrados.Any())
+                <div class="row g-4">
+                    <!-- COLUMNA IZQUIERDA: LISTA DE ARCHIVOS DISPONIBLES -->
+                    <div class="col-md-4">
+                        <div class="doc-section-subtitle">Archivos Disponibles</div>
+                        <div class="doc-files-container">
+
+                            <!-- Documento Principal -->
+                            @if (!string.IsNullOrEmpty(tramite?.RutaDocumento))
                             {
+                                <button type="button" class="doc-file-card @(documentoSeleccionado == "principal" ? "active" : "")" @onclick="SeleccionarDocumentoPrincipal">
+                                    <div class="doc-file-info">
+                                        <div class="doc-file-title">📄 Documento Principal</div>
+                                        <small class="doc-file-desc">Solicitud inicial</small>
+                                    </div>
+                                    @if (documentoSeleccionado == "principal")
+                                    {
+                                        <span class="doc-badge-estado">Activo</span>
+                                    }
+                                </button>
+                            }
+
+                            <!-- Anexos Registrados -->
+                            @{
                                 int indexReg = 1;
-                                @foreach (var anexo in listaAnexosRegistrados)
-                                {
-                                    var nombreVisual = $"Anexo {indexReg++}";
-                                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 12px 16px; font-weight: 500; color: #1e293b;">@nombreVisual</td>
-                                        <td style="padding: 12px 16px;">
-                                            <span style="background-color: #ecfdf5; color: #059669; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">PDF</span>
-                                        </td>
-                                        <td style="padding: 12px 16px; text-align: right;">
-                                            <button class="ux-button-small" @onclick="() => VerDocumento(anexo)">
-                                                🔍 Ver
-                                            </button>
-                                        </td>
-                                    </tr>
-                                }
+                            }
+                            @foreach (var anexo in listaAnexosRegistrados)
+                            {
+                                var currentAnexo = anexo;
+                                var idAnexoStr = $"anexo_{currentAnexo.iCodDoc}";
+                                <button type="button" class="doc-file-card @(documentoSeleccionado == idAnexoStr ? "active" : "")" @onclick="() => SeleccionarAnexo(currentAnexo)">
+                                    <div class="doc-file-info">
+                                        <div class="doc-file-title">📎 Anexo @indexReg</div>
+                                        <small class="doc-file-desc">Documento adjunto</small>
+                                    </div>
+                                    @if (documentoSeleccionado == idAnexoStr)
+                                    {
+                                        <span class="doc-badge-estado">Activo</span>
+                                    }
+                                </button>
+                                indexReg++;
+                            }
+
+                            @if (string.IsNullOrEmpty(tramite?.RutaDocumento) && !listaAnexosRegistrados.Any())
+                            {
+                                <div class="p-4 text-center text-muted bg-white" style="font-size: 0.9rem;">
+                                    No hay documentos disponibles.
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA DERECHA: VISOR UNIFICADO -->
+                    <div class="col-md-8">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="fw-bold text-secondary" style="font-size: 0.95rem;">
+                                Visualizando: <span class="text-success fw-bold">@nombreDocumentoActivo</span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(urlVisorActual) && !archivoNoDisponible)
+                            {
+                                <a href="@urlVisorActual" target="_blank" class="doc-btn-fullscreen text-decoration-none d-inline-flex align-items-center gap-1">
+                                    🔍 Pantalla Completa
+                                </a>
+                            }
+                        </div>
+
+                        <div class="doc-pdf-preview-wrapper">
+                            @if (cargandoPdf)
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 bg-white">
+                                    <div class="spinner-border text-success mb-2" role="status"></div>
+                                    <span class="text-muted" style="font-size: 0.9rem;">Cargando documento adjunto...</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">Por favor espere unos segundos mientras se procesa el archivo.</small>
+                                </div>
+                            }
+                            else if (archivoNoDisponible || string.IsNullOrEmpty(urlVisorActual))
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 bg-white">
+                                    <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px; font-size: 2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
+                                        ⚠️
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-2" style="font-size: 1.15rem;">Documento no encontrado</h5>
+                                    <p class="text-muted mb-3" style="max-width: 380px; font-size: 0.88rem; line-height: 1.5;">
+                                        El archivo físico no se encuentra disponible en el servidor. Comuníquese con soporte.
+                                    </p>
+                                    <div class="p-2 px-3 rounded-3 bg-light border shadow-sm text-secondary" style="font-size: 0.8rem;">
+                                        📞 Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
+                                    </div>
+                                </div>
                             }
                             else
                             {
-                                <tr>
-                                    <td colspan="3" class="ux-empty" style="padding: 24px; text-align: center; color: #64748b; font-style: italic;">No hay anexos registrados.</td>
-                                </tr>
+                                <iframe src="@urlVisorActual" style="width: 100%; height: 100%; border: none;"></iframe>
                             }
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- MODAL VISOR DE PDF -->
-                @if (!string.IsNullOrEmpty(previewUrl))
-                {
-                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px);">
-                        <div style="background: white; width: 90%; max-width: 900px; height: 85vh; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden;">
-                            <div style="padding: 16px 24px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                                <h4 style="margin: 0; font-size: 1.1rem; color: #1e293b; font-weight: 600;">👁️ Vista Previa del Documento</h4>
-                                <button type="button" @onclick="CerrarPreview" style="background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer;">✕</button>
-                            </div>
-                            <div style="flex: 1; background: #f8fafc; position: relative; display: flex; align-items: center; justify-content: center;">
-                                @if (archivoNoDisponible)
-                                {
-                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 bg-white w-100">
-                                        <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
-                                            ⚠️
-                                        </div>
-                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
-                                        <p class="text-muted mb-4" style="max-width: 420px; font-size: 0.92rem; line-height: 1.5;">
-                                            El archivo físico no se encuentra disponible en el servidor.<br />
-                                            Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
-                                        </p>
-                                        <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-3 bg-light border shadow-sm" style="font-size: 0.9rem; color: #1e293b;">
-                                            <span style="font-size: 1.1rem;">📞</span>
-                                            <span>Soporte Técnico:</span>
-                                            <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
-                                }
-                            </div>
                         </div>
                     </div>
-                }
+                </div>
             </div>
 
             <!-- Botón de Retorno Global -->
@@ -237,16 +230,42 @@
 @code {
     [Parameter] public int idAsunto { get; set; }
     private AsuntoEdicionDto? tramite;
-    private List<TipoDocumento> listaTiposDocumento = new();
+    private List<TipoDocumento> listaTiposDocumento = new(); 
     private List<AnexoDto> listaAnexosRegistrados = new();
-    private string? previewUrl;
+
+    // Variables de control para el visor unificado de dos columnas
+    private string documentoSeleccionado = "principal";
+    private string nombreDocumentoActivo = "Documento Principal";
+    private string? urlVisorActual;
+    private bool cargandoPdf = false;
     private bool archivoNoDisponible = false;
+    private string error = "";
 
     protected override async Task OnInitializedAsync()
     {
-        tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
-        listaTiposDocumento = await Http.GetFromJsonAsync<List<TipoDocumento>>("api/documentos/tipos-documento");
-        await CargarAnexos();
+        try
+        {
+            tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
+            listaTiposDocumento = await Http.GetFromJsonAsync<List<TipoDocumento>>("api/documentos/tipos-documento");
+
+            await CargarAnexos();
+
+            // Por defecto seleccionamos y cargamos el documento principal si existe
+            if (tramite != null && !string.IsNullOrEmpty(tramite.RutaDocumento))
+            {
+                await SeleccionarDocumentoPrincipal();
+            }
+            else if (listaAnexosRegistrados.Any())
+            {
+                // Si no hay principal pero hay anexos, seleccionamos el primero por defecto
+                await SeleccionarAnexo(listaAnexosRegistrados.First());
+            }
+        }
+        catch (Exception ex)
+        {
+            error = "No se pudieron cargar los datos iniciales del trámite.";
+            Console.WriteLine($"[Error Init]: {ex.Message}");
+        }
     }
 
     private async Task CargarAnexos()
@@ -254,45 +273,70 @@
         listaAnexosRegistrados = await Http.GetFromJsonAsync<List<AnexoDto>>($"api/documentos/listar-anexos/{idAsunto}") ?? new();
     }
 
-    private string GetApiUrl(int id)
+    // Método para seleccionar y cargar el Documento Principal
+    private async Task SeleccionarDocumentoPrincipal()
     {
+        documentoSeleccionado = "principal";
+        nombreDocumentoActivo = "Documento Principal";
+
+        if (tramite == null) return;
+
         var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
-        return $"{baseUrl}api/documentos/ver-archivo/{id}";
+        var urlEndpoint = $"{baseUrl}api/documentos/ver-archivo/{tramite.iCodAsunto}";
+
+        await CargarPdfEnVisor(urlEndpoint);
     }
 
-    private async Task VerDocumento(AnexoDto anexo)
+    // Método para seleccionar y cargar un Anexo específico
+    private async Task SeleccionarAnexo(AnexoDto anexo)
     {
+        documentoSeleccionado = $"anexo_{anexo.iCodDoc}";
+
+        // Calcular el número del anexo según su posición en la lista para mostrarlo ordenado
+        int index = listaAnexosRegistrados.FindIndex(a => a.iCodDoc == anexo.iCodDoc) + 1;
+        nombreDocumentoActivo = $"Anexo {index}";
+
         var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
         if (!baseUrl.EndsWith("/")) baseUrl += "/";
-        var url = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
+        var urlEndpoint = $"{baseUrl}api/documentos/ver-archivo-anexo/{anexo.iCodDoc}";
 
+        await CargarPdfEnVisor(urlEndpoint);
+    }
+
+    // Lógica general reutilizable para descargar bytes, validar PDF y generar Blob URL para el iframe
+    private async Task CargarPdfEnVisor(string url)
+    {
         try
         {
-            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Click Ver anexo. iCodDoc={anexo.iCodDoc}");
-            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] GET {url}");
+            cargandoPdf = true;
+            archivoNoDisponible = false;
+            StateHasChanged();
 
-            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
+            // Limpiar blob anterior si existe para evitar fugas de memoria
+            if (!string.IsNullOrWhiteSpace(urlVisorActual) && urlVisorActual.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
             {
-                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
-                previewUrl = null;
+                try
+                {
+                    await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Liberando Blob anterior: {urlVisorActual}");
+                    await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", urlVisorActual);
+                }
+                catch (Exception exRevoke)
+                {
+                    await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV VERTRAMITE] No se pudo liberar Blob: {exRevoke.Message}");
+                }
+                urlVisorActual = null;
             }
 
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] GET {url}");
             using var response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-
-            var contentType = response.Content.Headers.ContentType?.MediaType ?? "(sin Content-Type)";
-            var contentLength = response.Content.Headers.ContentLength;
-
-            await JSRuntime.InvokeVoidAsync(
-                "console.log",
-                $"[MPV VERTRAMITE] Respuesta HTTP {(int)response.StatusCode} {response.StatusCode} | Content-Type: {contentType} | Content-Length: {contentLength?.ToString() ?? "desconocido"}");
 
             if (!response.IsSuccessStatusCode)
             {
                 var detalle = await response.Content.ReadAsStringAsync();
                 await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] API devolvió error: {detalle}");
                 archivoNoDisponible = true;
-                previewUrl = "ERROR_FILE_NOT_FOUND";
+                urlVisorActual = null;
                 return;
             }
 
@@ -300,8 +344,13 @@
             await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Bytes recibidos: {bytes.Length}");
 
             if (bytes.Length == 0)
-                throw new InvalidOperationException("La API respondió correctamente pero devolvió un archivo vacío.");
+            {
+                archivoNoDisponible = true;
+                urlVisorActual = null;
+                return;
+            }
 
+            // Validación de la firma de cabecera PDF (%PDF-)
             bool firmaPdf = bytes.Length >= 5 &&
                             bytes[0] == (byte)'%' &&
                             bytes[1] == (byte)'P' &&
@@ -313,47 +362,28 @@
 
             if (!firmaPdf)
             {
-                var texto = System.Text.Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 500));
-                await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] La respuesta no parece PDF. Inicio de respuesta: {texto}");
                 archivoNoDisponible = true;
-                previewUrl = "ERROR_FILE_NOT_FOUND";
+                urlVisorActual = null;
                 return;
             }
 
             using var memoryStream = new MemoryStream(bytes, writable: false);
             using var streamRef = new DotNetStreamReference(memoryStream);
 
-            previewUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
+            urlVisorActual = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
             archivoNoDisponible = false;
-
-            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Blob creado correctamente: {previewUrl}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Blob creado correctamente: {urlVisorActual}");
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] ERROR VerDocumento: {ex}");
+            await JSRuntime.InvokeVoidAsync("console.error", $"[MPV VERTRAMITE] ERROR CargarPdfEnVisor: {ex}");
             archivoNoDisponible = true;
-            previewUrl = "ERROR_FILE_NOT_FOUND";
-        }
-    }
-
-    private async Task CerrarPreview()
-    {
-        try
-        {
-            if (!string.IsNullOrWhiteSpace(previewUrl) && previewUrl.StartsWith("blob:", StringComparison.OrdinalIgnoreCase))
-            {
-                await JSRuntime.InvokeVoidAsync("console.log", $"[MPV VERTRAMITE] Liberando Blob: {previewUrl}");
-                await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", previewUrl);
-            }
-        }
-        catch (Exception ex)
-        {
-            await JSRuntime.InvokeVoidAsync("console.warn", $"[MPV VERTRAMITE] No se pudo liberar Blob: {ex.Message}");
+            urlVisorActual = null;
         }
         finally
         {
-            previewUrl = string.Empty;
-            archivoNoDisponible = false;
+            cargandoPdf = false;
+            StateHasChanged();
         }
     }
 

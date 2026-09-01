@@ -374,3 +374,169 @@
         align-items: flex-start;
     }
 }
+
+
+
+
+
+
+/* ==========================================================================
+   ESTILOS MODERNOS PARA GESTIÓN DE DOCUMENTOS ADJUNTOS
+   ========================================================================== */
+
+.ux-card-form-doc {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 15px -4px rgba(0, 0, 0, 0.03);
+}
+
+.doc-header-section h2 {
+    margin: 0 0 6px 0;
+    color: #0f172a;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Guía visual con tonos institucionales suaves */
+.doc-guide-alert {
+    background: #e6f4ea;
+    border: 1px solid rgba(12, 124, 59, 0.15);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 24px 0;
+}
+
+.doc-guide-title {
+    font-weight: 700;
+    color: #0c7c3b;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doc-guide-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+    .doc-guide-list li + li {
+        margin-top: 4px;
+    }
+
+.doc-badge-active-tag {
+    background-color: #0c7c3b;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.doc-section-subtitle {
+    font-weight: 700;
+    color: #334155;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+/* Contenedor de la lista de archivos estilo tarjeta lateral */
+.doc-files-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.doc-file-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+}
+
+    .doc-file-card:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px -4px rgba(15, 23, 42, 0.05);
+    }
+
+.doc-file-title {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.doc-file-desc {
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+/* Estado Activo (Foco en Verde Esmeralda Institucional) */
+.doc-file-card.active {
+    border-color: #0c7c3b;
+    border-width: 2px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px -6px rgba(12, 124, 59, 0.15);
+}
+
+    .doc-file-card.active .doc-file-title {
+        color: #0c7c3b;
+    }
+
+    .doc-file-card.active .doc-file-desc {
+        color: #475569;
+    }
+
+.doc-badge-estado {
+    background-color: #e6f4ea;
+    color: #0c7c3b;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* Visor PDF y controles */
+.doc-pdf-preview-wrapper {
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.doc-btn-fullscreen {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+    .doc-btn-fullscreen:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+    }

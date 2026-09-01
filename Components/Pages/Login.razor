@@ -8,6 +8,8 @@
 @inject IJSRuntime JS
 @inject MesaPartesDigital.Services.SessionService SessionService
 @inject Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage.ProtectedSessionStorage SessionStorage
+@inject Services.SessionService SessionService
+@inject NavigationManager Nav
 
 <PageTitle>Mesa de Partes Virtual - Iniciar Sesión</PageTitle>
 
@@ -98,11 +100,14 @@
                     </button>
                 </EditForm>
 
-                <div class="neo-actions-footer">
+                <RecuperarClave>
+
+                </RecuperarClave>
+                @* <div class="neo-actions-footer">
                     <button type="button" class="neo-link-btn" @onclick="ProcesarRecuperacionClave" disabled="@isProcessing">
-                        ¿Olvidaste tu contraseña? Genera una nueva
+                        ¿Problemas para iniciar sesión? Crea una clave nueva
                     </button>
-                </div>
+                </div> *@
 
             </div>
         </section>
@@ -112,6 +117,20 @@
 
 
 @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Aseguramos que se lea el estado actual desde el almacenamiento del navegador
+            await SessionService.InitializeAsync();
+
+            // Si ya hay una sesión activa, lo sacamos del login y lo mandamos a sus trámites
+            if (SessionService.UserSession != null)
+            {
+                Nav.NavigateTo("/Tramitar", forceLoad: false);
+            }
+        }
+    }
 
     private LoginDto loginModel = new();
     private string mensajeAlert = string.Empty;
@@ -129,14 +148,10 @@
             var resultado = await response.Content.ReadFromJsonAsync<LoginResultDto>();
 
             if (resultado?.Exitoso == true)
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(resultado);
-
-                // Guardamos en el navegador
-                await JS.InvokeVoidAsync("localStorage.setItem", "user_session", json);
-
-                // Actualizamos el servicio en memoria
-                SessionService.UserSession = resultado;
+            { 
+                // Actualizamos el servicio en memoria y guardamos en localStorage de forma limpia
+                SessionService.SetSession(resultado);
+                await JS.InvokeVoidAsync("localStorage.setItem", "user_session", System.Text.Json.JsonSerializer.Serialize(resultado));
 
                 Ir($"/Tramitar");
             }

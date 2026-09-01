@@ -71,10 +71,12 @@
                         <label>Correo de Seguimiento</label>
                         <input type="email" class="form-control-t" @bind="tramite.CorreoTramite" style="text-transform: uppercase;" />
                     </div>
-                    <div class="form-group-t">
+
+                    @* <div class="form-group-t">
                         <label>Dependencia</label>
                         <input type="text" class="form-control-t" value="@tramite.NombreDependencia" disabled />
-                    </div>
+                    </div> *@
+
                     <div class="form-group-t">
                         <label>Estado Actual</label>
                         <div class="estado-display">@tramite.EstadoTramite</div>
@@ -143,107 +145,122 @@
             <!-- Documento Adjunto -->
             <div class="ux-card-form">
                 <h2>Documento Adjunto</h2>
-                <p class="text-muted mb-3" style="font-size: 0.9rem;">Revise el documento actual o seleccione uno nuevo para reemplazarlo</p>
+                <p class="text-muted mb-4" style="font-size: 0.9rem;">Gestione el documento principal y cargue una versión de subsanación de ser necesario.</p>
 
-                <!-- GUÍA VISUAL PASO A PASO -->
-                <div class="alert alert-primary bg-primary-subtle border-0 p-3.5 rounded-3 mb-4" style="font-size: 0.9rem; line-height: 1.6;">
-                    <div class="fw-bold text-primary mb-2 d-flex align-items-center gap-2" style="font-size: 1rem;">
-                        <span>💡</span> <span>¿Cómo cambiar su documento?</span>
+                <!-- GUÍA VISUAL -->
+                <div class="p-3 rounded-4 mb-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0; font-size: 0.88rem; color: #475569;">
+                    <div class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                        <span>💡</span> <span>Panel de Control de Expediente:</span>
                     </div>
-                    <ol class="mb-0 ps-3 text-secondary" style="font-weight: 500;">
-                        <li class="mb-1"><strong>Ver documento:</strong> Revise el archivo registrado abajo o ábralo en pantalla completa.</li>
-                        <li class="mb-1"><strong>Reemplazar:</strong> Si desea cambiarlo, haga clic en <strong>"📁 Seleccionar Nuevo PDF"</strong>.</li>
-                        <li><strong>Guardar:</strong> Pulse el botón inferior <strong>"Actualizar Documento Adjunto"</strong> para confirmar.</li>
-                    </ol>
+                    La columna izquierda le permite revisar el estado actual y adjuntar archivos nuevos, los cuales se previsualizan instantáneamente a la derecha.
                 </div>
 
-                <div class="form-grid-t">
-                    <div class="form-group-t span-two upload-container text-center p-4 rounded-4 border-2 border-dashed bg-light" style="border-color: #cbd5e1 !important;">
-                        <label for="fileUpload" class="ux-button-small file-label-btn d-inline-flex align-items-center gap-2 mb-2" style="cursor: pointer; font-size: 1rem;">
-                            📁 Seleccionar Nuevo PDF
-                        </label>
-                        <InputFile OnChange="OnFileSelected" accept=".pdf" id="fileUpload" class="hidden-input" style="display: none;" />
+                <!-- CONTENEDOR 2 COLUMNAS -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
 
-                        <span class="ux-file-hint text-muted d-block" style="font-size: 0.85rem;">
-                            (Peso máximo: <strong>50MB</strong>. Solo formato <strong>PDF</strong>)
-                        </span>
-                    </div>
+                    <!-- COLUMNA IZQUIERDA -->
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
 
-                    @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
-                    {
-                        <div class="form-group-t span-two">
-                            <div class="file-selected-alert d-flex justify-content-between align-items-center p-3 rounded-3 bg-success-subtle text-success border border-success-subtle mb-3">
-                                <span>✅ <strong>@archivo.Nombre</strong> (Nuevo archivo seleccionado)</span>
-                                <button type="button" class="btn-quitar-archivo btn btn-sm btn-outline-danger fw-bold" @onclick="RemoverArchivoNuevo">✕ Quitar</button>
+                        <!-- DOCUMENTO ACTUAL -->
+                        <div class="p-4 rounded-4 bg-white border shadow-sm" style="border-color: #e2e8f0 !important;">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="fw-bold text-dark" style="font-size: 0.95rem;">📂 Documento Principal</span>
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size: 0.72rem;">Registrado</span>
                             </div>
+                            @if (!string.IsNullOrEmpty(tramite?.RutaDocumento))
+                            {
+                                <p class="text-muted mb-0" style="font-size: 0.85rem;">El archivo se encuentra sincronizado y cargado en el visor derecho.</p>
+                            }
+                            else
+                            {
+                                <span class="text-muted" style="font-size: 0.85rem;">Sin archivo principal en servidor.</span>
+                            }
                         </div>
 
-                        <div class="form-group-t span-two">
-                            <div class="fw-bold text-secondary mb-2" style="font-size: 0.95rem;">👁️ Vista previa del nuevo archivo:</div>
-                            <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-dark" style="height: 450px; border-color: #cbd5e1 !important;">
-                                <iframe src="@pdfPreviewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
-                            </div>
+                        <!-- ZONA DE CARGA -->
+                        <div class="upload-container text-center p-4 rounded-4 bg-white border border-2 shadow-sm" style="border-style: dashed !important; border-color: #cbd5e1 !important;">
+                            <div class="mb-2 text-primary" style="font-size: 1.8rem;">📤</div>
+                            <label for="fileUpload" class="ux-button-small file-label-btn d-inline-flex align-items-center gap-2 mb-2 shadow-sm cursor-pointer" style="font-size: 0.9rem;">
+                                Seleccionar Archivo Subsanado
+                            </label>
+                            <InputFile OnChange="OnFileSelected" accept=".pdf" id="fileUpload" class="hidden-input" style="display: none;" />
+                            <span class="text-muted d-block" style="font-size: 0.78rem;">Formato PDF • Máx. 50MB</span>
                         </div>
-                    }
-                    else if (!string.IsNullOrEmpty(tramite?.RutaDocumento))
-                    {
-                        <div class="form-group-t span-two">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="ux-file-info fw-semibold text-secondary d-flex align-items-center gap-2" style="margin-bottom: 0;">
-                                    📂 <span>Documento actual registrado en el sistema</span>
+
+                        <!-- ARCHIVO NUEVO / SUBSANADO (Aparece dinámicamente debajo) -->
+                        @if (archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0)
+                        {
+                            <div class="p-3 rounded-4 bg-success bg-opacity-10 border border-success border-opacity-25 shadow-sm animate-fade-in">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="badge bg-success text-white" style="font-size: 0.72rem;">Nuevo Subsanado</span>
+                                    <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none fw-bold p-0" style="font-size: 0.8rem;" @onclick="RemoverArchivoNuevo">✕ Quitar</button>
                                 </div>
-                                @if (!string.IsNullOrEmpty(pdfActualBlobUrl))
-                                {
-                                    <a href="@pdfActualBlobUrl"
-                                       target="_blank" class="ux-button-small text-decoration-none d-inline-flex align-items-center gap-1">
-                                        🔍 Ver en Pantalla Completa
-                                    </a>
-                                }
+                                @* <div class="fw-bold text-success text-truncate" style="font-size: 0.88rem;" title="@archivo.Nombre">
+                                    📄 @archivo.Nombre
+                                </div> *@
+                                <div class="fw-bold text-success text-truncate" style="font-size: 0.88rem;" title="@archivo.Nombre">
+                                    📄 Documento Subsanado
+                                </div>
                             </div>
+                        }
 
-                            <div class="ux-pdf-preview rounded-4 overflow-hidden shadow-sm border bg-light" style="width: 100%; height: 500px; border: 1px solid #ccc; background: #f9f9f9;">
-                                @if (cargandoPdfActual)
-                                {
-                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 bg-white">
-                                        <div class="spinner-border text-primary mb-2" role="status"></div>
-                                        <span class="text-muted" style="font-size: 0.9rem;">Cargando documento actual...</span>
-                                    </div>
-                                }
-                                else if (!string.IsNullOrEmpty(pdfActualBlobUrl))
-                                {
-                                    <iframe src="@pdfActualBlobUrl" style="width: 100%; height: 100%; border: none;"></iframe>
-                                }
-                                else
-                                {
-                                    <!-- DISEÑO INSTITUCIONAL DE ERROR EN OBJETO PRINCIPAL -->
-                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto bg-white">
-                                        <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
-                                            ⚠️
-                                        </div>
-                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
-                                        <p class="text-muted mb-4" style="max-width: 400px; font-size: 0.92rem; line-height: 1.5;">
-                                            El archivo físico no se encuentra disponible en el servidor. Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
-                                        </p>
-                                        <div class="p-3 rounded-3 bg-light border shadow-sm d-inline-flex align-items-center gap-2 text-secondary mb-3" style="font-size: 0.85rem; border-color: #e2e8f0 !important;">
-                                            <span>📞</span> Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
-                                        </div>
-                                    </div>
-                                }
+                        @if (!string.IsNullOrEmpty(error))
+                        {
+                            <div class="alert alert-danger bg-danger bg-opacity-10 text-danger border-0 p-3 rounded-4 mb-0" style="font-size: 0.85rem;">
+                                @error
                             </div>
+                        }
+                    </div>
+
+                    <!-- COLUMNA DERECHA: VISOR -->
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                            <span class="fw-bold text-dark" style="font-size: 0.95rem;">Visualizando:</span>
+                            @if (!string.IsNullOrEmpty(pdfActualBlobUrl) && !cargandoPreview && !mostrarErrorModal)
+                            {
+                                @* <a href="@pdfActualBlobUrl" target="_blank" class="text-decoration-none text-primary fw-semibold" style="font-size: 0.8rem;">
+                                    Pantalla Completa ↗
+                                </a> *@
+                                <a href="@pdfActualBlobUrl" target="_blank" class="ux-button-small" style="font-size: 0.8rem; padding: 4px 10px; text-decoration: none;">
+                                    🔗 Pantalla Completa
+                                </a>
+                            }
                         </div>
-                    }
-                    @if (!string.IsNullOrEmpty(error))
-                    {
-                        <div class="form-group-t span-two">
-                            <div class="alert alert-danger bg-danger-subtle text-danger border-0 p-3 rounded-3" style="font-size: 0.9rem;">
-                                <strong>⚠️ Atención:</strong> @error
-                            </div>
+
+                        <div class="rounded-4 overflow-hidden shadow-sm border bg-dark" style="width: 100%; height: 520px; border-color: #e2e8f0 !important;">
+                            @if (cargandoPreview)
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 bg-white w-100">
+                                    <div class="spinner-border text-primary mb-2" role="status"></div>
+                                    <span class="text-muted" style="font-size: 0.9rem;">Cargando documento...</span>
+                                </div>
+                            }
+                            else if (mostrarErrorModal)
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-4 bg-white w-100">
+                                    <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 60px; height: 60px; font-size: 1.8rem;">⚠️</div>
+                                    <h6 class="fw-bold text-dark mb-1">Archivo no disponible</h6>
+                                    <p class="text-muted mb-2" style="font-size: 0.82rem;">No se encontró el archivo físico en el servidor.</p>
+                                    <span class="text-secondary" style="font-size: 0.75rem;">Soporte: (01) 2058030 Anexo 0105</span>
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(pdfPreviewUrl) || !string.IsNullOrEmpty(pdfActualBlobUrl))
+                            {
+                                <iframe src="@(archivo != null && archivo.Contenido != null && archivo.Contenido.Length > 0 ? pdfPreviewUrl : pdfActualBlobUrl)" style="width: 100%; height: 100%; border: none;"></iframe>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-4 bg-white w-100 text-muted" style="font-size: 0.88rem;">
+                                    Seleccione un documento para visualizarlo.
+                                </div>
+                            }
                         </div>
-                    }
+                    </div>
+
                 </div>
 
-                <div class="ux-actions-section">
-                    <button class="ux-button-small" @onclick="ActualizarDocumentoAdjunto">
+                <div class="ux-actions-section mt-4 pt-3 border-top">
+                    <button class="ux-button-small shadow-sm" @onclick="ActualizarDocumentoAdjunto">
                         Actualizar Documento Adjunto
                     </button>
                 </div>
@@ -254,10 +271,10 @@
                 <h2>Anexos del Trámite</h2>
 
                 <!-- LEYENDA Y GUÍA RÁPIDA -->
-                <div class="alert alert-success bg-success-subtle border-0 p-3.5 rounded-3 mb-3" style="font-size: 0.9rem; line-height: 1.5;">
+                <div class="alert alert-success bg-success-subtle border-0 p-3.5 rounded-3 mb-4" style="font-size: 0.9rem; line-height: 1.5;">
                     <div class="fw-bold text-success mb-1" style="font-size: 0.95rem;">💡 Leyenda y Guía de Anexos:</div>
                     <ul class="mb-0 ps-3 text-secondary" style="font-weight: 500;">
-                        <li><strong>🔍 Ver:</strong> Abre el documento PDF en una ventana flotante para revisarlo.</li>
+                        <li><strong>🔍 Ver / Activo:</strong> Seleccione cualquier tarjeta para previsualizar el documento en el panel derecho.</li>
                         <li><strong>✕ Eliminar / Quitar:</strong> Retira el archivo del expediente o de la lista de pendientes.</li>
                     </ul>
                 </div>
@@ -274,161 +291,169 @@
                                    OnChange="HandleFilesSelected"
                                    style="display: none;" />
 
-                        <div class="ux-file-hint text-muted d-block" style="font-size: 0.85rem;">
+                        <div class="ux-file-hint text-muted d-block mt-2" style="font-size: 0.85rem;">
                             (Peso máximo por archivo: <strong>20MB</strong> | Formato: <strong>PDF</strong> | Máximo: <strong>10 anexos</strong>)
                         </div>
 
                         @if (!string.IsNullOrEmpty(errorArchivo))
                         {
-                            <div class="ux-error mt-2" style="color: #dc3545; font-size: 0.9rem;">
+                            <div class="ux-error mt-3 p-2.5 rounded-lg text-start" style="color: #dc3545; background-color: #f8d7da; border: 1px solid #f5c6cb; font-size: 0.9rem;">
                                 <strong>⚠️ ¡Atención!</strong> @errorArchivo
                             </div>
                         }
                     </div>
                 </div>
 
-                <!-- TABLA 1: ANEXOS REGISTRADOS -->
-                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Documentos Ya Registrados</h3>
-                <div class="ux-table-wrapper" style="margin-bottom: 25px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <table class="ux-table" style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Nombre</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Tipo</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; text-align: right;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (listaAnexosRegistrados.Any())
-                            {
-                                int indexReg = 1;
-                                @foreach (var anexo in listaAnexosRegistrados)
+                <!-- CONTENEDOR PRINCIPAL EN DOS COLUMNAS (ESTILO VISOR) -->
+                <div style="display: grid; grid-template-columns: 350px 1fr; gap: 20px; align-items: start;">
+
+                    <!-- PANEL IZQUIERDO: LISTA DE TARJETAS DE ANEXOS -->
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+
+                        <!-- SECCIÓN 1: REGISTRADOS -->
+                        <div>
+                            <h3 style="font-size: 1rem; margin-bottom: 10px; color: #333; font-weight: 600;">Documentos Ya Registrados</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                @if (listaAnexosRegistrados != null && listaAnexosRegistrados.Any())
                                 {
-                                    var nombreVisual = $"Anexo {indexReg++}";
-                                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 12px 16px; font-weight: 500; color: #1e293b;">@nombreVisual</td>
-                                        <td style="padding: 12px 16px;">
-                                            <span style="background-color: #ecfdf5; color: #059669; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">PDF (Registrado)</span>
-                                        </td>
-                                        <td style="padding: 12px 16px; text-align: right;">
-                                            <div class="table-actions-group" style="display: inline-flex; gap: 8px;">
-                                                <button class="ux-button-small" @onclick="() => VerDocumento(anexo)">
-                                                    🔍 Ver
-                                                </button>
-                                                <button class="btn-delete" @onclick="() => EliminarAnexoRegistrado(anexo.iCodDoc, nombreVisual)">
-                                                    ✕ Eliminar
+                                    int indexReg = 1;
+                                    @foreach (var anexo in listaAnexosRegistrados)
+                                    {
+                                        var nombreVisual = $"Anexo {indexReg++}";
+                                        var esActivo = anexoSeleccionadoRegistrado?.iCodDoc == anexo.iCodDoc;
+
+                                        <div @onclick="() => SeleccionarAnexoRegistrado(anexo)"
+                                             style="padding: 12px 16px; background: @(esActivo ? "#f0fdf4" : "#ffffff"); border: 1px solid @(esActivo ? "#10b981" : "#e2e8f0"); border-radius: 10px; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <span style="font-size: 1.2rem;">📄</span>
+                                                <div>
+                                                    <div style="font-weight: 600; color: #1e293b; font-size: 0.9rem;">@nombreVisual</div>
+                                                    <span style="font-size: 0.75rem; color: #059669; font-weight: 500;">PDF (Registrado)</span>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; align-items: center; gap: 6px;">
+                                                @if (esActivo)
+                                                {
+                                                    <span style="background: #059669; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;">Activo</span>
+                                                }
+                                                <button class="btn-delete" @onclick:stopPropagation="true" @onclick="() => EliminarAnexoRegistrado(anexo.iCodDoc, nombreVisual)" style="background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 0.9rem;" title="Eliminar">
+                                                    ✕
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="3" class="ux-empty" style="padding: 24px; text-align: center; color: #64748b; font-style: italic;">No hay documentos registrados en la base de datos.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- TABLA 2: NUEVOS ANEXOS A SUBIR -->
-                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #333;">Nuevos Anexos por Subir</h3>
-                <div class="ux-table-wrapper" style="border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <table class="ux-table" style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; width: 60px;">#</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Nombre de Archivo</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569;">Tipo</th>
-                                <th style="padding: 12px 16px; font-weight: 600; color: #475569; text-align: right;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (archivosNuevos.Any())
-                            {
-                                int indexNuevo = 1;
-                                @foreach (var archi in archivosNuevos)
-                                {
-                                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 12px 16px; color: #64748b;">@indexNuevo</td>
-                                        <td style="padding: 12px 16px; font-weight: 500; color: #1e293b;">
-                                            @archi.Nombre
-                                            <span style="background-color: #eff6ff; color: #1d4ed8; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px;">Nuevo</span>
-                                        </td>
-                                        <td style="padding: 12px 16px; color: #64748b;">PDF</td>
-                                        <td style="padding: 12px 16px; text-align: right;">
-                                            <button class="ux-button-small" @onclick="() => VerPreviewAnexoLocal(archi)" style="margin-right: 6px;">
-                                                🔍 Ver
-                                            </button>
-                                            <button class="btn-delete" @onclick="() => EliminarArchivoLocal(archi)">
-                                                ✕ Quitar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    indexNuevo++;
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="4" class="ux-empty" style="padding: 24px; text-align: center; color: #64748b; font-style: italic;">No hay nuevos archivos seleccionados.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- MODAL / VENTANA EMERGENTE INTELIGENTE PARA EL VISOR DE PDF -->
-                @if (!string.IsNullOrEmpty(previewUrl))
-                {
-                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px);">
-                        <div style="background: white; width: 90%; max-width: 900px; height: 85vh; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
-
-                            <!-- Cabecera del Modal -->
-                            <div style="padding: 16px 24px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                                <h4 style="margin: 0; font-size: 1.1rem; color: #1e293b; font-weight: 600;">👁️ Vista Previa del Documento</h4>
-                                <div style="display: flex; gap: 10px; align-items: center;">
-                                    @if (!mostrarErrorModal)
-                                    {
-                                        <a href="@previewUrl" target="_blank" class="ux-button-small" style="font-size: 0.85rem; padding: 6px 12px; text-decoration: none;">
-                                            🔗 Abrir en pestaña completa
-                                        </a>
+                                        </div>
                                     }
-                                    <button type="button" @onclick="CerrarPreview" style="background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569;">✕</button>
-                                </div>
-                            </div>
-
-                            <!-- Contenido del Modal -->
-                            <div style="flex: 1; background: #f8fafc; position: relative; display: flex; flex-direction: column;">
-                                @if (mostrarErrorModal)
-                                {
-                                    <!-- DISEÑO INSTITUCIONAL DE ERROR EN MODAL (idéntico a tu segunda imagen) -->
-                                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5 my-auto bg-white">
-                                        <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 2.2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
-                                            ⚠️
-                                        </div>
-                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.25rem;">Documento no encontrado</h5>
-                                        <p class="text-muted mb-4" style="max-width: 400px; font-size: 0.92rem; line-height: 1.5;">
-                                            El archivo físico no se encuentra disponible en el servidor. Por favor, comuníquese con el <strong>área de soporte</strong> para mayor detalle.
-                                        </p>
-                                        <div class="p-3 rounded-3 bg-light border shadow-sm d-inline-flex align-items-center gap-2 text-secondary" style="font-size: 0.85rem; border-color: #e2e8f0 !important;">
-                                            <span>📞</span> Soporte Técnico: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
-                                        </div>
-                                    </div>
                                 }
                                 else
                                 {
-                                    <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none; flex-grow: 1;"></iframe>
+                                    <div style="padding: 16px; text-align: center; color: #64748b; font-style: italic; font-size: 0.85rem; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px;">
+                                        No hay documentos registrados.
+                                    </div>
                                 }
                             </div>
+                        </div>
 
+                        <!-- SECCIÓN 2: NUEVOS ANEXOS -->
+                        <div style="margin-top: 10px;">
+                            <h3 style="font-size: 1rem; margin-bottom: 10px; color: #333; font-weight: 600;">Nuevos Anexos por Subir</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                @if (archivosNuevos != null && archivosNuevos.Any())
+                                {
+                                    int indexNuevo = 1;
+                                    @foreach (var archi in archivosNuevos)
+                                    {
+                                        var esActivoNuevo = archivoSeleccionadoNuevo?.Nombre == archi.Nombre;
+
+                                        <div @onclick="() => SeleccionarAnexoNuevo(archi)"
+                                             style="padding: 12px 16px; background: @(esActivoNuevo ? "#eff6ff" : "#ffffff"); border: 1px solid @(esActivoNuevo ? "#3b82f6" : "#e2e8f0"); border-radius: 10px; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
+                                            <div style="display: flex; align-items: center; gap: 10px; overflow: hidden;">
+                                                <span style="font-size: 1.2rem;">📎</span>
+                                                <div style="overflow: hidden;">
+                                                    <div style="font-weight: 600; color: #1e293b; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="@archi.Nombre">@indexNuevo. @archi.Nombre</div>
+                                                    <span style="font-size: 0.7rem; color: #1d4ed8; background: #eff6ff; padding: 1px 6px; border-radius: 4px; font-weight: 600;">Nuevo PDF</span>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; align-items: center; gap: 6px;">
+                                                @if (esActivoNuevo)
+                                                {
+                                                    <span style="background: #2563eb; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;">Activo</span>
+                                                }
+                                                <button class="btn-delete" @onclick:stopPropagation="true" @onclick="() => EliminarArchivoLocal(archi)" style="background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 0.9rem;" title="Quitar">
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div style="padding: 16px; text-align: center; color: #64748b; font-style: italic; font-size: 0.85rem; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px;">
+                                        No hay nuevos archivos seleccionados.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- PANEL DERECHO: VISOR / PREVIEW INTEGRADO -->
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; height: 550px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <div style="padding: 14px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600; color: #1e293b; font-size: 0.95rem;">
+                                Visualizando: <span style="color: #059669;">@(tituloDocumentoActivo ?? "Ningún documento seleccionado")</span>
+                            </span>
+
+                            @if (!string.IsNullOrEmpty(previewUrl))
+                            {
+                                <a href="@previewUrl" target="_blank" class="ux-button-small" style="font-size: 0.8rem; padding: 4px 10px; text-decoration: none;">
+                                    🔗 Pantalla Completa
+                                </a>
+                            }
+                        </div>
+
+                        <div style="flex: 1; display: flex; align-items: center; justify-content: center; background: #f1f5f9; position: relative;">
+                            @if (cargandoPreview)
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-4 bg-white w-100">
+                                    <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-1" style="font-size: 1.05rem;">Cargando vista previa...</h5>
+                                    <p class="text-muted mb-0" style="font-size: 0.85rem;">Por favor, espere un momento.</p>
+                                </div>
+                            }
+                            else if (string.IsNullOrEmpty(previewUrl))
+                            {
+                                <div style="text-align: center; color: #64748b; padding: 20px;">
+                                    <div style="font-size: 2.5rem; margin-bottom: 10px;">📋</div>
+                                    <h5 style="font-size: 1rem; font-weight: 600; color: #334155; margin-bottom: 5px;">Seleccione un documento</h5>
+                                    <p style="font-size: 0.85rem; max-width: 250px; margin: 0 auto;">Haga clic en cualquiera de las tarjetas de la izquierda para cargarlo en el visor.</p>
+                                </div>
+                            }
+                            else if (mostrarErrorModal)
+                            {
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-4 bg-white w-100">
+                                    <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px; font-size: 2rem; border: 2px solid rgba(245, 158, 11, 0.2);">
+                                        ⚠️
+                                    </div>
+                                    <h5 class="fw-bold text-dark mb-2" style="font-size: 1.15rem;">Documento no encontrado</h5>
+                                    <p class="text-muted mb-3" style="max-width: 350px; font-size: 0.88rem; line-height: 1.4;">
+                                        El archivo físico no se encuentra disponible en el servidor. Comuníquese con el <strong>área de soporte</strong>.
+                                    </p>
+                                    <div class="p-2.5 rounded-3 bg-light border shadow-sm d-inline-flex align-items-center gap-2 text-secondary" style="font-size: 0.8rem; border-color: #e2e8f0 !important;">
+                                        <span>📞</span> Soporte: <strong class="text-dark">(01) 2058030 Anexo 0105</strong>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <iframe src="@previewUrl" style="width: 100%; height: 100%; border: none;"></iframe>
+                            }
                         </div>
                     </div>
-                }
-                
-                <div class="ux-actions-section" style="margin-top: 20px;">
+
+                </div>
+
+                <div class="ux-actions-section" style="margin-top: 25px;">
                     <button class="ux-button-small" @onclick="ActualizarDocumentoAnexos">
                         Subir Nuevos Anexos
                     </button>
@@ -443,30 +468,22 @@
         }
     </div>
 </div>
-
+ 
 
 @code {
-    
+
     [Parameter] public int idAsunto { get; set; }
     private AsuntoEdicionDto? tramite;
+    private List<TipoDocumento> listaTiposDocumento = new(); 
 
-    private List<TipoDocumento>
-    listaTiposDocumento = new(); 
+     
     protected override async Task OnInitializedAsync()
     {
         tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
         listaTiposDocumento = await Http.GetFromJsonAsync<List<TipoDocumento>>("api/documentos/tipos-documento");
-        await CargarAnexos();
+        await CargarAnexos();   
     }
-
-    // Clase auxiliar para capturar el resultado de SweetAlert2 en C#
-    public class SweetAlertResult
-    {
-        public bool IsConfirmed { get; set; }
-        public bool IsDenied { get; set; }
-        public bool IsDismissed { get; set; }
-    }
-
+     
     // **************************
     // Información del Expediente
     // **************************
@@ -474,7 +491,7 @@
     private bool isProcessing = false;
     private bool bloqueadoRazonSocial = true;
     private string rucErrorMsg;
-
+    
     private void OnRucInputChanged(ChangeEventArgs e)
     {
         tramite.RucTramite = e.Value?.ToString() ?? string.Empty;
@@ -487,7 +504,7 @@
             bloqueadoRazonSocial = false;
         }
     }
-
+    
     private async Task ValidarRuc()
     {
         if (string.IsNullOrWhiteSpace(tramite.RucTramite) || tramite.RucTramite.Length != 11)
@@ -527,166 +544,83 @@
             isProcessing = false;
         }
     }
-
+    
     private async Task ActualizarExpediente()
     {
-        // Lanzar SweetAlert2 de confirmación
-        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]
+
+        // 1. Lanzar SweetAlert2 de confirmación inicial para el expediente
+        var confirmResult = await SweetAlertHelper.MostrarModalConfirmacionAsync(
+            JSRuntime,
+            "Información del Expediente", // Título
+            "Mesa de Partes Virtual", //Sub Título
+            "¿Estás seguro de actualizar los datos correspondientes a este expediente?", // Mensaje Principal
+            "Sí, actualizar", // Botón accíón
+            "Actualizar datos del expediente", //Estado de la Selección
+            "Esta acción actualizará los datos. Podrás seguir editando o enviar el trámite al finalizar.", // Mensaje Secundario
+            "📄" // Ícono 
+        );
+
+        if (!confirmResult.IsConfirmed) return;
+
+        try
         {
-            new
-            {
-                html = $@"
-                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                        <!-- Cabecera con Icono -->
-                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                            <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                📁
-                            </div>
-                            <div>
-                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Información del Expediente</h3>
-                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                            </div>
-                        </div>
-
-                        <!-- Descripción -->
-                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                            ¿Estás seguro de actualizar los datos correspondientes a este expediente?
-                        </p>
-
-                        <!-- Tarjeta de Confirmación -->
-                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                            <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                <span style='color: #64748b;'>Acción del sistema:</span>
-                                <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Modificar expediente</span>
-                            </div>
-                        </div>
-
-                        <!-- Nota de ayuda -->
-                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                            <span>📌</span>
-                            <span>Esta acción guardará los cambios realizados de forma permanente.</span>
-                        </div>
-                    </div>
-                ",
-                showCancelButton = true,
-                showConfirmButton = true,
-                confirmButtonText = "Sí, actualizar",
-                cancelButtonText = "Cancelar",
-                confirmButtonColor = "#1e293b",
-                cancelButtonColor = "#64748b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            }
-        });
-
-        // Verificamos si el usuario hizo clic en confirmar
-        if (confirmResult.IsConfirmed)
-        {
-            Console.WriteLine("[DEBUG] Parámetros a actualizar enviados al API:");
-            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(tramite));
-
             var response = await Http.PutAsJsonAsync("api/documentos/actualizar-datos-expediente", tramite);
 
             if (response.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                // 2. Alerta de éxito con los dos botones de decisión
+                var successResult = await SweetAlertHelper.MostrarModalExitoAccionAsync(
+                    JSRuntime,
+                    "¡Expediente Actualizado!", // Título
+                    "Mesa de Partes Virtual", //Sub Título
+                    "Los datos del expediente se guardaron correctamente. ¿Deseas enviar el trámite para levantar la observación o prefieres seguir editando?", // Mensaje Principal
+                    "Guardado parcial", //Estado de la Selección
+                    "Enviar Trámite Subsanado", // Botón accíón
+                    "Seguir editando",
+                    "Esta acción actualizará los datos. Podrás seguir editando o enviar el trámite al finalizar.", // Mensaje Secundario                    
+                    "📄" // Ícono
+                );
+
+                // 3. Evaluamos la decisión del usuario
+                if (successResult.IsConfirmed)
                 {
-                    html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                        📁
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Expediente Actualizado!</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                    </div>
-                                </div>
-
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    Los datos del expediente se actualizaron correctamente en el sistema.
-                                </p>
-
-                                <!-- Tarjeta de Éxito -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado de la operación:</span>
-                                        <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>📌</span>
-                                    <span>Los cambios ya se encuentran guardados en el expediente.</span>
-                                </div>
-                            </div>
-                        ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Continuar",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                    // Dispara directamente tu función de ActualizarEstado() (la que cambia el estado y levanta la observación)
+                    await ActualizarEstado();
+                }
+                else if (successResult.IsDenied)
+                {
+                    // Simplemente se queda en la vista actual para seguir editando otros módulos
+                    Console.WriteLine("[DEBUG] El usuario optó por seguir editando.");
+                }
             }
             else
             {
                 string errorDetails = await response.Content.ReadAsStringAsync();
-                // Imprime el error completo en la consola del navegador (F12)
-                Console.WriteLine($"[ERROR API] Código: {response.StatusCode} - Detalle: {errorDetails}");
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                        📁❌
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Actualización</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                    </div>
-                                </div>
-
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    Lo sentimos, no se pudo actualizar el expediente en este momento.
-                                </p>
-
-                                <!-- Tarjeta de Error -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado de la operación:</span>
-                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>💡</span>
-                                    <span>Por favor, verifique los datos del expediente e intente nuevamente.</span>
-                                </div>
-                            </div>
-                        ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                await SweetAlertHelper.MostrarModalErrorAsync(
+                    JSRuntime,
+                    "Error de Actualización",
+                    "Mesa de Partes Virtual",
+                    "No se pudo completar la actualización de los datos del expediente.",
+                    textoBotonConfirmar: "Entendido",
+                    etiquetaAccion: "Actualización fallida",
+                    mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                    icono: "⚠️"
+                );
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[EXCEPCIÓN] {ex.Message}");
+            await SweetAlertHelper.MostrarModalErrorAsync(
+                    JSRuntime,
+                    "Error de Actualización",
+                    "Mesa de Partes Virtual",
+                    "No se pudo completar la actualización de los datos del expediente en el servidor.",
+                    textoBotonConfirmar: "Entendido",
+                    etiquetaAccion: "Actualización fallida",
+                    mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                    icono: "⚠️"
+                );
         }
     }
 
@@ -694,7 +628,6 @@
     // Información del Documento
     // *************************
     private AsuntoEdicionDto? tramiteOriginal = new();
-
     private async Task ActualizarDocumento()
     {
         // 1. VALIDACIÓN GENERAL DE CAMPOS OBLIGATORIOS (*)
@@ -724,90 +657,28 @@
         // Si hay algún error de validación, mostramos la alerta y detenemos el proceso
         if (!string.IsNullOrEmpty(mensajeError))
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                ⚠️
-                            </div>
-                            <div>
-                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Campos Obligatorios Incompletos</h3>
-                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                            </div>
-                        </div>
-                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                            {mensajeError}
-                        </p>
-                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                            <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                <span style='color: #64748b;'>Validación:</span>
-                                <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Dato requerido faltante</span>
-                            </div>
-                        </div>
-                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                            <span>💡</span>
-                            <span>Complete todos los campos marcados con asterisco (*) antes de continuar.</span>
-                        </div>
-                    </div>
-                ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
+            await SweetAlertHelper.MostrarModalValidacionAsync(
+                JSRuntime,
+                titulo: "Campos Incompletos",
+                mensajeError: "Por favor, complete los campos obligatorios de la información del documento antes de continuar.",
+                etiquetaValidacion: "Faltan datos obligatorios",
+                mensajeSugerencia: "Verifique que los campos marcados con asterisco (*) tengan información válida."
+            );
             return;
         }
 
         // 2. DIÁLOGO DE CONFIRMACIÓN SI TODO ESTÁ CORRECTO
-        var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new object[]{
-            new
-            {
-                html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                    📁
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Información del Documento</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                </div>
-                            </div>
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                Está a punto de modificar la información registrada de este documento en el sistema.
-                            </p>
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Acción:</span>
-                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizar datos</span>
-                                </div>
-                            </div>
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                <span>📌</span>
-                                <span>Verifique que la información sea correcta antes de confirmar.</span>
-                            </div>
-                        </div>
-                ",
-                showCancelButton = true,
-                showConfirmButton = true,
-                confirmButtonText = "Sí, actualizar",
-                cancelButtonText = "Cancelar",
-                confirmButtonColor = "#1e293b",
-                cancelButtonColor = "#64748b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            }
-        });
-
+        var confirmResult = await SweetAlertHelper.MostrarModalConfirmacionAsync(
+            JSRuntime,
+            "Información del Documento", // Título
+            "Mesa de Partes Virtual", //Sub Título
+            "Está a punto de modificar la información registrada de este documento en el sistema.", // Mensaje Principal
+            "Sí, actualizar", // Botón accíón
+            "Actualizar datos del documento", //Estado de la Selección
+            "Verifique que la información sea correcta antes de confirmar.", // Mensaje Secundario
+            "📁" // Ícono
+        );
+          
         if (confirmResult.IsConfirmed)
         {
             try
@@ -851,127 +722,51 @@
                         tramiteOriginal.FoliosDocumento = tramite.FoliosDocumento;
                     }
 
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                    // 2. Alerta de éxito con los dos botones de decisión
+                    var successResult = await SweetAlertHelper.MostrarModalExitoAccionAsync(
+                                            JSRuntime,
+                                            "¡Documento Actualizado!", // Título
+                                            "Mesa de Partes Virtual", //Sub Título
+                                            "Los datos del documento se han procesado y actualizado correctamente en el sistema. ¿Deseas enviar el trámite para levantar la observación o prefieres seguir editando?", // Mensaje Principal
+                                            "Guardado parcial", //Estado de la Selección
+                                            "Enviar Trámite Subsanado", // Botón accíón
+                                            "Seguir editando",
+                                            "Esta acción actualizará los datos. Podrás seguir editando o enviar el trámite al finalizar.", // Mensaje Secundario
+                                            "📄" // Ícono
+                                        );
+                                         
+                    // 3. Evaluamos la decisión del usuario
+                    if (successResult.IsConfirmed)
                     {
-                        html = $@"
-                                <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                    <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                        <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                            ✨
-                                        </div>
-                                        <div>
-                                            <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
-                                            <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                        </div>
-                                    </div>
-                                    <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                        Los datos del documento se han procesado y actualizado correctamente en el sistema.
-                                    </p>
-                                    <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                        <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                            <span style='color: #64748b;'>Estado de la operación:</span>
-                                            <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Guardado con éxito</span>
-                                        </div>
-                                    </div>
-                                    <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                        <span>📌</span>
-                                        <span>Los cambios ya se encuentran reflejados en su trámite.</span>
-                                    </div>
-                                </div>
-                        ",
-                        showConfirmButton = true,
-                        confirmButtonText = "Continuar",
-                        confirmButtonColor = "#1e293b",
-                        backdrop = "rgba(15, 23, 42, 0.5)",
-                        customClass = new
-                        {
-                            popup = "rounded-2xl shadow-xl border border-slate-100"
-                        }
-                    });
+                        // Dispara directamente tu función de ActualizarEstado() (la que cambia el estado y levanta la observación)
+                        await ActualizarEstado();
+                    }
+                    else if (successResult.IsDenied)
+                    {
+                        // Simplemente se queda en la vista actual para seguir editando otros módulos
+                        Console.WriteLine("[DEBUG] El usuario optó por seguir editando.");
+                    }
+                                      
                 }
                 else
                 {
                     string errorDetails = await response.Content.ReadAsStringAsync();
                     Console.WriteLine($"[ERROR API] {errorDetails}");
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                    {
-                        html = $@"
-                                <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                    <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                        <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                            ⚠️
-                                        </div>
-                                        <div>
-                                            <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Actualización</h3>
-                                            <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                        </div>
-                                    </div>
-                                    <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                        Lo sentimos, no se pudo procesar la actualización del documento en este momento.
-                                    </p>
-                                    <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                        <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                            <span style='color: #64748b;'>Estado de la operación:</span>
-                                            <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
-                                        </div>
-                                    </div>
-                                    <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                        <span>💡</span>
-                                        <span>Por favor, verifique su conexión e intente nuevamente en unos minutos.</span>
-                                    </div>
-                                </div>
-                        ",
-                        showConfirmButton = true,
-                        confirmButtonText = "Entendido",
-                        confirmButtonColor = "#1e293b",
-                        backdrop = "rgba(15, 23, 42, 0.5)",
-                        customClass = new
-                        {
-                            popup = "rounded-2xl shadow-xl border border-slate-100"
-                        }
-                    });
+                    await SweetAlertHelper.MostrarModalErrorAsync(
+                        JSRuntime,
+                        "Error de Actualización",
+                        "Mesa de Partes Virtual",
+                        "No se pudo completar la actualización de los datos del documento en el servidor.",
+                        textoBotonConfirmar: "Entendido",
+                        etiquetaAccion: "Actualización fallida",
+                        mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                        icono: "⚠️"
+                    );
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Blazor Error] {ex.Message}");
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                        ❌
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Conexión</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                    </div>
-                                </div>
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    Ocurrió un error de red al intentar comunicarse con el servidor para procesar la actualización.
-                                </p>
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado de la red:</span>
-                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Sin comunicación</span>
-                                    </div>
-                                </div>
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>💡</span>
-                                    <span>Compruebe su acceso a internet y vuelva a intentarlo.</span>
-                                </div>
-                            </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                Console.WriteLine($"[Blazor Error] {ex.Message}"); 
             }
         }
     }
@@ -989,7 +784,7 @@
 
     private string? pdfActualBlobUrl;
     private bool cargandoPdfActual = false;
-     
+
     private string GetApiUrl(int id)
     {
         var baseUrl = Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7100/";
@@ -1012,9 +807,9 @@
     {
         try
         {
-            cargandoPdfActual = true;
+            cargandoPreview = true;
             var urlEndpoint = GetApiUrl(tramite.iCodAsunto);
-        
+
             // Descargamos los bytes del archivo actual desde la API
             var bytesPdf = await Http.GetByteArrayAsync(urlEndpoint);
 
@@ -1022,7 +817,7 @@
             {
                 using var stream = new MemoryStream(bytesPdf);
                 using var streamRef = new DotNetStreamReference(stream);
-            
+
                 // Reutilizamos la función de JS para crear el Blob URL
                 pdfActualBlobUrl = await JSRuntime.InvokeAsync<string>("mpvPdf.create", streamRef);
             }
@@ -1034,7 +829,7 @@
         }
         finally
         {
-            cargandoPdfActual = false;
+            cargandoPreview = false;
             StateHasChanged();
         }
     }
@@ -1042,6 +837,9 @@
     private async Task OnFileSelected(InputFileChangeEventArgs e)
     {
         error = string.Empty;
+        cargandoPreview = true; // 1. Activamos el estado de carga al empezar
+        StateHasChanged();      // Forzamos el renderizado para que aparezca el spinner
+
         var file = e.File;
 
         try
@@ -1075,7 +873,6 @@
 
             archivo = new ArchivoAdjunto
             {
-                // Nombre = file.Name,
                 Nombre = "DocumentoPrincipalSubsanado.pdf",
                 Tipo = file.ContentType,
                 Tamano = $"{file.Size / 1024} KB",
@@ -1099,6 +896,7 @@
         }
         finally
         {
+            cargandoPreview = false; // 2. Desactivamos el estado de carga al terminar
             StateHasChanged();
             await JSRuntime.InvokeVoidAsync("console.log", "[MPV EDITAR] OnFileSelected finalizado.");
         }
@@ -1127,50 +925,14 @@
         if (archivo?.FileBrowser == null)
         {
             error = "Por favor selecciona un archivo PDF antes de actualizar.";
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                    📎
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Selección Requerida</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Archivos</p>
-                                </div>
-                            </div>
 
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                Para continuar con el proceso, es necesario que seleccione un archivo válido para adjuntar.
-                            </p>
-
-                            <!-- Tarjeta de Alerta -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado actual:</span>
-                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Ningún archivo seleccionado</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                <span>📌</span>
-                                <span>Por favor, busque y elija su documento antes de continuar.</span>
-                            </div>
-                        </div>
-                    ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
+            await SweetAlertHelper.MostrarModalValidacionAsync(
+                JSRuntime,
+                titulo: "Gestión de Archivos",
+                mensajeError: "Para continuar con el proceso, es necesario que seleccione un archivo válido para adjuntar.",
+                etiquetaValidacion: "Ningún archivo seleccionado",
+                mensajeSugerencia: "Por favor, busque y elija su documento antes de continuar." // 📌
+            );
             return;
         }
 
@@ -1184,100 +946,26 @@
             bool esPdf = contentType == "application/pdf" || extension == ".pdf";
             if (!esPdf)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                        📄
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Formato No Válido</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Validación de Archivos</p>
-                                    </div>
-                                </div>
-
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    El archivo que intenta subir no cumple con las especificaciones técnicas requeridas por el sistema.
-                                </p>
-
-                                <!-- Tarjeta de Formato Requerido -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Formato permitido:</span>
-                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Solo archivos PDF (.pdf)</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>💡</span>
-                                    <span>Asegúrese de que el documento tenga la extensión correcta antes de adjuntarlo.</span>
-                                </div>
-                            </div>
-                        ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                await SweetAlertHelper.MostrarModalValidacionAsync(
+                    JSRuntime,
+                    titulo: "Validación de Archivos",
+                    mensajeError: "El archivo que intenta subir no cumple con las especificaciones técnicas requeridas por el sistema.",
+                    etiquetaValidacion: "Solo archivos PDF (.pdf)",
+                    mensajeSugerencia: "Asegúrese de que el documento tenga la extensión correcta antes de adjuntarlo." // 📌
+                );
                 return;
             }
 
             long maxFileSize = 52 * 1024 * 1024;
             if (archivo.FileBrowser.Size > maxFileSize)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
-                                    ⚠️
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Archivo Demasiado Pesado</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Capacidad</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                El documento que intenta adjuntar supera el tamaño máximo permitido por el sistema.
-                            </p>
-
-                            <!-- Tarjeta de Límite -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Restricción:</span>
-                                    <span style='font-weight: 600; color: #d97706; background: #fef3c7; padding: 2px 8px; border-radius: 6px;'>Excede el límite establecido</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Optimice, reduzca la resolución o comprima su archivo antes de volver a intentarlo.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                await SweetAlertHelper.MostrarModalValidacionAsync(
+                    JSRuntime,
+                    titulo: "Control de Capacidad",
+                    mensajeError: "El documento que intenta adjuntar supera el tamaño máximo permitido por el sistema.",
+                    etiquetaValidacion: "Excede el límite establecido",
+                    mensajeSugerencia: "Optimice, reduzca la resolución o comprima su archivo antes de volver a intentarlo." // 📌
+                );
                 return;
             }
 
@@ -1299,14 +987,12 @@
             {
                 error = string.Empty;
 
-                // 1. Opcional: Si el navegador guardó el blob anterior en memoria, lo revocamos si existe
                 if (!string.IsNullOrWhiteSpace(pdfActualBlobUrl))
                 {
                     try { await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", pdfActualBlobUrl); } catch { }
                     pdfActualBlobUrl = null;
                 }
 
-                // 2. Limpiamos también el preview del archivo nuevo seleccionado
                 if (!string.IsNullOrWhiteSpace(pdfPreviewUrl))
                 {
                     try { await JSRuntime.InvokeVoidAsync("mpvPdf.revoke", pdfPreviewUrl); } catch { }
@@ -1315,161 +1001,70 @@
 
                 archivo = new();
 
-                // 3. Volvemos a consultar los datos del trámite actualizado
                 tramite = await Http.GetFromJsonAsync<AsuntoEdicionDto>($"api/documentos/DatosRegistrados/{idAsunto}");
 
-                // 4. Volvemos a descargar y generar el Blob actualizado del PDF con el timestamp nuevo
                 if (tramite != null)
                 {
                     await CargarDocumentoActualComoBlob();
                 }
 
-                // 5. Forzar actualización de la interfaz de manera explícita
                 StateHasChanged();
 
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+                // 2. Alerta de éxito con los dos botones de decisión
+                var successResult = await SweetAlertHelper.MostrarModalExitoAccionAsync(
+                                        JSRuntime,
+                                        "¡Documento Principal Actualizado!", // Título
+                                        "Mesa de Partes Virtual", //Sub Título
+                                        "El documento principal se ha procesado y actualizado correctamente en el sistema. ¿Deseas enviar el trámite para levantar la observación o prefieres seguir editando?", // Mensaje Principal
+                                        "Guardado parcial", //Estado de la Selección
+                                        "Enviar Trámite Subsanado", // Botón accíón
+                                        "Seguir editando",
+                                        "Los cambios ya se encuentran reflejados en su trámite.", // Mensaje Secundario
+                                        "📄" // Ícono
+                                    );
+
+                // 3. Evaluamos la decisión del usuario
+                if (successResult.IsConfirmed)
                 {
-                    html = $@"
-                     <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                         <!-- Cabecera con Icono -->
-                         <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                             <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                 📄
-                             </div>
-                             <div>
-                                 <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
-                                 <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Documento Principal</p>
-                             </div>
-                         </div>
-
-                         <!-- Descripción -->
-                         <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                             El documento principal se ha procesado y actualizado correctamente en el sistema.
-                         </p>
-
-                         <!-- Tarjeta de Éxito -->
-                         <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                             <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                 <span style='color: #64748b;'>Estado de la operación:</span>
-                                 <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
-                             </div>
-                         </div>
-
-                         <!-- Nota de ayuda -->
-                         <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                             <span>📌</span>
-                             <span>Los cambios ya se encuentran reflejados en su trámite.</span>
-                         </div>
-                     </div>
-                 ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Continuar",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                    // Dispara directamente tu función de ActualizarEstado() (la que cambia el estado y levanta la observación)
+                    await GuardarCambios();
+                }
+                else if (successResult.IsDenied)
+                {
+                    // Simplemente se queda en la vista actual para seguir editando otros módulos
+                    Console.WriteLine("[DEBUG] El usuario optó por seguir editando.");
+                }
+                 
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"[ERROR API] {errorContent}");
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                    📎
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Actualización</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Documento Adjunto</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                Lo sentimos, no se pudo procesar la actualización del documento adjunto en este momento.
-                            </p>
-
-                            <!-- Tarjeta de Error -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado de la operación:</span>
-                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el servidor</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Por favor, verifique el archivo e intente nuevamente en unos minutos.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                await SweetAlertHelper.MostrarModalErrorAsync(
+                    JSRuntime,
+                    "Error de Actualización",
+                    "Mesa de Partes Virtual",
+                    "Lo sentimos, no se pudo procesar la actualización del documento adjunto en este momento.",
+                    textoBotonConfirmar: "Entendido",
+                    etiquetaAccion: "Error en el servidor",
+                    mensajeAlerta: "Por favor, verifique el archivo e intente nuevamente en unos minutos.",
+                    icono: "⚠️"
+                );
             }
         }
         catch (Exception ex)
         {
-            // Atrapa cualquier error de red/stream y muestra un mensaje limpio evitando el texto técnico
             Console.WriteLine($"[Error oculto]: {ex.Message}");
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
-                                    ⚠️
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Archivo Muy Pesado</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Capacidad</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                El archivo que intenta subir excede el peso límite establecido por el sistema.
-                            </p>
-
-                            <!-- Tarjeta de Límite -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Restricción:</span>
-                                    <span style='font-weight: 600; color: #d97706; background: #fef3c7; padding: 2px 8px; border-radius: 6px;'>Tamaño excedido</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Por favor, comprima su documento o seleccione uno más ligero antes de reintentar.</span>
-                            </div>
-                        </div>
-                    ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
+            await SweetAlertHelper.MostrarModalErrorAsync(
+                JSRuntime,
+                "Error de Actualización",
+                "Mesa de Partes Virtual",
+                "No se pudo completar la actualización en el servidor.",
+                textoBotonConfirmar: "Entendido",
+                etiquetaAccion: "Actualización fallida",
+                mensajeAlerta: "Por favor, comprima su documento o seleccione uno más ligero antes de reintentar.",
+                icono: "⚠️"
+            );
         }
     }
 
@@ -1477,18 +1072,27 @@
     // ANEXOS
     // ******
     private List<AnexoDto> listaAnexosRegistrados = new();
+    private List<ArchivoAdjunto> archivosNuevos = new();
+    private string errorArchivo = "";
+    private bool cargandoArchivos = false; // Variable de estado para el indicador de carga
+    private bool cargandoPreview = false; // Variable de estado para la vista previa
+
+    // Variables de estado para el visor integrado de doble panel
+    private AnexoDto? anexoSeleccionadoRegistrado;
+    private ArchivoAdjunto? archivoSeleccionadoNuevo;
+    private string? tituloDocumentoActivo;
+    private string? previewUrl;
+    private bool mostrarErrorModal = false;
+
     private async Task CargarAnexos()
     {
         listaAnexosRegistrados = await Http.GetFromJsonAsync<List<AnexoDto>>($"api/documentos/listar-anexos/{idAsunto}") ?? new();
     }
-        
-    private List<ArchivoAdjunto> listaAnexos = new List<ArchivoAdjunto>();
-    private List<ArchivoAdjunto> archivos = new();
-    private string errorArchivo = "";
-     
+
     private async Task HandleFilesSelected(InputFileChangeEventArgs e)
     {
         errorArchivo = string.Empty;
+        cargandoArchivos = true; // Activar indicador
 
         try
         {
@@ -1542,12 +1146,64 @@
             errorArchivo = $"Error procesando anexos: {ex.Message}";
             await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXOS] ERROR HandleFilesSelected: {ex}");
         }
+        finally
+        {
+            cargandoArchivos = false; // Desactivar indicador al finalizar
+            StateHasChanged();
+        } 
+    }
 
+    private void EliminarArchivoLocal(ArchivoAdjunto archivo)
+    {
+        archivosNuevos.Remove(archivo);
+        if (archivoSeleccionadoNuevo == archivo)
+        {
+            _ = CerrarPreview();
+        }
         StateHasChanged();
     }
 
-    private void EliminarArchivo(ArchivoAdjunto archi) => archivos.Remove(archi);
-    private string? previewUrl;
+    // Métodos de selección y precarga en el visor integrado de la izquierda
+    private async Task SeleccionarAnexoRegistrado(AnexoDto anexo)
+    {
+        cargandoPreview = true;
+        anexoSeleccionadoRegistrado = anexo;
+        archivoSeleccionadoNuevo = null;
+        StateHasChanged();
+
+        try
+        {
+            int index = listaAnexosRegistrados.IndexOf(anexo) + 1;
+            tituloDocumentoActivo = $"Anexo {index} (Registrado)";
+            await VerDocumento(anexo);
+        }
+        finally
+        {
+            cargandoPreview = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task SeleccionarAnexoNuevo(ArchivoAdjunto archi)
+    {
+        cargandoPreview = true;
+        archivoSeleccionadoNuevo = archi;
+        anexoSeleccionadoRegistrado = null;
+        StateHasChanged();
+
+        try
+        {
+            tituloDocumentoActivo = $"{archi.Nombre} (Nuevo)";
+
+            await VerPreviewAnexoLocal(archi);
+        }
+        finally
+        {
+            cargandoPreview = false;
+            StateHasChanged();
+        }
+    }
+
     private async Task CerrarPreview()
     {
         try
@@ -1565,12 +1221,13 @@
         finally
         {
             previewUrl = null;
+            tituloDocumentoActivo = null;
+            anexoSeleccionadoRegistrado = null;
+            archivoSeleccionadoNuevo = null;
             mostrarErrorModal = false;
             StateHasChanged();
         }
     }
-
-    private bool mostrarErrorModal = false;
 
     private async Task VerPreviewAnexoLocal(ArchivoAdjunto archi)
     {
@@ -1598,6 +1255,7 @@
             await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO LOCAL] ERROR: {ex}");
             mostrarErrorModal = true;
             previewUrl = "ERROR_FILE_NOT_FOUND";
+            StateHasChanged();
         }
     }
 
@@ -1628,6 +1286,7 @@
                 await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO REG] Error API: {detalle}");
                 mostrarErrorModal = true;
                 previewUrl = "ERROR_FILE_NOT_FOUND";
+                StateHasChanged();
                 return;
             }
 
@@ -1647,6 +1306,7 @@
                 await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO REG] Respuesta no PDF: {texto}");
                 mostrarErrorModal = true;
                 previewUrl = "ERROR_FILE_NOT_FOUND";
+                StateHasChanged();
                 return;
             }
 
@@ -1663,443 +1323,170 @@
             await JSRuntime.InvokeVoidAsync("console.error", $"[MPV EDITAR ANEXO REG] ERROR VerDocumento: {ex}");
             mostrarErrorModal = true;
             previewUrl = "ERROR_FILE_NOT_FOUND";
+            StateHasChanged();
         }
     }
 
     private async Task EliminarAnexoRegistrado(int iCodDoc, string nombreVisual)
+    {
+
+        var confirmResult = await SweetAlertHelper.MostrarModalEliminacionAsync(
+            JSRuntime,
+            titulo: $"¿Estás seguro de eliminar el {nombreVisual}?",
+            subtitulo: "Gestión de Documentos",
+            mensaje: "Esta acción dará de baja el documento del trámite de forma definitiva.",
+            etiquetaAccion: "Dar de baja",
+            mensajeAlerta: "Verifique bien antes de proceder con la eliminación."
+        );
+
+        bool confirmado = false;
+
+        if (confirmResult != null)
         {
-            // Confirmación con SweetAlert2
-            var confirmResult = await JSRuntime.InvokeAsync<SweetAlertResult>("Swal.fire", new
-            {
-                html = $@"
-                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                        <!-- Cabecera con Icono -->
-                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                🗑️
-                            </div>
-                            <div>
-                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¿Estás seguro de eliminar el {nombreVisual}?</h3>
-                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Documentos</p>
-                            </div>
-                        </div>
-
-                        <!-- Descripción -->
-                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                            Esta acción dará de baja el documento del trámite de forma definitiva.
-                        </p>
-
-                        <!-- Tarjeta de Confirmación -->
-                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                            <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                <span style='color: #64748b;'>Consecuencia:</span>
-                                <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Dar de baja</span>
-                            </div>
-                        </div>
-
-                        <!-- Nota de ayuda -->
-                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                            <span>📌</span>
-                            <span>Verifique bien antes de proceder con la eliminación.</span>
-                        </div>
-                    </div>
-                ",
-                showCancelButton = true,
-                showConfirmButton = true,
-                confirmButtonText = "Sí, eliminar",
-                cancelButtonText = "Cancelar",
-                confirmButtonColor = "#dc2626",
-                cancelButtonColor = "#64748b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
-
-            // Validamos si el usuario hizo clic en confirmar (dependiendo de cómo retorne tu SweetAlert)
-            // Si usas la estructura estándar de SweetAlert2 en Blazor, validamos la propiedad IsConfirmed o el valor booleano:
-            bool confirmado = false;
-
-            if (confirmResult != null)
-            {
-                // Si confirmResult viene como objeto dinámico o clase de resultado:
-                confirmado = confirmResult.IsConfirmed; // O si es directo boolean según tu librería JSInterop
-            }
-
-            if (!confirmado) return; // Si canceló, no hacemos nada
-
-            try
-            {
-                var response = await Http.DeleteAsync($"api/documentos/eliminar-anexo/{iCodDoc}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                    {
-                        html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                        🗑️
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Eliminado!</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
-                                    </div>
-                                </div>
-
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    El anexo se eliminó correctamente del trámite en el sistema.
-                                </p>
-
-                                <!-- Tarjeta de Éxito -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado de la operación:</span>
-                                        <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Eliminado con éxito</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>📌</span>
-                                    <span>Los cambios ya se encuentran actualizados en su lista de archivos.</span>
-                                </div>
-                            </div>
-                        ",
-                        showConfirmButton = true,
-                        confirmButtonText = "Continuar",
-                        confirmButtonColor = "#1e293b",
-                        backdrop = "rgba(15, 23, 42, 0.5)",
-                        customClass = new
-                        {
-                            popup = "rounded-2xl shadow-xl border border-slate-100"
-                        }
-                    });
-
-                    // 🟢 1. Ocultamos el visor integrando limpiando la URL de vista previa
-                    previewUrl = string.Empty;
-
-                    // 2. Recargamos la lista automáticamente para que desaparezca de la tabla
-                    await CargarAnexos();
-
-                    // 3. Forzamos a Blazor a redibujar el componente
-                    StateHasChanged();
-                }
-                else
-                {
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                    {
-                        html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                        🗄️
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Base de Datos</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                    </div>
-                                </div>
-
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    Lo sentimos, no se pudo procesar la eliminación en la base de datos en este momento.
-                                </p>
-
-                                <!-- Tarjeta de Error -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado de la operación:</span>
-                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en servidor de BD</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>💡</span>
-                                    <span>Por favor, intente nuevamente en unos minutos o comuníquese con soporte técnico.</span>
-                                </div>
-                            </div>
-                        ",
-                        showConfirmButton = true,
-                        confirmButtonText = "Entendido",
-                        confirmButtonColor = "#1e293b",
-                        backdrop = "rgba(15, 23, 42, 0.5)",
-                        customClass = new
-                        {
-                            popup = "rounded-2xl shadow-xl border border-slate-100"
-                        }
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                    ❌
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
-                                Ocurrió un error al intentar procesar la solicitud de red. Detalle técnico:
-                            </p>
-
-                            <!-- Tarjeta con Detalle del Excepción -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
-                                    {ex.Message}
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Verifique su conexión a internet y vuelva a intentarlo.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
-            }
+            confirmado = confirmResult.IsConfirmed;
         }
 
-    private List<ArchivoAdjunto> archivosNuevos = new();
-   
-    private void EliminarArchivoLocal(ArchivoAdjunto archivo)
-    {
-        archivosNuevos.Remove(archivo);
-        StateHasChanged();
+        if (!confirmado) return;
+
+        try
+        {
+            var response = await Http.DeleteAsync($"api/documentos/eliminar-anexo/{iCodDoc}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await SweetAlertHelper.MostrarModalExitoInformativoAsync(
+                    JSRuntime,
+                    "Gestión de Anexos",
+                    "Mesa de Partes Virtual",
+                    "El anexo se eliminó correctamente del trámite en el sistema.",
+                    textoBotonConfirmar: "Continuar",
+                    etiquetaAccion: "Eliminado con éxito",
+                    mensajeAlerta: "Los cambios ya se encuentran actualizados en su lista de archivos.",
+                    icono: "🗑️"
+                ); 
+
+                if (anexoSeleccionadoRegistrado?.iCodDoc == iCodDoc)
+                {
+                    await CerrarPreview();
+                }
+
+                await CargarAnexos();
+                StateHasChanged();
+            }
+            else
+            {
+                await SweetAlertHelper.MostrarModalErrorAsync(
+                    JSRuntime,
+                    "Error de Actualización",
+                    "Mesa de Partes Virtual",
+                    "Lo sentimos, no se pudo procesar la eliminación del anexo.",
+                    textoBotonConfirmar: "Entendido",
+                    etiquetaAccion: "Actualización fallida",
+                    mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                    icono: "⚠️"
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            await SweetAlertHelper.MostrarModalErrorAsync(
+                JSRuntime,
+                "Error de Actualización",
+                "Mesa de Partes Virtual",
+                "Ocurrió un error al intentar procesar la solicitud de red.",
+                textoBotonConfirmar: "Entendido",
+                etiquetaAccion: "Actualización fallida",
+                mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                icono: "⚠️"
+            );
+
+        }
     }
 
     private async Task ActualizarDocumentoAnexos()
     {
         if (!archivosNuevos.Any())
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #eff6ff; color: #3b82f6; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);'>
-                                    ℹ️
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Aviso Informativo</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                No se encontraron nuevos anexos pendientes para guardar en este trámite.
-                            </p>
-
-                            <!-- Tarjeta de Estado -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado actual:</span>
-                                    <span style='font-weight: 600; color: #3b82f6; background: #dbeafe; padding: 2px 8px; border-radius: 6px;'>Sin cambios nuevos</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #1d4ed8; background: #eff6ff; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Adjunte nuevos archivos si desea registrar elementos adicionales.</span>
-                            </div>
-                        </div>
-                    ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
+            await SweetAlertHelper.MostrarModalValidacionAsync(
+                JSRuntime,
+                titulo: "Gestión de Anexos",
+                mensajeError: "No se encontraron nuevos anexos pendientes para guardar en este trámite.",
+                etiquetaValidacion: "Sin cambios nuevos",
+                mensajeSugerencia: "Adjunte nuevos archivos si desea registrar elementos adicionales."
+            );
             return;
         }
 
         try
         {
-            // Enviamos la lista de objetos ArchivoAdjunto a la API
             var response = await Http.PostAsJsonAsync($"api/documentos/registrar-anexos/{idAsunto}", archivosNuevos);
 
             if (response.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
+
+                // 2. Alerta de éxito con los dos botones de decisión
+                var successResult = await SweetAlertHelper.MostrarModalExitoAccionAsync(
+                                        JSRuntime,
+                                        "¡Anexos Guardados!", // Título
+                                        "Mesa de Partes Virtual", //Sub Título
+                                        "Los anexos seleccionados se guardaron correctamente en el sistema. ¿Deseas enviar el trámite para levantar la observación o prefieres seguir editando?", // Mensaje Principal
+                                        "Guardado parcial", //Estado de la Selección
+                                        "Enviar Trámite Subsanado", // Botón accíón
+                                        "Seguir editando",
+                                        "Los archivos ya se encuentran adjuntos a su trámite.", // Mensaje Secundario
+                                        "📄" // Ícono
+                                    );
+
+                // 3. Evaluamos la decisión del usuario
+                if (successResult.IsConfirmed)
                 {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                    📎
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Anexos Guardados!</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
-                                </div>
-                            </div>
+                    // Dispara directamente tu función de ActualizarEstado() (la que cambia el estado y levanta la observación)
+                    await GuardarCambios();
+                }
+                else if (successResult.IsDenied)
+                {
+                    archivosNuevos.Clear();
+                    await CerrarPreview();
+                    await CargarAnexos();
+                    StateHasChanged();
 
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                Los anexos seleccionados se guardaron correctamente en el sistema.
-                            </p>
+                    // Simplemente se queda en la vista actual para seguir editando otros módulos
+                    Console.WriteLine("[DEBUG] El usuario optó por seguir editando.");
+                }
 
-                            <!-- Tarjeta de Éxito -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado de la operación:</span>
-                                    <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Guardado con éxito</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                <span>📌</span>
-                                <span>Los archivos ya se encuentran adjuntos a su trámite.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Continuar",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
-
-                // Limpiamos la lista local de nuevos archivos
-                archivosNuevos.Clear();
-
-                // Recargamos la tabla de anexos registrados desde la Base de Datos
-                await CargarAnexos();
-
-                StateHasChanged();
+                // archivosNuevos.Clear();
+                // await CerrarPreview();
+                // await CargarAnexos();
+                // StateHasChanged(); 
             }
             else
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                    🗄️
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Base de Datos</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Gestión de Anexos</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                Lo sentimos, no se pudieron guardar los anexos en la base de datos en este momento.
-                            </p>
-
-                            <!-- Tarjeta de Error -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                    <span style='color: #64748b;'>Estado de la operación:</span>
-                                    <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error al registrar anexos</span>
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Por favor, verifique los archivos e intente nuevamente en unos minutos.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                await SweetAlertHelper.MostrarModalErrorAsync(
+                    JSRuntime,
+                    "Error de Actualización",
+                    "Mesa de Partes Virtual",
+                    "No se pudo completar la actualización de los anexos.",
+                    textoBotonConfirmar: "Entendido",
+                    etiquetaAccion: "Actualización fallida",
+                    mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                    icono: "⚠️"
+                ); 
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                    <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                        <!-- Cabecera con Icono -->
-                        <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                            <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                ❌
-                            </div>
-                            <div>
-                                <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
-                                <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                            </div>
-                        </div>
-
-                        <!-- Descripción -->
-                        <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
-                            Ocurrió un error al intentar procesar la solicitud de red. Detalle técnico:
-                        </p>
-
-                        <!-- Tarjeta con Detalle del Excepción -->
-                        <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                            <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
-                                {ex.Message}
-                            </div>
-                        </div>
-
-                        <!-- Nota de ayuda -->
-                        <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                            <span>💡</span>
-                            <span>Verifique su conexión a internet y vuelva a intentarlo.</span>
-                        </div>
-                    </div>
-                ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
+            await SweetAlertHelper.MostrarModalErrorAsync(
+                JSRuntime,
+                "Error de Actualización",
+                "Mesa de Partes Virtual",
+                "No se pudo completar la actualización de los anexos en el servidor.",
+                textoBotonConfirmar: "Entendido",
+                etiquetaAccion: "Actualización fallida",
+                mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                icono: "⚠️"
+            );
         }
     }
-
 
     // ******************
     // Actualizar Cambios
@@ -2117,50 +1504,14 @@
                 if (!responseAnexos.IsSuccessStatusCode)
                 {
                     var errorContent = await responseAnexos.Content.ReadAsStringAsync();
-                    await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                    {
-                        html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                        ❌
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error al Guardar</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Nuevos Anexos</p>
-                                    </div>
-                                </div>
 
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    Lo sentimos, no se pudieron guardar los nuevos anexos en el sistema.
-                                </p>
-
-                                <!-- Tarjeta de Error -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado de la operación:</span>
-                                        <span style='font-weight: 600; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 6px;'>Error en el proceso</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>💡</span>
-                                    <span>Verifique los archivos seleccionados e intente nuevamente.</span>
-                                </div>
-                            </div>
-                        ",
-                        showConfirmButton = true,
-                        confirmButtonText = "Entendido",
-                        confirmButtonColor = "#1e293b",
-                        backdrop = "rgba(15, 23, 42, 0.5)",
-                        customClass = new
-                        {
-                            popup = "rounded-2xl shadow-xl border border-slate-100"
-                        }
-                    });
+                    await SweetAlertHelper.MostrarModalValidacionAsync(
+                        JSRuntime,
+                        titulo: "Nuevos Anexos",
+                        mensajeError: "Lo sentimos, no se pudieron guardar los nuevos anexos en el sistema.",
+                        etiquetaValidacion: "Error en el proceso",
+                        mensajeSugerencia: "Verifique los archivos seleccionados e intente nuevamente." // 📌
+                    );
                     return;
                 }
             }
@@ -2170,51 +1521,16 @@
 
             if (responseEstado.IsSuccessStatusCode)
             {
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                                <!-- Cabecera con Icono -->
-                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                    <div style='background-color: #f0fdf4; color: #16a34a; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);'>
-                                        ✅
-                                    </div>
-                                    <div>
-                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>¡Actualización Exitosa!</h3>
-                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                    </div>
-                                </div>
-
-                                <!-- Descripción -->
-                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
-                                    Los cambios se guardaron y el trámite fue actualizado correctamente en el sistema.
-                                </p>
-
-                                <!-- Tarjeta de Éxito -->
-                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
-                                        <span style='color: #64748b;'>Estado del trámite:</span>
-                                        <span style='font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 6px;'>Actualizado con éxito</span>
-                                    </div>
-                                </div>
-
-                                <!-- Nota de ayuda -->
-                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #15803d; background: #f0fdf4; padding: 10px 12px; border-radius: 8px;'>
-                                    <span>📌</span>
-                                    <span>Todas sus modificaciones ya se encuentran registradas.</span>
-                                </div>
-                            </div>
-                        ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Continuar",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
-
+                await SweetAlertHelper.MostrarModalExitoInformativoAsync(
+                    JSRuntime,
+                    "¡Actualización Exitosa!",
+                    "Mesa de Partes Virtual",
+                    "Los cambios se guardaron y el trámite fue actualizado correctamente en el sistema.",
+                    textoBotonConfirmar: "Continuar",
+                    etiquetaAccion: "Actualizado con éxito",
+                    mensajeAlerta: "Todas sus modificaciones ya se encuentran registradas.",
+                    icono: "✅"
+                ); 
                 archivosNuevos.Clear();
                 // Nav.NavigateTo("/Tramitar");
                 Ir($"/Tramitar");
@@ -2223,96 +1539,66 @@
             {
                 // LEER EL MENSAJE REAL QUE MANDA LA API
                 var errorServidor = await responseEstado.Content.ReadAsStringAsync();
-                await JSRuntime.InvokeVoidAsync("Swal.fire", new
-                {
-                    html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
-                                    ⚠️
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Aviso de Actualización</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Control de Estados</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
-                                No se pudo actualizar el estado actual del trámite. Detalle de la respuesta:
-                            </p>
-
-                            <!-- Tarjeta con Detalle del Servidor -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='font-size: 13px; color: #d97706; font-family: monospace; word-break: break-all; background: #fef3c7; padding: 8px 12px; border-radius: 6px;'>
-                                    {errorServidor}
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Por favor, verifique la información e intente realizar la operación nuevamente.</span>
-                            </div>
-                        </div>
-                    ",
-                    showConfirmButton = true,
-                    confirmButtonText = "Entendido",
-                    confirmButtonColor = "#1e293b",
-                    backdrop = "rgba(15, 23, 42, 0.5)",
-                    customClass = new
-                    {
-                        popup = "rounded-2xl shadow-xl border border-slate-100"
-                    }
-                });
+                await SweetAlertHelper.MostrarModalErrorAsync(
+                    JSRuntime,
+                    "Error de Actualización",
+                    "Mesa de Partes Virtual",
+                    "No se pudo completar la actualización.",
+                    textoBotonConfirmar: "Entendido",
+                    etiquetaAccion: "Actualización fallida",
+                    mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                    icono: "⚠️"
+                ); 
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("Swal.fire", new
-            {
-                html = $@"
-                        <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
-                            <!-- Cabecera con Icono -->
-                            <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
-                                <div style='background-color: #fef2f2; color: #dc2626; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);'>
-                                    ❌
-                                </div>
-                                <div>
-                                    <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Error de Red</h3>
-                                    <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Mesa de Partes Virtual</p>
-                                </div>
-                            </div>
-
-                            <!-- Descripción -->
-                            <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 15px;'>
-                                Ocurrió un error inesperado al intentar procesar la solicitud. Detalle técnico:
-                            </p>
-
-                            <!-- Tarjeta con Detalle del Excepción -->
-                            <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-                                <div style='font-size: 13px; color: #dc2626; font-family: monospace; word-break: break-all; background: #fee2e2; padding: 8px 12px; border-radius: 6px;'>
-                                    {ex.Message}
-                                </div>
-                            </div>
-
-                            <!-- Nota de ayuda -->
-                            <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b91c1c; background: #fef2f2; padding: 10px 12px; border-radius: 8px;'>
-                                <span>💡</span>
-                                <span>Verifique su conexión a internet y vuelva a intentarlo más tarde.</span>
-                            </div>
-                        </div>
-                    ",
-                showConfirmButton = true,
-                confirmButtonText = "Entendido",
-                confirmButtonColor = "#1e293b",
-                backdrop = "rgba(15, 23, 42, 0.5)",
-                customClass = new
-                {
-                    popup = "rounded-2xl shadow-xl border border-slate-100"
-                }
-            });
+            await SweetAlertHelper.MostrarModalErrorAsync(
+                JSRuntime,
+                "Error de Actualización",
+                "Mesa de Partes Virtual",
+                "No se pudo completar la actualización en el servidor.",
+                textoBotonConfirmar: "Entendido",
+                etiquetaAccion: "Actualización fallida",
+                mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                icono: "⚠️"
+            ); 
         }
     }
+
+    private async Task ActualizarEstado()
+    {
+        var responseEstado = await Http.PutAsync($"api/documentos/cambiar-estado/{idAsunto}", null);
+
+        if (responseEstado.IsSuccessStatusCode)
+        {
+            await SweetAlertHelper.MostrarModalExitoInformativoAsync(
+                    JSRuntime,
+                    "¡Observaciones levantadas!",
+                    "Mesa de Partes Virtual",
+                    "Se han registrado correctamente las correcciones realizadas a las observaciones de tu solicitud. El trámite ha sido enviado nuevamente para su revisión.",
+                    textoBotonConfirmar: "Continuar",
+                    etiquetaAccion: "Levantamiento de Observaciones",
+                    mensajeAlerta: "Tu solicitud ha sido actualizada y reenviada para evaluación. Podrás consultar el estado de tu trámite desde la Mesa de Partes Virtual.",
+                    icono: "📄"
+                );  
+            Ir($"/Tramitar");
+        }
+        else
+        {
+            // LEER EL MENSAJE REAL QUE MANDA LA API
+            var errorServidor = await responseEstado.Content.ReadAsStringAsync();
+            await SweetAlertHelper.MostrarModalErrorAsync(
+                JSRuntime,
+                "Error de Actualización",
+                "Mesa de Partes Virtual",
+                "No se pudo completar la actualización.",
+                textoBotonConfirmar: "Entendido",
+                etiquetaAccion: "Actualización fallida",
+                mensajeAlerta: "Verifique su conexión o intente nuevamente más tarde.",
+                icono: "⚠️"
+            );
+        }
+    }
+
 }

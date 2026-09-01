@@ -1,4 +1,4 @@
-/* /Components/Layout/Footer.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Layout/Footer.razor.rz.scp.css */
 /* =========================
    FOOTER INSTITUCIONAL
 ========================= */
@@ -42,7 +42,7 @@
         text-align: center;
     }
 }
-/* /Components/Layout/Header.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Layout/Header.razor.rz.scp.css */
 /* =========================
    FUENTE GLOBAL
 ========================= */
@@ -406,7 +406,7 @@ body[b-39rokx7gwf] {
         background: #f8fafc;
     }
 }
-/* /Components/Layout/InicioMainLayout.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Layout/InicioMainLayout.razor.rz.scp.css */
 
 
 /* CONTENEDOR */
@@ -503,7 +503,7 @@ body[b-39rokx7gwf] {
 
 
 
-/* /Components/Layout/MainLayout.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Layout/MainLayout.razor.rz.scp.css */
 /* HEADER / TOPBAR */
 .topbar[b-yzhksk25oo] {
     background: #ffffff;
@@ -706,7 +706,7 @@ body[b-39rokx7gwf] {
 .main-wrapper[b-yzhksk25oo] {
     background: radial-gradient(circle at top left, #f1f5f9, transparent 50%), #f8fafc;
 }
-/* /Components/Layout/Navbar.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Layout/Navbar.razor.rz.scp.css */
 /* ==========================================================================
    ESTILOS GENERALES Y RESETS
    ========================================================================== */
@@ -983,7 +983,7 @@ body[b-39rokx7gwf] {
         opacity: 1;
     }
 }
-/* /Components/Pages/ConsultaExpediente.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/ConsultaExpediente.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET Y BASE 
    ========================================================================== */
@@ -1424,7 +1424,7 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
         font-size: 16px; /* Evita zoom automático en celulares al hacer foco */
     }
 }
-/* /Components/Pages/EditarTramite.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/EditarTramite.razor.rz.scp.css */
 /* ==========================================================================
        ESTILOS GENERALES Y LAYOUT RESPONSIVE
        ========================================================================== */
@@ -1799,7 +1799,10 @@ input[b-923svrkr4m], select[b-923svrkr4m] {
         align-items: flex-start;
     }
 }
-/* /Components/Pages/Home.razor.rz.scp.css */
+
+
+
+/* _content/MesaPartesDigital.Front/Components/Pages/Home.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET, BASE Y TIPOGRAFÍA
    ========================================================================== */
@@ -2191,7 +2194,7 @@ body[b-5icodrumzi] {
         gap: .35rem;
     }
 }
-/* /Components/Pages/InicioJuridica.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/InicioJuridica.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -2730,7 +2733,7 @@ textarea[b-z7qvur1np6] {
         background: #f1f5f9;
         color: #0f172a;
     }
-/* /Components/Pages/InicioNatural.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/InicioNatural.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -3248,7 +3251,7 @@ textarea[b-py7tcbq0ce] {
         background: #f1f5f9;
         color: #0f172a;
     }
-/* /Components/Pages/Login.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/Login.razor.rz.scp.css */
 /* ==========================================================================
    DISEÑO NEOCLÁSICO MODERNO - MESA DE PARTES DIGITAL AGRO RURAL
    ========================================================================== */
@@ -3644,7 +3647,7 @@ textarea[b-py7tcbq0ce] {
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);
     }
-/* /Components/Pages/RecuperarClave.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/RecuperarClave.razor.rz.scp.css */
 .neo-link-btn[b-t1n6j195gw] {
     width: 100%;
     background: transparent;
@@ -3702,7 +3705,7 @@ textarea[b-py7tcbq0ce] {
     color: #991b1b;
     border: 1px solid #fecaca;
 }
-/* /Components/Pages/Tramitar.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/Tramitar.razor.rz.scp.css */
  
 /* ==========================================================================
    1. RESET Y ESTRUCTURA GLOBAL DEL DASHBOARD
@@ -3903,6 +3906,11 @@ body[b-52twrfpcoc] {
     .estado.observado[b-52twrfpcoc] {
         background-color: #fee2e2;
         color: #dc2626;
+    }
+
+    .estado.archivado[b-52twrfpcoc] {
+        background-color: #f1f5f9;
+        color: #475569;
     }
 
 /* ==========================================================================
@@ -4238,7 +4246,7 @@ body[b-52twrfpcoc] {
         text-align: center;
     }
 }
-/* /Components/Pages/TramitePerJuridica.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/TramitePerJuridica.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -4804,7 +4812,7 @@ textarea[b-wvaveewqvm] {
         background: #f1f5f9;
         color: #0f172a;
     }
-/* /Components/Pages/TramitePerNatural.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/TramitePerNatural.razor.rz.scp.css */
 /* ==========================================================================
    1. RESET / BASE / TIPOGRAFÍA
    ========================================================================== */
@@ -5325,7 +5333,7 @@ textarea[b-d90ul4yit0] {
         background: #f1f5f9;
         color: #0f172a;
     }
-/* /Components/Pages/VerTramite.razor.rz.scp.css */
+/* _content/MesaPartesDigital.Front/Components/Pages/VerTramite.razor.rz.scp.css */
 body[b-u2oh8z766t] {
 }
 /* ==========================================================================
@@ -5702,3 +5710,169 @@ body[b-u2oh8z766t] {
         align-items: flex-start;
     }
 }
+
+
+
+
+
+
+/* ==========================================================================
+   ESTILOS MODERNOS PARA GESTIÓN DE DOCUMENTOS ADJUNTOS
+   ========================================================================== */
+
+.ux-card-form-doc[b-u2oh8z766t] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 15px -4px rgba(0, 0, 0, 0.03);
+}
+
+.doc-header-section h2[b-u2oh8z766t] {
+    margin: 0 0 6px 0;
+    color: #0f172a;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Guía visual con tonos institucionales suaves */
+.doc-guide-alert[b-u2oh8z766t] {
+    background: #e6f4ea;
+    border: 1px solid rgba(12, 124, 59, 0.15);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 24px 0;
+}
+
+.doc-guide-title[b-u2oh8z766t] {
+    font-weight: 700;
+    color: #0c7c3b;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doc-guide-list[b-u2oh8z766t] {
+    margin: 0;
+    padding-left: 20px;
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+    .doc-guide-list li + li[b-u2oh8z766t] {
+        margin-top: 4px;
+    }
+
+.doc-badge-active-tag[b-u2oh8z766t] {
+    background-color: #0c7c3b;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.doc-section-subtitle[b-u2oh8z766t] {
+    font-weight: 700;
+    color: #334155;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+/* Contenedor de la lista de archivos estilo tarjeta lateral */
+.doc-files-container[b-u2oh8z766t] {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.doc-file-card[b-u2oh8z766t] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+}
+
+    .doc-file-card:hover[b-u2oh8z766t] {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px -4px rgba(15, 23, 42, 0.05);
+    }
+
+.doc-file-title[b-u2oh8z766t] {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.doc-file-desc[b-u2oh8z766t] {
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+/* Estado Activo (Foco en Verde Esmeralda Institucional) */
+.doc-file-card.active[b-u2oh8z766t] {
+    border-color: #0c7c3b;
+    border-width: 2px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px -6px rgba(12, 124, 59, 0.15);
+}
+
+    .doc-file-card.active .doc-file-title[b-u2oh8z766t] {
+        color: #0c7c3b;
+    }
+
+    .doc-file-card.active .doc-file-desc[b-u2oh8z766t] {
+        color: #475569;
+    }
+
+.doc-badge-estado[b-u2oh8z766t] {
+    background-color: #e6f4ea;
+    color: #0c7c3b;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* Visor PDF y controles */
+.doc-pdf-preview-wrapper[b-u2oh8z766t] {
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.doc-btn-fullscreen[b-u2oh8z766t] {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+    .doc-btn-fullscreen:hover[b-u2oh8z766t] {
+        background: #e2e8f0;
+        color: #0f172a;
+    }
