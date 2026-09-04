@@ -621,8 +621,6 @@
         }
 
         StateHasChanged();
-
-        // 💡 ESTE RETURN AL FINAL EVITA EL ERROR DE COMPILACIÓN
         return esValido;
     }
 
@@ -1112,11 +1110,10 @@
             esValido = false;
         }
 
-        // Refrescar la pantalla para mostrar los textos rojos si hay errores
         StateHasChanged();
-
         return esValido;
     }
+
 
     private void LimpiarErrorTipoDocTramite()
     {
@@ -1609,12 +1606,69 @@
 
     async Task Finalizar()
     {
-        // 1. Validaciones básicas de formato y datos de empresa
-        ValidarEmpresa();
+        // 1. Validaciones básicas de datos (retornan true/false según el resultado)
+        bool esEmpresaValida = ValidarEmpresa();
         ValidarDocumento();
-        ValidarCorreo();
-        ValidarFormularioRemitente();
-        ValidarFormularioDocumentos();
+        ValidarCorreo(); 
+        bool esRemitenteValido = ValidarFormularioRemitente();
+        bool esDocumentoValido = ValidarFormularioDocumentos();
+
+        // 2. Control de detención por campos obligatorios vacíos o errores de formulario
+        if (!esEmpresaValida || !esRemitenteValido || !esDocumentoValido)
+        {
+            await JS.InvokeVoidAsync("Swal.fire", new
+            {
+                html = $@"
+                            <div style='text-align: left; padding: 10px 5px; font-family: system-ui, -apple-system, sans-serif;'>
+                                <!-- Cabecera con Icono -->
+                                <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 20px;'>
+                                    <div style='background-color: #fef3c7; color: #d97706; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);'>
+                                        ⚠️
+                                    </div>
+                                    <div>
+                                        <h3 style='margin: 0; font-size: 18px; font-weight: 700; color: #1e293b;'>Campos Incompletos</h3>
+                                        <p style='margin: 2px 0 0 0; font-size: 13px; color: #64748b;'>Validación de Formulario</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <p style='font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px;'>
+                                    Por favor complete todos los campos obligatorios antes de continuar con la operación.
+                                </p>
+
+                                <!-- Tarjeta de Estado -->
+                                <div style='background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
+                                    <div style='display: flex; justify-content: space-between; align-items: center; font-size: 14px;'>
+                                        <span style='color: #64748b;'>Estado de validación:</span>
+                                        <span style='font-weight: 600; color: #d97706; background: #fef3c7; padding: 2px 8px; border-radius: 6px;'>Datos faltantes</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nota de ayuda -->
+                                <div style='display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b45309; background: #fef3c7; padding: 10px 12px; border-radius: 8px;'>
+                                    <span>💡</span>
+                                    <span>Revise los campos marcados o pendientes en el formulario.</span>
+                                </div>
+                            </div>
+                        ",
+                showConfirmButton = true,
+                confirmButtonText = "Entendido",
+                confirmButtonColor = "#1e293b",
+                backdrop = "rgba(15, 23, 42, 0.5)",
+                customClass = new
+                {
+                    popup = "rounded-2xl shadow-xl border border-slate-100"
+                }
+            });
+            return;
+        }
+
+        // 1. Validaciones básicas de formato y datos de empresa
+        // ValidarEmpresa();
+        // ValidarDocumento();
+        // ValidarCorreo();
+        // ValidarFormularioRemitente();
+        // ValidarFormularioDocumentos();
 
         // 3. Validación de errores de lógica, RUC y verificación de correo
         if (!codigoVerificado || !string.IsNullOrEmpty(errorDocumento) || !string.IsNullOrEmpty(errorCorreo))

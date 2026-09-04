@@ -127,7 +127,8 @@
             // Si ya hay una sesión activa, lo sacamos del login y lo mandamos a sus trámites
             if (SessionService.UserSession != null)
             {
-                Nav.NavigateTo("/Tramitar", forceLoad: false);
+                // Nav.NavigateTo("/Tramitar", forceLoad: false);
+                Ir("/Tramitar");
             }
         }
     }

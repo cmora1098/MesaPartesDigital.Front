@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A82WBabB/WA=",
+  "dgSpecHash": "nRuZcLyiXvU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\cmora\\source\\repos\\MesaPartesDigital.Front\\MesaPartesDigital.Front.csproj",
+  "projectFilePath": "C:\\Users\\cmora\\Documents\\QA\\MesaPartesDigital.Front\\MesaPartesDigital.Front.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cmora\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
     "C:\\Users\\cmora\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
